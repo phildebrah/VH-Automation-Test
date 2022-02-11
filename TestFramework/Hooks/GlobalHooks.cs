@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TechTalk.SpecFlow;
+
+namespace TestFramework.Hooks
+{
+    [Binding]
+    public class GlobalHooks
+    {
+        //private static readonly ISpecFlowOutputHelper _specFlowOutputHelper;
+
+        //  No beforefeature binding if there is no common code
+        //  No afterfeature binding if there is no common code
+        //  No beforescenario binding if there is no common code
+        //  No afterscenario binding if there is no common code
+        //  No beforestep binding if there is no common code
+        //  No afterstep binding if there is no common code
+
+        [BeforeScenario]
+        public static void BeforeSeleniumScenario()
+        {
+            Console.WriteLine("Selenium Test Started in Chrome");
+            //_specFlowOutputHelper.WriteLine("Selenium Test Started in Chrome");
+        }
+        [AfterScenario]
+        public static void AfterSeleniumScenario()
+        {
+            Console.WriteLine("Selenium Test Finished - Drivers Closed");
+            //_specFlowOutputHelper.WriteLine("Selenium Test Finished - Drivers Closed");
+        }
+
+        [BeforeScenario]
+        public static void BeforeRestSharpScenario()
+        {
+            Console.WriteLine("RestSharp API call Starting");
+            //_specFlowOutputHelper.WriteLine("RestSharp API call Starting");
+        }
+
+        [AfterScenario]
+        public static void AfterRestSharpScenario()
+        {
+            Console.WriteLine("RestSharp API Test Complete");
+            //_specFlowOutputHelper.WriteLine("RestSharp API Test Complete");
+        }
+
+        [BeforeTestRun]
+        public static void BeforeTest() { }
+
+
+        [AfterTestRun]
+        public static void AfterTest() { }
+
+
+        [BeforeFeature]
+        public static void BeforeFeature() { }
+
+        [AfterFeature]
+        public static void AfterFeature() { }
+
+        [BeforeScenarioBlock]
+        public static void BeforeScenarioBlock() { }
+
+        [AfterScenarioBlock]
+        public static void AfterScenarioBlock() { }
+
+        [BeforeStep]
+        public static void BeforeStep() { }
+
+        [AfterStep]
+        public static void AfterStep() { }
+    }
+}

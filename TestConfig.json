@@ -1,0 +1,54 @@
+{
+    "TestConfiguration":
+    {
+        "TestType": "Acceptance",
+        "BrowsersToTest": "Chrome, IE",
+        "Logging": 
+        {
+            "LogLevel": "Debug"
+        },
+        "Reporting": 
+        {
+            "ReportingFile":
+            {
+
+            }
+        },
+        "Metrics":
+        {
+            "MetricsFile":
+            {
+                "FileName": "\\MoonServer\\c$\\MetricsReporting\\November\\[today's date]",
+                "Append": "Yes"
+            }
+        }
+    },
+    "AppsUnderTestConfiguration":
+    [
+        "AppUnderTest":
+        {
+            "AppTestName": "Web Tests",
+            "Websites":
+            [
+                "WebSite": "https://www.google.com",
+                "WebSite": "https://www.Bing.com"
+            ]
+        },
+        "AppUnderTest":
+        {
+            "AppTestName": "API Tests",
+            "API":
+            {}
+        },
+        "AppUnderTest":
+        {
+            "AppTestName": "Data Tests",
+            "Databases":
+            {},
+            "Files"
+            {
+                "FileName": "C:\\testfile.csv"
+            }
+        }
+    ]
+}
