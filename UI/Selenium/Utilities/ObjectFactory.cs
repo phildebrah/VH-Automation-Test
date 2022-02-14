@@ -1,7 +1,6 @@
 ﻿
 using UISelenium.Pages;
 using System;
-using TestLibrary.Utilities;
 
 namespace SeleniumSpecFlow.Utilities
 {

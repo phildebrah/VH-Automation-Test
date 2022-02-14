@@ -1,8 +1,5 @@
 ﻿using FluentAssertions;
-using NUnit.Framework;
 using SeleniumSpecFlow.Utilities;
-using System;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
 

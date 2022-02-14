@@ -3,10 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SeleniumSpecFlow.Utilities;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace TestLibrary.Utilities
 {

@@ -1,7 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UISelenium.Helper;
 
 namespace UISelenium.Pages

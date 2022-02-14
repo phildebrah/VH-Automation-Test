@@ -3,21 +3,16 @@ using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
 using BoDi;
 using Microsoft.Extensions.Configuration;
-using NLog;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 using RestSharp;
 using SeleniumSpecFlow.Utilities;
 using System;
-using System.Configuration;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using TestLibrary.Utilities;
-using Microsoft.Extensions.Logging;
 
 namespace SeleniumSpecFlow
 {

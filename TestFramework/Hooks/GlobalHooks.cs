@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
 namespace TestFramework.Hooks
@@ -11,6 +8,7 @@ namespace TestFramework.Hooks
     public class GlobalHooks
     {
         private Dictionary<UserDto, UserBrowser> _browsers;
+        //private Dictionary<UserDto, UserBrowser> _browsers;
         //private static readonly ISpecFlowOutputHelper _specFlowOutputHelper;
 
         //  No beforefeature binding if there is no common code
