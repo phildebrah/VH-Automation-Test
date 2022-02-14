@@ -10,6 +10,7 @@ namespace TestFramework.Hooks
     [Binding]
     public class GlobalHooks
     {
+        private Dictionary<UserDto, UserBrowser> _browsers;
         //private static readonly ISpecFlowOutputHelper _specFlowOutputHelper;
 
         //  No beforefeature binding if there is no common code
