@@ -11,9 +11,7 @@ namespace TestFramework
 {
     public class UserBrowser
     {
-        // 4 retries ^2 will execute after 2 seconds, then 4, 8 then finally 16 (30 seconds total)
-        private const int ActionRetries = 4;
-        private const int BrowserRetries = 4;
+
         //private WaitHelper _waitHelper;
         public string BaseUrl { get; set; }
         //public NgWebDriver Driver { get; set; }
@@ -53,7 +51,7 @@ namespace TestFramework
         //    {
 
         //    }
-            
+
         //}
 
         //private IWebElement FindElement(IWebElement el)
@@ -210,12 +208,12 @@ namespace TestFramework
         //            }
         //        }
 
-        //        public void Click(By element, int timeout = 20)
-        //        {
-        //            NUnit.Framework.TestContext.WriteLine($"Attempting click of element {element.ToString()} on {Driver.Url} ");
-        //            WebDriverWait wait = _waitHelper.newWait(Driver);
-        //            wait.Until(drv => Driver.FindElement(element)).Click();
-        //        }
+        public void Click(By element)
+        {
+//            NUnit.Framework.TestContext.WriteLine($"Attempting click of element {element.ToString()} on {Driver.Url} ");
+//            WebDriverWait wait = _waitHelper.newWait(Driver);
+            // wait.Until(drv => Driver.FindElement(element)).Click();
+        }
 
         //        public void WaitForElementToNotExist(By element, int timout = 300)
         //        {

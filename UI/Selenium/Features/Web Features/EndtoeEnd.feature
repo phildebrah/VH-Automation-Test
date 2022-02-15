@@ -1,4 +1,5 @@
 ﻿@EndtoEndTest
+@web
 
 Feature: EndtoEnd
 	To book and attend a Hearing

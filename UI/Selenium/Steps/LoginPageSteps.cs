@@ -1,25 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 using SeleniumSpecFlow.Utilities;
-namespace UI.Steps
+
+namespace SeleniumSpecFlow.Steps
 {
     [Binding]
-    internal class LoginPageSteps : ObjectFactory
+    public class LoginPageSteps : ObjectFactory
     {
-        ScenarioContext context;
-        LoginPageSteps(ScenarioContext scenarioContext)
+        private readonly ScenarioContext _scenarioContext;
+
+        public LoginPageSteps(ScenarioContext scenarioContext)
         {
-            context = scenarioContext;
+            _scenarioContext = scenarioContext;
         }
 
         [Given(@"I log in as VHO ""([^""]*)""")]
         public void GivenILogInAsVHO(string p0)
         {
             Home.Value.ClickDropDown();
+
+        //  Handle multiple browsers in tests.
+        //  _browsers[_c.CurrentUser].Click(AccountTypeSelectionPage.DoNotStayLoggedInButton);
+
+
+
             //SeleniumSpecFlow.Hooks.Driver.Navigate(SeleniumSpecFlow.Hooks.config.URL.);
             //SeleniumSpecFlow.Hooks.config.URL = 
             //throw new PendingStepException();

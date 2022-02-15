@@ -9,10 +9,13 @@ namespace SeleniumSpecFlow.Steps
     public class WebTestSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
-
+        //private readonly Dictionary<UserDto, UserBrowser> _browsers;
+        //private readonly TestContext _c;
         public WebTestSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            //_browsers = browsers;
+            //_c = testContext;
 
         }
 
@@ -20,6 +23,7 @@ namespace SeleniumSpecFlow.Steps
         public void WhenIClickOn(string option)
         {
             Home.Value.ClickDropDown();
+            //_browsers[_c.currentUser}.Driver.Click(LoginPage.UsernameTextfield);
         }
 
         [When(@"I select ""(.*)"" from dropdown list")]
