@@ -17,6 +17,7 @@ namespace TestLibrary.Utilities
         {
             return new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile("passwords.json",optional:true)
             .AddEnvironmentVariables()
             .Build();
         }
