@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,14 @@ namespace UI.Pages.PageElements
 {
     public class HomePageElements
     {
-        public string BookHearingButton => "bookHearingBtn";
-        public string QuestionnaireResultsButton => "questionnaireResultsBtn";
-        public string GetAudioFileLinkButton => "getAudioLinkBtn";
-        public string ChangeUserPasswordButton => "changePasswordBtn";
-        public string DeleteParticipantButton => "deleteUserBtn";
-        public string EditPparticipantNameButton => "editUserBtn";
+        
+        public static By BookHearingButton = By.Id("bookHearingBtn");
+        public static By QuestionnaireResultsButton = By.Id("questionnaireResultsBtn");
+        public static By GetAudioFileLinkButton = By.Id("getAudioLinkBtn");
+        public static By ChangeUserPasswordButton = By.Id("changePasswordBtn");
+        public static By DeleteParticipantButton = By.Id("deleteUserBtn");
+        public static By EditPparticipantNameButton = By.Id("editUserBtn");
+        
         
 
     }
