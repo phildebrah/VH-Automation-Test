@@ -1,5 +1,6 @@
 ﻿using TechTalk.SpecFlow;
 using SeleniumSpecFlow.Utilities;
+using UISelenium.Pages;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -7,19 +8,22 @@ namespace SeleniumSpecFlow.Steps
     public class LoginPageSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
-
         public LoginPageSteps(ScenarioContext scenarioContext)
+            :base (scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            
         }
 
         [Given(@"I log in as VHO ""([^""]*)""")]
         public void GivenILogInAsVHO(string p0)
         {
-            Home.Value.ClickDropDown();
+            LoginPage.NavigateToPage(Config.URL);
+            LoginPage.Login(p0, Config.BambooPassword);
+            //Home.Value.ClickDropDown();
 
-        //  Handle multiple browsers in tests.
-        //  _browsers[_c.CurrentUser].Click(AccountTypeSelectionPage.DoNotStayLoggedInButton);
+            //  Handle multiple browsers in tests.
+            //  _browsers[_c.CurrentUser].Click(AccountTypeSelectionPage.DoNotStayLoggedInButton);
 
 
 

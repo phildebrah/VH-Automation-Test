@@ -4,11 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace UI.Pages
+using TestFramework.Drivers;
+using UI.Pages.PageElements;
+namespace UISelenium.Pages
 {
-    public class LoginPage
+    public class LoginPage : LoginPageElements
     {
+        IDriver driver;
+        public LoginPage(IDriver _driver)
+        {
+            driver = _driver;
+        }
+
         public static By UsernameTextfield = By.Id("i0116");
         public static By PasswordField = By.Id("i0118");
         public static By LoginHeader = By.Id("loginHeader");
@@ -21,5 +28,23 @@ namespace UI.Pages
         public static By NewPassword = By.Id("newPassword");
         public static By ConfirmNewPassword = By.Id("confirmNewPassword");
         public static By SignInButtonAfterPasswordChange = By.Id("idSIButton9");
+
+
+        public void Login(string username, string password)
+        {
+            
+            driver.Type(UsernameTextfield, username);
+            driver.Click(Next);
+            driver.Type(PasswordField, password);
+        }
+
+        public void NavigateToPage(string url)
+        {
+            if (!driver.GetUrl().Contains("login.microsoftonline.com"))
+            {
+                driver.Navigate(url);
+               /// driver.OpenNewTabAndSwitch("this is a test");
+            }
+        }
     }
 }

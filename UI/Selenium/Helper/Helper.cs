@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using TechTalk.SpecFlow;
+using TestFramework.Drivers;
 
 namespace UISelenium.Helper
 {
@@ -136,6 +138,13 @@ namespace UISelenium.Helper
             {
                 Logger.Error("Unable to select the checkbox: " + element + "Error:" + e);
             }
+        }
+
+        public static IDriver GetDriverInstance(ScenarioContext context)
+        {
+            IDriver driver = new Driver();
+            driver = (IDriver)context["driver"];
+            return driver;
         }
     }
 }

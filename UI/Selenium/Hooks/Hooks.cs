@@ -13,16 +13,19 @@ using System.IO;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using TestLibrary.Utilities;
+using TestFramework.Drivers;
+using UISelenium.Helper;
+using UISelenium.Pages;
 
 namespace SeleniumSpecFlow
 {
     [Binding]
-    public class Hooks : ObjectFactory
+    public class Hooks //: ObjectFactory
     {
-       public static IWebDriver Driver { get; private set; }
+       //public static IWebDriver Driver { get; private set; }
         public static RestClient restClient { get; private set; }
         public IConfiguration Configuration { get; }
-        private readonly IObjectContainer _objectContainer;
+        //private IObjectContainer _objectContainer;
         public static EnvironmentConfigSettings config;
         public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 24);
         public static string PathReport = ProjectPath + "\\TestResults\\Report\\ExtentReport.html";
@@ -33,12 +36,12 @@ namespace SeleniumSpecFlow
         private static string filePath;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public Hooks(IObjectContainer objectContainer, ISpecFlowOutputHelper outputHelper)
-        {
-            _objectContainer = objectContainer;
-            config = TestConfigHelper.GetApplicationConfiguration();
-            _specFlowOutputHelper = outputHelper;
-        }
+        //public Hooks(IObjectContainer objectContainer, ISpecFlowOutputHelper outputHelper)
+        //{
+        //    //_objectContainer = objectContainer;
+        //    config = TestConfigHelper.GetApplicationConfiguration();
+        //    _specFlowOutputHelper = outputHelper;
+        //}
 
         [BeforeTestRun]
         public static void BeforeTestRun()
@@ -60,17 +63,23 @@ namespace SeleniumSpecFlow
         }
 
         [BeforeFeature]
-        public static void BeforeFeature(FeatureContext featureContext)
+        public static void BeforeFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
         {
             _feature = _extent.CreateTest<Feature>(featureContext.FeatureInfo.Title);
             logger.Info(" Following Test has been started: " + featureContext.FeatureInfo.Title);
+            config = TestConfigHelper.GetApplicationConfiguration();
+            _specFlowOutputHelper = outputHelper;
         }
 
         [BeforeScenario("web")]
         public void BeforeScenarioWeb(ScenarioContext scenarioContext)
         {
-            Driver = DriverFactory.Value.InitializeDriver(TestConfigHelper.browser);
-            _objectContainer.RegisterInstanceAs(Driver);
+            IDriver Driver = new Driver();
+            Driver.StartBrowser(TestConfigHelper.browser.ToString());
+            //Driver =  DriverFactory.Value.InitializeDriver(TestConfigHelper.browser);
+            //_objectContainer.RegisterInstanceAs(Driver);
+            scenarioContext.Add("driver", Driver);
+            scenarioContext.Add("config", config);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
@@ -100,7 +109,8 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError != null)
             {
-                Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot(ScreenshotFilePath);
+                //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 //((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
@@ -138,7 +148,8 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError == null)
             {
-                Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot(ScreenshotFilePath);
+                //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
                 //For Extent report
@@ -160,7 +171,8 @@ namespace SeleniumSpecFlow
 
                 // For Living Doc
                 filePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
-                ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot(filePath);
+                //((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
                 _specFlowOutputHelper.WriteLine("Logging Using Specflow");
                 _specFlowOutputHelper.AddAttachment(filePath);
             }
@@ -225,12 +237,14 @@ namespace SeleniumSpecFlow
         }
 
         [AfterScenario("web")]
-        public void AfterScenarioWeb()
+        public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
+            var driver = Helper.GetDriverInstance(scenarioContext); ;
             _extent.Flush();
             logger.Info(" Flush Extent Report Instance");
-            Driver?.Quit();
-            Driver?.Dispose();
+            //Driver?.Quit();
+            //Driver?.Dispose();
+            driver.Dispose();
             logger.Info(" Driver has been closed");
             TestContext.AddTestAttachment(filePath);
             GC.SuppressFinalize(this);

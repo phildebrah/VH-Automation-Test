@@ -11,7 +11,6 @@ namespace TestFramework
 {
     public class UserBrowser
     {
-
         //private WaitHelper _waitHelper;
         public string BaseUrl { get; set; }
         //public NgWebDriver Driver { get; set; }

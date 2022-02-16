@@ -6,7 +6,7 @@ using TechTalk.SpecFlow;
 namespace SeleniumSpecFlow.Steps
 {
     [Binding]
-    public class WebTestSteps : ObjectFactory
+    public class WebTestSteps //: ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
         //private readonly Dictionary<UserDto, UserBrowser> _browsers;
@@ -22,20 +22,20 @@ namespace SeleniumSpecFlow.Steps
         [When(@"I click on ""(.*)""")]
         public void WhenIClickOn(string option)
         {
-            Home.Value.ClickDropDown();
+            //Home.Value.ClickDropDown();
             //_browsers[_c.currentUser}.Driver.Click(LoginPage.UsernameTextfield);
         }
 
         [When(@"I select ""(.*)"" from dropdown list")]
         public void WhenISelectFromDropdownList(string option)
         {
-            DropdownList.Value.SelectDropdownValue(option);
+            //DropdownList.Value.SelectDropdownValue(option);
         }
 
         [Then(@"I validate ""(.*)"" is selected")]
         public void ThenIValidateIsSelected(string value)
         {
-            DropdownList.Value.SelectedDropDown.Text.Should().Match(d => (d.ToString() == value));
+            //DropdownList.Value.SelectedDropDown.Text.Should().Match(d => (d.ToString() == value));
         }
 
         
