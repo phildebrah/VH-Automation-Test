@@ -140,10 +140,9 @@ namespace UISelenium.Helper
             }
         }
 
-        public static IDriver GetDriverInstance(ScenarioContext context)
+        public static IWebDriver GetDriverInstance(ScenarioContext context)
         {
-            IDriver driver = new Driver();
-            driver = (IDriver)context["driver"];
+            var driver = (IWebDriver)context["driver"];
             return driver;
         }
     }

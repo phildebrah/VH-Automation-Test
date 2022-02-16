@@ -5,7 +5,7 @@ Feature: EndtoEnd
 	To book and attend a Hearing
 
 Scenario: End to End test
-	Given I log in as VHO "bikash.test@version1.com"
+	Given I log in as VHO "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	Given I want to creat a new hearing with Judge, 2 Interpreter, 1 complainant, 1 respondant, 1 VHO, 1 representative
 	When I start a hearing
 	Then all the attendees will be seen

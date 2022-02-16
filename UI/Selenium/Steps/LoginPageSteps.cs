@@ -2,6 +2,10 @@
 using SeleniumSpecFlow.Utilities;
 using UISelenium.Pages;
 using FluentAssertions;
+using SeleniumExtras.WaitHelpers;
+using SeleniumExtras;
+using OpenQA.Selenium.Support.UI;
+using System;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -13,16 +17,15 @@ namespace SeleniumSpecFlow.Steps
             :base (scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            
         }
 
         [Given(@"I log in as VHO ""([^""]*)""")]
         public void GivenILogInAsVHO(string userName)
         {
             var result= CommonPageActions.NavigateToPage(Config.URL, "login.microsoftonline.com");
-            result.Should().BeTrue("Cannot nagive to login.microsoft.com");
+            result.Should().BeTrue("Cannot navigate to login.microsoftonline.com" + "" );
             
-            LoginPage.Login(userName, Config.BambooPassword);
+            Login(userName, Config.BambooPassword);
            
             
             //Home.Value.ClickDropDown();
@@ -53,6 +56,17 @@ namespace SeleniumSpecFlow.Steps
         public void ThenAllTheAttendeesWillBeSeen()
         {
             throw new PendingStepException();
+        }
+
+        public void Login(string username, string password)
+        {
+            Driver.FindElement(LoginPage.UsernameTextfield).SendKeys(username);
+            Driver.FindElement(LoginPage.Next).Click();
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.PasswordField));
+            Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
+            Driver.FindElement(LoginPage.SignIn).Click();
+
         }
 
     }

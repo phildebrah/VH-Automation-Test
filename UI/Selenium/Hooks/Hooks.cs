@@ -74,10 +74,9 @@ namespace SeleniumSpecFlow
         [BeforeScenario("web")]
         public void BeforeScenarioWeb(ScenarioContext scenarioContext)
         {
-            IDriver Driver = new Driver();
-            Driver.StartBrowser(TestConfigHelper.browser.ToString());
-            //Driver =  DriverFactory.Value.InitializeDriver(TestConfigHelper.browser);
-            //_objectContainer.RegisterInstanceAs(Driver);
+            IWebDriver Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            //IWebDriver Driver =  DriverFactory.InitializeDriver(TestConfigHelper.browser);
+            //Driver.(TestConfigHelper.browser.ToString());
             scenarioContext.Add("driver", Driver);
             scenarioContext.Add("config", config);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
@@ -109,9 +108,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError != null)
             {
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot(ScreenshotFilePath);
-                //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
-                //((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
@@ -148,7 +145,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError == null)
             {
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot(ScreenshotFilePath);
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
@@ -171,8 +168,7 @@ namespace SeleniumSpecFlow
 
                 // For Living Doc
                 filePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot(filePath);
-                //((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
                 _specFlowOutputHelper.WriteLine("Logging Using Specflow");
                 _specFlowOutputHelper.AddAttachment(filePath);
             }
