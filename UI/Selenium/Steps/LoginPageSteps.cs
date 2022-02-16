@@ -19,8 +19,8 @@ namespace SeleniumSpecFlow.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I log in as VHO ""([^""]*)""")]
-        public void GivenILogInAsVHO(string userName)
+        [Given(@"I log in as ""([^""]*)""")]
+        public void GivenILogInAs(string userName)
         {
             var result= CommonPageActions.NavigateToPage(Config.URL, "login.microsoftonline.com");
             result.Should().BeTrue("Cannot navigate to login.microsoftonline.com" + "" );

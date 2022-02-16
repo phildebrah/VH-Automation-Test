@@ -4,7 +4,6 @@ using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using TechTalk.SpecFlow;
-using TestFramework.Drivers;
 
 namespace UISelenium.Helper
 {
