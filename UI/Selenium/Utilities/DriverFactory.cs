@@ -26,8 +26,6 @@ namespace SeleniumSpecFlow.Utilities
                     break;
 
             }
-            WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMinutes(2);
-            Logger.Info(" Implicit Wait has been set up to 2 minutes");
             WebDriver.Url = Hooks.config.URL;
             Logger.Info(" Following Url has entered " + Hooks.config.URL);
             return WebDriver;
