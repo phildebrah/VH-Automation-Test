@@ -32,10 +32,14 @@ namespace UISelenium.Pages
 
         public void Login(string username, string password)
         {
-            
             driver.Type(UsernameTextfield, username);
+            driver.WaitForElementVisible(Next);
             driver.Click(Next);
+            driver.WaitForElementVisible(PasswordField);
             driver.Type(PasswordField, password);
+            driver.WaitForElementVisible(SignIn);
+            driver.Click(SignIn);
+        
         }
     }
 }

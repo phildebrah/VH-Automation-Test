@@ -15,6 +15,7 @@ namespace TestFramework.Drivers
     {
         private IWebDriver _browser;
         private string browserName;
+        public int TimeoutInSec = 60;
 
         public IWebDriver Browser()
         {
@@ -99,7 +100,7 @@ namespace TestFramework.Drivers
         {
             try
             {
-                this.WaitForPageLoad();
+                this.WaitForElementClickable(locator);
                 this.FindElement(locator).Click();
             }
             catch (Exception e)
@@ -420,19 +421,20 @@ namespace TestFramework.Drivers
 
         public void WaitForPageLoad(TimeSpan? timespan = null)
         {
-            timespan = timespan == null ? TimeSpan.FromSeconds(60) : timespan;
-            IWait<IWebDriver> wait = new WebDriverWait(this._browser, timespan.Value);
-            wait.Until(a => ((IJavaScriptExecutor)this._browser).ExecuteScript("return document.readyState").Equals("complete"));
-            this.WaitForJQueryLoad(timespan.Value);
-            WaitFor(0.1);
+            timespan = timespan == null ? TimeSpan.FromSeconds(TimeoutInSec) : timespan;
+            // IWait<IWebDriver> webDr = new WebDriverWait(this._browser, timespan.Value);
+            WebDriverWait wait = new WebDriverWait(this._browser, TimeSpan.FromSeconds(TimeoutInSec));
+         //   wait.Until(a => ((IJavaScriptExecutor)this._browser).ExecuteScript("return document.readyState").Equals("complete"));
+          //  this.WaitForJQueryLoad(timespan.Value);
+         //   WaitFor(0.1);
         }
 
-        public bool IsElementClickable(string locator)
+        public bool IsElementClickable(By by)
         {
             try
             {
                 WebDriverWait wait = new WebDriverWait(this._browser, TimeSpan.FromSeconds(0));
-                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(this.FindElementPresent(locator)));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(this.FindElement(by)));
                 return true;
             }
             catch
@@ -593,12 +595,12 @@ namespace TestFramework.Drivers
             return el;
         }
 
-        public void WaitForElementVisible(string locator, double timeInSeconds = 60)
+        public void WaitForElementVisible(By by, double timeInSeconds = 60)
         {
             WaitForPageLoad(TimeSpan.FromSeconds(timeInSeconds));
             var ts = new TimeSpan(DateTime.Now.Ticks);
             double totalTime = this.ClockTime(ts);
-            while (this.FindElementVisible(locator) == null && totalTime <= timeInSeconds)
+            while (this.FindElement(by) == null && totalTime <= timeInSeconds)
             {
                 totalTime = Convert.ToInt32(this.ClockTime(ts));
                 if (!string.IsNullOrEmpty(CheckForErrorsOnPage()))
@@ -607,7 +609,7 @@ namespace TestFramework.Drivers
                 }
                 if (totalTime >= timeInSeconds)
                 {
-                    Assert.Fail("Failed to find locator with locator expression " + locator + " after " + totalTime + " seconds");
+                    Assert.Fail("Failed to find locator with locator expression " + by.ToString() + " after " + totalTime + " seconds");
                 }
             }
 
@@ -880,12 +882,12 @@ namespace TestFramework.Drivers
             return false;
         }
 
-        public void WaitForTextVisible(string text, double timeInSeconds = 60)
+        public void WaitForTextVisible(By by, double timeInSeconds = 60)
         {
             WaitForPageLoad(TimeSpan.FromSeconds(timeInSeconds));
             var ts = new TimeSpan(DateTime.Now.Ticks);
             double totalTime = this.ClockTime(ts);
-            while (!this.IsTextVisible(text) && totalTime <= timeInSeconds)
+            while (!this.FindElement(by).Displayed && totalTime <= timeInSeconds)
             {
                 totalTime = Convert.ToInt32(this.ClockTime(ts));
                 if (!string.IsNullOrEmpty(CheckForErrorsOnPage()))
@@ -895,7 +897,7 @@ namespace TestFramework.Drivers
 
                 if (totalTime >= timeInSeconds)
                 {
-                    Assert.Fail("Could not find visible text(-- " + text + " --)on page after " + totalTime + " seconds");
+                    Assert.Fail("Could not find visible text(-- " + by.ToString() + " --)on page after " + totalTime + " seconds");
                 }
             }
 
@@ -1009,11 +1011,11 @@ namespace TestFramework.Drivers
             ((IJavaScriptExecutor)this._browser).ExecuteScript("window.close();");
         }
 
-        public void WaitForElementClickable(string element, double timeInSeconds = 60)
+        public void WaitForElementClickable(By by, double timeInSeconds = 60)
         {
             WaitForPageLoad(TimeSpan.FromSeconds(timeInSeconds));
             var ts = new TimeSpan(DateTime.Now.Ticks);
-            while (!this.IsElementClickable(element))
+            while (!this.IsElementClickable(by))
             {
                 double totalTime = Convert.ToInt32(this.ClockTime(ts));
                 if (!string.IsNullOrEmpty(CheckForErrorsOnPage()))
@@ -1023,7 +1025,7 @@ namespace TestFramework.Drivers
 
                 if (totalTime > timeInSeconds)
                 {
-                    Assert.Fail(element + " was not clickable after " + totalTime + " seconds");
+                    Assert.Fail(by.ToString() + " was not clickable after " + totalTime + " seconds");
                 }
             }
         }
@@ -1039,17 +1041,17 @@ namespace TestFramework.Drivers
             return string.Empty;
         }
 
-        public void WaitForElementNotClickable(string element, double timeInSeconds = 60)
+        public void WaitForElementNotClickable(By by, double timeInSeconds = 60)
         {
             WaitForPageLoad(TimeSpan.FromSeconds(timeInSeconds));
             WebDriverWait wait = new WebDriverWait(this._browser, TimeSpan.FromSeconds(0));
             var ts = new TimeSpan(DateTime.Now.Ticks);
-            while (this.IsElementClickable(element))
+            while (this.IsElementClickable(by))
             {
                 double totalTime = Convert.ToInt32(this.ClockTime(ts));
                 if (totalTime > timeInSeconds)
                 {
-                    Assert.Fail(element + " was clickable after " + totalTime + " seconds");
+                    Assert.Fail(by.ToString() + " was clickable after " + totalTime + " seconds");
                 }
             }
         }

@@ -98,7 +98,7 @@ namespace TestFramework.Drivers
         /// </summary>
         /// <param name="locator">locator</param>
         /// <param name="timeInSeconds"> default timeout in seconds is 60 sec</param>
-        void WaitForElementVisible(string locator, double timeInSeconds = 60);
+        void WaitForElementVisible(By by, double timeInSeconds = 60);
 
         /// <summary>
         /// Type text
@@ -276,7 +276,7 @@ namespace TestFramework.Drivers
         /// </summary>
         /// <param name="text"></param>
         /// <param name="timeInSeconds"></param>
-        void WaitForTextVisible(string text, double timeInSeconds = 60);
+        void WaitForTextVisible(By by, double timeInSeconds = 60);
 
         /// <summary>
         /// Gets current url string
@@ -288,7 +288,7 @@ namespace TestFramework.Drivers
         /// </summary>
         /// <param name="element"></param>
         /// <param name="timeSpan"></param>
-        void WaitForElementClickable(string element, double timeSpan = 60);
+        void WaitForElementClickable(By by, double timeSpan = 60);
 
         /// <summary>
         /// Checks if element is clickable
@@ -302,14 +302,14 @@ namespace TestFramework.Drivers
         /// </summary>
         /// <param name="locator"></param>
         /// <returns>boolean</returns>
-        bool IsElementClickable(string locator);
+        bool IsElementClickable(By by);
 
         /// <summary>
         /// Waits untill element is not clickable
         /// </summary>
         /// <param name="element"></param>
         /// <param name="timeInSeconds"></param>
-        void WaitForElementNotClickable(string element, double timeInSeconds = 60);
+        void WaitForElementNotClickable(By by, double timeInSeconds = 60);
 
         /// <summary>
         /// Waits untill element is not clickable
