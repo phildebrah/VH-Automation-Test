@@ -59,7 +59,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Steps\CommonActions\" />
     <Folder Include="TestResults\Img\" />
     <Folder Include="TestResults\Logs\" />
   </ItemGroup>

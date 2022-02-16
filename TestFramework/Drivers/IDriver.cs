@@ -29,6 +29,12 @@ namespace TestFramework.Drivers
         /// <param name="locator">element identifier</param>
         void Click(string locator);
 
+        /// <summary>
+        /// Clicks on a specified page element
+        /// </summary>
+        /// <param name="locator">element By identifier</param>
+        void Click(By by);
+
         /// <summary>
         /// Clicks All Visible elements on the page
         /// </summary>
@@ -101,7 +107,7 @@ namespace TestFramework.Drivers
         /// <param name="textToSend">string to enter into a page element</param>
         void Type(string locator, string textToSend, bool attemptReEntry = true);
 
-        void Type(IWebElement el, string textToSend, bool attemptReEntry = true);
+        void Type(By locator, string textToSend);
 
         /// <summary>
         /// Sends special keyboard keys like Tab/Entr

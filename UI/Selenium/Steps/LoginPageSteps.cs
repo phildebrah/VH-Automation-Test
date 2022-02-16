@@ -1,6 +1,7 @@
 ﻿using TechTalk.SpecFlow;
 using SeleniumSpecFlow.Utilities;
 using UISelenium.Pages;
+using FluentAssertions;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -16,10 +17,12 @@ namespace SeleniumSpecFlow.Steps
         }
 
         [Given(@"I log in as VHO ""([^""]*)""")]
-        public void GivenILogInAsVHO(string p0)
+        public void GivenILogInAsVHO(string userName)
         {
-            LoginPage.NavigateToPage(Config.URL);
-            LoginPage.Login(p0, Config.BambooPassword);
+            var result= CommonPageActions.NavigateToPage(Config.URL, "login.microsoftonline.com");
+            result.Should().BeTrue("Cannot nagive to login.microsoft.com");
+            
+            LoginPage.Login(userName, Config.BambooPassword);
             //Home.Value.ClickDropDown();
 
             //  Handle multiple browsers in tests.

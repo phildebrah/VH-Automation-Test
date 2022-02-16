@@ -37,14 +37,5 @@ namespace UISelenium.Pages
             driver.Click(Next);
             driver.Type(PasswordField, password);
         }
-
-        public void NavigateToPage(string url)
-        {
-            if (!driver.GetUrl().Contains("login.microsoftonline.com"))
-            {
-                driver.Navigate(url);
-               /// driver.OpenNewTabAndSwitch("this is a test");
-            }
-        }
     }
 }

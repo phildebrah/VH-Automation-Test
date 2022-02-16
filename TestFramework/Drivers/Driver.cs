@@ -54,8 +54,10 @@ namespace TestFramework.Drivers
                             //chromeDriverService.HideCommandPromptWindow = true;
                             options.AddArgument("--start-maximized");
                             options.AddArgument("--disable-notifications");
+                            options.AddArgument("--ignore-certificate-errors");
                             //this._browser = new ChromeDriver(chromeDriverService, options);
                             this._browser = new ChromeDriver(options);
+
                             this.browserName = browser;
                             break;
                         }
@@ -86,6 +88,19 @@ namespace TestFramework.Drivers
             {
                 this.WaitForPageLoad();
                 this.FindElementVisible(locator).Click();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void Click(By locator)
+        {
+            try
+            {
+                this.WaitForPageLoad();
+                this.FindElement(locator).Click();
             }
             catch (Exception e)
             {
@@ -702,6 +717,7 @@ namespace TestFramework.Drivers
         public void Type(string locator, string text, bool attemptReEntry = true)
         {
             var element = this.FindElementVisible(locator);
+
             if (element != null)
             {
                 element.Clear();
@@ -725,9 +741,9 @@ namespace TestFramework.Drivers
             }
         }
 
-        public void Type(IWebElement el, string text, bool attemptReEntry = true)
+        public void Type(By by, string text)
         {
-            var element = this.FindElementVisible(el);
+            var element = this.FindElement(by);
             if (element != null)
             {   
                 element.Clear();
@@ -739,15 +755,11 @@ namespace TestFramework.Drivers
                 {
                     element.SendKeys(text);
                 }
-
-                if (attemptReEntry)
-                {
-                    VerifyInput(element, text);
-                }
             }
             else
             {
-                //throw new Exception("Element " + locator + " is not found");
+                //log the exception
+                throw new Exception("Element " + by.ToString() + " is not found");
             }
         }
 
