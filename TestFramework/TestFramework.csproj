@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\**" />
+    <EmbeddedResource Remove="Features\**" />
+    <None Remove="Features\**" />
+    <SpecFlowFeatureFiles Remove="Features\**" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
@@ -39,10 +47,6 @@
     
     <PackageReference Include="WebDriverManager" Version="2.12.3" />
     
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\" />
   </ItemGroup>
 
 </Project>
