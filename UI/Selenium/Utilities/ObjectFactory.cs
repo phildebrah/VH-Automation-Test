@@ -18,7 +18,7 @@ namespace SeleniumSpecFlow.Utilities
         public IWebDriver Driver { get; set; }
         public ObjectFactory(ScenarioContext context)
         {
-            CommonPageActions = new CommonPageActions((IDriver)context["driver"]);
+            CommonPageActions = new CommonPageActions((IWebDriver)context["driver"]);
             Config = (EnvironmentConfigSettings)context["config"];
             Driver = (IWebDriver) context["driver"];
         }

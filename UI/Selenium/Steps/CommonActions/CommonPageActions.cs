@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestFramework.Drivers;
+using OpenQA.Selenium;
 
 namespace UI.Steps.CommonActions
 {
     public class CommonPageActions
     {
-        IDriver driver;
-        public CommonPageActions(IDriver _driver)
+        IWebDriver driver;
+        public CommonPageActions(IWebDriver _driver)
         {
             driver = _driver;
         }
         public bool NavigateToPage(string targetUrl, string redirectUrl = null)
         {
-            if (!driver.GetUrl().Contains(targetUrl))
+            
+            if (!driver.Url.Contains(targetUrl))
             {
-                driver.Navigate(targetUrl);
-                /// driver.OpenNewTabAndSwitch("this is a test");
+                driver.Navigate().GoToUrl(targetUrl);
             }
 
             if (!string.IsNullOrEmpty(redirectUrl))
             {
-                return driver.GetUrl().Contains(redirectUrl);
+                return driver.Url.Contains(redirectUrl);
             }
             else
             {
-                return driver.GetUrl().Contains(targetUrl);
+                return driver.Url.Contains(targetUrl);
             }
         }
     }
