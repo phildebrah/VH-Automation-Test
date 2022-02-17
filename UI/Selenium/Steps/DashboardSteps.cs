@@ -61,7 +61,7 @@ namespace UI.Steps
             switch(optionName)
             {
                 case "Book a video hearing":
-                    Driver.FindElementWithWait(DashboardPage.BookHearingButton,optionName, waitPeriod).Click();
+                    Driver.FindElementWithWait(DashboardPage.BookHearingButton, waitPeriod).Click();
                     isPageLoaded=IsHeardingDetailsPageLoaded();
                     break;
             }

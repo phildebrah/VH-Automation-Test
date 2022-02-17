@@ -7,17 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace TestFramework
 {
     public static class ExtensionMethods
     {
-        public static IWebElement FindElementWithWait(this IWebDriver webdriver, By findBy, string elementName, TimeSpan waitPeriod)
+  
+        public static IWebElement FindElementWithWait(this IWebDriver webdriver, By findBy, TimeSpan? waitPeriod=null)
         {
             IWebElement webelement = null;
             try
             {
                 //If there is no page specific timeout specified, use default timeout
-                var wait = new WebDriverWait(webdriver, waitPeriod);
+                var wait = new WebDriverWait(webdriver, waitPeriod.Value);
                 wait.Until(ExpectedConditions.ElementIsVisible(findBy));
 
                 webelement = wait.Until(d =>

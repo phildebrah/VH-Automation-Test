@@ -60,7 +60,8 @@ namespace SeleniumSpecFlow.Steps
 
         public void Login(string username, string password)
         {
-            Driver.FindElement(LoginPage.UsernameTextfield).SendKeys(username);
+            //Driver.FindElement(LoginPage.UsernameTextfield).SendKeys(username);
+            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, TimeSpan.FromSeconds(60)).SendKeys(username);
             Driver.FindElement(LoginPage.Next).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.PasswordField));
