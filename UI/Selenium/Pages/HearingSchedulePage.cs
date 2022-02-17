@@ -1,0 +1,22 @@
+﻿using OpenQA.Selenium;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace UISelenium.Pages
+{
+    public class HearingSchedulePage
+    {
+        public static By MultiDaysHearing = By.Id("multiDaysHearing");
+        public static By HearingDate = By.Id("hearingDate");
+        public static By HearingStartTimeHour = By.Id("hearingStartTimeHour");//
+        public static By HearingStartTimeMinute = By.Id("hearingStartTimeMinute");
+        public static By CourtVenue = By.Id("courtAddress");
+        public static By CourtRoom = By.Id("court-room");
+
+        public static By HearingDurationHour = By.Id("hearingDurationHour");
+        public static By HearingDurationMinute = By.Id("hearingDurationMinute");
+    }
+}

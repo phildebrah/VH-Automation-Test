@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace TestFramework
 {
-    public static class ExtensionMethods
+    public class ExtensionMethods
     {
   
-        public static IWebElement FindElementWithWait(this IWebDriver webdriver, By findBy, TimeSpan? waitPeriod=null)
+        public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, TimeSpan? waitPeriod=null)
         {
+            waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod;
             IWebElement webelement = null;
             try
             {

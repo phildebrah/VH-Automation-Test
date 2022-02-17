@@ -23,7 +23,7 @@ namespace SeleniumSpecFlow.Steps
         public void GivenILogInAs(string userName)
         {
             var result= CommonPageActions.NavigateToPage(Config.URL, "login.microsoftonline.com");
-            result.Should().BeTrue("Cannot navigate to login.microsoftonline.com" + "" );
+            //result.Should().BeTrue("Cannot navigate to login.microsoftonline.com" + "" );
             
             Login(userName, Config.BambooPassword);
            
@@ -69,6 +69,5 @@ namespace SeleniumSpecFlow.Steps
             Driver.FindElement(LoginPage.SignIn).Click();
 
         }
-
     }
 }

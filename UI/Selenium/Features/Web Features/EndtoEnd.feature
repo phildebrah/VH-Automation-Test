@@ -6,15 +6,21 @@ Feature: EndtoEnd
 
 Scenario: End to End test
 	Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	And I want to create a Hearing for
+	| Judge  | Interpreters              | Participants              | VHO | Judicial Office Holder |
+	| Judge1 | Interpreter1,Interpreter2 | Participant1,Participant2 | VHO | JOH                    |
 	And I want to create a hearing with case details
 	| Case Number | Case Name          | Case Type | Hearing Type       |
 	|             | AutomationCaseName | Civil     | Enforcement Hearing |
-	And I want to create a hearing 
-	| Judge  | Interpreters              | Participants              | VHO | Judicial Office Holder |
-	| Judge1 | Interpreter1,Interpreter2 | Participant1,Participant2 | VHO | JOH                    |
-	And I want to creat a new hearing with Judge, 2 Interpreter, 1 complainant, 1 respondant, 1 VHO, 1 representative
-	When I start a hearing
-	Then all the attendees will be seen
+	And the hearing has the following schedule details
+	| Schedule Date | Duration Hour | Duration Minute |
+	|               | 0             | 30              |
+	#And I want to create a hearing 
+	#| Judge  | Interpreters              | Participants              | VHO | Judicial Office Holder |
+	#| Judge1 | Interpreter1,Interpreter2 | Participant1,Participant2 | VHO | JOH                    |
+	#And I want to creat a new hearing with Judge, 2 Interpreter, 1 complainant, 1 respondant, 1 VHO, 1 representative
+	#When I start a hearing
+	#Then all the attendees will be seen
 
 #Scenario: Four participants join hearing
 #	Given the first Individual user has progressed to the Waiting Room page

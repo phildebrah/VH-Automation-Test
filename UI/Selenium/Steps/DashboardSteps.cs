@@ -7,7 +7,8 @@ using TechTalk.SpecFlow;
 using TestFramework;
 using UI.Model;
 using UISelenium.Pages;
-
+using System.Linq;
+using System.Collections.Generic;
 namespace UI.Steps
 {
     [Binding]
@@ -15,43 +16,18 @@ namespace UI.Steps
     {
         private readonly ScenarioContext _scenarioContext;
         private Hearing _hearing;
+        
         public DashboardSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I want to create a hearing with case details")]
-        public void GivenIWantToCreateAHearingWithCaseDetails(Table table)
-        {
-            SelectDashboardOption("Book a video hearing");
-
-            CreateCaseModel(table);
-
-            EnterCaseDetails(_hearing.Case);
-        }
-
-           
-        [Given(@"I want to create a hearing")]
+        [Given(@"I want to create a Hearing for")]
         public void GivenIWantToCreateAHearing(Table table)
         {
-           
-        }
-
-        public void EnterCaseDetails(Case caseDetails)
-        {
-            Driver.FindElement(HearingDetailsPage.CaseNumber).SendKeys(caseDetails.CaseNumber);
-            Driver.FindElement(HearingDetailsPage.CaseName).SendKeys(caseDetails.CaseName);
-
-            var caseTypeElement = Driver.FindElement(HearingDetailsPage.CaseType);
-            var selectElement = new SelectElement(caseTypeElement);
-            selectElement.SelectByText(caseDetails.CaseType);
-
-            var heardingTypeElement = Driver.FindElement(HearingDetailsPage.HeardingType);
-             selectElement = new SelectElement(heardingTypeElement);
-            selectElement.SelectByText(caseDetails.HearingType);
-
-            Driver.FindElement(HearingDetailsPage.NextButton).Click();
+            SelectDashboardOption("Book a video hearing");
+            SetHearingParticipants(table);
         }
 
         public void SelectDashboardOption(string optionName)
@@ -61,7 +37,7 @@ namespace UI.Steps
             switch(optionName)
             {
                 case "Book a video hearing":
-                    Driver.FindElementWithWait(DashboardPage.BookHearingButton, waitPeriod).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, DashboardPage.BookHearingButton).Click();
                     isPageLoaded=IsHeardingDetailsPageLoaded();
                     break;
             }
@@ -83,24 +59,23 @@ namespace UI.Steps
                 //log the exception
                 return false;
             }
-            
         }
 
-        private void CreateHeardingModel(Table table)
+        private void SetHearingParticipants(Table table)
         {
             if (_scenarioContext.ContainsKey("Hearing"))
             {
-                _hearing=_scenarioContext.Get<Hearing>("Hearing");
+                _hearing = _scenarioContext.Get<Hearing>("Hearing");
             }
             else
             {
-                _hearing=new Hearing();
+                _hearing = new Hearing();
                 _scenarioContext.Add("Hearing", _hearing);
             }
 
             var tableRow = table.Rows[0];
 
-            _hearing.Judge=tableRow["Judge"];
+            _hearing.Judge = tableRow["Judge"];
 
             var interpreters = tableRow.ContainsKey("Interpreters") ?
                 tableRow["Interpreters"].Split(",") : null;
@@ -116,32 +91,10 @@ namespace UI.Steps
                 _hearing.Participants.Add(item);
             }
 
-            _hearing.VHO=tableRow.ContainsKey("VHO") ? tableRow["VHO"] : null;
-            _hearing.JOH=tableRow.ContainsKey("Judicial Office Holder") ? tableRow["Judicial Office Holder"] : null;
+            _hearing.VHO = tableRow.ContainsKey("VHO") ? tableRow["VHO"] : null;
+            _hearing.JOH = tableRow.ContainsKey("Judicial Office Holder") ? tableRow["Judicial Office Holder"] : null;
 
-            _scenarioContext["Hearing"]=_hearing;
+            _scenarioContext["Hearing"] = _hearing;
         }
-        private void CreateCaseModel(Table table)
-        {
-            if (_scenarioContext.ContainsKey("Hearing"))
-            {
-                _hearing=_scenarioContext.Get<Hearing>("Hearing");
-            }
-            else
-            {
-                _hearing=new Hearing();
-                _scenarioContext.Add("Hearing", _hearing);
-            }
-
-            var tableRow = table.Rows[0];
-
-            _hearing.Case.CaseNumber=new Random().Next(99, 99999).ToString();
-            _hearing.Case.CaseName=$"{tableRow["Case Name"]}-{_hearing.Case.CaseNumber}";
-            _hearing.Case.CaseType=tableRow["Case Type"];
-            _hearing.Case.HearingType=tableRow["Hearing Type"];
-
-            _scenarioContext["Hearing"]=_hearing;
-        }
-
     }
 }
