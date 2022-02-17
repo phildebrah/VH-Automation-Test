@@ -2,10 +2,10 @@
 using UISelenium.Pages;
 using System;
 using TechTalk.SpecFlow;
-using TestFramework.Drivers;
 using TestLibrary.Utilities;
 using UI.Steps.CommonActions;
 using OpenQA.Selenium;
+using UI.Pages;
 
 namespace SeleniumSpecFlow.Utilities
 {
@@ -14,6 +14,8 @@ namespace SeleniumSpecFlow.Utilities
     {
         public LoginPage LoginPage { get; set; }
         public CommonPageActions CommonPageActions { get; set; }
+
+        public DashboardPage DashboardPage { get; set; }
         public EnvironmentConfigSettings Config { get; set; }
         public IWebDriver Driver { get; set; }
         public ObjectFactory(ScenarioContext context)

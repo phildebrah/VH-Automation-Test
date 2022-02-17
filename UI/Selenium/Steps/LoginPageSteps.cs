@@ -43,19 +43,19 @@ namespace SeleniumSpecFlow.Steps
         [Given(@"I want to creat a new hearing with Judge, (.*) Interpreter, (.*) complainant, (.*) respondant, (.*) VHO, (.*) representative")]
         public void GivenIWantToCreatANewHearingWithJudgeInterpreterComplainantRespondantVHORepresentative(int p0, int p1, int p2, int p3, int p4)
         {
-            throw new PendingStepException();
+           // throw new PendingStepException();
         }
 
         [When(@"I start a hearing")]
         public void WhenIStartAHearing()
         {
-            throw new PendingStepException();
+            //throw new PendingStepException();
         }
 
         [Then(@"all the attendees will be seen")]
         public void ThenAllTheAttendeesWillBeSeen()
         {
-            throw new PendingStepException();
+            //throw new PendingStepException();
         }
 
         public void Login(string username, string password)
