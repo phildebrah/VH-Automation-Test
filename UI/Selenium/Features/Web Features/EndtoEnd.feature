@@ -15,6 +15,9 @@ Scenario: End to End test
 	And the hearing has the following schedule details
 	| Schedule Date | Duration Hour | Duration Minute |
 	|               | 0             | 30              |
+	And I want to Assign a Judge with courtroom details
+	| Judge or Courtroom Account                 | 
+	| auto_aw.judge_01@hearings.reform.hmcts.net |   
 	#And I want to create a hearing 
 	#| Judge  | Interpreters              | Participants              | VHO | Judicial Office Holder |
 	#| Judge1 | Interpreter1,Interpreter2 | Participant1,Participant2 | VHO | JOH                    |

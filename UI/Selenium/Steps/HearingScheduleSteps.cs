@@ -11,12 +11,12 @@ using System.Linq;
 namespace UI.Steps
 {
     [Binding]
-    public class HearingSchedule :ObjectFactory
+    public class HearingScheduleSteps :ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
         private Hearing _hearing;
         
-        public HearingSchedule(ScenarioContext scenarioContext)
+        public HearingScheduleSteps(ScenarioContext scenarioContext)
             :base(scenarioContext)
         {
             _scenarioContext = scenarioContext;

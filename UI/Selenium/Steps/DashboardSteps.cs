@@ -75,8 +75,6 @@ namespace UI.Steps
 
             var tableRow = table.Rows[0];
 
-            _hearing.Judge = tableRow["Judge"];
-
             var interpreters = tableRow.ContainsKey("Interpreters") ?
                 tableRow["Interpreters"].Split(",") : null;
             foreach (var item in interpreters)
