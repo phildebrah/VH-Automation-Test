@@ -23,10 +23,9 @@ namespace UI.Steps
         }
 
         [Given(@"I select book a hearing")]
-        public void GivenIWantToCreateAHearing(Table table)
-      {
+        public void GivenISelectBookAHearing()
+        {
             SelectDashboardOption("Book a video hearing");
-            //SetHearingParticipants(table);
         }
 
         public void SelectDashboardOption(string optionName)

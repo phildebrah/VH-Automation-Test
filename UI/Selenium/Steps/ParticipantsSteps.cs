@@ -1,11 +1,16 @@
-﻿using SeleniumSpecFlow.Utilities;
+﻿using OpenQA.Selenium.Support.UI;
+using SeleniumSpecFlow.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+using TestFramework;
 using UI.Model;
+using UISelenium.Pages;
+using TestLibrary.Utilities;
+using SeleniumExtras.WaitHelpers;
 
 namespace UI.Steps
 {
@@ -20,6 +25,14 @@ namespace UI.Steps
             _scenarioContext = context;
         }
 
+        [Given(@"I want to create a Hearing for")]
+        public void GivenIWantToCreateAHearingFor(Table table)
+        {
+            SetHearingParticipants(table);
+            EnterParticipants();
+        }
+
+
         private void SetHearingParticipants(Table table)
         {
             if (_scenarioContext.ContainsKey("Hearing"))
@@ -31,27 +44,49 @@ namespace UI.Steps
                 _hearing = new Hearing();
                 _scenarioContext.Add("Hearing", _hearing);
             }
-
-            var tableRow = table.Rows[0];
-
-            var interpreters = tableRow.ContainsKey("Defendant") ?
-                tableRow["Defendant"].Split(",") : null;
-            foreach (var item in interpreters)
+ 
+            foreach (var row in table.Rows)
             {
-                _hearing.Defendants.Add(item);
-            }
+                var participant = new Participant
+                {
+                    Party = new Party
+                    {
+                        Name = row["Party"]
+                    },
+                    Role = new Role
+                    {
+                        Name = row["Role"]
+                    }
+                };
 
-            var participants = tableRow.ContainsKey("Claimant") ?
-                tableRow["Claimant"].Split(",") : null;
-            foreach (var item in participants)
-            {
-                _hearing.Claimants.Add(item);
+                _hearing.Participant.Add(participant);
             }
-
-            //_hearing.VHO = tableRow.ContainsKey("VHO") ? tableRow["VHO"] : null;
-            //_hearing.JOH = tableRow.ContainsKey("Judicial Office Holder") ? tableRow["Judicial Office Holder"] : null;
 
             _scenarioContext["Hearing"] = _hearing;
+        }
+
+        public void EnterParticipants()
+        {
+            foreach (var participant in _hearing.Participant)
+            {
+                WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                ExtensionMethods.WaitForDropDownListItems(Driver, ParticipantsPage.PartyDropdown);
+                new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PartyDropdown)).SelectByText(participant.Party.Name);
+                new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RoleDropdown)).SelectByText(participant.Role.Name);
+                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.ParticipantEmailTextfield).SendKeys($"{ Util.RandomString(8)}@email.com" );
+                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.FirstNameTextfield).SendKeys($"AutoFirst{Util.RandomAlphabet(4)}");
+                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.LastNameTextfield).SendKeys($"AutoLast{Util.RandomAlphabet(4)}");
+                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PhoneTextfield).SendKeys("07021234567");
+                if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield))
+                {
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepresentingTextfield).SendKeys($"AutoRepresent{Util.RandomAlphabet(4)}");
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield).SendKeys($"AutoOrg{Util.RandomAlphabet(4)}");
+                }
+                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.DisplayNameTextfield).SendKeys($"AutoDisplay{Util.RandomAlphabet(4)}");
+                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.AddParticipantLink).Click();
+            }
+
+            ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.NextButton).Click();
         }
     }
 }

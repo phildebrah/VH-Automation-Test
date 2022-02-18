@@ -17,8 +17,14 @@ Scenario: End to End test
 	| Judge or Courtroom Account                 | 
 	| auto_aw.judge_01@hearings.reform.hmcts.net |   
 	And I want to create a Hearing for
-	| Claimant                      | Defendant                     |
-	| Litigant in person, Solicitor | Litigant in person, Solicitor |
+	| Party     | Role               |
+	| Claimant  | Litigant in person |
+	| Claimant  | Representative     |
+	| Defendant | Litigant in person |
+	| Defendant | Solicitor          |
+	#| Claimant                      | Defendant                     |
+	#| Litigant in person, Solicitor | Litigant in person, Solicitor |
+
 	#And I want to create a hearing 
 	#| Judge  | Interpreters              | Participants              | VHO | Judicial Office Holder |
 	#| Judge1 | Interpreter1,Interpreter2 | Participant1,Participant2 | VHO | JOH                    |

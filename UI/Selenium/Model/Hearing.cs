@@ -8,14 +8,13 @@ namespace UI.Model
 {
     public class Hearing
     {
-        public Case Case { get; set; }=new Case();
+        public Case Case { get; set; } = new Case();
         public List<string> Interpreters { get; set; } = new List<string>();
-        public List<string> Participants { get; set; } = new List<string>();
+        public List<Participant> Participant  { get; set; } = new List<Participant>();
         public string VHO { get; set; }
         public string JOH { get; set; }
         public HearingSchedule HearingSchedule { get; set; } = new HearingSchedule();
-        public List<string> Claimants { get; set; } = new List<string>();
-        public List<string> Defendants { get; set; } = new List<string>();
+
         public Judge Judge { get; set; } = new Judge();
     }
 
@@ -44,5 +43,21 @@ namespace UI.Model
         public string Email { get; set; }
         public string DisplayName { get; set; }
         public string Phone { get; set; }
+    }
+
+    public class Party
+    {
+        public string Name;
+    }
+
+    public class Role
+    {
+        public string Name;
+    }
+
+    public class Participant
+    {
+        public Party Party { get; set; } = new Party();
+        public Role Role { get; set; } = new Role();
     }
 }

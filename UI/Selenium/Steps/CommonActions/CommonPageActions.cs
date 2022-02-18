@@ -31,5 +31,6 @@ namespace UI.Steps.CommonActions
                 return driver.Url.Contains(targetUrl);
             }
         }
+
     }
 }

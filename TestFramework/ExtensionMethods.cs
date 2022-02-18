@@ -44,5 +44,50 @@ namespace TestFramework
             }
             return webelement;
         }
+        public static bool IsElementVisible(IWebDriver driver, By by)
+        {
+            try
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
+                wait.Until(ExpectedConditions.ElementIsVisible(by));
+                return driver.FindElement(by).Displayed && driver.FindElement(by).Enabled;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public static IWebElement WaitForDropDownListItems(IWebDriver driver, By by)
+        {
+            bool hasItems = false;
+            var el = driver.FindElement(by);
+            while (!hasItems)
+            {
+                var ddl = new SelectElement(el);
+                if(ddl != null && ddl.Options?.Count > 0)
+                {
+                    return el;
+                }
+            }
+
+            return el;
+        }
+
+        public static SelectElement FindSelectElementWhenPopulated(IWebDriver driver, By by, int delayInSeconds, string optionText)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(delayInSeconds));
+            return wait.Until<SelectElement>(drv =>
+            {
+                SelectElement element = new SelectElement(drv.FindElement(by));
+                if (element.SelectedOption.ToString().Contains(optionText))
+                {
+                    return element;
+                }
+
+                return null;
+            }
+            );
+        }
     }
 }
