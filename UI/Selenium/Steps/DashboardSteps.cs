@@ -15,7 +15,6 @@ namespace UI.Steps
     public class DashboardSteps: ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
-        private Hearing _hearing;
         
         public DashboardSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
@@ -23,11 +22,11 @@ namespace UI.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I want to create a Hearing for")]
+        [Given(@"I select book a hearing")]
         public void GivenIWantToCreateAHearing(Table table)
-        {
+      {
             SelectDashboardOption("Book a video hearing");
-            SetHearingParticipants(table);
+            //SetHearingParticipants(table);
         }
 
         public void SelectDashboardOption(string optionName)
@@ -61,38 +60,6 @@ namespace UI.Steps
             }
         }
 
-        private void SetHearingParticipants(Table table)
-        {
-            if (_scenarioContext.ContainsKey("Hearing"))
-            {
-                _hearing = _scenarioContext.Get<Hearing>("Hearing");
-            }
-            else
-            {
-                _hearing = new Hearing();
-                _scenarioContext.Add("Hearing", _hearing);
-            }
 
-            var tableRow = table.Rows[0];
-
-            var interpreters = tableRow.ContainsKey("Interpreters") ?
-                tableRow["Interpreters"].Split(",") : null;
-            foreach (var item in interpreters)
-            {
-                _hearing.Interpreters.Add(item);
-            }
-
-            var participants = tableRow.ContainsKey("Participants") ?
-                tableRow["Participants"].Split(",") : null;
-            foreach (var item in participants)
-            {
-                _hearing.Participants.Add(item);
-            }
-
-            _hearing.VHO = tableRow.ContainsKey("VHO") ? tableRow["VHO"] : null;
-            _hearing.JOH = tableRow.ContainsKey("Judicial Office Holder") ? tableRow["Judicial Office Holder"] : null;
-
-            _scenarioContext["Hearing"] = _hearing;
-        }
     }
 }

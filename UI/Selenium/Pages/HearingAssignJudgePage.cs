@@ -8,5 +8,6 @@ namespace UISelenium.Pages
         public static By JudgeDisplayNameFld = By.Id("judgeDisplayNameFld");
         public static By JudgePhoneFld = By.Id("judgePhoneFld");
         public static By NextButton = By.Id("nextButton");
+        public static By SearchResults = By.Id("search-results-list");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using SeleniumSpecFlow.Utilities;
@@ -44,8 +45,7 @@ namespace UI.Steps
         private void EnterJudgeDetails(Judge judge)
         {
             Driver.FindElement(HearingAssignJudgePage.JudgeEmail).SendKeys(judge.Email);
-            //Driver.FindElement(HearingAssignJudgePage.JudgeDisplayNameFld).SendKeys(judge.DisplayName);
-            //Driver.FindElement(HearingAssignJudgePage.JudgePhoneFld).SendKeys(judge.Phone);
+            ExtensionMethods.FindElementWithWait(Driver, HearingAssignJudgePage.SearchResults).Click();
             Driver.FindElement(HearingAssignJudgePage.NextButton).Click();
         }
     }

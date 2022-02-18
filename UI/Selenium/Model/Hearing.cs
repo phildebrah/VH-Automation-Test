@@ -14,7 +14,8 @@ namespace UI.Model
         public string VHO { get; set; }
         public string JOH { get; set; }
         public HearingSchedule HearingSchedule { get; set; } = new HearingSchedule();
-
+        public List<string> Claimants { get; set; } = new List<string>();
+        public List<string> Defendants { get; set; } = new List<string>();
         public Judge Judge { get; set; } = new Judge();
     }
 
