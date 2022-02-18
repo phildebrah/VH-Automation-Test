@@ -12,7 +12,8 @@ namespace TestFramework
 {
     public class ExtensionMethods
     {
-  
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, TimeSpan? waitPeriod=null)
         {
             waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod;
@@ -89,5 +90,25 @@ namespace TestFramework
             }
             );
         }
+
+        public static SelectElement GetSelectElementWithText(IWebDriver webdriver, By selectFind, string option)
+        {
+            var element = ExtensionMethods.FindElementWithWait(webdriver,selectFind);
+            var select = new SelectElement(element);
+            var wait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(20));
+            try
+            {
+                wait.Until(d => select.Options.Any(s => option.Equals(s.Text, StringComparison.InvariantCultureIgnoreCase)));
+            }
+            catch(Exception e)
+            {
+                logger.Error($"Option '{option}' is not available in the drop down DROPDOWNNAME on page PAGENAME");
+                throw;
+            }
+
+            return select;
+        }
+
+
     }
 }

@@ -70,7 +70,7 @@ namespace UI.Steps
             foreach (var participant in _hearing.Participant)
             {
                 WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
-                ExtensionMethods.WaitForDropDownListItems(Driver, ParticipantsPage.PartyDropdown);
+                ExtensionMethods.GetSelectElementWithText(Driver, ParticipantsPage.PartyDropdown, participant.Party.Name);
                 new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PartyDropdown)).SelectByText(participant.Party.Name);
                 new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RoleDropdown)).SelectByText(participant.Role.Name);
                 ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.ParticipantEmailTextfield).SendKeys($"{ Util.RandomString(8)}@email.com" );
