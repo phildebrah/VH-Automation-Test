@@ -14,8 +14,9 @@ namespace UI.Model
         public string VHO { get; set; }
         public string JOH { get; set; }
         public HearingSchedule HearingSchedule { get; set; } = new HearingSchedule();
-
         public Judge Judge { get; set; } = new Judge();
+        public VideoAccessPoints VideoAccessPoints { get; set; } = new VideoAccessPoints();
+        public OtherInformation OtherInformation { get; set; } = new OtherInformation();
     }
 
     public class Case
@@ -59,5 +60,17 @@ namespace UI.Model
     {
         public Party Party { get; set; } = new Party();
         public Role Role { get; set; } = new Role();
+    }
+
+    public class VideoAccessPoints
+    {
+        public string DisplayName { get; set; } 
+        public string Advocate { get; set; }
+    }
+
+    public class OtherInformation
+    {
+        public bool IsVideoRecorded { get; set; } = true;   
+        public string AnythingElse { get; set; }
     }
 }
