@@ -15,7 +15,7 @@ namespace UI.Model
         public string JOH { get; set; }
         public HearingSchedule HearingSchedule { get; set; } = new HearingSchedule();
         public Judge Judge { get; set; } = new Judge();
-        public VideoAccessPoints VideoAccessPoints { get; set; } = new VideoAccessPoints();
+        public List<VideoAccessPoints> VideoAccessPoints { get; set; } = new List<VideoAccessPoints>();
         public OtherInformation OtherInformation { get; set; } = new OtherInformation();
     }
 
@@ -70,7 +70,7 @@ namespace UI.Model
 
     public class OtherInformation
     {
-        public bool IsVideoRecorded { get; set; } = true;   
-        public string AnythingElse { get; set; }
+        public bool IsHearingRecorded { get; set; } = true;   
+        public string AnyOtherInfo { get; set; }
     }
 }

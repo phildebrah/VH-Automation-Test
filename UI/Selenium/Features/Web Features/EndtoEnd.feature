@@ -22,6 +22,13 @@ Scenario: End to End test
 	| Claimant  | Representative     |
 	| Defendant | Litigant in person |
 	| Defendant | Solicitor          |
+	And With video Access points details
+	| Display Name | Advocate |
+	|              |          |
+	And I set any other information
+	| Record Hearing | Other information   |
+	|                | This is a test info |
+	| False          |                     |
 	#| Claimant                      | Defendant                     |
 	#| Litigant in person, Solicitor | Litigant in person, Solicitor |
 

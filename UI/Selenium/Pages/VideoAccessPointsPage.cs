@@ -13,6 +13,6 @@ namespace UI.Pages
         public static By DefenceAdvocate(int number) => By.Id($"defenceAdvocate{number}");
         public static By RemoveDisplayName(int number) => By.Id($"removeDisplayName{number}");
         public static By AddAnotherBtn = By.Id("addEndpoint");
-        
+        public static By NextButton = By.Id(("nextButton"));
     }
 }
