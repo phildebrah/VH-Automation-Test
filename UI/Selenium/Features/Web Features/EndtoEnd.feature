@@ -17,18 +17,20 @@ Scenario: End to End test
 	| Judge or Courtroom Account                 | 
 	| auto_aw.judge_01@hearings.reform.hmcts.net |   
 	And I want to create a Hearing for
-	| Party     | Role               |
-	| Claimant  | Litigant in person |
-	| Claimant  | Representative     |
-	| Defendant | Litigant in person |
-	| Defendant | Solicitor          |
+	| Party        | Role               |
+	| Claimant     | Litigant in person |
+	| Claimant     | Representative     |
+	| Defendant    | Litigant in person |
+	| Defendant    | Solicitor          |
+	| Panel Member | Panel Member       |
+	| Observer     | Observer           |
 	And With video Access points details
-	| Display Name | Advocate |
-	|              |          |
+	| Display Name  | Advocate |
+	| Display test  |          |
+	| Display test2 |          |
 	And I set any other information
 	| Record Hearing | Other information   |
 	|                | This is a test info |
-	| False          |                     |
 	#| Claimant                      | Defendant                     |
 	#| Litigant in person, Solicitor | Litigant in person, Solicitor |
 

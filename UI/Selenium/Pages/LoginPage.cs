@@ -21,5 +21,6 @@ namespace UISelenium.Pages
         public static By NewPassword = By.Id("newPassword");
         public static By ConfirmNewPassword = By.Id("confirmNewPassword");
         public static By SignInButtonAfterPasswordChange = By.Id("idSIButton9");
-     }
+        public static By BackButton = By.Id("idBtn_Back");
+    }
 }

@@ -52,7 +52,7 @@ namespace UI.Steps
             foreach (var accessPoints in _hearing.VideoAccessPoints)
             {
                 if(!string.IsNullOrEmpty(accessPoints.DisplayName))
-                    ExtensionMethods.FindElementWithWait(Driver, VideoAccessPointsPage.DisplayName(0)).SendKeys(accessPoints.DisplayName);
+                    ExtensionMethods.FindElementWithWait(Driver, VideoAccessPointsPage.DisplayName(i)).SendKeys(accessPoints.DisplayName);
                 if (!string.IsNullOrEmpty(accessPoints.Advocate))
                     new SelectElement(ExtensionMethods.FindElementWithWait(Driver, VideoAccessPointsPage.DefenceAdvocate(i))).SelectByText(accessPoints.Advocate);
                 i++;
