@@ -56,7 +56,9 @@ namespace UI.Steps
                     Role = new Role
                     {
                         Name = row["Role"]
-                    }
+                    },
+                    Id = row["Id"]
+
                 };
 
                 _hearing.Participant.Add(participant);
@@ -73,7 +75,7 @@ namespace UI.Steps
                 ExtensionMethods.GetSelectElementWithText(Driver, ParticipantsPage.PartyDropdown, participant.Party.Name);
                 new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PartyDropdown)).SelectByText(participant.Party.Name);
                 new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RoleDropdown)).SelectByText(participant.Role.Name);
-                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.ParticipantEmailTextfield).SendKeys($"{ Util.RandomString(8)}@email.com");
+                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.ParticipantEmailTextfield).SendKeys(participant.Id);
                 ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.FirstNameTextfield).SendKeys($"AutoFirst{Util.RandomAlphabet(4)}");
                 ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.LastNameTextfield).SendKeys($"AutoLast{Util.RandomAlphabet(4)}");
                 ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PhoneTextfield).SendKeys("07021234567");

@@ -56,10 +56,16 @@ namespace UI.Model
         public string Name;
     }
 
+    public class Id
+    {
+        public string Name;
+    }
+
     public class Participant
     {
         public Party Party { get; set; } = new Party();
         public Role Role { get; set; } = new Role();
+        public String Id;
     }
 
     public class VideoAccessPoints

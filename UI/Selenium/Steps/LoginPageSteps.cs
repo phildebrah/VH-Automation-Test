@@ -6,6 +6,10 @@ using SeleniumExtras.WaitHelpers;
 using SeleniumExtras;
 using OpenQA.Selenium.Support.UI;
 using System;
+using UI.Model;
+using TestLibrary.Utilities;
+using System.Collections.Generic;
+using OpenQA.Selenium;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -13,6 +17,7 @@ namespace SeleniumSpecFlow.Steps
     public class LoginPageSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
+        private Hearing _hearing;
         public LoginPageSteps(ScenarioContext scenarioContext)
             :base (scenarioContext)
         {
@@ -38,5 +43,19 @@ namespace SeleniumSpecFlow.Steps
             Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn).Click();
         }
+
+        [Then(@"all participants log in to video web")]
+        public void ThenAllParticipantsLogInToVideoWeb()
+        {
+            Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+            foreach (var participant in _hearing.Participant)
+            {
+                var _driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+                drivers.Add(participant.Id, _driver);   
+            }
+            _scenarioContext.Add("drivers", drivers);
+        }
+
     }
 }

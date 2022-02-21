@@ -47,6 +47,10 @@ namespace UI.Steps
             Driver.FindElement(HearingAssignJudgePage.JudgeEmail).SendKeys(judge.Email);
             ExtensionMethods.FindElementWithWait(Driver, HearingAssignJudgePage.SearchResults).Click();
             Driver.FindElement(HearingAssignJudgePage.NextButton).Click();
+            var participant = new Participant();
+            participant.Id = judge.Email;
+            _hearing.Participant.Add(participant);
+            _scenarioContext["Hearing"] = _hearing;
         }
     }
 }
