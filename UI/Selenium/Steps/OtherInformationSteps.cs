@@ -39,20 +39,20 @@ namespace UI.Steps
 
         private void EnterOtherInformation()
         {
-            if(_hearing.OtherInformation.IsHearingRecorded && ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes).Enabled)
-            {
-                ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes).Click();
-            }
+            //if(_hearing.OtherInformation.IsHearingRecorded && ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes).Enabled)
+            //{
+            //    ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes).Click();
+            //}
 
-            if (!_hearing.OtherInformation.IsHearingRecorded && Driver.FindElement(OtherInformationPage.RecordAudioNo).Enabled)
-            {
-                Driver.FindElement(OtherInformationPage.RecordAudioNo).Click();
-            }
+            //if (!_hearing.OtherInformation.IsHearingRecorded && Driver.FindElement(OtherInformationPage.RecordAudioNo).Enabled)
+            //{
+            //    Driver.FindElement(OtherInformationPage.RecordAudioNo).Click();
+            //}
 
-            if (!string.IsNullOrEmpty(_hearing.OtherInformation.AnyOtherInfo))
-            {
-                ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.OtherInfo).SendKeys(_hearing.OtherInformation.AnyOtherInfo);
-            }
+            //if (!string.IsNullOrEmpty(_hearing.OtherInformation.AnyOtherInfo))
+            //{
+            //    ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.OtherInfo).SendKeys(_hearing.OtherInformation.AnyOtherInfo);
+            //}
 
             ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.NextButton).Click();  
         }

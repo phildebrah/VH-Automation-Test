@@ -15,7 +15,7 @@ Scenario: End to End test
 	|               | 0             | 30              |
 	And I want to Assign a Judge with courtroom details
 	| Judge or Courtroom Account                 |
-	| auto_aw.judge_01@hearings.reform.hmcts.net |   
+	| auto_aw.judge_02@hearings.reform.hmcts.net |   
 	And I want to create a Hearing for
 	| Party        | Role               |
 	| Claimant     | Litigant in person |
