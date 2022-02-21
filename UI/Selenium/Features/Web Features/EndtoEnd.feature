@@ -34,6 +34,9 @@ Scenario: End to End test
 	|                | This is a test info |
 	And I book the hearing
 	Then A hearing should be created
+	And I log off
+	#And I am on the log in page
+	
 	#| Claimant                      | Defendant                     |
 	#| Litigant in person, Solicitor | Litigant in person, Solicitor |
 

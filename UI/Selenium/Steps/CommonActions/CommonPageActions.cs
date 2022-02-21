@@ -4,33 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
+using SeleniumSpecFlow.Utilities;
+using TechTalk.SpecFlow;
 
 namespace UI.Steps.CommonActions
 {
+    [Binding]
     public class CommonPageActions
     {
-        IWebDriver driver;
-        public CommonPageActions(IWebDriver _driver)
+        IWebDriver Driver;
+        public CommonPageActions(IWebDriver _Driver)
         {
-            driver = _driver;
+            Driver = _Driver;
         }
         public bool NavigateToPage(string targetUrl, string redirectUrl = null)
         {
             
-            if (!driver.Url.Contains(targetUrl))
+            if (!Driver.Url.Contains(targetUrl))
             {
-                driver.Navigate().GoToUrl(targetUrl);
+                Driver.Navigate().GoToUrl(targetUrl);
             }
 
             if (!string.IsNullOrEmpty(redirectUrl))
             {
-                return driver.Url.Contains(redirectUrl);
+                return Driver.Url.Contains(redirectUrl);
             }
             else
             {
-                return driver.Url.Contains(targetUrl);
+                return Driver.Url.Contains(targetUrl);
             }
         }
+
+        
+
 
     }
 }

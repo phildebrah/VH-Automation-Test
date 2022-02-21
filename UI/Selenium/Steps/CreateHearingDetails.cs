@@ -43,8 +43,8 @@ namespace UI.Steps
             var heardingTypeElement = Driver.FindElement(HearingDetailsPage.HeardingType);
              selectElement = new SelectElement(heardingTypeElement);
             selectElement.SelectByText(caseDetails.HearingType);
-
-            Driver.FindElement(HearingDetailsPage.NextButton).Click();
+            ExtensionMethods.FindElementWithWait(Driver, HearingDetailsPage.NextButton).Click();
+           // Driver.F(HearingDetailsPage.NextButton).Click();
             /// Assert we're on hearing schedule page
         }
 
