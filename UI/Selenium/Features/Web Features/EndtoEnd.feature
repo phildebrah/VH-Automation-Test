@@ -8,8 +8,11 @@ Scenario: End to End test
 	Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details
+	#
+	#  "Test" must be included in the case name!!!
+	#
 	| Case Number | Case Name          | Case Type | Hearing Type       |
-	|             | AutomationCaseName | Civil     | Enforcement Hearing |
+	|             | TestAutomationCase | Civil     | Enforcement Hearing |
 	And the hearing has the following schedule details
 	| Schedule Date | Duration Hour | Duration Minute |
 	|               | 0             | 30              |
