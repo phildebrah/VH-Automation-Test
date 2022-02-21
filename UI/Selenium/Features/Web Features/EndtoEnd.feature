@@ -8,8 +8,8 @@ Scenario: End to End test
 	Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details
-	| Case Number | Case Name          | Case Type | Hearing Type       |
-	|             | AutomationCaseName | Civil     | Enforcement Hearing |
+	| Case Number | Case Name              | Case Type | Hearing Type        |
+	| AA          | AutomationTestCaseName | Civil     | Enforcement Hearing |
 	And the hearing has the following schedule details
 	| Schedule Date | Duration Hour | Duration Minute |
 	|               | 0             | 30              |
@@ -26,9 +26,9 @@ Scenario: End to End test
 	| Observer     | Observer           |
 
 	And With video Access points details
-	| Display Name  | Advocate |
-	| Display test  |          |
-	| Display test2 |          |
+	| Display Name | Advocate |
+	|              |          |
+	#| Display test2 |          |
 	And I set any other information
 	| Record Hearing | Other information   |
 	|                | This is a test info |

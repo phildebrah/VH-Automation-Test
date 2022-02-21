@@ -10,6 +10,8 @@ using OpenQA.Selenium.Support.UI;
 using TestFramework;
 using SeleniumExtras.WaitHelpers;
 using NUnit.Framework;
+using FluentAssertions;
+
 namespace UI.Steps
 {
     [Binding]
@@ -33,14 +35,13 @@ namespace UI.Steps
                 ExtensionMethods.FindElementWithWait(Driver, SummaryPage.TryAgainButton).Click();
                 wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
             }
-
-            Assert.True(ExtensionMethods.FindElementWithWait(Driver, SummaryPage.SuccessTitle).Text.Contains("Your hearing booking was successful"));
         }
 
         [Then(@"A hearing should be created")]
         public void ThenAHearingShouldBeCreated()
         {
-            
+            var successTitle = ExtensionMethods.FindElementWithWait(Driver, SummaryPage.SuccessTitle);
+            successTitle.Text.Should().Contain("Your hearing booking was successful");
         }
 
     }

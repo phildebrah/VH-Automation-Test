@@ -62,7 +62,7 @@ namespace UI.Steps
 
             var tableRow = table.Rows[0];
 
-            _hearing.Case.CaseNumber=new Random().Next(99, 99999).ToString();
+            _hearing.Case.CaseNumber=$"{tableRow["Case Number"]}{new Random().Next(99, 99999).ToString()}";
             _hearing.Case.CaseName=$"{tableRow["Case Name"]}-{_hearing.Case.CaseNumber}";
             _hearing.Case.CaseType=tableRow["Case Type"];
             _hearing.Case.HearingType=tableRow["Hearing Type"];

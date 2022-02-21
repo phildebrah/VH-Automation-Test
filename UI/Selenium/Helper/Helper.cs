@@ -11,9 +11,10 @@ namespace UISelenium.Helper
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static IWebElement Find(this IWebDriver driver, By by)
+        public static IWebElement Find(this IWebDriver driver, By by,int timeoutSeconds= 30)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            TimeSpan timeout = TimeSpan.FromSeconds(timeoutSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, timeout);
             IWebElement element = null;
             wait.Until(d =>
             {
@@ -36,9 +37,10 @@ namespace UISelenium.Helper
             return element;
         }
 
-        public static IReadOnlyCollection<IWebElement> FindMultiple(this IWebDriver driver, By by)
+        public static IReadOnlyCollection<IWebElement> FindMultiple(this IWebDriver driver, By by, int timeoutSeconds = 30)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            TimeSpan timeout = TimeSpan.FromSeconds(timeoutSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, timeout);
             IReadOnlyCollection<IWebElement> element = null;
             try
             {
