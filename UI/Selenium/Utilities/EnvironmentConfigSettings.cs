@@ -10,6 +10,7 @@
         public string ApiUrl { get; set; }
         public string SoapApiUrl { get; set; }
         public string DefaultElementWait { get; set; }
+        public string OneMinuteElementWait { get; set; }
 
     }
 }

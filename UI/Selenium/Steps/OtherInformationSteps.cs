@@ -54,7 +54,7 @@ namespace UI.Steps
                 ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.OtherInfo).SendKeys(_hearing.OtherInformation.AnyOtherInfo);
             }
 
-            ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.NextButton).Click();
+            ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.NextButton).Click();  
         }
     }
 }

@@ -14,7 +14,7 @@ Scenario: End to End test
 	| Schedule Date | Duration Hour | Duration Minute |
 	|               | 0             | 30              |
 	And I want to Assign a Judge with courtroom details
-	| Judge or Courtroom Account                 | 
+	| Judge or Courtroom Account                 |
 	| auto_aw.judge_01@hearings.reform.hmcts.net |   
 	And I want to create a Hearing for
 	| Party        | Role               |
@@ -24,6 +24,7 @@ Scenario: End to End test
 	| Defendant    | Solicitor          |
 	| Panel Member | Panel Member       |
 	| Observer     | Observer           |
+
 	And With video Access points details
 	| Display Name  | Advocate |
 	| Display test  |          |
@@ -31,6 +32,8 @@ Scenario: End to End test
 	And I set any other information
 	| Record Hearing | Other information   |
 	|                | This is a test info |
+	And I book the hearing
+	Then A hearing should be created
 	#| Claimant                      | Defendant                     |
 	#| Litigant in person, Solicitor | Litigant in person, Solicitor |
 
