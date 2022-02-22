@@ -97,11 +97,12 @@ namespace SeleniumSpecFlow.Steps
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", _driver);
                 Driver = _driver;
-                Login(participant.Id, Config.BambooPassword);
+                Login(participant.Id.Replace("gmail.com", "hearings.reform.hmcts.net"), Config.BambooPassword);
             }
             _scenarioContext.Add("drivers", drivers);
 
             Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value; // Where(a => a.Key.Contains("Judge")).FirstOrDefault().Value
+            var el = Driver.FindElements(By.XPath("//tr[@class='govuk-table__row']")).Where(a => a.Text.Contains($"{_hearing.Case.CaseNumber}")).FirstOrDefault();
         }
 
 
@@ -119,11 +120,17 @@ namespace SeleniumSpecFlow.Steps
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", _driver);
                 Driver = _driver;
-                Login(participant.Id, Config.BambooPassword);
+                Login(participant.Id.Replace("gmail.com", "hearings.reform.hmcts.net"), Config.BambooPassword);
             }
             _scenarioContext.Add("drivers", drivers);
 
-            Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value; // Where(a => a.Key.Contains("Judge")).FirstOrDefault().Value
+            Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value;
+            var el = Driver.FindElements(By.XPath("//tr[@class='govuk-table__row']")).Where(a => a.Text.Contains($"{_hearing.Case.CaseNumber}")).FirstOrDefault();
+            
+            var btnID = el.GetAttribute("id");
+            btnID = btnID.Replace("judges-list-", "start-hearing-btn-");
+            var btn = el.FindElement(By.Id(btnID));
+            btn.Click();
         }
     }
 }
