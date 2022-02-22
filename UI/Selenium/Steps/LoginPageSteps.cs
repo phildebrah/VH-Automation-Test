@@ -44,6 +44,67 @@ namespace SeleniumSpecFlow.Steps
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn).Click();
         }
 
+        [Given(@"all participants log in to video web")]
+        public void GivenAllParticipantsLogInToVideoWeb()
+        {
+            Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
+            var participants = new List<Participant>();
+            participants.Add(new Participant
+            {
+                Id="auto_vw.individual_05@hearings.reform.hmcts.net",
+                Party=new Party { Name="Claimant" },
+                Role=new Role { Name="Litigant in person" }
+            });
+            participants.Add(new Participant
+            {
+                Id="auto_vw.representative_01@hearings.reform.hmcts.net",
+                Party=new Party { Name="Claimant" },
+                Role=new Role { Name="Representative " }
+            });
+            participants.Add(new Participant
+            {
+                Id="auto_vw.individual_06@hearings.reform.hmcts.net",
+                Party=new Party { Name="Defendant" },
+                Role=new Role { Name="Litigant in person " }
+            });
+
+            participants.Add(new Participant
+            {
+                Id="auto_vw.representative_02@hearings.reform.hmcts.net",
+                Party=new Party { Name="Defendant" },
+                Role=new Role { Name="Solicitor" }
+            });
+
+            var hearing = new Hearing
+            {
+                Case=new Case
+                {
+                    CaseNumber="AA98628"
+                },
+                Judge=new Judge
+                {
+                    Email="auto_aw.judge_02@hearings.reform.hmcts.net"
+                },
+                Participant=participants
+            };
+
+            _scenarioContext.Add("Hearing", hearing);
+            foreach (var participant in _hearing.Participant)
+            {
+                var _driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+                _driver.Navigate().GoToUrl(Config.VideoUrl);
+                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
+                drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", _driver);
+                Driver = _driver;
+                Login(participant.Id, Config.BambooPassword);
+            }
+            _scenarioContext.Add("drivers", drivers);
+
+            Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value; // Where(a => a.Key.Contains("Judge")).FirstOrDefault().Value
+        }
+
+
         [Then(@"all participants log in to video web")]
         public void ThenAllParticipantsLogInToVideoWeb()
         {
