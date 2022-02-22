@@ -11,6 +11,7 @@
         public string SoapApiUrl { get; set; }
         public string DefaultElementWait { get; set; }
         public string OneMinuteElementWait { get; set; }
+        public string VideoUrl { get; set; }
 
     }
 }

@@ -10,6 +10,7 @@ using UI.Model;
 using TestLibrary.Utilities;
 using System.Collections.Generic;
 using OpenQA.Selenium;
+using System.Linq;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -30,7 +31,6 @@ namespace SeleniumSpecFlow.Steps
             var result= CommonPageActions.NavigateToPage(Config.URL, "login.microsoftonline.com");
             Login(userName, Config.BambooPassword);
         }
-
     
         public void Login(string username, string password)
         {
@@ -47,15 +47,22 @@ namespace SeleniumSpecFlow.Steps
         [Then(@"all participants log in to video web")]
         public void ThenAllParticipantsLogInToVideoWeb()
         {
+            Driver?.Close();
             Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var participant in _hearing.Participant)
             {
                 var _driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-                drivers.Add(participant.Id, _driver);   
+                _driver.Navigate().GoToUrl(Config.VideoUrl);
+                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
+                drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", _driver);
+                Driver = _driver;
+                Login(participant.Id, Config.BambooPassword);
             }
             _scenarioContext.Add("drivers", drivers);
-        }
 
+            Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value; // Where(a => a.Key.Contains("Judge")).FirstOrDefault().Value
+        }
     }
 }
