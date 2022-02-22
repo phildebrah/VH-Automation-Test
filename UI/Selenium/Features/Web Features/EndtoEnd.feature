@@ -26,7 +26,6 @@ Scenario: End to End test
 	And With video Access points details
 	| Display Name | Advocate |
 	|              |          |
-	#| Display test2 |          |
 	And I set any other information
 	| Record Hearing | Other information   |
 	|                | This is a test info |

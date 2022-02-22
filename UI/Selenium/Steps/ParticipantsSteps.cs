@@ -71,21 +71,24 @@ namespace UI.Steps
         {
             foreach (var participant in _hearing.Participant)
             {
-                WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
-                ExtensionMethods.GetSelectElementWithText(Driver, ParticipantsPage.PartyDropdown, participant.Party.Name);
-                new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PartyDropdown)).SelectByText(participant.Party.Name);
-                new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RoleDropdown)).SelectByText(participant.Role.Name);
-                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.ParticipantEmailTextfield).SendKeys(participant.Id);
-                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.FirstNameTextfield).SendKeys($"AutoFirst{Util.RandomAlphabet(4)}");
-                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.LastNameTextfield).SendKeys($"AutoLast{Util.RandomAlphabet(4)}");
-                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PhoneTextfield).SendKeys("07021234567");
-                if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield))
+                if(!string.IsNullOrEmpty(participant.Party?.Name) && participant.Party?.Name != "Judge")
                 {
-                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepresentingTextfield).SendKeys($"AutoRepresent{Util.RandomAlphabet(4)}");
-                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield).SendKeys($"AutoOrg{Util.RandomAlphabet(4)}");
+                    WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                    ExtensionMethods.GetSelectElementWithText(Driver, ParticipantsPage.PartyDropdown, participant.Party.Name);
+                    new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PartyDropdown)).SelectByText(participant.Party.Name);
+                    new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RoleDropdown)).SelectByText(participant.Role.Name);
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.ParticipantEmailTextfield).SendKeys(participant.Id);
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.FirstNameTextfield).SendKeys($"AutoFirst{Util.RandomAlphabet(4)}");
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.LastNameTextfield).SendKeys($"AutoLast{Util.RandomAlphabet(4)}");
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PhoneTextfield).SendKeys("07021234567");
+                    if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield))
+                    {
+                        ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepresentingTextfield).SendKeys($"AutoRepresent{Util.RandomAlphabet(4)}");
+                        ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield).SendKeys($"AutoOrg{Util.RandomAlphabet(4)}");
+                    }
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.DisplayNameTextfield).SendKeys($"AutoDisplay{Util.RandomAlphabet(4)}");
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.AddParticipantLink).Click();
                 }
-                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.DisplayNameTextfield).SendKeys($"AutoDisplay{Util.RandomAlphabet(4)}");
-                ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.AddParticipantLink).Click();
             }
 
             ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.NextButton).Click();

@@ -48,6 +48,8 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, HearingAssignJudgePage.SearchResults).Click();
             Driver.FindElement(HearingAssignJudgePage.NextButton).Click();
             var participant = new Participant();
+            participant.Party.Name = "Judge";
+            participant.Role.Name = "Judge";
             participant.Id = judge.Email;
             _hearing.Participant.Add(participant);
             _scenarioContext["Hearing"] = _hearing;
