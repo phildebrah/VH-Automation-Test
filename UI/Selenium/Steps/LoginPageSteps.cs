@@ -130,7 +130,7 @@ namespace SeleniumSpecFlow.Steps
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
                     
-                Login(participant.Id.Replace("gmail.com", "hearings.reform.hmcts.net"), Config.BambooPassword);
+                Login(participant.Id, Config.BambooPassword);
             }
             _scenarioContext.Add("drivers", drivers);
 

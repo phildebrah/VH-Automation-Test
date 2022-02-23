@@ -17,6 +17,8 @@ namespace UI.Model
         public Judge Judge { get; set; } = new Judge();
         public List<VideoAccessPoints> VideoAccessPoints { get; set; } = new List<VideoAccessPoints>();
         public OtherInformation OtherInformation { get; set; } = new OtherInformation();
+
+        public Guid HearingId { get; set; }
     }
 
     public class Case

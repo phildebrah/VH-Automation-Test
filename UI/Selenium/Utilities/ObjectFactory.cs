@@ -18,6 +18,8 @@ namespace SeleniumSpecFlow.Utilities
         public DashboardPage DashboardPage { get; set; }
 
         public HearingAssignJudgePage HearingAssignJudgePage { get; set; }
+
+        public ParticipantHearingListPage ParticipantHearingListPage { get; set; }
         public EnvironmentConfigSettings Config { get; set; }
         public IWebDriver Driver { get; set; }
         public ObjectFactory(ScenarioContext context)
