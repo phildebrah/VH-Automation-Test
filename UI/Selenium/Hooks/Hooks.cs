@@ -108,7 +108,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError != null)
             {
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                //Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
@@ -145,7 +145,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError == null)
             {
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                //Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
