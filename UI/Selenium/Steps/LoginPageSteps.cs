@@ -11,6 +11,7 @@ using TestLibrary.Utilities;
 using System.Collections.Generic;
 using OpenQA.Selenium;
 using System.Linq;
+using OpenQA.Selenium.Interactions;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -37,6 +38,7 @@ namespace SeleniumSpecFlow.Steps
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait))).SendKeys(username);
             Driver.FindElement(LoginPage.Next).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+            System.Threading.Thread.Sleep(1000);
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.PasswordField));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
@@ -51,41 +53,41 @@ namespace SeleniumSpecFlow.Steps
             var participants = new List<Participant>();
             participants.Add(new Participant
             {
-                Id="auto_vw.individual_05@hearings.reform.hmcts.net",
-                Party=new Party { Name="Claimant" },
-                Role=new Role { Name="Litigant in person" }
+                Id = "auto_vw.individual_05@hearings.reform.hmcts.net",
+                Party = new Party { Name = "Claimant" },
+                Role = new Role { Name = "Litigant in person" }
             });
             participants.Add(new Participant
             {
-                Id="auto_vw.representative_01@hearings.reform.hmcts.net",
-                Party=new Party { Name="Claimant" },
-                Role=new Role { Name="Representative " }
+                Id = "auto_vw.representative_01@hearings.reform.hmcts.net",
+                Party = new Party { Name = "Claimant" },
+                Role = new Role { Name = "Representative " }
             });
             participants.Add(new Participant
             {
-                Id="auto_vw.individual_06@hearings.reform.hmcts.net",
-                Party=new Party { Name="Defendant" },
-                Role=new Role { Name="Litigant in person " }
+                Id = "auto_vw.individual_06@hearings.reform.hmcts.net",
+                Party = new Party { Name = "Defendant" },
+                Role = new Role { Name = "Litigant in person " }
             });
 
             participants.Add(new Participant
             {
-                Id="auto_vw.representative_02@hearings.reform.hmcts.net",
-                Party=new Party { Name="Defendant" },
-                Role=new Role { Name="Solicitor" }
+                Id = "auto_vw.representative_02@hearings.reform.hmcts.net",
+                Party = new Party { Name = "Defendant" },
+                Role = new Role { Name = "Solicitor" }
             });
 
             var hearing = new Hearing
             {
-                Case=new Case
+                Case = new Case
                 {
-                    CaseNumber="AA98628"
+                    CaseNumber = "AA98628"
                 },
-                Judge=new Judge
+                Judge = new Judge
                 {
-                    Email="auto_aw.judge_02@hearings.reform.hmcts.net"
+                    Email = "auto_aw.judge_02@hearings.reform.hmcts.net"
                 },
-                Participant=participants
+                Participant = participants
             };
 
             _scenarioContext.Add("Hearing", hearing);
@@ -114,23 +116,20 @@ namespace SeleniumSpecFlow.Steps
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var participant in _hearing.Participant)
             {
-                var _driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-                _driver.Navigate().GoToUrl(Config.VideoUrl);
-                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+                Driver.Navigate().GoToUrl(Config.VideoUrl);
+                var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
-                drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", _driver);
-                Driver = _driver;
+                drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
+                    
                 Login(participant.Id.Replace("gmail.com", "hearings.reform.hmcts.net"), Config.BambooPassword);
             }
             _scenarioContext.Add("drivers", drivers);
 
             Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value;
-            var el = Driver.FindElements(By.XPath("//tr[@class='govuk-table__row']")).Where(a => a.Text.Contains($"{_hearing.Case.CaseNumber}")).FirstOrDefault();
-            
-            var btnID = el.GetAttribute("id");
-            btnID = btnID.Replace("judges-list-", "start-hearing-btn-");
-            var btn = el.FindElement(By.Id(btnID));
-            btn.Click();
+            var id = Driver.FindElements(By.XPath("//tr[@class='govuk-table__row']")).Where(a => a.Text.Contains($"{_hearing.Case.CaseNumber}"))?.FirstOrDefault().GetAttribute("id");
+            id = id.Replace("judges-list-", "start-hearing-btn-");
+            TestFramework.ExtensionMethods.MoveToElement(Driver, By.Id(id))?.Click();
         }
     }
 }

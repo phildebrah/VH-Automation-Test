@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
@@ -108,7 +109,21 @@ namespace TestFramework
 
             return select;
         }
-
-
+        public static IWebElement MoveToElement(IWebDriver driver, By locator)
+        {
+            IWebElement el = null;
+            try
+            {
+                Actions action = new Actions(driver);
+                el = driver.FindElement(locator);
+                action.MoveToElement(driver.FindElement(locator));
+                action.Perform();
+                return el;
+            }
+            catch
+            {
+                return el;
+            }
+        }
     }
 }

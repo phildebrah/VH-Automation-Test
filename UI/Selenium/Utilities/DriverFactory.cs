@@ -7,7 +7,7 @@ namespace SeleniumSpecFlow.Utilities
 {
     public class DriverFactory
     {
-        public IWebDriver WebDriver { get; private set; }
+        public IWebDriver WebDriver { get; set; }
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public IWebDriver InitializeDriver(BrowserType browser)
         {
