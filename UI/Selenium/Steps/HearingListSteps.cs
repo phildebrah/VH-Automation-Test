@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using SeleniumSpecFlow.Utilities;
 using System;
 using System.Collections.Generic;
@@ -55,22 +56,34 @@ namespace UI.Steps
         public void ProceedToWaitingRoom(string participant, string caseNumber)
         {
             Driver = GetDriver(participant);
-            var id = Driver.FindElements(JudgeHearingListPage.HealingListRow).Where(a => a.Text.Contains($"{caseNumber}"))?.FirstOrDefault().GetAttribute("id");
+            var elements = Driver.FindElements(JudgeHearingListPage.HealingListRow);
+            //tr[contains(.,'AA52001')]//button
+            var element = elements.Where(a => a.Text.Contains($"{caseNumber}")).FirstOrDefault()?.GetAttribute("id");
+            var newid = element;
+            var id = newid;
+            //var id = Driver.FindElements(JudgeHearingListPage.HealingListRow).Where(a => a.Text.Contains($"{caseNumber}"))?.FirstOrDefault().GetAttribute("id");
             _scenarioContext["driver"] = Driver;
-            if (id.Contains("judges-list-"))
+            id = id.Replace("judges-list-", "");
+            _hearing.HearingId = id;
+            _scenarioContext["Hearing"] = _hearing;
+            //judge
+            //staff
+            //video hearing officer
+            //individual
+     
+            if (Driver.Url.Contains("/judge/hearing-list"))
             {
-                id = id.Replace("judges-list-", "");
-                _hearing.HearingId = id;
-                _scenarioContext["Hearing"] = _hearing;
+       
                 Driver.FindElement(JudgeHearingListPage.SelectButton(id)).Click();
                 
             }
+            else if (Driver.Url.Contains("participant/hearing-list"))
+            {
+                Driver.FindElement(ParticipantHearingListPage.SignInButton(id)).Click();
+            }
             else
             {
-                id = id.Replace("sign-into-hearing-btn-", "");
-                _hearing.HearingId = id;
-                Driver.FindElement(ParticipantHearingListPage.SignInButton(id)).Click();
-                _scenarioContext["Hearing"] = _hearing;
+                Assert.Fail($"Unable to find the right hearing list page for the participant {participant}");
             }
         }
 
