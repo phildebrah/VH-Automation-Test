@@ -17,8 +17,8 @@ namespace UISelenium.Pages
         public static By HearingDate(Guid conferenceId) => By.Id($"participant-scheduled-date-{conferenceId:D}");
         public static By HearingTime(Guid conferenceId) => By.Id($"participant-scheduled-time-{conferenceId:D}");
         public static By SignInDate(Guid conferenceId) => By.Id($"participant-sign-in-date-{conferenceId:D}");
-        public static By SignInTime(Guid conferenceId) => By.Id($"participant-sign-in-time-{conferenceId:D}");
-        public static By SignInButton(Guid conferenceId) => By.Id($"sign-into-hearing-btn-{conferenceId:D}");
+        public static By SignInTime(string conferenceId) => By.Id($"participant-sign-in-time-{conferenceId}");
+        public static By SignInButton(string conferenceId) => By.Id($"sign-into-hearing-btn-{conferenceId}");
         public static By StartHearingButton(Guid conferenceId) => By.Id($"start-hearing-btn-{conferenceId:D}");
         public static By HealingListRow => By.XPath("//tr[@class='govuk-table__row']");
     }

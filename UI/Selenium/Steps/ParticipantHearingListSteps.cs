@@ -31,5 +31,10 @@ namespace UI.Steps
             var element = Driver.FindElement(ParticipantHearingListPage.CheckEquipment);
             element.Click();
         }
+
+        public void SignIntoHearing()
+        {
+
+        }
     }
 }

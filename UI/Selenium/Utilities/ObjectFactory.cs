@@ -19,7 +19,7 @@ namespace SeleniumSpecFlow.Utilities
 
         public HearingAssignJudgePage HearingAssignJudgePage { get; set; }
 
-        public ParticipantHearingListPage ParticipantHearingListPage { get; set; }
+        //public ParticipantHearingListPage ParticipantHearingListPage { get; set; }
         public EnvironmentConfigSettings Config { get; set; }
         public IWebDriver Driver { get; set; }
         public ObjectFactory(ScenarioContext context)

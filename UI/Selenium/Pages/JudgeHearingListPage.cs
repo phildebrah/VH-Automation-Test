@@ -9,5 +9,6 @@ namespace UISelenium.Pages
     public  class JudgeHearingListPage
     {
         public static By HealingListRow => By.XPath("//tr[@class='govuk-table__row']");
+        public static By SelectButton(string conferenceId) => By.Id($"start-hearing-btn-{conferenceId}");
     }
 }
