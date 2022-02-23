@@ -125,6 +125,7 @@ namespace SeleniumSpecFlow.Steps
             foreach (var participant in _hearing.Participant)
             {
                 Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+                _scenarioContext["driver"] = Driver;
                 Driver.Navigate().GoToUrl(Config.VideoUrl);
                 var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
@@ -133,13 +134,6 @@ namespace SeleniumSpecFlow.Steps
                 Login(participant.Id, Config.BambooPassword);
             }
             _scenarioContext.Add("drivers", drivers);
-
-            Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value;
-            var id = Driver.FindElements(JudgeHearingListPage.HealingListRow).Where(a => a.Text.Contains($"{_hearing.Case.CaseNumber}"))?.FirstOrDefault().GetAttribute("id");
-            id = id.Replace("judges-list-", "start-hearing-btn-");
-            TestFramework.ExtensionMethods.MoveToElement(Driver, By.Id(id))?.Click();
-            _hearing.HearingId = id.Split(new string[] { "start-hearing-btn-" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
-            _scenarioContext["Hearing"] = _hearing;
         }
 
         private void SetupBrowsers(string key,string username,string password)

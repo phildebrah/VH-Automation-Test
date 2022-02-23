@@ -108,7 +108,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError != null)
             {
-                //Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
@@ -145,7 +145,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError == null)
             {
-                //Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
@@ -250,13 +250,14 @@ namespace SeleniumSpecFlow
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
-            var driver = Helper.GetDriverInstance(scenarioContext); ;
+            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
+            foreach (var driver in drivers)
+            {
+                driver.Value.Quit();
+                logger.Info($"{driver.Key} Driver has been closed");
+            }
             _extent.Flush();
             logger.Info(" Flush Extent Report Instance");
-            //Driver?.Quit();
-            //Driver?.Dispose();
-            driver.Dispose();
-            logger.Info(" Driver has been closed");
             TestContext.AddTestAttachment(filePath);
             GC.SuppressFinalize(this);
         }
