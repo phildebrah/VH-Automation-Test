@@ -135,9 +135,11 @@ namespace SeleniumSpecFlow.Steps
             _scenarioContext.Add("drivers", drivers);
 
             Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value;
-            var id = Driver.FindElements(By.XPath("//tr[@class='govuk-table__row']")).Where(a => a.Text.Contains($"{_hearing.Case.CaseNumber}"))?.FirstOrDefault().GetAttribute("id");
+            var id = Driver.FindElements(JudgeHearingListPage.HealingListRow).Where(a => a.Text.Contains($"{_hearing.Case.CaseNumber}"))?.FirstOrDefault().GetAttribute("id");
             id = id.Replace("judges-list-", "start-hearing-btn-");
             TestFramework.ExtensionMethods.MoveToElement(Driver, By.Id(id))?.Click();
+            _hearing.HearingId = id.Split(new string[] { "start-hearing-btn-" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+            _scenarioContext["Hearing"] = _hearing;
         }
 
         private void SetupBrowsers(string key,string username,string password)
