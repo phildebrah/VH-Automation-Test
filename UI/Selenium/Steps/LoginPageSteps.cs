@@ -19,6 +19,7 @@ namespace SeleniumSpecFlow.Steps
     {
         private readonly ScenarioContext _scenarioContext;
         private Hearing _hearing;
+        private Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
         public LoginPageSteps(ScenarioContext scenarioContext)
             :base (scenarioContext)
         {
@@ -37,7 +38,7 @@ namespace SeleniumSpecFlow.Steps
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait))).SendKeys(username);
             Driver.FindElement(LoginPage.Next).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
-            wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.PasswordField));
+            wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
             Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
@@ -47,7 +48,6 @@ namespace SeleniumSpecFlow.Steps
         [Given(@"all participants log in to video web")]
         public void GivenAllParticipantsLogInToVideoWeb()
         {
-            Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
             var participants = new List<Participant>();
             participants.Add(new Participant
             {
@@ -75,11 +75,11 @@ namespace SeleniumSpecFlow.Steps
                 Role=new Role { Name="Solicitor" }
             });
 
-            var hearing = new Hearing
+            _hearing = new Hearing
             {
                 Case=new Case
                 {
-                    CaseNumber="AA98628"
+                    CaseNumber="AA52787"
                 },
                 Judge=new Judge
                 {
@@ -87,22 +87,32 @@ namespace SeleniumSpecFlow.Steps
                 },
                 Participant=participants
             };
+            
+            var key = string.Empty;
+            var username = string.Empty;
 
-            _scenarioContext.Add("Hearing", hearing);
+            _scenarioContext.Add("Hearing", _hearing);
             foreach (var participant in _hearing.Participant)
             {
-                var _driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-                _driver.Navigate().GoToUrl(Config.VideoUrl);
-                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
-                wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
-                drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", _driver);
-                Driver = _driver;
-                Login(participant.Id.Replace("gmail.com", "hearings.reform.hmcts.net"), Config.BambooPassword);
+                key= $"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}";
+                username = participant.Id.Replace("gmail.com", "hearings.reform.hmcts.net");
+                SetupBrowsers(key, username, Config.BambooPassword);
             }
+
+            //login for judge
+            key = "Judge";
+            username = _hearing.Judge.Email;
+            SetupBrowsers(key, username, Config.BambooPassword);
+
             _scenarioContext.Add("drivers", drivers);
 
             Driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains("Judge")).Value; // Where(a => a.Key.Contains("Judge")).FirstOrDefault().Value
             var el = Driver.FindElements(By.XPath("//tr[@class='govuk-table__row']")).Where(a => a.Text.Contains($"{_hearing.Case.CaseNumber}")).FirstOrDefault();
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//tr[contains(.,'AA68907')]//button")));
+            var selectButton = Driver.FindElement(By.XPath("//tr[contains(.,'AA52787')]//button"));
+            selectButton.Click();
+        
         }
 
 
@@ -110,7 +120,7 @@ namespace SeleniumSpecFlow.Steps
         public void ThenAllParticipantsLogInToVideoWeb()
         {
             Driver?.Close();
-            Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
+   
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var participant in _hearing.Participant)
             {
@@ -131,6 +141,17 @@ namespace SeleniumSpecFlow.Steps
             btnID = btnID.Replace("judges-list-", "start-hearing-btn-");
             var btn = el.FindElement(By.Id(btnID));
             btn.Click();
+        }
+
+        private void SetupBrowsers(string key,string username,string password)
+        {
+            var _driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            _driver.Navigate().GoToUrl(Config.VideoUrl);
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+            wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
+            drivers.Add(key, _driver);
+            Driver = _driver;
+            Login(username, password);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace SeleniumSpecFlow.Utilities
                     new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                     ChromeOptions options = new ChromeOptions();
                     options.AddArguments("start-maximized");
+                    options.AddArguments("--use-fake-ui-for-media-stream");
                     WebDriver = new ChromeDriver(options);
                     Logger.Info(" Chrome Driver started in maximized mode");
                     break;

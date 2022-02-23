@@ -34,6 +34,7 @@ Scenario: End to End test
 	And I log off
 	And all participants log in to video web
 
+@Hearing
 Scenario: Hearing
 	Given all participants log in to video web
 

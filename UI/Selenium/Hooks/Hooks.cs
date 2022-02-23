@@ -9,6 +9,7 @@ using OpenQA.Selenium.Support.Extensions;
 using RestSharp;
 using SeleniumSpecFlow.Utilities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
@@ -229,6 +230,21 @@ namespace SeleniumSpecFlow
                         break;
                 }
             }
+        }
+
+        [AfterScenario("Hearing")]
+        public void AfterScenarioHearing(ScenarioContext scenarioContext)
+        {
+            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
+            foreach(var driver in drivers)
+            {
+                driver.Value.Quit();
+                logger.Info(" Driver has been closed");
+
+            }
+            _extent.Flush();
+            logger.Info(" Flush Extent Report Instance");
+            GC.SuppressFinalize(this);
         }
 
         [AfterScenario("web")]
