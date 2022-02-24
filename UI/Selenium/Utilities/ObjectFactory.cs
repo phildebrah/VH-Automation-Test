@@ -6,6 +6,8 @@ using TestLibrary.Utilities;
 using UI.Steps.CommonActions;
 using OpenQA.Selenium;
 using UI.Pages;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SeleniumSpecFlow.Utilities
 {
@@ -28,14 +30,9 @@ namespace SeleniumSpecFlow.Utilities
             Config = (EnvironmentConfigSettings)context["config"];
             Driver = (IWebDriver) context["driver"];
         }
-        //    public Lazy<Home> Home = new Lazy<Home>(() => new Home(Hooks.Driver));
-        //    public Lazy<DriverFactory> DriverFactory = new Lazy<DriverFactory>();
-
-
-        ////elements
-        //    public Lazy<DropdownList> DropdownList = new Lazy<DropdownList>(() => new DropdownList(Hooks.Driver));
-        //   // public Lazy<EntryField> EntryField = new Lazy<EntryField>(() => new EntryField(Hooks.Driver));
-        //}
-
+        public IWebDriver GetDriver(string participant, ScenarioContext _scenarioContext)
+        {
+            return ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains(participant)).Value;
+        }
     }
 }

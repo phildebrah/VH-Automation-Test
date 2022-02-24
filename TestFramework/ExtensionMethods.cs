@@ -34,10 +34,8 @@ namespace TestFramework
                     }
                     catch (StaleElementReferenceException)
                     {
-
                         return null;
                     }
-
                 });
             }
             catch 

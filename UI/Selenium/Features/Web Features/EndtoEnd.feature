@@ -34,6 +34,9 @@ Scenario: End to End test
 	And I log off
 	And all participants log in to video web
 	And all participants have joined the hearing waiting room
+	And the judge starts the hearing
+	And the judge checks that all participants have joined the hearing room
+	#Then the judge closes the hearing
 
 @Hearing
 Scenario: Hearing
