@@ -125,5 +125,32 @@ namespace TestFramework
                 return el;
             }
         }
+
+        public static IWebElement FindElementEnabledWithWait(IWebDriver webdriver, By findBy, int? waitTimeInSec = null)
+        {
+                int count = 0;
+                bool isVisible = false;
+                while (!isVisible)
+                {
+                    try
+                    {
+                        webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                        if (!webdriver.FindElement(findBy).Enabled && count < waitTimeInSec)
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            return webdriver.FindElement(findBy);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                    count++;
+                }
+
+            return null;
+        }
     }
 }

@@ -11,15 +11,22 @@ namespace UISelenium.Pages
     {
         public static By CheckEquipment = By.Id("check-equipment-btn");
         public static By HearingListPageTitle = By.XPath("//*[contains(text(), 'Video hearings for') or contains(text(),'Your video hearing') or contains(text(),'Your video hearings')]");
-        //public static By NoHearingsWarningMessage = CommonLocators.ElementContainingText("You do not have a video hearing today");
-        public static By CaseName(Guid conferenceId) => By.Id($"participant-case-name-{conferenceId:D}");
-        public static By CaseNumber(Guid conferenceId) => By.Id($"participant-case-number-{conferenceId:D}");
-        public static By HearingDate(Guid conferenceId) => By.Id($"participant-scheduled-date-{conferenceId:D}");
-        public static By HearingTime(Guid conferenceId) => By.Id($"participant-scheduled-time-{conferenceId:D}");
-        public static By SignInDate(Guid conferenceId) => By.Id($"participant-sign-in-date-{conferenceId:D}");
         public static By SignInTime(string conferenceId) => By.Id($"participant-sign-in-time-{conferenceId}");
         public static By SignInButton(string conferenceId) => By.Id($"sign-into-hearing-btn-{conferenceId}");
-        public static By StartHearingButton(Guid conferenceId) => By.Id($"start-hearing-btn-{conferenceId:D}");
         public static By HealingListRow => By.XPath("//tr[@class='govuk-table__row']");
+        public static By SelectButton(string caseId) => By.XPath($"//tr[contains(.,'{caseId}')]//button");
+        public static By ButtonNext => By.Id("next");
+        public static By ContinueButton => By.Id("continue-btn");
+        public static By SwitchOnButton => By.Id("switch-on-btn");
+        public static By WatchVideoButton => By.Id("watch-video-btn");
+        public static By CameraWorkingYes => By.Id("camera-yes");
+        public static By MicrophoneWorkingYes => By.Id("microphone-yes");
+        public static By VideoWorkingYes => By.Id("video-yes");
+        public static By NextButton => By.Id("nextButton");
+        public static By DeclareCheckbox => By.Id("declare");
+        public static By IncomingStreamVideo => By.Id("incomingStream");
+        public static By OutgoingStreamVideo => By.Id("outgoingStream");
+        public static By Meter => By.Id("meter");
+        //meter
     }
 }

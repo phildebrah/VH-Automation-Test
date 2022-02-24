@@ -18,6 +18,7 @@ namespace SeleniumSpecFlow.Utilities
                     new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                     ChromeOptions options = new ChromeOptions();
                     options.AddArguments("start-maximized");
+                    options.AddArgument("no-sandbox");
                     options.AddArguments("--use-fake-ui-for-media-stream");
                     options.AddArguments("--use-fake-device-for-media-stream");
                     WebDriver = new ChromeDriver(options);
