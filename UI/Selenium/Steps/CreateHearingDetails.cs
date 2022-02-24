@@ -26,7 +26,6 @@ namespace UI.Steps
         [Given(@"I want to create a hearing with case details")]
         public void GivenIWantToCreateAHearingWithCaseDetails(Table table)
         {
-            //SetHearingDetails(table);
             CreateCaseModel(table);
             EnterCaseDetails(_hearing.Case);
         }
@@ -39,13 +38,9 @@ namespace UI.Steps
             var caseTypeElement = Driver.FindElement(HearingDetailsPage.CaseType);
             var selectElement = new SelectElement(caseTypeElement);
             selectElement.SelectByText(caseDetails.CaseType);
-
-            var heardingTypeElement = Driver.FindElement(HearingDetailsPage.HeardingType);
-             selectElement = new SelectElement(heardingTypeElement);
+            selectElement = new SelectElement(ExtensionMethods.WaitForDropDownListItems(Driver, HearingDetailsPage.HeardingType));
             selectElement.SelectByText(caseDetails.HearingType);
             ExtensionMethods.FindElementWithWait(Driver, HearingDetailsPage.NextButton).Click();
-           // Driver.F(HearingDetailsPage.NextButton).Click();
-            /// Assert we're on hearing schedule page
         }
 
         private void CreateCaseModel(Table table)

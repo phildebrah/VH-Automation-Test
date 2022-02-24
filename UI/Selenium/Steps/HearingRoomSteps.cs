@@ -8,6 +8,10 @@ using UI.Model;
 using UISelenium.Pages;
 using TechTalk.SpecFlow;
 using NUnit.Framework;
+using FluentAssertions;
+using TestFramework;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace UI.Steps
 {
@@ -28,10 +32,46 @@ namespace UI.Steps
         {
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
-
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+            ExtensionMethods.FindElementEnabledWithWait(Driver, HearingRoomPage.IncomingFeedJudgeVideo, int.Parse(Config.DefaultElementWait));
             foreach (var participant in _hearing.Participant)
             {
-                Assert.True(Driver.FindElement(HearingRoomPage.ParticipantDisplayName(participant.DisplayName))?.Displayed);
+                Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}"))?.Displayed.Should().BeTrue();
+            }
+        }
+
+        [Then(@"the judge closes the hearing")]
+        public void ThenTheJudgeClosesTheHearing()
+        {
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+            Driver.FindElement(HearingRoomPage.CloseHearingButton).Click();
+            Driver.FindElement(HearingRoomPage.ConfirmCloseHearingButton).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
+            Assert.IsTrue(Driver.FindElement(JudgeWaitingRoomPage.EnterPrivateConsultationButton).Displayed);
+            // Assert participants are in the participants waiting room
+            foreach (var participant in _hearing.Participant)
+            {
+                if (!participant.Party.Name.ToLower().Contains("judge"))
+                {
+                    var test = Driver.PageSource;
+                    Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
+                    Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+                    var waitingRoomPage = Driver.PageSource;
+                    var role = participant.Role.Name == "Solicitor" ? "Representative" : participant.Role.Name;
+                    _scenarioContext["driver"] = Driver;
+                    waitingRoomPage.Should().Contain("This hearing has finished. You may now sign out");
+                    Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}")).Displayed.Should().BeTrue();
+                    Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Party.Name)).Displayed.Should().BeTrue();
+                    Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
+                    Driver.FindElement(ParticipantWaitingRoomPage.ChooseCameraAndMicButton).Displayed.Should().BeTrue();
+                    Driver.FindElement(ParticipantWaitingRoomPage.JoinPrivateMeetingButton).Displayed.Should().BeTrue();
+                }
             }
         }
     }

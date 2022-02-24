@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using UI.Model;
 using UISelenium.Pages;
+using FluentAssertions;
+using TestFramework;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
+
 namespace UI.Steps
 {
     [Binding]
     public class WaitingRoomPageSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;
-        private Hearing _hearing;
         public WaitingRoomPageSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _hearing = (Hearing)_scenarioContext["Hearing"];
         }
 
         [Then(@"the judge starts the hearing")]
@@ -26,18 +29,12 @@ namespace UI.Steps
         {
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.StartVideoHearingButton));
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
-            Driver.FindElement(WaitingRoomPage.StartVideoHearingButton).Click();
-            Driver.FindElement(WaitingRoomPage.ConfirmStartButton).Click();
-        }
-
-        [Then(@"the judge closes the hearing")]
-        public void ThenTheJudgeClosesTheHearing()
-        {
-            Driver = GetDriver("Judge", _scenarioContext);
-            _scenarioContext["driver"] = Driver;
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
-            Driver.FindElement(HearingRoomPage.EndHearing).Click();
+            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.ConfirmStartButton));
+            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton).Click();
         }
     }
 }

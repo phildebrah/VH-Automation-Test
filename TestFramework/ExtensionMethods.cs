@@ -126,28 +126,33 @@ namespace TestFramework
 
         public static IWebElement FindElementEnabledWithWait(IWebDriver webdriver, By findBy, int? waitTimeInSec = null)
         {
-                int count = 0;
-                bool isVisible = false;
-                while (!isVisible)
+            int count = 0;
+            bool isVisible = false;
+            while (!isVisible)
+            {
+                try
                 {
-                    try
+                    webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                    if (!webdriver.FindElement(findBy).Enabled  && count < waitTimeInSec)
                     {
-                        webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
-                        if (!webdriver.FindElement(findBy).Enabled && count < waitTimeInSec)
-                        {
-                            System.Threading.Thread.Sleep(1000);
-                        }
-                        else
-                        {
-                            return webdriver.FindElement(findBy);
-                        }
+                        System.Threading.Thread.Sleep(1000);
                     }
-                    catch
+                    else
                     {
+                        webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+                        return webdriver.FindElement(findBy);
                     }
-                    count++;
                 }
-
+                catch
+                {
+                    if(count > waitTimeInSec)
+                    {
+                       return null;
+                    }
+                }
+                count++;
+            }
+            webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
             return null;
         }
     }

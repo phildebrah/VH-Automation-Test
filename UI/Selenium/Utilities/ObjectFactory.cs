@@ -20,10 +20,9 @@ namespace SeleniumSpecFlow.Utilities
         public DashboardPage DashboardPage { get; set; }
 
         public HearingAssignJudgePage HearingAssignJudgePage { get; set; }
-
-        //public ParticipantHearingListPage ParticipantHearingListPage { get; set; }
         public EnvironmentConfigSettings Config { get; set; }
         public IWebDriver Driver { get; set; }
+        public bool SkipPracticeVideoHearingDemo = true;
         public ObjectFactory(ScenarioContext context)
         {
             CommonPageActions = new CommonPageActions((IWebDriver)context["driver"]);
@@ -32,7 +31,7 @@ namespace SeleniumSpecFlow.Utilities
         }
         public IWebDriver GetDriver(string participant, ScenarioContext _scenarioContext)
         {
-            return ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains(participant)).Value;
+            return ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Where(a => a.Key.ToLower().Contains(participant.ToLower()))?.FirstOrDefault().Value;
         }
     }
 }

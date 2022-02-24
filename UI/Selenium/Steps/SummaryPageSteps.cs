@@ -27,7 +27,6 @@ namespace UI.Steps
         [Given(@"I book the hearing")]
         public void GivenIBookTheHearing()
         {
-            //System.Threading.Thread.Sleep(5000);
             ExtensionMethods.FindElementWithWait(Driver, SummaryPage.BookButton).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));

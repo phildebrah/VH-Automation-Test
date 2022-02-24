@@ -68,7 +68,7 @@ namespace UI.Model
         public Party Party { get; set; } = new Party();
         public Role Role { get; set; } = new Role();
         public string Id;
-        public string DisplayName;
+        public Name Name { get; set; } = new Name();
     }
 
     public class VideoAccessPoints
@@ -81,5 +81,11 @@ namespace UI.Model
     {
         public bool IsHearingRecorded { get; set; } = true;   
         public string AnyOtherInfo { get; set; }
+    }
+
+    public class Name
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

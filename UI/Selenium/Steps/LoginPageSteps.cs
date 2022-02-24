@@ -18,7 +18,7 @@ namespace SeleniumSpecFlow.Steps
     [Binding]
     public class LoginPageSteps : ObjectFactory
     {
-        private readonly ScenarioContext _scenarioContext;
+        private ScenarioContext _scenarioContext;
         private Hearing _hearing;
         private Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
         public LoginPageSteps(ScenarioContext scenarioContext)

@@ -36,13 +36,6 @@ namespace SeleniumSpecFlow
         private static string filePath;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        //public Hooks(IObjectContainer objectContainer, ISpecFlowOutputHelper outputHelper)
-        //{
-        //    //_objectContainer = objectContainer;
-        //    config = TestConfigHelper.GetApplicationConfiguration();
-        //    _specFlowOutputHelper = outputHelper;
-        //}
-
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
