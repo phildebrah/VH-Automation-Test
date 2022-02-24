@@ -36,6 +36,7 @@ Scenario: End to End test
 	And all participants have joined the hearing waiting room
 	And the judge starts the hearing
 	And the judge checks that all participants have joined the hearing room
+<<<<<<< HEAD
 	Then the judge closes the hearing
 
 @Hearing
@@ -75,3 +76,6 @@ Scenario: Hearing
 #	And the hearing status changed to Closed
 #	When in the first Individual's browser
 #	Then the participants waiting room displays the closed status
+=======
+	#Then the judge closes the hearing
+>>>>>>> 1e9b05f2aa668511ac01d4ee0e74283ef610b614
