@@ -30,5 +30,14 @@ namespace UI.Steps
             Driver.FindElement(WaitingRoomPage.StartVideoHearingButton).Click();
             Driver.FindElement(WaitingRoomPage.ConfirmStartButton).Click();
         }
+
+        [Then(@"the judge closes the hearing")]
+        public void ThenTheJudgeClosesTheHearing()
+        {
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+            Driver.FindElement(HearingRoomPage.EndHearing).Click();
+        }
     }
 }

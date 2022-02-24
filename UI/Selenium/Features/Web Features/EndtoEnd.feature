@@ -36,7 +36,7 @@ Scenario: End to End test
 	And all participants have joined the hearing waiting room
 	And the judge starts the hearing
 	And the judge checks that all participants have joined the hearing room
-	#Then the judge closes the hearing
+	Then the judge closes the hearing
 
 @Hearing
 Scenario: Hearing

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using UI.Model;
 using UISelenium.Pages;
 using TechTalk.SpecFlow;
+using NUnit.Framework;
+
 namespace UI.Steps
 {
     public class HearingRoomSteps : ObjectFactory
@@ -29,9 +31,8 @@ namespace UI.Steps
 
             foreach (var participant in _hearing.Participant)
             {
-
+                Assert.True(Driver.FindElement(HearingRoomPage.ParticipantDisplayName(participant.DisplayName))?.Displayed);
             }
         }
-
     }
 }
