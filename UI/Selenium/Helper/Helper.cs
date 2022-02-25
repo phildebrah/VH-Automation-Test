@@ -4,6 +4,7 @@ using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using TechTalk.SpecFlow;
+using TestFramework;
 
 namespace UISelenium.Helper
 {
@@ -24,13 +25,13 @@ namespace UISelenium.Helper
 
                     if (element.Displayed && element.Enabled)
                     {
-                        Logger.Info(" The following element has been found " + element);
+                        Logger.InfoWithDate("The following element has been found " + element);
                         return element;
                     }
                 }
                 catch (NoSuchElementException e)
                 {
-                    Logger.Error(" The following error has occourred" + e);
+                    Logger.Error("The following error has occourred" + e);
                 }
                 return null;
             });
@@ -52,13 +53,13 @@ namespace UISelenium.Helper
 
                         if (element.Count > 0 && element.ElementAt(0).Displayed && element.ElementAt(0).Enabled)
                         {
-                            Logger.Info(" The following element has been found " + element);
+                            Logger.InfoWithDate("The following element has been found " + element);
                             return element;
                         }
                     }
                     catch (NoSuchElementException e)
                     {
-                        Logger.Error(" The following error has occourred " + e);
+                        Logger.Error("The following error has occourred " + e);
                     }
                     return null;
                 });
@@ -77,11 +78,11 @@ namespace UISelenium.Helper
             try
             {
                 element.Click();
-                Logger.Info(" The following element has been clicked "+ element);
+                Logger.InfoWithDate("The following element has been clicked "+ element);
             }
             catch (Exception e)
             {
-                Logger.Error(" Exception has occurred " + e);
+                Logger.Error(e,"Exception has occurred" );
             }
         }
 
@@ -91,7 +92,7 @@ namespace UISelenium.Helper
             {
                 element.Clear();
                 element.SendKeys(text);
-                Logger.Info(text + " entered in the " + element + " field.");
+                Logger.InfoWithDate(text + " entered in the " + element + " field.");
             }
             catch (Exception e)
             {
@@ -105,13 +106,13 @@ namespace UISelenium.Helper
             {
                 if (element.Selected)
                 {
-                    Logger.Info("Checkbox: " + element + "is already selected");
+                    Logger.InfoWithDate("Checkbox: " + element + "is already selected");
                 }
                 else
                 {
                     // Select the checkbox
                     element.Click();
-                    Logger.Info("Checkbox: " + element + "has selected");
+                    Logger.InfoWithDate("Checkbox: " + element + "has selected");
                 }
             }
             catch (Exception e)
@@ -128,11 +129,11 @@ namespace UISelenium.Helper
                 {
                     //De-select the checkbox
                     element.Click();
-                    Logger.Info("Checkbox: " + element + "has  deselected");
+                    Logger.InfoWithDate("Checkbox: " + element + "has  deselected");
                 }
                 else
                 {
-                    Logger.Info("Checkbox: " + element + "is already deselected");
+                    Logger.InfoWithDate("Checkbox: " + element + "is already deselected");
                 }
             }
             catch (Exception e)

@@ -15,7 +15,11 @@ using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using TestLibrary.Utilities;
 using UISelenium.Helper;
-using UISelenium.Pages;
+using NLog;
+using System.Text;
+using TestFramework;
+using NLog.Config;
+
 
 namespace SeleniumSpecFlow
 {
@@ -34,7 +38,7 @@ namespace SeleniumSpecFlow
         private static ExtentReports _extent;
         private static ISpecFlowOutputHelper _specFlowOutputHelper;
         private static string filePath;
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Logger Logger =LogManager.GetCurrentClassLogger();
 
         //public Hooks(IObjectContainer objectContainer, ISpecFlowOutputHelper outputHelper)
         //{
@@ -53,24 +57,35 @@ namespace SeleniumSpecFlow
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
                 _extent.AttachReporter(reporter);
-                //log
-                logger.Info(" Automation Testing Execution Commenced");
+                Logger.InfoWithDate("Automation Test Execution Commenced");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                logger.Error(" Exception has occurred " + e);
+                Logger.Error(ex,"An error has occured");
             }
         }
 
         [BeforeFeature]
         public static void BeforeFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
         {
-            _feature = _extent.CreateTest<Feature>(featureContext.FeatureInfo.Title);
-            logger.Info(" Following Test has been started: " + featureContext.FeatureInfo.Title);
+            var featureTile = featureContext.FeatureInfo.Title;
+         
+            Logger = LogManager.GetCurrentClassLogger();
+
+            _feature = _extent.CreateTest<Feature>(featureTile);
+
+            Logger.InfoWithDate($"Starting feature '{featureTile}'");
             config = TestConfigHelper.GetApplicationConfiguration();
             _specFlowOutputHelper = outputHelper;
         }
 
+        [BeforeScenario]
+        public void BeforeScenario(ScenarioContext scenarioContext)
+        {
+            var scenarioTile = scenarioContext.ScenarioInfo.Title;
+            Logger.InfoWithDate($"Starting scenario '{scenarioTile}'");
+        }
+        
         [BeforeScenario("web")]
         public void BeforeScenarioWeb(ScenarioContext scenarioContext)
         {
@@ -87,6 +102,9 @@ namespace SeleniumSpecFlow
         [BeforeScenario("api")]
         public void BeforeScenarioApi(ScenarioContext scenarioContext)
         {
+            var scenarioTile = scenarioContext.ScenarioInfo.Title;
+            Logger.InfoWithDate($"Starting scenario '{scenarioTile}'");
+
             restClient = new RestClient(config.ApiUrl);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
@@ -95,20 +113,40 @@ namespace SeleniumSpecFlow
         [BeforeScenario("soap")]
         public void BeforeScenarioSoapApi(ScenarioContext scenarioContext)
         {
+            var scenarioTile = scenarioContext.ScenarioInfo.Title;
+            Logger.InfoWithDate($"Starting scenario '{scenarioTile}'");
+
             restClient = new RestClient(config.SoapApiUrl);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
 
+        [BeforeStep]
+        public static void BeforeStep(ScenarioContext scenarioContext)
+        {
+            var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+            Logger.InfoWithDate($"Starting step '{stepTitle}'");
+        }
+
+        [AfterStep]
+        public static void AfterStep(ScenarioContext scenarioContext)
+        {
+            var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+            Logger.InfoWithDate($"ending step '{stepTitle}'");
+        }
+
         [AfterStep("web")]
         public static void InsertReportingStepsWeb(ScenarioContext scenarioContext)
-        {
+        {   
             var ScreenshotFilePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
             if (scenarioContext.TestError != null)
             {
+                var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+                Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:{stepTitle}");
                 Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                Logger.InfoWithDate($"Screenshot has been saved to {ScreenshotFilePath}");
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
@@ -146,6 +184,7 @@ namespace SeleniumSpecFlow
             if (scenarioContext.TestError == null)
             {
                 Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                Logger.InfoWithDate($"Screenshot has been saved to {ScreenshotFilePath}");
                 //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
@@ -169,6 +208,7 @@ namespace SeleniumSpecFlow
                 // For Living Doc
                 filePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
                 Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
+                Logger.InfoWithDate($"Screenshot has been saved to {filePath}");
                 _specFlowOutputHelper.WriteLine("Logging Using Specflow");
                 _specFlowOutputHelper.AddAttachment(filePath);
             }
@@ -239,25 +279,36 @@ namespace SeleniumSpecFlow
             foreach(var driver in drivers)
             {
                 driver.Value.Quit();
-                logger.Info(" Driver has been closed");
+                Logger.InfoWithDate(" Driver has been closed");
 
             }
             _extent.Flush();
-            logger.Info(" Flush Extent Report Instance");
+            Logger.InfoWithDate(" Flush Extent Report Instance");
             GC.SuppressFinalize(this);
         }
 
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
-            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-            foreach (var driver in drivers)
+            if(scenarioContext.ContainsKey("drivers"))
             {
-                driver.Value.Quit();
-                logger.Info($"{driver.Key} Driver has been closed");
+                var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
+                foreach (var driver in drivers)
+                {
+                    driver.Value.Quit();
+                    Logger.InfoWithDate($"{driver.Key} Driver has been closed");
+                }
             }
+
+            if (scenarioContext.ContainsKey("driver"))
+            {
+                var driver = (IWebDriver)scenarioContext["driver"];
+                driver.Quit();
+                Logger.InfoWithDate($"Driver has been closed");
+            }
+
             _extent.Flush();
-            logger.Info(" Flush Extent Report Instance");
+            Logger.InfoWithDate("Flush Extent Report Instance");
             TestContext.AddTestAttachment(filePath);
             GC.SuppressFinalize(this);
         }
@@ -269,11 +320,52 @@ namespace SeleniumSpecFlow
             GC.SuppressFinalize(this);
         }
 
+        [AfterScenario]
+        public void AfterScenario(ScenarioContext scenarioContext)
+        {
+            var scenarioTile = scenarioContext.ScenarioInfo.Title;
+            Logger.InfoWithDate($"Ending scenario '{scenarioTile}'");
+        }
+
         [AfterTestRun]
         public static void AfterTestRun()
         {
-            NLog.LogManager.Shutdown();
-            logger.Info(" Flush Nlog Instance");
+            Logger.InfoWithDate("Automation Test Execution Ended");
+            LogManager.Shutdown();
+        }
+
+        //        private void SetupLogFile()
+        //        {
+        //            FileTarget target = new FileTarget();
+        //                    target.Layout = "${longdate} ${logger} ${message}";
+        //                   target.FileName = "${basedir}/logs/logfile.txt";
+        //                  target.KeepFileOpen = false;
+        //                    target.Encoding = Encoding.UTF8;
+
+        //16        AsyncTargetWrapper wrapper = new AsyncTargetWrapper();
+        //                    wrapper.WrappedTarget = target;
+        //                    wrapper.QueueLimit = 5000;
+        //                    wrapper.OverflowAction = AsyncTargetWrapperOverflowAction.Discard;
+
+        //21        NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(wrapper, LogLevel.Debug);
+
+        //23        Logger logger = LogManager.GetLogger("Example");
+        //                    logger.Debug("log message");
+
+        //26        wrapper.Flush();
+        //        }
+
+        [AfterFeature]
+        public static void AfterFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
+        {
+            var featureTile = featureContext.FeatureInfo.Title;
+            Logger.InfoWithDate($"Ending feature '{featureTile}'");
+        }
+
+        private void ConfigureNLog()
+        {
+            // Intialize Config Object
+            LoggingConfiguration config = new LoggingConfiguration();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NLog;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
@@ -11,10 +12,14 @@ using System.Threading.Tasks;
 
 namespace TestFramework
 {
-    public class ExtensionMethods
+    public static class ExtensionMethods
     {
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+        public static void InfoWithDate(this Logger logger,string message)
+        {
+            logger.Info($"{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff")} {message}");
+        }
         public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, TimeSpan? waitPeriod=null)
         {
             waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod;
