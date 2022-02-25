@@ -27,7 +27,8 @@ namespace SeleniumSpecFlow
         public IConfiguration Configuration { get; }
         //private IObjectContainer _objectContainer;
         public static EnvironmentConfigSettings config;
-        public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 17);
+       // public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 17);
+        public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + Path.Combine("..\\..\\..");
         public static string PathReport = ProjectPath + "\\TestResults\\Report\\ExtentReport.html";
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
@@ -243,12 +244,12 @@ namespace SeleniumSpecFlow
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
-            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-            foreach (var driver in drivers)
-            {
-                driver.Value.Quit();
-                logger.Info($"{driver.Key} Driver has been closed");
-            }
+            //var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
+            //foreach (var driver in drivers)
+            //{
+            //    driver.Value.Quit();
+            //    logger.Info($"{driver.Key} Driver has been closed");
+            //}
             _extent.Flush();
             logger.Info(" Flush Extent Report Instance");
             TestContext.AddTestAttachment(filePath);
