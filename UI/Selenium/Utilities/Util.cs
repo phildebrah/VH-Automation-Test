@@ -1,18 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace TestLibrary.Utilities
 {
-   public class Util
+    public class Util
     {
       
-        public static string RandomString()
+        public static string RandomString(int stringLenth = 10)
         {
             Random rnd = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, 10)
+            return new string(Enumerable.Repeat(chars, stringLenth)
+             .Select(s => s[rnd.Next(s.Length)]).ToArray());
+        }
+
+        public static string RandomAlphabet(int stringLenth = 10)
+        {
+            Random rnd = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            return new string(Enumerable.Repeat(chars, stringLenth)
              .Select(s => s[rnd.Next(s.Length)]).ToArray());
         }
     }

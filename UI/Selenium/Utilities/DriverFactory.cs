@@ -1,15 +1,13 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumSpecFlow.Utilities
 {
     public class DriverFactory
     {
-        public IWebDriver WebDriver { get; private set; }
+        public IWebDriver WebDriver { get; set; }
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public IWebDriver InitializeDriver(BrowserType browser)
         {
@@ -20,6 +18,9 @@ namespace SeleniumSpecFlow.Utilities
                     new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                     ChromeOptions options = new ChromeOptions();
                     options.AddArguments("start-maximized");
+                    options.AddArgument("no-sandbox");
+                    options.AddArguments("--use-fake-ui-for-media-stream");
+                    options.AddArguments("--use-fake-device-for-media-stream");
                     WebDriver = new ChromeDriver(options);
                     Logger.Info(" Chrome Driver started in maximized mode");
                     break;
@@ -28,13 +29,7 @@ namespace SeleniumSpecFlow.Utilities
                     break;
 
             }
-            WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMinutes(2);
-            Logger.Info(" Implicit Wait has been set up to 2 minutes");
-            WebDriver.Url = Hooks.config.URL;
-            Logger.Info(" Following Url has entered " + Hooks.config.URL);
             return WebDriver;
         }
-
-       
     }
 }
