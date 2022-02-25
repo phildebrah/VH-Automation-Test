@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using OpenQA.Selenium;
 using System.Linq;
 using OpenQA.Selenium.Interactions;
+using TestFramework;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -30,8 +31,10 @@ namespace SeleniumSpecFlow.Steps
         [Given(@"I log in as ""([^""]*)""")]
         public void GivenILogInAs(string userName)
         {
+            _scenarioContext.UpdatePageName("Login");
             var result= CommonPageActions.NavigateToPage(Config.URL, "login.microsoftonline.com");
             Login(userName, Config.BambooPassword);
+            _scenarioContext.UpdateUserName(userName);
         }
     
         public void Login(string username, string password)

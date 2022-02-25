@@ -19,7 +19,7 @@ using NLog;
 using System.Text;
 using TestFramework;
 using NLog.Config;
-
+using NLog.Web;
 
 namespace SeleniumSpecFlow
 {
@@ -38,7 +38,7 @@ namespace SeleniumSpecFlow
         private static ExtentReports _extent;
         private static ISpecFlowOutputHelper _specFlowOutputHelper;
         private static string filePath;
-        private static Logger Logger =LogManager.GetCurrentClassLogger();
+        private static Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
         //public Hooks(IObjectContainer objectContainer, ISpecFlowOutputHelper outputHelper)
         //{
@@ -145,6 +145,38 @@ namespace SeleniumSpecFlow
             {
                 var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
                 Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:{stepTitle}");
+                var infoTextBuilder = new StringBuilder();
+
+                var actionName = scenarioContext.GetActionName();
+                if (!string.IsNullOrWhiteSpace(actionName))
+                {
+                    infoTextBuilder.Append($"Action '{actionName}");
+                }
+
+                var elementName = scenarioContext.GetElementName();
+                if (!string.IsNullOrWhiteSpace(elementName))
+                {
+                    infoTextBuilder.Append($"erroed on Element '{elementName}");
+                }
+
+                var pageName = scenarioContext.GetPageName();
+                if (!string.IsNullOrWhiteSpace(pageName))
+                {
+                    infoTextBuilder.Append($"on Page '{pageName}");
+                }
+
+                var userName = scenarioContext.GetUserName();
+                if (!string.IsNullOrWhiteSpace(userName))
+                {
+                    infoTextBuilder.Append($"for User '{userName}");
+                }
+
+                var infoText = infoTextBuilder.ToString();
+                if(!string.IsNullOrEmpty(infoText))
+                {
+                    Logger.InfoWithDate(infoText);
+                }
+
                 Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.InfoWithDate($"Screenshot has been saved to {ScreenshotFilePath}");
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)

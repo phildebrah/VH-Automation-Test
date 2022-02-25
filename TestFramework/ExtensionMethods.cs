@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TechTalk.SpecFlow;
 
 namespace TestFramework
 {
@@ -20,6 +20,68 @@ namespace TestFramework
         {
             logger.Info($"{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff")} {message}");
         }
+
+        public static void AddOrUpdate<T>(this ScenarioContext scenarioContext,string key,T value)
+        {
+            if(scenarioContext.ContainsKey(key))
+            {
+                scenarioContext[key]=value;
+            }
+            else
+            {
+                scenarioContext.Add(key, value);
+            }
+        }
+
+        public static void UpdateUserName(this ScenarioContext scenarioContext, string value)
+        {
+            var key = "UserName";
+            scenarioContext.AddOrUpdate(key, value);
+        }
+        public static void UpdatePageName(this ScenarioContext scenarioContext, string value)
+        {
+            var key = "PageName";
+            scenarioContext.AddOrUpdate(key, value);
+        }
+        public static void UpdateElementName(this ScenarioContext scenarioContext, string value)
+        {
+            var key = "ElementName";
+            scenarioContext.AddOrUpdate(key, value);
+        }
+        public static void UpdateActionName(this ScenarioContext scenarioContext, string value)
+        {
+            var key = "ActionName";
+            scenarioContext.AddOrUpdate(key, value);
+        }
+
+        public static string GetActionName(this ScenarioContext scenarioContext)
+        {
+            var key = "ActionName";
+            scenarioContext.TryGetValue<string>(key,out string value);
+            return value;
+        }
+
+        public static string GetUserName(this ScenarioContext scenarioContext)
+        {
+            var key = "UserName";
+            scenarioContext.TryGetValue<string>(key, out string value);
+            return value;
+        }
+
+        public static string GetPageName(this ScenarioContext scenarioContext)
+        {
+            var key = "PageName";
+            scenarioContext.TryGetValue<string>(key, out string value);
+            return value;
+        }
+
+        public static string GetElementName(this ScenarioContext scenarioContext)
+        {
+            var key = "ElementName";
+            scenarioContext.TryGetValue<string>(key, out string value);
+            return value;
+        }
+
         public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, TimeSpan? waitPeriod=null)
         {
             waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod;
