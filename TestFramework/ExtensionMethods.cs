@@ -14,12 +14,7 @@ namespace TestFramework
 {
     public static class ExtensionMethods
     {
-        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
-
-        public static void InfoWithDate(this Logger logger,string message)
-        {
-            logger.Info($"{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff")} {message}");
-        }
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
 
         public static void AddOrUpdate<T>(this ScenarioContext scenarioContext,string key,T value)
         {
@@ -169,7 +164,7 @@ namespace TestFramework
             }
             catch(Exception e)
             {
-                logger.Error($"Option '{option}' is not available in the drop down DROPDOWNNAME on page PAGENAME");
+                Logger.Error($"Option '{option}' is not available in the drop down DROPDOWNNAME on page PAGENAME");
                 throw;
             }
 

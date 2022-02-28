@@ -25,7 +25,7 @@ namespace UISelenium.Helper
 
                     if (element.Displayed && element.Enabled)
                     {
-                        Logger.InfoWithDate("The following element has been found " + element);
+                        Logger.Info("The following element has been found " + element);
                         return element;
                     }
                 }
@@ -53,7 +53,7 @@ namespace UISelenium.Helper
 
                         if (element.Count > 0 && element.ElementAt(0).Displayed && element.ElementAt(0).Enabled)
                         {
-                            Logger.InfoWithDate("The following element has been found " + element);
+                            Logger.Info("The following element has been found " + element);
                             return element;
                         }
                     }
@@ -78,7 +78,7 @@ namespace UISelenium.Helper
             try
             {
                 element.Click();
-                Logger.InfoWithDate("The following element has been clicked "+ element);
+                Logger.Info("The following element has been clicked "+ element);
             }
             catch (Exception e)
             {
@@ -92,7 +92,7 @@ namespace UISelenium.Helper
             {
                 element.Clear();
                 element.SendKeys(text);
-                Logger.InfoWithDate(text + " entered in the " + element + " field.");
+                Logger.Info(text + " entered in the " + element + " field.");
             }
             catch (Exception e)
             {
@@ -106,13 +106,13 @@ namespace UISelenium.Helper
             {
                 if (element.Selected)
                 {
-                    Logger.InfoWithDate("Checkbox: " + element + "is already selected");
+                    Logger.Info("Checkbox: " + element + "is already selected");
                 }
                 else
                 {
                     // Select the checkbox
                     element.Click();
-                    Logger.InfoWithDate("Checkbox: " + element + "has selected");
+                    Logger.Info("Checkbox: " + element + "has selected");
                 }
             }
             catch (Exception e)
@@ -129,11 +129,11 @@ namespace UISelenium.Helper
                 {
                     //De-select the checkbox
                     element.Click();
-                    Logger.InfoWithDate("Checkbox: " + element + "has  deselected");
+                    Logger.Info("Checkbox: " + element + "has  deselected");
                 }
                 else
                 {
-                    Logger.InfoWithDate("Checkbox: " + element + "is already deselected");
+                    Logger.Info("Checkbox: " + element + "is already deselected");
                 }
             }
             catch (Exception e)
