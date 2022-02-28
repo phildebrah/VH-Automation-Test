@@ -9,6 +9,7 @@ namespace UISelenium.Pages
 {
     public class Header
     {
-        public static By LogOffLink = By.Id("linkSignOut");
+        public static By SignOut = By.Id("logout-link");
+        public static By LinkSignOut = By.Id("linkSignOut");
     }
 }

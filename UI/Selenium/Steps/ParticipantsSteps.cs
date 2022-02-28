@@ -57,8 +57,12 @@ namespace UI.Steps
                     {
                         Name = row["Role"]
                     },
-                    Id = row["Id"]
-
+                    Id = row["Id"],
+                    Name = new Name
+                    {
+                        FirstName = $"AutoFirst{Util.RandomAlphabet(4)}",
+                        LastName = $"AutoLast{Util.RandomAlphabet(4)}"
+                    }
                 };
 
                 _hearing.Participant.Add(participant);
@@ -79,15 +83,16 @@ namespace UI.Steps
                     new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PartyDropdown)).SelectByText(participant.Party.Name);
                     new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RoleDropdown)).SelectByText(participant.Role.Name);
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.ParticipantEmailTextfield).SendKeys(participant.Id.Replace("hearings.reform.hmcts.net", "hmcts.net"));
-                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.FirstNameTextfield).SendKeys($"AutoFirst{Util.RandomAlphabet(4)}");
-                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.LastNameTextfield).SendKeys($"AutoLast{Util.RandomAlphabet(4)}");
+                    _scenarioContext["Hearing"] = _hearing;
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.FirstNameTextfield).SendKeys(participant.Name.FirstName);
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.LastNameTextfield).SendKeys(participant.Name.LastName);
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PhoneTextfield).SendKeys("07021234567");
                     if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield))
                     {
                         ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepresentingTextfield).SendKeys($"AutoRepresent{Util.RandomAlphabet(4)}");
                         ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield).SendKeys($"AutoOrg{Util.RandomAlphabet(4)}");
                     }
-                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.DisplayNameTextfield).SendKeys($"AutoDisplay{Util.RandomAlphabet(4)}");
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.DisplayNameTextfield).SendKeys($"{participant.Name.FirstName} {participant.Name.LastName}");
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.AddParticipantLink).Click();
                 }
             }

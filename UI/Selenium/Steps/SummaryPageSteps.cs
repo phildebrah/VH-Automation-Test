@@ -1,15 +1,10 @@
 ﻿using SeleniumSpecFlow.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using UISelenium.Pages;
 using OpenQA.Selenium.Support.UI;
 using TestFramework;
 using SeleniumExtras.WaitHelpers;
-using NUnit.Framework;
 using FluentAssertions;
 
 namespace UI.Steps
@@ -27,7 +22,6 @@ namespace UI.Steps
         [Given(@"I book the hearing")]
         public void GivenIBookTheHearing()
         {
-            //System.Threading.Thread.Sleep(5000);
             ExtensionMethods.FindElementWithWait(Driver, SummaryPage.BookButton).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));

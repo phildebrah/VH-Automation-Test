@@ -5,7 +5,6 @@ using SeleniumSpecFlow.Utilities;
 using System;
 using System.IO;
 using System.Linq;
-using TestFramework;
 
 namespace TestLibrary.Utilities
 {
@@ -30,7 +29,7 @@ namespace TestLibrary.Utilities
             browser = (BrowserType)Enum.Parse(typeof(BrowserType), Environment.GetEnvironmentVariable("BROWSER"));
             var systemConfiguration = new SystemConfiguration();
             var iTestConfigurationRoot = GetIConfigurationBase();
-            Logger.InfoWithDate("Reading Appsetitngs Json File");
+            Logger.Info(" Reading Appsetitngs Json File");
             iTestConfigurationRoot.GetSection("SystemConfiguration").Bind(systemConfiguration);
 
             if (environment != null)

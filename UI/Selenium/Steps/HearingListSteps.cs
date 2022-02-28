@@ -41,7 +41,7 @@ namespace UI.Steps
 
         public void ProceedToWaitingRoom(string participant, string caseNumber)
         {
-            Driver = GetDriver(participant);
+            Driver = GetDriver(participant, _scenarioContext);
             _scenarioContext["driver"] = Driver;
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
             var elements = Driver.FindElements(JudgeHearingListPage.HealingListRow);
@@ -54,9 +54,18 @@ namespace UI.Steps
                 Driver.FindElement(ParticipantHearingListPage.WatchVideoButton).Click();
                 // Assert video is playing
                 Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
-                Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
-                Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes).Click();
+                if(SkipPracticeVideoHearingDemo)
+                {
+                    string cameraUrl = Driver.Url.Replace("practice-video-hearing", "camera-working");
+                    Driver.Navigate().GoToUrl(cameraUrl);
+                    Driver.SwitchTo().Alert().Accept();
+                }
+                else
+                {
+                    TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
+                    Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+                }
+                Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
                 Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
                 Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
                 Driver.FindElement(ParticipantHearingListPage.MicrophoneWorkingYes).Click();
@@ -67,11 +76,6 @@ namespace UI.Steps
                 Driver.FindElement(ParticipantHearingListPage.DeclareCheckbox).Click();
                 Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
             }
-        }
-
-        public IWebDriver GetDriver(string participant)
-        {
-            return ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).FirstOrDefault(a => a.Key.Contains(participant)).Value;
         }
     }
 }

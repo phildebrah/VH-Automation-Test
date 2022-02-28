@@ -11,7 +11,7 @@ namespace UISelenium.Pages
     {
         public static By MultiDaysHearing = By.Id("multiDaysHearing");
         public static By HearingDate = By.Id("hearingDate");
-        public static By HearingStartTimeHour = By.Id("hearingStartTimeHour");//
+        public static By HearingStartTimeHour = By.Id("hearingStartTimeHour");
         public static By HearingStartTimeMinute = By.Id("hearingStartTimeMinute");
         public static By CourtVenue = By.Id("courtAddress");
         public static By CourtRoom = By.Id("court-room");

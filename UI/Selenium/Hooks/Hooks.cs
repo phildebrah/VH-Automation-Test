@@ -20,6 +20,7 @@ using System.Text;
 using TestFramework;
 using NLog.Config;
 using NLog.Web;
+using UISelenium.Pages;
 
 namespace SeleniumSpecFlow
 {
@@ -31,7 +32,7 @@ namespace SeleniumSpecFlow
         public IConfiguration Configuration { get; }
         //private IObjectContainer _objectContainer;
         public static EnvironmentConfigSettings config;
-        public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 24);
+        public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 17);
         public static string PathReport = ProjectPath + "\\TestResults\\Report\\ExtentReport.html";
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
@@ -39,13 +40,6 @@ namespace SeleniumSpecFlow
         private static ISpecFlowOutputHelper _specFlowOutputHelper;
         private static string filePath;
         private static Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-
-        //public Hooks(IObjectContainer objectContainer, ISpecFlowOutputHelper outputHelper)
-        //{
-        //    //_objectContainer = objectContainer;
-        //    config = TestConfigHelper.GetApplicationConfiguration();
-        //    _specFlowOutputHelper = outputHelper;
-        //}
 
         [BeforeTestRun]
         public static void BeforeTestRun()
@@ -69,12 +63,10 @@ namespace SeleniumSpecFlow
         public static void BeforeFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
         {
             var featureTile = featureContext.FeatureInfo.Title;
-         
-            Logger = LogManager.GetCurrentClassLogger();
-
             _feature = _extent.CreateTest<Feature>(featureTile);
 
             Logger.InfoWithDate($"Starting feature '{featureTile}'");
+
             config = TestConfigHelper.GetApplicationConfiguration();
             _specFlowOutputHelper = outputHelper;
         }
@@ -179,6 +171,8 @@ namespace SeleniumSpecFlow
 
                 Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.InfoWithDate($"Screenshot has been saved to {ScreenshotFilePath}");
+                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
@@ -217,6 +211,7 @@ namespace SeleniumSpecFlow
             {
                 Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.InfoWithDate($"Screenshot has been saved to {ScreenshotFilePath}");
+
                 //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
@@ -241,6 +236,7 @@ namespace SeleniumSpecFlow
                 filePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
                 Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
                 Logger.InfoWithDate($"Screenshot has been saved to {filePath}");
+
                 _specFlowOutputHelper.WriteLine("Logging Using Specflow");
                 _specFlowOutputHelper.AddAttachment(filePath);
             }
@@ -311,11 +307,11 @@ namespace SeleniumSpecFlow
             foreach(var driver in drivers)
             {
                 driver.Value.Quit();
-                Logger.InfoWithDate(" Driver has been closed");
+                Logger.InfoWithDate("Driver has been closed");
 
             }
             _extent.Flush();
-            Logger.InfoWithDate(" Flush Extent Report Instance");
+            Logger.InfoWithDate("Flush Extent Report Instance");
             GC.SuppressFinalize(this);
         }
 
@@ -365,27 +361,6 @@ namespace SeleniumSpecFlow
             Logger.InfoWithDate("Automation Test Execution Ended");
             LogManager.Shutdown();
         }
-
-        //        private void SetupLogFile()
-        //        {
-        //            FileTarget target = new FileTarget();
-        //                    target.Layout = "${longdate} ${logger} ${message}";
-        //                   target.FileName = "${basedir}/logs/logfile.txt";
-        //                  target.KeepFileOpen = false;
-        //                    target.Encoding = Encoding.UTF8;
-
-        //16        AsyncTargetWrapper wrapper = new AsyncTargetWrapper();
-        //                    wrapper.WrappedTarget = target;
-        //                    wrapper.QueueLimit = 5000;
-        //                    wrapper.OverflowAction = AsyncTargetWrapperOverflowAction.Discard;
-
-        //21        NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(wrapper, LogLevel.Debug);
-
-        //23        Logger logger = LogManager.GetLogger("Example");
-        //                    logger.Debug("log message");
-
-        //26        wrapper.Flush();
-        //        }
 
         [AfterFeature]
         public static void AfterFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)

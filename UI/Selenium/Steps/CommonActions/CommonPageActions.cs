@@ -34,9 +34,5 @@ namespace UI.Steps.CommonActions
                 return Driver.Url.Contains(targetUrl);
             }
         }
-
-        //public SwicthBrowser(string )
-
-
     }
 }

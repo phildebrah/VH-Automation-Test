@@ -30,11 +30,7 @@ namespace SeleniumSpecFlow.Utilities
                     break;
 
             }
-            WebDriver.Url = Hooks.config.URL;
-            Logger.InfoWithDate("Following Url has entered " + Hooks.config.URL);
             return WebDriver;
         }
-
-       
     }
 }

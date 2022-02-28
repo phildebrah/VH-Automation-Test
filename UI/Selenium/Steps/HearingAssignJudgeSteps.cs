@@ -34,10 +34,7 @@ namespace UI.Steps
         private Hearing CreateHearingModel(Table table)
         {
             var tableRow = table.Rows[0];
-
             _hearing.Judge.Email = tableRow["Judge or Courtroom Account"];
-            //_hearing.Judge.DisplayName = tableRow["Judge Name"];
-            //_hearing.Judge.Phone = tableRow["Judge Telephone Number"];
             _scenarioContext["Hearing"] = _hearing;
             return _hearing;
         }
