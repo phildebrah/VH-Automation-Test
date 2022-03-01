@@ -1,7 +1,6 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
-using BoDi;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -19,16 +18,13 @@ using System.Text;
 using TestFramework;
 using NLog.Web;
 
-
 namespace SeleniumSpecFlow
 {
     [Binding]
     public class Hooks //: ObjectFactory
     {
-       //public static IWebDriver Driver { get; private set; }
-        public static RestClient restClient { get; private set; }
+         public static RestClient restClient { get; private set; }
         public IConfiguration Configuration { get; }
-        //private IObjectContainer _objectContainer;
         public static EnvironmentConfigSettings config;
         public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 17);
         public static string PathReport = ProjectPath + "\\TestResults\\Report\\ExtentReport.html";
