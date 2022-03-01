@@ -14,13 +14,11 @@ using System.IO;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using TestLibrary.Utilities;
-using UISelenium.Helper;
 using NLog;
 using System.Text;
 using TestFramework;
-using NLog.Config;
 using NLog.Web;
-using UISelenium.Pages;
+
 
 namespace SeleniumSpecFlow
 {
@@ -129,7 +127,8 @@ namespace SeleniumSpecFlow
 
         [AfterStep("web")]
         public static void InsertReportingStepsWeb(ScenarioContext scenarioContext)
-        {   
+        {
+            var driver = (IWebDriver)scenarioContext["driver"];
             var ScreenshotFilePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
@@ -169,9 +168,9 @@ namespace SeleniumSpecFlow
                     Logger.Info(infoText);
                 }
 
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
@@ -209,7 +208,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError == null)
             {
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
 
                 //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
@@ -234,7 +233,7 @@ namespace SeleniumSpecFlow
 
                 // For Living Doc
                 filePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
+                driver.TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {filePath}");
 
                 _specFlowOutputHelper.WriteLine("Logging Using Specflow");
@@ -367,12 +366,6 @@ namespace SeleniumSpecFlow
         {
             var featureTitle = featureContext.FeatureInfo.Title;
             Logger.Info($"Ending feature '{featureTitle}'");
-        }
-
-        private void ConfigureNLog()
-        {
-            // Intialize Config Object
-            LoggingConfiguration config = new LoggingConfiguration();
         }
     }
 }
