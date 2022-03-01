@@ -9,6 +9,7 @@ using UI.Model;
 using UISelenium.Pages;
 using System.Linq;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium;
 
 namespace UI.Steps
 {
@@ -34,20 +35,12 @@ namespace UI.Steps
 
         private void EnterHearingSchedule(Model.HearingSchedule hearingSchedule)
         {
-            Driver.FindElement(HearingSchedulePage.HearingDate).Click();
-            Driver.FindElement(HearingSchedulePage.HearingDate).Clear();
             try
             {
-                //Driver.FindElement(HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
-               
-                Actions a = new Actions(Driver);
-                a.MoveToElement(Driver.FindElement(HearingSchedulePage.HearingDate));
-                a.Perform();
-                a.Click(Driver.FindElement(HearingSchedulePage.HearingDate));
-                a.Perform();
-
-                a.SendKeys(Driver.FindElement(HearingSchedulePage.HearingDate), hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
-                a.Perform();
+                IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
+                js.ExecuteScript("document.getElementById('hearingDate').setAttribute('type', '')");
+                Driver.FindElement(HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
+ 
             }
             catch (Exception ex)
             {
