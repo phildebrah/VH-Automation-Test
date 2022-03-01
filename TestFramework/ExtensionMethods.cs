@@ -111,8 +111,11 @@ namespace TestFramework
             }
             return webelement;
         }
-        public static bool IsElementVisible(IWebDriver driver, By by)
+        public static bool IsElementVisible(IWebDriver driver, By by, ScenarioContext scenarioContext)
         {
+            var pageName = scenarioContext.GetPageName();
+            var userName = scenarioContext.GetUserName();
+
             try
             {
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
@@ -122,8 +125,46 @@ namespace TestFramework
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"Element is not visible By locator:'{by.Criteria}'");
+                Logger.Error(ex, $"Element is not visible By locator:'{by.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return false;
+            }
+        }
+
+        public static bool IsElementExists(IWebDriver driver, By by, ScenarioContext scenarioContext)
+        {
+            var pageName = scenarioContext.GetPageName();
+            var userName = scenarioContext.GetUserName();
+
+            try
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
+                wait.Until(ExpectedConditions.ElementExists(by));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Element By locator:'{by.Criteria}' doesn't exist on page:'{pageName}, logged in User: {userName}");
+                return false;
+            }
+        }
+
+        public static bool IsElementNotExists(IWebDriver driver, By by, ScenarioContext scenarioContext)
+        {
+            var pageName = scenarioContext.GetPageName();
+            var userName = scenarioContext.GetUserName();
+
+            try
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
+                wait.Until(ExpectedConditions.ElementExists(by));
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Element By locator:'{by.Criteria}' exists on page:'{pageName}, logged in User: {userName}");
+                return true;
             }
         }
         public static IWebElement WaitForDropDownListItems(IWebDriver driver, By by)

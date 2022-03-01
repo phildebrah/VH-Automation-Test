@@ -26,7 +26,7 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, SummaryPage.BookButton, _scenarioContext).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
-            if (ExtensionMethods.IsElementVisible(Driver, SummaryPage.TryAgainButton))
+            if (ExtensionMethods.IsElementExists(Driver, SummaryPage.TryAgainButton, _scenarioContext))
             {
                 ExtensionMethods.FindElementWithWait(Driver, SummaryPage.TryAgainButton, _scenarioContext).Click();
                 wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));

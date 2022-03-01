@@ -100,7 +100,7 @@ namespace UI.Steps
                     _scenarioContext.UpdateElementName("PhoneTextfield");
                     _scenarioContext.UpdateActionName("SendKeys");
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PhoneTextfield, _scenarioContext).SendKeys("07021234567");
-                    if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield))
+                    if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield,_scenarioContext))
                     {
                         _scenarioContext.UpdateElementName("RepresentingTextfield");
                         _scenarioContext.UpdateActionName("SendKeys");
