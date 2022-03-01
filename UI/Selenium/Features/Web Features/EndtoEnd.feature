@@ -19,9 +19,9 @@ Scenario: End to End test
 	And I want to create a Hearing for
 	| Party     | Role               | Id                                  |
 	| Claimant  | Litigant in person | auto_vw.individual_05@hearings.reform.hmcts.net    |
-	#| Claimant  | Representative     | auto_vw.representative_01@hearings.reform.hmcts.net |
-	#| Defendant | Litigant in person | auto_vw.individual_06@hearings.reform.hmcts.net    |
-	#| Defendant | Solicitor          | auto_vw.representative_02@hearings.reform.hmcts.net |
+	| Claimant  | Representative     | auto_vw.representative_01@hearings.reform.hmcts.net |
+	| Defendant | Litigant in person | auto_vw.individual_06@hearings.reform.hmcts.net    |
+	| Defendant | Solicitor          | auto_vw.representative_02@hearings.reform.hmcts.net |
 
 	And With video Access points details
 	| Display Name | Advocate |
