@@ -13,8 +13,10 @@ using System.IO;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using TestLibrary.Utilities;
-using UISelenium.Helper;
-
+using NLog;
+using System.Text;
+using TestFramework;
+using NLog.Web;
 
 namespace SeleniumSpecFlow
 {
@@ -31,7 +33,7 @@ namespace SeleniumSpecFlow
         private static ExtentReports _extent;
         private static ISpecFlowOutputHelper _specFlowOutputHelper;
         private static string filePath;
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
         [BeforeTestRun]
         public static void BeforeTestRun()
@@ -43,24 +45,33 @@ namespace SeleniumSpecFlow
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
                 _extent.AttachReporter(reporter);
-                //log
-                logger.Info(" Automation Testing Execution Commenced");
+                Logger.Info("Automation Test Execution Commenced");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                logger.Error(" Exception has occurred " + e);
+                Logger.Error(ex, "An error has occured before Automation Test Execution ");
             }
         }
 
         [BeforeFeature]
         public static void BeforeFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
         {
-            _feature = _extent.CreateTest<Feature>(featureContext.FeatureInfo.Title);
-            logger.Info(" Following Test has been started: " + featureContext.FeatureInfo.Title);
+            var featureTitle = featureContext.FeatureInfo.Title;
+            _feature = _extent.CreateTest<Feature>(featureTitle);
+
+            Logger.Info($"Starting feature '{featureTitle}'");
+
             config = TestConfigHelper.GetApplicationConfiguration();
             _specFlowOutputHelper = outputHelper;
         }
 
+        [BeforeScenario]
+        public void BeforeScenario(ScenarioContext scenarioContext)
+        {
+            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
+            Logger.Info($"Starting scenario '{scenarioTitle}'");
+        }
+        
         [BeforeScenario("web")]
         public void BeforeScenarioWeb(ScenarioContext scenarioContext)
         {
@@ -77,6 +88,9 @@ namespace SeleniumSpecFlow
         [BeforeScenario("api")]
         public void BeforeScenarioApi(ScenarioContext scenarioContext)
         {
+            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
+            Logger.Info($"Starting scenario '{scenarioTitle}'");
+
             restClient = new RestClient(config.ApiUrl);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
@@ -85,20 +99,75 @@ namespace SeleniumSpecFlow
         [BeforeScenario("soap")]
         public void BeforeScenarioSoapApi(ScenarioContext scenarioContext)
         {
+            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
+            Logger.Info($"Starting scenario '{scenarioTitle}'");
+
             restClient = new RestClient(config.SoapApiUrl);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
 
+        [BeforeStep]
+        public static void BeforeStep(ScenarioContext scenarioContext)
+        {
+            var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+            Logger.Info($"Starting step '{stepTitle}'");
+        }
+
+        [AfterStep]
+        public static void AfterStep(ScenarioContext scenarioContext)
+        {
+            var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+            Logger.Info($"ending step '{stepTitle}'");
+        }
+
         [AfterStep("web")]
         public static void InsertReportingStepsWeb(ScenarioContext scenarioContext)
         {
+            var driver = (IWebDriver)scenarioContext["driver"];
             var ScreenshotFilePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
-            if (scenarioContext.TestError != null)
+            if (scenarioContext.TestError != null && !(scenarioContext.TestError is AssertionException))
             {
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+                Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:'{stepTitle}'");
+                var infoTextBuilder = new StringBuilder();
+                
+                var actionName = scenarioContext.GetActionName();
+                if (!string.IsNullOrWhiteSpace(actionName))
+                {
+                    infoTextBuilder.Append($"Action '{actionName}'");
+                }
+
+                var elementName = scenarioContext.GetElementName();
+                if (!string.IsNullOrWhiteSpace(elementName))
+                {
+                    infoTextBuilder.Append($",erroed on Element '{elementName}'");
+                }
+
+                var pageName = scenarioContext.GetPageName();
+                if (!string.IsNullOrWhiteSpace(pageName))
+                {
+                    infoTextBuilder.Append($",on Page '{pageName}'");
+                }
+
+                var userName = scenarioContext.GetUserName();
+                if (!string.IsNullOrWhiteSpace(userName))
+                {
+                    infoTextBuilder.Append($",for User '{userName}");
+                }
+
+                var infoText = infoTextBuilder.ToString();
+                if(!string.IsNullOrEmpty(infoText))
+                {
+                    Logger.Info(infoText);
+                }
+
+                driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
+                driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
@@ -135,7 +204,9 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError == null)
             {
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
+                Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
+
                 //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
@@ -158,7 +229,9 @@ namespace SeleniumSpecFlow
 
                 // For Living Doc
                 filePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
-                Helper.GetDriverInstance(scenarioContext).TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
+                driver.TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
+                Logger.Info($"Screenshot has been saved to {filePath}");
+
                 _specFlowOutputHelper.WriteLine("Logging Using Specflow");
                 _specFlowOutputHelper.AddAttachment(filePath);
             }
@@ -229,25 +302,36 @@ namespace SeleniumSpecFlow
             foreach(var driver in drivers)
             {
                 driver.Value.Quit();
-                logger.Info(" Driver has been closed");
+                Logger.Info("Driver has been closed");
 
             }
             _extent.Flush();
-            logger.Info(" Flush Extent Report Instance");
+            Logger.Info("Flush Extent Report Instance");
             GC.SuppressFinalize(this);
         }
 
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
-            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-            foreach (var driver in drivers)
+            if(scenarioContext.ContainsKey("drivers"))
             {
-                driver.Value.Quit();
-                logger.Info($"{driver.Key} Driver has been closed");
+                var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
+                foreach (var driver in drivers)
+                {
+                    driver.Value.Quit();
+                    Logger.Info($"{driver.Key} Driver has been closed");
+                }
             }
+
+            if (scenarioContext.ContainsKey("driver"))
+            {
+                var driver = (IWebDriver)scenarioContext["driver"];
+                driver.Quit();
+                Logger.Info($"Driver has been closed");
+            }
+
             _extent.Flush();
-            logger.Info(" Flush Extent Report Instance");
+            Logger.Info("Flush Extent Report Instance");
             TestContext.AddTestAttachment(filePath);
             GC.SuppressFinalize(this);
         }
@@ -259,11 +343,25 @@ namespace SeleniumSpecFlow
             GC.SuppressFinalize(this);
         }
 
+        [AfterScenario]
+        public void AfterScenario(ScenarioContext scenarioContext)
+        {
+            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
+            Logger.Info($"Ending scenario '{scenarioTitle}'");
+        }
+
         [AfterTestRun]
         public static void AfterTestRun()
         {
-            NLog.LogManager.Shutdown();
-            logger.Info(" Flush Nlog Instance");
+            Logger.Info("Automation Test Execution Ended");
+            LogManager.Shutdown();
+        }
+
+        [AfterFeature]
+        public static void AfterFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
+        {
+            var featureTitle = featureContext.FeatureInfo.Title;
+            Logger.Info($"Ending feature '{featureTitle}'");
         }
     }
 }
