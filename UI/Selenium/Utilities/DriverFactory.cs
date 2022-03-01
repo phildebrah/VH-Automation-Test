@@ -25,9 +25,8 @@ namespace SeleniumSpecFlow.Utilities
                     Logger.Info(" Chrome Driver started in maximized mode");
                     break;
                 default:
-                    // code block
+                    // code block 
                     break;
-
             }
             return WebDriver;
         }

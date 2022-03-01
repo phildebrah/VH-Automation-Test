@@ -231,7 +231,7 @@ namespace SeleniumSpecFlow
             var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
             foreach(var driver in drivers)
             {
-                driver.Value.Quit();
+                driver.Value?.Dispose();
                 logger.Info(" Driver has been closed");
 
             }
@@ -246,7 +246,7 @@ namespace SeleniumSpecFlow
             var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
             foreach (var driver in drivers)
             {
-                driver.Value.Quit();
+                driver.Value?.Dispose();
                 logger.Info($"{driver.Key} Driver has been closed");
             }
             _extent.Flush();

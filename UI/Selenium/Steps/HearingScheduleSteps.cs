@@ -32,6 +32,7 @@ namespace UI.Steps
 
         private void EnterHearingSchedule(HearingSchedule hearingSchedule)
         {
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
             Driver.FindElement(HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
             Driver.FindElement(HearingSchedulePage.HearingStartTimeHour).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("HH"));
             Driver.FindElement(HearingSchedulePage.HearingStartTimeMinute).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("mm"));

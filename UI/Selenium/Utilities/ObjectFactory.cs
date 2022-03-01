@@ -16,9 +16,8 @@ namespace SeleniumSpecFlow.Utilities
     {
         public LoginPage LoginPage { get; set; }
         public CommonPageActions CommonPageActions { get; set; }
-
         public DashboardPage DashboardPage { get; set; }
-
+        public Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
         public HearingAssignJudgePage HearingAssignJudgePage { get; set; }
         public EnvironmentConfigSettings Config { get; set; }
         public IWebDriver Driver { get; set; }

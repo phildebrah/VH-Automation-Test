@@ -44,8 +44,6 @@ namespace UI.Steps
                 Driver.FindElement(Header.SignOut).Click();
                 Driver.Url.Should().Contain(loginUrl);
             }
-
-            Driver?.Close();
         }
     }
 }

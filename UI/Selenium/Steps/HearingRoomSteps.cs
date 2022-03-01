@@ -1,9 +1,5 @@
 ﻿using SeleniumSpecFlow.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UI.Model;
 using UISelenium.Pages;
 using TechTalk.SpecFlow;
@@ -55,23 +51,107 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
             Assert.IsTrue(Driver.FindElement(JudgeWaitingRoomPage.EnterPrivateConsultationButton).Displayed);
             // Assert participants are redirected back to the participants waiting room
+            new WaitingRoomPageSteps(_scenarioContext).CheckParticipantsAreInWaitingRoom();
+        }
+
+        [Then(@"the the participants microphone are all muted and locked when the judge mutes them")]
+        public void ThenTheJudgeMutesTheMicForAllParticipants()
+        {
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.MuteAndLock));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.IncomingFeedJudgeVideo));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantMicUnlocked));
+            wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
+            //auto_aw.judge_02
+
+            Driver.FindElement(HearingRoomPage.MuteAndLock).Click();
             foreach (var participant in _hearing.Participant)
-            { 
+            {
                 if (!participant.Party.Name.ToLower().Contains("judge"))
                 {
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
                     Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
-                    var waitingRoomPage = Driver.PageSource;
-                    var role = participant.Role.Name == "Solicitor" ? "Representative" : participant.Role.Name;
-                    _scenarioContext["driver"] = Driver;
-                    waitingRoomPage.Should().Contain(ParticipantWaitingRoomPage.ParticipantWaitingRoomClosedTitle);
-                    Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}")).Displayed.Should().BeTrue();
-                    Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Party.Name)).Displayed.Should().BeTrue();
-                    Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
-                    Driver.FindElement(ParticipantWaitingRoomPage.ChooseCameraAndMicButton).Displayed.Should().BeTrue();
-                    Driver.FindElement(ParticipantWaitingRoomPage.JoinPrivateMeetingButton).Displayed.Should().BeTrue();
+                    Driver.FindElement(HearingRoomPage.ParticipantMicLocked).Displayed.Should().BeTrue();
                 }
             }
+        }
+
+        [Then(@"the participants microphones are unmuted when the judge unmutes them")]
+        public void ThenTheJudgeUnmutesTheMicForTheParticipants()
+        {
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.UnlockMute));
+            wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+            Driver.FindElement(HearingRoomPage.UnlockMute).Click();
+            foreach (var participant in _hearing.Participant)
+            {
+                if (!participant.Party.Name.ToLower().Contains("judge"))
+                {
+                    Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
+                    Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+                    Driver.FindElement(HearingRoomPage.ParticipantMicUnlocked).Displayed.Should().BeTrue();
+                }
+            }
+        }
+
+        [Then(@"all participants are redirected to the waiting room when the judge pauses the hearing")]
+        public void ThenAllParticipantsAreRedirectedToTheWaitingRoomWhenTheJudgePausesTheHearing()
+        {
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.PauseHearing).Click();
+            new WaitingRoomPageSteps(_scenarioContext).CheckParticipantsAreInWaitingRoom();
+        }
+
+        [Then(@"when a participant raises their hand, it shows on the judge's screen")]
+        public void ThenWhenAParticipantRaisesTheirHandItShowsOnTheJudgesScreen()
+        {
+            Driver = GetDriver(_hearing.Participant[1].Id, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ParticipantToggleRaiseHand).Click();
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantHandRaised));
+        }
+
+        [Then(@"the judge can lower participants hands")]
+        public void ThenTheJudgeCanLowerParticipantsHands()
+        {
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantHandRaised));
+            wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.LowerHands).Click();
+            System.Threading.Thread.Sleep(300);
+            Assert.IsFalse(ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ParticipantHandRaised));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+        }
+
+        [Then(@"when the participant switches off their camera, the judge can see it on the screen")]
+        public void ThenWhenTheParticipantSwitchesOffTheirCameraTheJudgeCanSeeItOnTheScreen()
+        {
+            Driver = GetDriver(_hearing.Participant[1].Id, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ParticipantToggleVideo).Click();
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantCameraOffIcon));
         }
     }
 }
