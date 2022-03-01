@@ -55,7 +55,7 @@ namespace SeleniumSpecFlow
             }
             catch (Exception ex)
             {
-                Logger.Error(ex,"An error has occured");
+                Logger.Error(ex, "An error has occured before Automation Test Execution ");
             }
         }
 
@@ -136,31 +136,31 @@ namespace SeleniumSpecFlow
             if (scenarioContext.TestError != null)
             {
                 var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
-                Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:{stepTitle}");
+                Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:'{stepTitle}'");
                 var infoTextBuilder = new StringBuilder();
-
+                
                 var actionName = scenarioContext.GetActionName();
                 if (!string.IsNullOrWhiteSpace(actionName))
                 {
-                    infoTextBuilder.Append($"Action '{actionName}");
+                    infoTextBuilder.Append($"Action '{actionName}'");
                 }
 
                 var elementName = scenarioContext.GetElementName();
                 if (!string.IsNullOrWhiteSpace(elementName))
                 {
-                    infoTextBuilder.Append($"erroed on Element '{elementName}");
+                    infoTextBuilder.Append($",erroed on Element '{elementName}'");
                 }
 
                 var pageName = scenarioContext.GetPageName();
                 if (!string.IsNullOrWhiteSpace(pageName))
                 {
-                    infoTextBuilder.Append($"on Page '{pageName}");
+                    infoTextBuilder.Append($",on Page '{pageName}'");
                 }
 
                 var userName = scenarioContext.GetUserName();
                 if (!string.IsNullOrWhiteSpace(userName))
                 {
-                    infoTextBuilder.Append($"for User '{userName}");
+                    infoTextBuilder.Append($",for User '{userName}");
                 }
 
                 var infoText = infoTextBuilder.ToString();

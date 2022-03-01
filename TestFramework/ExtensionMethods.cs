@@ -77,22 +77,26 @@ namespace TestFramework
             return value;
         }
 
-        public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, TimeSpan? waitPeriod=null)
+        public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, ScenarioContext scenarioContext,TimeSpan? waitPeriod=null)
         {
             waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod;
             IWebElement webelement = null;
+            var pageName = scenarioContext.GetPageName();
+            var userName = scenarioContext.GetUserName();
 
             try
             {
                 //If there is no page specific timeout specified, use default timeout
                 var wait = new WebDriverWait(webdriver, waitPeriod.Value);
                 wait.Until(ExpectedConditions.ElementIsVisible(findBy));
+                //wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(findBy));
+                //wait.Until(ExpectedConditions.ElementToBeClickable(findBy));
 
                 webelement = wait.Until(d =>
                 {
                     try
                     {
-                        var result = d.FindElements((findBy)).FirstOrDefault(elem => elem.Displayed);
+                        var result = d.FindElements(findBy).FirstOrDefault(elem => elem.Displayed);
                         return result;
                     }
                     catch (StaleElementReferenceException)
@@ -101,9 +105,9 @@ namespace TestFramework
                     }
                 });
             }
-            catch 
+            catch (Exception ex)
             {
-                //log the exception
+                Logger.Error(ex, $"Cannot find element By locator:'{findBy.Criteria}' on page:'{pageName}, logged in User: {userName}");
             }
             return webelement;
         }
@@ -116,8 +120,9 @@ namespace TestFramework
                 wait.Until(ExpectedConditions.ElementIsVisible(by));
                 return driver.FindElement(by).Displayed && driver.FindElement(by).Enabled;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error(ex, $"Element is not visible By locator:'{by.Criteria}'");
                 return false;
             }
         }
@@ -153,26 +158,34 @@ namespace TestFramework
             );
         }
 
-        public static SelectElement GetSelectElementWithText(IWebDriver webdriver, By selectFind, string option)
+        public static SelectElement GetSelectElementWithText(IWebDriver webdriver, By selectFind, string option,ScenarioContext scenarioContext)
         {
-            var element = ExtensionMethods.FindElementWithWait(webdriver,selectFind);
+            var element = FindElementWithWait(webdriver,selectFind, scenarioContext);
             var select = new SelectElement(element);
             var wait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(20));
+
+            var pageName = scenarioContext.GetPageName();
+            var userName = scenarioContext.GetUserName();
+
             try
             {
                 wait.Until(d => select.Options.Any(s => option.Equals(s.Text, StringComparison.InvariantCultureIgnoreCase)));
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                Logger.Error($"Option '{option}' is not available in the drop down DROPDOWNNAME on page PAGENAME");
+                Logger.Error(ex,$"Option '{option}' is not available in the drop down locator '{selectFind.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 throw;
             }
 
             return select;
         }
-        public static IWebElement MoveToElement(IWebDriver driver, By locator)
+        public static IWebElement MoveToElement(IWebDriver driver, By locator, ScenarioContext scenarioContext)
         {
             IWebElement el = null;
+
+            var pageName = scenarioContext.GetPageName();
+            var userName = scenarioContext.GetUserName();
+
             try
             {
                 Actions action = new Actions(driver);
@@ -181,8 +194,9 @@ namespace TestFramework
                 action.Perform();
                 return el;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error(ex, $"Cannot Move to element By locator:'{locator.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return el;
             }
         }

@@ -35,18 +35,19 @@ namespace SeleniumSpecFlow.Steps
             var result= CommonPageActions.NavigateToPage(Config.AdminUrl, "login.microsoftonline.com");
             Login(userName, Config.UserPassword);
             _scenarioContext.UpdateUserName(userName);
+            _scenarioContext.UpdatePageName("Dashboard");
         }
     
         public void Login(string username, string password)
         {
-            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait))).SendKeys(username);
+            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait))).SendKeys(username);
             Driver.FindElement(LoginPage.Next).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
             Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
-            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn).Click();
+            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
         }
 
         [Then(@"all participants log in to video web")]
@@ -60,9 +61,11 @@ namespace SeleniumSpecFlow.Steps
                 Driver.Navigate().GoToUrl(Config.VideoUrl);
                 var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
+                _scenarioContext.UpdatePageName("Video Web Login");
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
                 Login(participant.Id, Config.UserPassword);
             }
+            _scenarioContext.UpdatePageName("Your Video Hearings");
             _scenarioContext.Add("drivers", drivers);
         }
     }

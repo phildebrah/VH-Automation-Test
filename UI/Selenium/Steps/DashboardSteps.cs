@@ -26,6 +26,7 @@ namespace UI.Steps
         public void GivenISelectBookAHearing()
         {
             SelectDashboardOption("Book a video hearing");
+            _scenarioContext.UpdatePageName("Book a video hearing");
         }
 
         public void SelectDashboardOption(string optionName)
@@ -34,7 +35,7 @@ namespace UI.Steps
             switch(optionName)
             {
                 case "Book a video hearing":
-                    ExtensionMethods.FindElementWithWait(Driver, DashboardPage.BookHearingButton).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, DashboardPage.BookHearingButton, _scenarioContext).Click();
                     isPageLoaded=IsHeardingDetailsPageLoaded();
                     break;
             }

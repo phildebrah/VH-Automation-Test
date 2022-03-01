@@ -19,6 +19,7 @@ namespace UI.Steps
         [Given(@"I set any other information")]
         public void GivenISetAnyOtherInformation(Table table)
         {
+            _scenarioContext.UpdatePageName("Other information");
             SetAnyOtherHearingInfo(table);
             EnterOtherInformation();
         }
@@ -38,9 +39,9 @@ namespace UI.Steps
 
         private void EnterOtherInformation()
         {
-            if (_hearing.OtherInformation.IsHearingRecorded && ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes).Enabled)
+            if (_hearing.OtherInformation.IsHearingRecorded && ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes, _scenarioContext).Enabled)
             {
-                ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes).Click();
+                ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes, _scenarioContext).Click();
             }
 
             if (!_hearing.OtherInformation.IsHearingRecorded && Driver.FindElement(OtherInformationPage.RecordAudioNo).Enabled)
@@ -50,10 +51,10 @@ namespace UI.Steps
 
             if (!string.IsNullOrEmpty(_hearing.OtherInformation.AnyOtherInfo))
             {
-                ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.OtherInfo).SendKeys(_hearing.OtherInformation.AnyOtherInfo);
+                ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.OtherInfo, _scenarioContext).SendKeys(_hearing.OtherInformation.AnyOtherInfo);
             }
 
-            ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.NextButton).Click();  
+            ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.NextButton, _scenarioContext).Click();  
         }
     }
 }
