@@ -133,7 +133,7 @@ namespace SeleniumSpecFlow
             var ScreenshotFilePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
-            if (scenarioContext.TestError != null)
+            if (scenarioContext.TestError != null && !(scenarioContext.TestError is AssertionException))
             {
                 var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
                 Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:'{stepTitle}'");
