@@ -26,6 +26,7 @@ namespace UI.Steps
         [Then(@"the judge checks that all participants have joined the hearing room")]
         public void ThenTheJudgeChecksThatAllParticipantsHaveJoinedTheHearingRoom()
         {
+            _scenarioContext.UpdatePageName("Judge Waiting Room");
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
@@ -41,6 +42,7 @@ namespace UI.Steps
         [Then(@"the judge closes the hearing")]
         public void ThenTheJudgeClosesTheHearing()
         {
+            _scenarioContext.UpdatePageName("Judge Waiting Room");
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));

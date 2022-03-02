@@ -4,6 +4,8 @@ using TechTalk.SpecFlow;
 using UI.Model;
 using UISelenium.Pages;
 using FluentAssertions;
+using TestFramework;
+
 namespace UI.Steps
 {
     [Binding]
@@ -23,6 +25,7 @@ namespace UI.Steps
         [Then(@"I log off")]
         public void ThenILogOff()
         {
+            _scenarioContext.UpdatePageName("logout");
             if (Driver.FindElement(Header.LinkSignOut)?.Displayed == true)
             {
                 Driver.FindElement(Header.LinkSignOut).Click();
@@ -44,6 +47,8 @@ namespace UI.Steps
                 Driver.FindElement(Header.SignOut).Click();
                 Driver.Url.Should().Contain(loginUrl);
             }
+
+            Driver?.Close();
         }
     }
 }

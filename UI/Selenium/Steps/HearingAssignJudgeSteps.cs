@@ -27,6 +27,7 @@ namespace UI.Steps
         [Given(@"I want to Assign a Judge with courtroom details")]
         public void GivenIWantToAssignAJudgeWithCourtroomDetails(Table table)
         {
+            _scenarioContext.UpdatePageName("Assign a judge or courtroom account");
             _hearing = CreateHearingModel(table);
             EnterJudgeDetails(_hearing.Judge);
         }
@@ -42,7 +43,7 @@ namespace UI.Steps
         private void EnterJudgeDetails(Judge judge)
         {
             Driver.FindElement(HearingAssignJudgePage.JudgeEmail).SendKeys(judge.Email);
-            ExtensionMethods.FindElementWithWait(Driver, HearingAssignJudgePage.SearchResults).Click();
+            ExtensionMethods.FindElementWithWait(Driver, HearingAssignJudgePage.SearchResults, _scenarioContext).Click();
             Driver.FindElement(HearingAssignJudgePage.NextButton).Click();
             var participant = new Participant();
             participant.Party.Name = "Judge";

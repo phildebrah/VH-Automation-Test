@@ -29,7 +29,7 @@ namespace TestLibrary.Utilities
             browser = (BrowserType)Enum.Parse(typeof(BrowserType), Environment.GetEnvironmentVariable("BROWSER"));
             var systemConfiguration = new SystemConfiguration();
             var iTestConfigurationRoot = GetIConfigurationBase();
-            Logger.Info(" Reading Appsetitngs Json File");
+            Logger.Info("Reading Appsetitngs Json File");
             iTestConfigurationRoot.GetSection("SystemConfiguration").Bind(systemConfiguration);
 
             if (environment != null)

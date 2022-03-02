@@ -26,6 +26,7 @@ namespace UI.Steps
         [Given(@"I want to create a hearing with case details")]
         public void GivenIWantToCreateAHearingWithCaseDetails(Table table)
         {
+            _scenarioContext.UpdatePageName("Hearing details");
             CreateCaseModel(table);
             EnterCaseDetails(_hearing.Case);
         }
@@ -39,7 +40,7 @@ namespace UI.Steps
             selectElement.SelectByText(caseDetails.CaseType);
             selectElement = new SelectElement(ExtensionMethods.WaitForDropDownListItems(Driver, HearingDetailsPage.HeardingType));
             selectElement.SelectByText(caseDetails.HearingType);
-            ExtensionMethods.FindElementWithWait(Driver, HearingDetailsPage.NextButton).Click();
+            ExtensionMethods.FindElementWithWait(Driver, HearingDetailsPage.NextButton, _scenarioContext).Click();
         }
 
         private void CreateCaseModel(Table table)

@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
+using TestFramework;
 using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumSpecFlow.Utilities
@@ -22,7 +23,7 @@ namespace SeleniumSpecFlow.Utilities
                     options.AddArguments("--use-fake-ui-for-media-stream");
                     options.AddArguments("--use-fake-device-for-media-stream");
                     WebDriver = new ChromeDriver(options);
-                    Logger.Info(" Chrome Driver started in maximized mode");
+                    Logger.Info("Chrome Driver started in maximized mode");
                     break;
                 default:
                     // code block 

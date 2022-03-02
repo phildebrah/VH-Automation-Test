@@ -26,6 +26,7 @@ namespace UI.Steps
         [Given(@"the hearing has the following schedule details")]
         public void GivenTheHearingHasTheFollowingScheduleDetails(Table table)
         {
+            _scenarioContext.UpdatePageName("Hearing schedule");
             _hearing = CreateHearingModel(table);
             EnterHearingSchedule(_hearing.HearingSchedule);
         }

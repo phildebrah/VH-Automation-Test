@@ -31,9 +31,10 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.StartVideoHearingButton));
             //Need to get rid of implicit wait
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
-            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton).Click();
+            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton, _scenarioContext).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.ConfirmStartButton));
-            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton).Click();
+            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton, _scenarioContext).Click();
+            _scenarioContext.UpdatePageName("Judge Waiting Room");
         }
 
         [Then(@"all participants are redirected to the hearing room when the judge resumes the video hearing")]
