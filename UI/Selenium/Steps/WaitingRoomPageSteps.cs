@@ -52,15 +52,11 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.ResumeVideoHearing));
             //Need to get rid of implicit wait
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
-            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.ResumeVideoHearing).Click();
+            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.ResumeVideoHearing, _scenarioContext).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.ConfirmStartButton));
-            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton).Click();
+            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton, _scenarioContext).Click();
         }
 
-        public void CheckVideoHearingIsPaused()
-        {
-
-        }
         public void CheckParticipantsAreInWaitingRoom()
         {
             foreach (var participant in _hearing.Participant)

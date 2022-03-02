@@ -112,7 +112,7 @@ namespace UI.Steps
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
-            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.PauseHearing).Click();
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.PauseHearing, _scenarioContext).Click();
             new WaitingRoomPageSteps(_scenarioContext).CheckParticipantsAreInWaitingRoom();
         }
 
@@ -121,7 +121,7 @@ namespace UI.Steps
         {
             Driver = GetDriver(_hearing.Participant[1].Id, _scenarioContext);
             _scenarioContext["driver"] = Driver;
-            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ParticipantToggleRaiseHand).Click();
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ParticipantToggleRaiseHand, _scenarioContext).Click();
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
@@ -137,9 +137,9 @@ namespace UI.Steps
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantHandRaised));
             wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
-            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.LowerHands).Click();
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.LowerHands, _scenarioContext).Click();
             System.Threading.Thread.Sleep(300);
-            Assert.IsFalse(ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ParticipantHandRaised));
+            Assert.IsFalse(ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ParticipantHandRaised, _scenarioContext));
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
         }
 
@@ -148,7 +148,7 @@ namespace UI.Steps
         {
             Driver = GetDriver(_hearing.Participant[1].Id, _scenarioContext);
             _scenarioContext["driver"] = Driver;
-            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ParticipantToggleVideo).Click();
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ParticipantToggleVideo, _scenarioContext).Click();
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));

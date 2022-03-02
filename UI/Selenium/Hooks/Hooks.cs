@@ -303,8 +303,6 @@ namespace SeleniumSpecFlow
             {
                 driver.Value.Quit();
                 Logger.Info("Driver has been closed");
-                driver.Value?.Dispose();
-                logger.Info(" Driver has been closed");
 
             }
             _extent.Flush();
@@ -318,25 +316,12 @@ namespace SeleniumSpecFlow
             var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
             foreach (var driver in drivers)
             {
-                driver.Value?.Dispose();
-                logger.Info($"{driver.Key} Driver has been closed");
-            if(scenarioContext.ContainsKey("drivers"))
-            {
-                var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-                foreach (var driver in drivers)
+                if (scenarioContext.ContainsKey("driver"))
                 {
-                    driver.Value.Quit();
-                    Logger.Info($"{driver.Key} Driver has been closed");
+                    driver.Value?.Quit();
+                    Logger.Info($"Driver has been closed");
                 }
             }
-
-            if (scenarioContext.ContainsKey("driver"))
-            {
-                var driver = (IWebDriver)scenarioContext["driver"];
-                driver.Quit();
-                Logger.Info($"Driver has been closed");
-            }
-
             _extent.Flush();
             Logger.Info("Flush Extent Report Instance");
             TestContext.AddTestAttachment(filePath);
