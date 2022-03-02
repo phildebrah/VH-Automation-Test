@@ -31,6 +31,5 @@ namespace UISelenium.Pages
         public static By ParticipantToggleVideo => By.Id("toggle-video-mute-img-desktop");
         public static By ParticipantHandRaised => By.XPath("//div[@colour='grey'][@class='icon-button']//fa-icon[@class='ng-fa-icon yellow']");
         public static By ParticipantCameraOffIcon => By.XPath("//div[@class='icon-button no-click']//fa-icon[@icon='video-slash']");
-        //toggle-video-mute-img-desktop
     }
 }
