@@ -26,20 +26,19 @@ namespace UI.Steps
         public void GivenISelectBookAHearing()
         {
             SelectDashboardOption("Book a video hearing");
+            _scenarioContext.UpdatePageName("Book a video hearing");
         }
 
         public void SelectDashboardOption(string optionName)
         {
             var isPageLoaded = false;
-            var waitPeriod=TimeSpan.FromSeconds(Int32.Parse(Config.DefaultElementWait));
             switch(optionName)
             {
                 case "Book a video hearing":
-                    ExtensionMethods.FindElementWithWait(Driver, DashboardPage.BookHearingButton).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, DashboardPage.BookHearingButton, _scenarioContext).Click();
                     isPageLoaded=IsHeardingDetailsPageLoaded();
                     break;
             }
-
             isPageLoaded.Should().BeTrue($"cannot load {optionName} page");
         }
 
@@ -58,7 +57,5 @@ namespace UI.Steps
                 return false;
             }
         }
-
-
     }
 }

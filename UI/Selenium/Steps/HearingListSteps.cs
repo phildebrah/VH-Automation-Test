@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+using TestFramework;
 using UI.Model;
 using UISelenium.Pages;
 namespace UI.Steps
@@ -28,6 +29,7 @@ namespace UI.Steps
         public void ThenAllParticipantsHaveJoinedTheHearingWaitingRoom()
         {
             SignAllParticipantsIn();
+            _scenarioContext.UpdatePageName("Participant Hearing Waiting Room");
         }
 
         public void SignAllParticipantsIn()
@@ -65,7 +67,6 @@ namespace UI.Steps
                     TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                     Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
                 }
-
                 Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
                 Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
                 Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();

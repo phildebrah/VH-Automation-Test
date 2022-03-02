@@ -29,11 +29,12 @@ namespace UI.Steps
         [Given(@"the hearing has the following schedule details")]
         public void GivenTheHearingHasTheFollowingScheduleDetails(Table table)
         {
+            _scenarioContext.UpdatePageName("Hearing schedule");
             _hearing = CreateHearingModel(table);
             EnterHearingSchedule(_hearing.HearingSchedule);
         }
 
-        private void EnterHearingSchedule(Model.HearingSchedule hearingSchedule)
+        private void EnterHearingSchedule(HearingSchedule hearingSchedule)
         {
             try
             {
@@ -54,16 +55,16 @@ namespace UI.Steps
             Driver.FindElement(HearingDetailsPage.NextButton).Click();
         }
 
-        private Hearing CreateHearingModel(Table table)
+        public Hearing CreateHearingModel(Table table, int min = 3)
         {
             var tableRow = table.Rows[0];
-            var date = DateTime.Now.AddMinutes(3);
+            var date = DateTime.Now.AddMinutes(min);
             _hearing.HearingSchedule.HearingDate = new System.Collections.Generic.List<DateTime> { date };
             _hearing.HearingSchedule.HearingTime = date;
             _hearing.HearingSchedule.DurationHours = tableRow["Duration Hour"];
             _hearing.HearingSchedule.DurationMinutes = tableRow["Duration Minute"];
             _hearing.HearingSchedule.HearingVenue = "Birmingham Civil and Family Justice Centre";
-            _hearing.HearingSchedule.HearingRoom = new Random().Next(99, 99999).ToString();
+            _hearing.HearingSchedule.HearingRoom = new Random().Next(0, 9).ToString();
             _scenarioContext["Hearing"] = _hearing;
             return _hearing;
         }

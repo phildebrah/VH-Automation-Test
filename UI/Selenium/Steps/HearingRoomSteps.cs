@@ -30,6 +30,7 @@ namespace UI.Steps
         [Then(@"the judge checks that all participants have joined the hearing room")]
         public void ThenTheJudgeChecksThatAllParticipantsHaveJoinedTheHearingRoom()
         {
+            _scenarioContext.UpdatePageName("Judge Waiting Room");
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
@@ -38,13 +39,14 @@ namespace UI.Steps
             ExtensionMethods.FindElementEnabledWithWait(Driver, HearingRoomPage.IncomingFeedJudgeVideo, int.Parse(Config.DefaultElementWait));
             foreach (var participant in _hearing.Participant)
             {
-                Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}"))?.Displayed.Should().BeTrue();
+                ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}"), int.Parse(Config.DefaultElementWait)).Displayed.Should().BeTrue();
             }
         }
 
         [Then(@"the judge closes the hearing")]
         public void ThenTheJudgeClosesTheHearing()
         {
+            _scenarioContext.UpdatePageName("Judge Waiting Room");
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
@@ -54,18 +56,17 @@ namespace UI.Steps
             Driver.FindElement(HearingRoomPage.ConfirmCloseHearingButton).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
             Assert.IsTrue(Driver.FindElement(JudgeWaitingRoomPage.EnterPrivateConsultationButton).Displayed);
-            // Assert participants are in the participants waiting room
+            // Assert participants are redirected back to the participants waiting room
             foreach (var participant in _hearing.Participant)
-            {
+            { 
                 if (!participant.Party.Name.ToLower().Contains("judge"))
                 {
-                    var test = Driver.PageSource;
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
                     Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
                     var waitingRoomPage = Driver.PageSource;
                     var role = participant.Role.Name == "Solicitor" ? "Representative" : participant.Role.Name;
                     _scenarioContext["driver"] = Driver;
-                    waitingRoomPage.Should().Contain("This hearing has finished. You may now sign out");
+                    waitingRoomPage.Should().Contain(ParticipantWaitingRoomPage.ParticipantWaitingRoomClosedTitle);
                     Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}")).Displayed.Should().BeTrue();
                     Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Party.Name)).Displayed.Should().BeTrue();
                     Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();

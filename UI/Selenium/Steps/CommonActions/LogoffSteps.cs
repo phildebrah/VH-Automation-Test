@@ -1,13 +1,11 @@
 ﻿
-using System.Threading.Tasks;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using SeleniumSpecFlow.Utilities;
 using TechTalk.SpecFlow;
-using TestFramework;
 using UI.Model;
 using UISelenium.Pages;
 using FluentAssertions;
+using TestFramework;
+
 namespace UI.Steps
 {
     [Binding]
@@ -15,6 +13,7 @@ namespace UI.Steps
     {
         private readonly ScenarioContext _scenarioContext;
         private Hearing _hearing;
+        private static string loginUrl = "login.microsoftonline.com";
 
         public LogoffSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
@@ -26,7 +25,8 @@ namespace UI.Steps
         [Then(@"I log off")]
         public void ThenILogOff()
         {
-            if (Driver.FindElement(Header.LinkSignOut).Displayed)
+            _scenarioContext.UpdatePageName("logout");
+            if (Driver.FindElement(Header.LinkSignOut)?.Displayed == true)
             {
                 Driver.FindElement(Header.LinkSignOut).Click();
             }
@@ -43,9 +43,13 @@ namespace UI.Steps
             {
                 Driver = GetDriver(participant.Id, _scenarioContext);
                 _scenarioContext["driver"] = Driver;
+                //ThenILogOff();
                 Driver.FindElement(Header.SignOut).Click();
-                Driver.Url.Should().Contain("login.microsoftonline.com/");
+                Driver.Url.Should().Contain(loginUrl);
             }
+            _scenarioContext.UpdatePageName("logout");
+
+            Driver?.Close();
         }
     }
 }

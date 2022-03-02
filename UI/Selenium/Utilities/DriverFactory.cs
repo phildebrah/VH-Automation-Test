@@ -76,8 +76,7 @@ namespace SeleniumSpecFlow.Utilities
 
             }
             
-            WebDriver.Url = Hooks.config.URL;
-            Logger.Info(" Following Url has entered " + Hooks.config.URL);
+         
             return WebDriver;
         }
 
