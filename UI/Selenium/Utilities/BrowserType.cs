@@ -5,7 +5,6 @@
         Firefox,
         Chrome,
         Edge,
-        IE,
         Safari,
         Remote
     }

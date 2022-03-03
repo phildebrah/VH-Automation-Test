@@ -41,18 +41,6 @@ namespace SeleniumSpecFlow.Utilities
                     WebDriver = new EdgeDriver(edgeoptions);
                     Logger.Info(" Edge started in maximized mode");
                     break;
-                case BrowserType.IE:
-                    new WebDriverManager.DriverManager().SetUpDriver(new InternetExplorerConfig());
-                    // InternetExplorerOptions ieoptions = new InternetExplorerOptions();
-                    var caps = new InternetExplorerOptions();
-                    caps.IgnoreZoomLevel = true;
-                    caps.BrowserCommandLineArguments.Insert(0, "-private");
-                    caps.EnsureCleanSession = true;
-                  //  caps.AddAdditionalCapability(InternetExplorerDriver.IE_SWITCHES, "-private");
-                    WebDriver = new InternetExplorerDriver(caps);
-                    WebDriver.Manage().Window.Maximize();
-                    Logger.Info(" InternetExplorer started in maximized mode");
-                    break;
                 case BrowserType.Safari:
                     SafariOptions safarioptions = new SafariOptions();
                     WebDriver = new SafariDriver(safarioptions);
