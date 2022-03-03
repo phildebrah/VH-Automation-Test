@@ -25,7 +25,7 @@ Scenario: Hearing Room Controls
 	| Display Name | Advocate |
 	|              |          |
 	And I set any other information
-	| Record Hearing | Other information   |
+	| Record Hearing | Other information   | 
 	|                | This is a test info |
 	And I book the hearing
 	Then A hearing should be created

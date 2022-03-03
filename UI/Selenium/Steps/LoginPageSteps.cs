@@ -71,7 +71,7 @@ namespace SeleniumSpecFlow.Steps
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
                 Login(participant.Id, Config.UserPassword);
             }
-            _scenarioContext.Add("drivers", drivers);
+            _scenarioContext["drivers"] = drivers;
         }
     }
 }
