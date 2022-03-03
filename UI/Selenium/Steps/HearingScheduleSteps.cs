@@ -58,8 +58,8 @@ namespace UI.Steps
         public Hearing CreateHearingModel(Table table, int min = 3)
         {
             var tableRow = table.Rows[0];
-            var date = DateTime.Now.AddMinutes(min).AddDays(2);
-            _hearing.HearingSchedule.HearingDate = new System.Collections.Generic.List<DateTime> { date };
+            var date = DateTime.Now.AddMinutes(min);
+             _hearing.HearingSchedule.HearingDate = new System.Collections.Generic.List<DateTime> { date };
             _hearing.HearingSchedule.HearingTime = date;
             _hearing.HearingSchedule.DurationHours = tableRow["Duration Hour"];
             _hearing.HearingSchedule.DurationMinutes = tableRow["Duration Minute"];
