@@ -41,7 +41,7 @@ namespace UI.Steps
                 IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
                 js.ExecuteScript("document.getElementById('hearingDate').setAttribute('type', '')");
                 Driver.FindElement(HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
- 
+                Driver.FindElement(HearingSchedulePage.HearingDate).Click();
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace UI.Steps
         public Hearing CreateHearingModel(Table table, int min = 3)
         {
             var tableRow = table.Rows[0];
-            var date = DateTime.Now.AddMinutes(min);
+            var date = DateTime.Now.AddMinutes(min).AddDays(2);
             _hearing.HearingSchedule.HearingDate = new System.Collections.Generic.List<DateTime> { date };
             _hearing.HearingSchedule.HearingTime = date;
             _hearing.HearingSchedule.DurationHours = tableRow["Duration Hour"];
