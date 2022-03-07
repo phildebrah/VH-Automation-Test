@@ -20,7 +20,7 @@ namespace UI.Steps
         ScenarioContext _scenarioContext;
         private Hearing _hearing;
         HearingListSteps(ScenarioContext scenarioContext)
-            : base(scenarioContext)    
+            : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
             _hearing = (Hearing)_scenarioContext["Hearing"];
@@ -34,7 +34,7 @@ namespace UI.Steps
 
         public void SignAllParticipantsIn()
         {
-            foreach(var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
+            foreach (var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
             {
                 Driver = driver.Value;
                 ProceedToWaitingRoom(driver.Key.Split('#').FirstOrDefault(), _hearing.Case.CaseNumber);
@@ -56,7 +56,7 @@ namespace UI.Steps
                 Driver.FindElement(ParticipantHearingListPage.WatchVideoButton).Click();
                 // Assert video is playing
                 Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                if(SkipPracticeVideoHearingDemo)
+                if (SkipPracticeVideoHearingDemo)
                 {
                     string cameraUrl = Driver.Url.Replace("practice-video-hearing", "camera-working");
                     Driver.Navigate().GoToUrl(cameraUrl);

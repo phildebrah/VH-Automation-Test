@@ -34,5 +34,10 @@ namespace UI.Steps.CommonActions
                 return Driver.Url.Contains(targetUrl);
             }
         }
+
+        public bool VerifyPageTitle(string title)
+        {
+            return Driver.Url.Contains(title);
+        }
     }
 }

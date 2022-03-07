@@ -23,21 +23,33 @@ namespace SeleniumSpecFlow.Steps
         private Hearing _hearing;
         private Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
         public LoginPageSteps(ScenarioContext scenarioContext)
-            :base (scenarioContext)
+            : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
+        }
+
+
+        [Given(@"I log in video url as ""([^""]*)""")]
+        public void GivenILogInVideoUrlAs(string userName)
+        {
+            LoginByUrl(userName, Config.VideoUrl);
         }
 
         [Given(@"I log in as ""([^""]*)""")]
         public void GivenILogInAs(string userName)
         {
+            LoginByUrl(userName, Config.AdminUrl);
+        }
+
+        private void LoginByUrl(string userName, string url)
+        {
             _scenarioContext.UpdatePageName("Login");
-            var result= CommonPageActions.NavigateToPage(Config.AdminUrl, "login.microsoftonline.com");
+            var result = CommonPageActions.NavigateToPage(url, "login.microsoftonline.com");
             Login(userName, Config.UserPassword);
             _scenarioContext.UpdateUserName(userName);
             _scenarioContext.UpdatePageName("Dashboard");
         }
-    
+
         public void Login(string username, string password)
         {
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait))).SendKeys(username);
@@ -46,7 +58,7 @@ namespace SeleniumSpecFlow.Steps
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
-            Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
+            Driver.FindElement(LoginPage.PasswordField).SendKeys("_6qc2;b=s4m:NRK[");
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
         }
 
