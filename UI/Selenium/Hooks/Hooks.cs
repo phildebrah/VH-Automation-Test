@@ -26,7 +26,8 @@ namespace SeleniumSpecFlow
          public static RestClient restClient { get; private set; }
         public IConfiguration Configuration { get; }
         public static EnvironmentConfigSettings config;
-        public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 17);
+        public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + Path.Combine($"..\\..\\..");
+
         public static string PathReport = ProjectPath + "\\TestResults\\Report\\ExtentReport.html";
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
@@ -84,17 +85,6 @@ namespace SeleniumSpecFlow
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
 
-
-        [BeforeScenario("api")]
-        public void BeforeScenarioApi(ScenarioContext scenarioContext)
-        {
-            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
-            Logger.Info($"Starting scenario '{scenarioTitle}'");
-
-            restClient = new RestClient(config.ApiUrl);
-            _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
-            _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
-        }
 
         [BeforeScenario("soap")]
         public void BeforeScenarioSoapApi(ScenarioContext scenarioContext)
