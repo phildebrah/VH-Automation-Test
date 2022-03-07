@@ -21,7 +21,7 @@ using NLog.Web;
 namespace SeleniumSpecFlow
 {
     [Binding]
-    public class Hooks //: ObjectFactory
+    public class Hooks
     {
          public static RestClient restClient { get; private set; }
         public IConfiguration Configuration { get; }
@@ -76,8 +76,6 @@ namespace SeleniumSpecFlow
         public void BeforeScenarioWeb(ScenarioContext scenarioContext)
         {
             IWebDriver Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-            //IWebDriver Driver =  DriverFactory.InitializeDriver(TestConfigHelper.browser);
-            //Driver.(TestConfigHelper.browser.ToString());
             scenarioContext.Add("driver", Driver);
             scenarioContext.Add("config", config);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
@@ -206,10 +204,6 @@ namespace SeleniumSpecFlow
             {
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
-
-                //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
-
-                // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
                 //For Extent report
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {

@@ -65,7 +65,6 @@ namespace UI.Steps
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.MuteAndLock));
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.IncomingFeedJudgeVideo));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantMicUnlocked));
             wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
@@ -77,7 +76,7 @@ namespace UI.Steps
                 if (!participant.Party.Name.ToLower().Contains("judge"))
                 {
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
-                    Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+                    wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantMicLocked));
                     Driver.FindElement(HearingRoomPage.ParticipantMicLocked).Displayed.Should().BeTrue();
                 }
             }
@@ -100,7 +99,7 @@ namespace UI.Steps
                 if (!participant.Party.Name.ToLower().Contains("judge"))
                 {
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
-                    Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+                    wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantMicUnlocked));
                     Driver.FindElement(HearingRoomPage.ParticipantMicUnlocked).Displayed.Should().BeTrue();
                 }
             }
@@ -138,9 +137,7 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantHandRaised));
             wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
             ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.LowerHands, _scenarioContext).Click();
-            System.Threading.Thread.Sleep(300);
             Assert.IsFalse(ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ParticipantHandRaised, _scenarioContext));
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
         }
 
         [Then(@"when the participant switches off their camera, the judge can see it on the screen")]

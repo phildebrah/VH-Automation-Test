@@ -27,5 +27,6 @@ namespace UISelenium.Pages
         public static By ExistingEmailLinks = By.XPath("//li[@class='vk-showlist-m30']/a");
         public static By ParticipantsList = By.XPath("//*[contains(@class, 'vhtable-header')]");
         public static By InterpreteeDropdown = By.Id("interpreterFor");
+        public static By EmailList = By.XPath("//ul[@id='search-results-list']//li");
     }
 }

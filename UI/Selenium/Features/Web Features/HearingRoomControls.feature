@@ -7,7 +7,7 @@ Feature: Hearing room controls
 Scenario: Hearing Room Controls
 	Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I select book a hearing
-	And I want to create a hearing with case details
+	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
 	| AA          | AutomationTestCaseName | Civil     | Enforcement Hearing |
 	And the hearing has the following schedule details
@@ -23,12 +23,12 @@ Scenario: Hearing Room Controls
 
 	And With video Access points details
 	| Display Name | Advocate |
-	|              |          |
+	|              |          | 
 	And I set any other information
 	| Record Hearing | Other information   | 
 	|                | This is a test info |
 	And I book the hearing
-	Then A hearing should be created
+    Then A hearing should be created
 	And I log off
 	And all participants log in to video web
 	And all participants have joined the hearing waiting room
