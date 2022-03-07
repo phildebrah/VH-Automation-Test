@@ -1,6 +1,6 @@
 ﻿namespace TestLibrary.Utilities
 {
-    public class EnvironmentConfigSettings
+    public class EnvironmentConfigSettings:SystemConfigSettings
     {
         public string Environment { get; set; }
         public string ConnectionString { get; set; }
@@ -14,5 +14,11 @@
         public string AdminUrl { get; set; }
         public string ServiceUrl { get; set; }
 
+    }
+
+    public class SystemConfigSettings
+    {
+        public string ReportLocation { get; set; }
+        public string ImageLocation { get; set; }
     }
 }

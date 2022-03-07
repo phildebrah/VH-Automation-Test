@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NLog;
+using NLog.Layouts;
+using NLog.Targets;
+using System;
 using System.Linq;
 
 namespace TestLibrary.Utilities
@@ -20,6 +23,24 @@ namespace TestLibrary.Utilities
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             return new string(Enumerable.Repeat(chars, stringLenth)
              .Select(s => s[rnd.Next(s.Length)]).ToArray());
+        }
+
+        public static string GetLogFileName(string targetName)
+        {
+            string rtnVal = string.Empty;
+
+            if (LogManager.Configuration != null && LogManager.Configuration.ConfiguredNamedTargets.Count != 0)
+            {
+                Target t = LogManager.Configuration.FindTargetByName(targetName);
+                if (t != null && t is NLog.Targets.Wrappers.WrapperTargetBase)
+                {
+                    var list = LogManager.Configuration.AllTargets.ToList();
+                    t = list.Find(x => x.Name == $"{targetName}_wrapped");
+                    Layout layout = (t as FileTarget).FileName;
+                    rtnVal = layout.Render(LogEventInfo.CreateNullEvent());
+                }
+            }
+            return rtnVal;
         }
     }
 }
