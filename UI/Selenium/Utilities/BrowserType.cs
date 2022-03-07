@@ -4,6 +4,8 @@
     {
         Firefox,
         Chrome,
+        Edge,
+        Safari,
         Remote
     }
 }
