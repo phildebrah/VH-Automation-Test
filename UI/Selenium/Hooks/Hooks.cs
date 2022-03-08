@@ -7,7 +7,6 @@ using NLog.Web;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
-using RestSharp;
 using SeleniumSpecFlow.Utilities;
 using System;
 using System.Collections.Generic;
@@ -23,7 +22,6 @@ namespace SeleniumSpecFlow
     [Binding]
     public class Hooks 
     {
-         public static RestClient restClient { get; private set; }
         public IConfiguration Configuration { get; }
         public static EnvironmentConfigSettings config;
         private static string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
@@ -47,11 +45,11 @@ namespace SeleniumSpecFlow
                 Logger.Info("Automation Test Execution Commenced");
                 
                 var logFilePath = Util.GetLogFileName("logfile");
-                var logFileName=Path.GetFileNameWithoutExtension(logFilePath);
-                var folderName = logFileName.Substring(logFileName.IndexOf("log.") + 4).Replace(":",".");
+                var logFileName = Path.GetFileNameWithoutExtension(logFilePath);
+                var folderName = logFileName.Replace(":",".");
 
                 ImagesPath=Path.Combine(config.ImageLocation, folderName);
-                Directory.CreateDirectory(ProjectPath + ImagesPath); ;
+                Directory.CreateDirectory(ProjectPath + ImagesPath);
 
                 PathReport= Path.Combine(ProjectPath+config.ReportLocation, folderName, "ExtentReport.html");
                 var reporter = new ExtentHtmlReporter(PathReport);
@@ -101,7 +99,6 @@ namespace SeleniumSpecFlow
             var scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
 
-            restClient = new RestClient(config.ApiUrl);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
@@ -112,7 +109,6 @@ namespace SeleniumSpecFlow
             var scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
 
-            restClient = new RestClient(config.SoapApiUrl);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
