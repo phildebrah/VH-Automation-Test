@@ -1,0 +1,194 @@
+﻿@web
+Feature: Accessibility
+	In order to ensure video web is accessible to all users
+	As a service
+	I want to check each page for potential accessibility issues@Smoketest
+
+@Accessibility
+Scenario: Dashboard page accessibility
+	Given I'm on the "Dashboard" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Hearing Details page accessibility
+	Given I'm on the "Hearing Details" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Hearing Schedule page accessibility
+	Given I'm on the "Hearing Schedule" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: AssignJudge page accessibility
+	Given I'm on the "AssignJudge" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Participants page accessibility
+	Given I'm on the "Participants" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Video Access Points page accessibility
+	Given I'm on the "Video Access Points" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Other Information page accessibility
+	Given I'm on the "Other Information" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Summary page accessibility
+	Given I'm on the "Summary" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Booking Confirmation page accessibility
+	Given I'm on the "Booking Confirmation" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Booking Details page accessibility
+	Given I'm on the "Booking Details" page
+	Then the page should be accessible
+
+@Accessibility
+Scenario: Booking List page accessibility
+	Given I'm on the "Booking List" page
+	Then the page should be accessible
+#@Accessibility
+#Scenario: Questionnaire page accessibility
+#	Given I am on the questionnaire
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: Equipment Check page accessibility
+#	Given the Participant user has progressed to the Equipment Check page
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: Switch on your camera and microphone page accessibility
+#	Given the Participant user has progressed to the Switch on your camera and microphone page
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario Outline: Practice video hearing page accessibility
+#	Given the <Role> user has progressed to the Practice video hearing page
+#  And the practice video hearing video has started
+#	Then the page should be accessible 
+#	Examples: 
+#	| Role                     |
+#	| Judge Self Test          |
+#	| Representative Self Test |
+#	| Individual               |
+#
+#@Accessibility
+#Scenario: Camera Working page accessibility
+#	Given the Participant user has progressed to the Camera Working page
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: Microphone Working page accessibility
+#	Given the Participant user has progressed to the Microphone Working page
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: See and Hear Video page accessibility
+#	Given the Participant user has progressed to the See and Hear Video page
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: Rules page accessibility
+#	Given the Participant user has progressed to the Rules page
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: Declaration page accessibility
+#	Given the Participant user has progressed to the Declaration page
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: Change camera and microphone page accessibility
+#    Given the Judge user has progressed to the Judge Waiting Room page
+#    When the waiting room page has loaded for the Judge
+#    Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: Judge Waiting Room page accessibility
+#    Given the Judge user has progressed to the Judge Waiting Room page
+#    When the waiting room page has loaded for the Judge
+#    Then the page should be accessible
+#
+#@Accessibility
+#Scenario: Judge Consultation Room page accessibility
+#  Given the Judge user is on the Judge Waiting Room page
+#  When they enter the private consultation room
+#  Then the page should be accessible
+#
+#@Accessibility
+#Scenario: Judge Waiting Room Change Camera popup accessibility
+#    Given the Judge user has progressed to the Judge Waiting Room page
+#    When the waiting room page has loaded for the Judge
+#    And the judge opens the change camera and microphone popup
+#    Then the page should be accessible 
+#    And the judge dismisses the change camera popup
+#
+#@Accessibility
+#Scenario: Participant Waiting Room page accessibility
+#    Given the Participant user has progressed to the Waiting Room page
+#    When the waiting room page has loaded for the Participant
+#    Then the page should be accessible
+#
+#@Accessibility
+#Scenario: Participant Private Consultation page accessibility
+#  Given an individual and their representative are in the waiting room 10 minutes before a hearing
+#  When the individual starts a private consultation with their representative
+#  Then the page should be accessible
+#
+#@Accessibility
+#Scenario: Help page accessibility
+#	Given the Participant user has progressed to the Microphone Working page
+#	When the user selects the No radiobutton
+#	And the user clicks the Continue button
+#	Then the user is on the Help page
+#	And the page should be accessible 
+#
+#@Accessibility
+#Scenario: Hearing Room page accessibility
+#	Given the the first Individual user has progressed to the Waiting Room page
+#	And the Judge user has progressed to the Judge Waiting Room page for the existing hearing
+#	Then the participant status for the first Individual's is displayed as Connected
+#	When the Judge starts the hearing
+#  And the countdown finishes
+#	Then the page should be accessible apart from a missing header
+#	When in the first Individual's browser
+#	Then the page should be accessible apart from a missing header
+#  When in the Judge's browser
+#  And the Judge closes the hearing
+#	Then the user is on the Waiting Room page
+#
+## Ignoring this test until we can upgrade to Angular 9. See VIH-6032 for more details
+#@Accessibility
+#Scenario: Venue List page accessibility
+#	Given the Video Hearings Officer user has progressed to the VHO Venue List page
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: VHO Command Centre Hearing Tab page accessibility
+#	Given the Video Hearings Officer user has progressed to the VHO Hearing List page
+#  And the VHO selects the Hearings tab
+#	Then the page should be accessible 
+#
+#@Accessibility
+#Scenario: VHO Command Centre Messages Tab page accessibility
+#	Given the Video Hearings Officer user has progressed to the VHO Hearing List page
+#  And the VHO selects the Messages tab
+#	Then the page should be accessible 
+#
+## Ignoring this test as we don't land on this page anymore. This should be changed back if ejud is re-enabled.
+#@Accessibility
+#Scenario: Account Type Selection page accessibility
+#  Given a Participant is on the account type selection page
+#  Then the page should be accessible

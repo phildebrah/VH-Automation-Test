@@ -1,11 +1,9 @@
 ﻿
 using UISelenium.Pages;
-using System;
 using TechTalk.SpecFlow;
 using TestLibrary.Utilities;
 using UI.Steps.CommonActions;
 using OpenQA.Selenium;
-using UI.Pages;
 using System.Collections.Generic;
 using System.Linq;
 

@@ -2,8 +2,7 @@
 using TechTalk.SpecFlow;
 using TestFramework;
 using UI.Model;
-using UI.Pages;
-
+using UISelenium.Pages;
 namespace UI.Steps
 {
     public class OtherInformationSteps : ObjectFactory
