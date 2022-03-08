@@ -7,6 +7,8 @@ using System.Threading;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
+using System.Windows.Forms;
+using com.sun.media.sound;
 
 namespace UI.Steps
 {
@@ -44,17 +46,27 @@ namespace UI.Steps
         [Then(@"I should naviagte to Hearing list page")]
         public void ThenIShouldNaviagteToHearingListPage()
         {
-            Assert.IsTrue(CommonPageActions.VerifyPageTitle("hearings-list"));
+            //Assert.IsTrue(ExtensionMethods.VerifyPageUrl(Driver, "hearings-list"));
         }
-
+        [STAThread]
         [Then(@"I click on link copy id to clipboard it should able to copy")]
         public void ThenIClickOnLinkCopyIdToClipboardItShouldAbleToCopy()
         {
+            //Clipboard.GetText();
+            //Clip
+            
+
+
         }
 
         [Then(@"I click on link to join by quick link details to clipboard it should able to open on new browser")]
         public void ThenIClickOnLinkToJoinByQuickLinkDetailsToClipboardItShouldAbleToOpenOnNewBrowser()
         {
+            CommonPageActions.MouseMoveToElement(QuickLinkPage.Quicklinks);
+            ExtensionMethods.MoveToElement(Driver,QuickLinkPage.Quicklinks, _scenarioContext);
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.QuicklinkCopy, _scenarioContext).Click();
+            ExtensionMethods.OpenNewPage(Driver);
+
         }
 
         [Then(@"And I click on hearing link to clipboard it should able to copy hearing link")]

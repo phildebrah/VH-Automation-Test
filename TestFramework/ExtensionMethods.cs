@@ -242,6 +242,13 @@ namespace TestFramework
             }
         }
 
+        public static bool VerifyPageUrl(IWebDriver webdriver, string title)
+        {
+            return webdriver.Url.Contains(title);
+        }
+
+        
+
         public static IWebElement FindElementEnabledWithWait(IWebDriver webdriver, By findBy, int? waitTimeInSec = null)
         {
             int count = 0;
@@ -272,6 +279,24 @@ namespace TestFramework
             }
             webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
             return null;
+        }
+
+        public static void OpenNewPage(IWebDriver webdriver)
+        {
+           
+            try
+            {
+                ((IJavaScriptExecutor)webdriver).ExecuteScript("window.open();");
+                webdriver.SwitchTo().Window(webdriver.WindowHandles.Last());
+                webdriver.Navigate().GoToUrl(Keys.Control + "v");
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Cannot Move to element By locator:");
+               
+            }
+
         }
     }
 }

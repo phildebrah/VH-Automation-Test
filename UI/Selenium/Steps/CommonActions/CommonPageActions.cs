@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using SeleniumSpecFlow.Utilities;
 using TechTalk.SpecFlow;
 
@@ -39,5 +40,11 @@ namespace UI.Steps.CommonActions
         {
             return Driver.Url.Contains(title);
         }
+
+        public void MouseMoveToElement(By ele)
+        {
+            Actions action = new Actions(Driver);
+            action.MoveToElement(Driver.FindElement(ele)).Perform();
+        } 
     }
 }
