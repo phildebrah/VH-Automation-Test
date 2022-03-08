@@ -1,4 +1,4 @@
-﻿@API
+﻿@api
 Feature: UserApi
 
 A short summary of the feature
@@ -13,3 +13,12 @@ Scenario: Book a hearing
 
 Scenario: get case types
 	When I get case Types
+
+Scenario: get venues
+	When  I get venues
+
+Scenario Outline: Get a judge
+	When  I ask for judges with the name "a"
+
+Scenario: get Anonymous data
+	When I get anonymous data
