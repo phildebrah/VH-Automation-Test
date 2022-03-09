@@ -62,12 +62,46 @@ namespace UI.Steps
         [Then(@"I click on link to join by quick link details to clipboard it should able to open on new browser")]
         public void ThenIClickOnLinkToJoinByQuickLinkDetailsToClipboardItShouldAbleToOpenOnNewBrowser()
         {
-            CommonPageActions.MouseMoveToElement(QuickLinkPage.Quicklinks);
             ExtensionMethods.MoveToElement(Driver,QuickLinkPage.Quicklinks, _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.QuicklinkCopy, _scenarioContext).Click();
-            ExtensionMethods.OpenNewPage(Driver);
-
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.UnreadMsgBtn, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.UnreadMsgPartBtn, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.NewMessageBox, _scenarioContext).SendKeys(Keys.Control+"v");
+            String url = ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.NewMessageBox, _scenarioContext).GetAttribute("value");
+            ExtensionMethods.OpenNewPage(Driver, url);
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.signOut, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.hereLink, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.signOut, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, LoginPage.PasswordField, _scenarioContext).SendKeys("_6qc2;b=s4m:NRK[");
+            ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
+            ExtensionMethods.OpenNewPage(Driver, url);
         }
+
+        [Then(@"I want to join hearing with details")]
+        public void ThenIWantToJoinHearingWithDetails(Table table)
+        {
+            foreach (var row in table.Rows)
+            {
+                ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.FullName, _scenarioContext).SendKeys(row[0]);
+                ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.QuickLinkParticipant, _scenarioContext).Click();
+                ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.ContinueBtn, _scenarioContext).Click();
+            }
+        }
+
+        [Then(@"I click on signintoHearing")]
+        public void ThenIClickOnSignintoHearing()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.SignInToHearingButton, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.NextButton, _scenarioContext).Click();
+        }
+        [Then(@"I confirm equipment is working")]
+        public void ThenIConfirmEquipmentIsWorking()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.ContinueBtn, _scenarioContext).Click();
+        }
+
+
+
 
         [Then(@"And I click on hearing link to clipboard it should able to copy hearing link")]
         public void ThenAndIClickOnHearingLinkToClipboardItShouldAbleToCopyHearingLink()

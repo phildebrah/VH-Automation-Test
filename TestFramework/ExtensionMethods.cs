@@ -281,15 +281,17 @@ namespace TestFramework
             return null;
         }
 
-        public static void OpenNewPage(IWebDriver webdriver)
+        public static void OpenNewPage(IWebDriver webdriver, String url)
         {
            
             try
             {
                 ((IJavaScriptExecutor)webdriver).ExecuteScript("window.open();");
-                webdriver.SwitchTo().Window(webdriver.WindowHandles.Last());
-                webdriver.Navigate().GoToUrl(Keys.Control + "v");
-
+                webdriver = webdriver.SwitchTo().Window(webdriver.WindowHandles.Last());
+                webdriver.Navigate().GoToUrl(url); //table - row
+                
+                //webdriver.FindElement(By.CssSelector(".table-row")).Click();
+                //webdriver.FindElement(By.LinkText("here")).Click();
             }
             catch (Exception ex)
             {
@@ -298,5 +300,11 @@ namespace TestFramework
             }
 
         }
+
+        //public static void ClickEnter(IWebDriver webdriver)
+        //{ 
+        //    webdriver.
+        //}
+
     }
 }
