@@ -9,17 +9,8 @@ namespace UISelenium.Pages
 {
     public class QuickLinkPage
     {
-        
-        public static By HearingList => By.CssSelector("input[aria-autocomplete='list']");
-        public static By HearingCheckBox => By.CssSelector("input[type='checkbox']");
-        public static By ViewHearings => By.CssSelector("#select-venue-allocation-btn");
-        public static By Quicklinks => By.CssSelector("fa-icon");
-        public static By QuicklinkCopy => By.XPath("//a[text()='Copy join by quick link details to clipboard']");
-        public static By FullName => By.Id("full-name");
-        public static By QuickLinkParticipant => By.Id("QuickLinkParticipant");
-        public static By QuickLinkObserver => By.Id("QuickLinkObserver");
-        public static By ContinueButton => By.Id("continue-button");
-
+                        
+       
         public static By CheckEquipmentButton => By.Id("check-equipment-btn");
 
         public static By ContinueBtn => By.Id("continue-btn");
@@ -30,10 +21,8 @@ namespace UISelenium.Pages
 
         public static By EquipmentWorksButton => By.Id("equipment-works-btn");
         public static By EquipmentFaultyButton => By.Id("equipment-faulty-btn");
-        //public static By CheckEquipmentButton => By.Id("check-equipment-btn");
-        public static By NewMessageBox => By.CssSelector("#new-message-box");
-        public static By UnreadMsgBtn => By.XPath("//app-unread-messages/img");
-        public static By UnreadMsgPartBtn => By.XPath("//app-unread-messages-participant/img");
+
+       
 
         public static By signOut => By.CssSelector(".table-row");
         public static By hereLink => By.LinkText("here");

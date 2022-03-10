@@ -301,6 +301,13 @@ namespace TestFramework
 
         }
 
+        public static void NavigateUrl(IWebDriver webdriver, String url)
+        {
+            webdriver.Navigate().GoToUrl(url);
+        }
+
+
+
         //public static void ClickEnter(IWebDriver webdriver)
         //{ 
         //    webdriver.

@@ -9,6 +9,7 @@ using TestFramework;
 using UISelenium.Pages;
 using System.Windows.Forms;
 using com.sun.media.sound;
+using OpenQA.Selenium.Interactions;
 
 namespace UI.Steps
 {
@@ -29,8 +30,8 @@ namespace UI.Steps
             _scenarioContext.UpdatePageName("View hearing venue list");
             foreach (var row in table.Rows)
             {
-                ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.HearingList, _scenarioContext).SendKeys(row[0]);
-                ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.HearingCheckBox, _scenarioContext).Click();
+                ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.HearingList, _scenarioContext).SendKeys(row[0]);
+                ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.HearingCheckBox, _scenarioContext).Click();
             }
 
             
@@ -40,7 +41,7 @@ namespace UI.Steps
         [When(@"I click on view hearings")]
         public void WhenIClickOnViewHearings()
         {
-            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.ViewHearings, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.ViewHearings, _scenarioContext).Click();
         }
 
         [Then(@"I should naviagte to Hearing list page")]
@@ -62,19 +63,20 @@ namespace UI.Steps
         [Then(@"I click on link to join by quick link details to clipboard it should able to open on new browser")]
         public void ThenIClickOnLinkToJoinByQuickLinkDetailsToClipboardItShouldAbleToOpenOnNewBrowser()
         {
-            ExtensionMethods.MoveToElement(Driver,QuickLinkPage.Quicklinks, _scenarioContext);
-            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.QuicklinkCopy, _scenarioContext).Click();
-            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.UnreadMsgBtn, _scenarioContext).Click();
-            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.UnreadMsgPartBtn, _scenarioContext).Click();
-            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.NewMessageBox, _scenarioContext).SendKeys(Keys.Control+"v");
-            String url = ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.NewMessageBox, _scenarioContext).GetAttribute("value");
+            ExtensionMethods.MoveToElement(Driver,SelectHearingPage.Quicklinks, _scenarioContext);
+            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.QuicklinkCopy, _scenarioContext).Click();
+            ExtensionMethods.MoveToElement(Driver, SelectHearingPage.filters, _scenarioContext);
+            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.UnreadMsgBtn, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.UnreadMsgPartBtn, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).SendKeys(Keys.Control+"v");
+            String url = ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).GetAttribute("value");
             ExtensionMethods.OpenNewPage(Driver, url);
             ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.signOut, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.hereLink, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.signOut, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.PasswordField, _scenarioContext).SendKeys("_6qc2;b=s4m:NRK[");
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
-            ExtensionMethods.OpenNewPage(Driver, url);
+            ExtensionMethods.NavigateUrl(Driver, url);
         }
 
         [Then(@"I want to join hearing with details")]
@@ -82,10 +84,15 @@ namespace UI.Steps
         {
             foreach (var row in table.Rows)
             {
-                ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.FullName, _scenarioContext).SendKeys(row[0]);
-                ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.QuickLinkParticipant, _scenarioContext).Click();
-                ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.ContinueBtn, _scenarioContext).Click();
+                ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.FullName, _scenarioContext).SendKeys(row[0]);
             }
+            if(ExtensionMethods.IsElementExists(Driver, JoinYourHearingPage.QuickLinkParticipant, _scenarioContext))
+            {
+                ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.QuickLinkParticipant, _scenarioContext).Click();
+      
+            }
+            if (ExtensionMethods.IsElementExists(Driver, JoinYourHearingPage.ContinueButton, _scenarioContext)) 
+                ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.ContinueButton, _scenarioContext).Click();
         }
 
         [Then(@"I click on signintoHearing")]
