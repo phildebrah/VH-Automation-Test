@@ -34,7 +34,7 @@ namespace SeleniumSpecFlow
         private static ISpecFlowOutputHelper _specFlowOutputHelper;
         private static string filePath;
         private static Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-
+        private static string featureTitle;
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
@@ -56,7 +56,7 @@ namespace SeleniumSpecFlow
         [BeforeFeature]
         public static void BeforeFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
         {
-            var featureTitle = featureContext.FeatureInfo.Title;
+            featureTitle = featureContext.FeatureInfo.Title;
             _feature = _extent.CreateTest<Feature>(featureTitle);
 
             Logger.Info($"Starting feature '{featureTitle}'");
@@ -80,6 +80,7 @@ namespace SeleniumSpecFlow
             //Driver.(TestConfigHelper.browser.ToString());
             scenarioContext.Add("driver", Driver);
             scenarioContext.Add("config", config);
+            scenarioContext.Add("feature", featureTitle);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }

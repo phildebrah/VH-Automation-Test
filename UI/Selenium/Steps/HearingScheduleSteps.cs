@@ -10,6 +10,7 @@ using UISelenium.Pages;
 using System.Linq;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 
 namespace UI.Steps
 {
@@ -38,8 +39,9 @@ namespace UI.Steps
         {
             try
             {
-                IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
-                js.ExecuteScript("document.getElementById('hearingDate').setAttribute('type', '')");
+                //IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
+                //js.ExecuteScript("document.getElementById('hearingDate').setAttribute('type', '')");
+                
                 Driver.FindElement(HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
                 Driver.FindElement(HearingSchedulePage.HearingDate).Click();
             }

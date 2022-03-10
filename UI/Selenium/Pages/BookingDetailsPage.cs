@@ -11,5 +11,7 @@ namespace UISelenium.Pages
         public static By ConfirmBookingButton => By.Id("confirm-button");
         public static By CancelBookingButton => By.Id("cancel-button");
         public static By EditBookingButton => By.Id("edit-button");
+
+        public static By CloseBookingFailureWindowButton = By.Id("btnTryAgain");
     }
 }

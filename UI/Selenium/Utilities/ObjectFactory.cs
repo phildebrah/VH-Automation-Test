@@ -25,11 +25,18 @@ namespace SeleniumSpecFlow.Utilities
         {
             CommonPageActions = new CommonPageActions((IWebDriver)context["driver"]);
             Config = (EnvironmentConfigSettings)context["config"];
-            Driver = (IWebDriver) context["driver"];
+            Driver = (IWebDriver)context["driver"];
         }
         public IWebDriver GetDriver(string participant, ScenarioContext _scenarioContext)
         {
             return ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Where(a => a.Key.ToLower().Contains(participant.ToLower()))?.FirstOrDefault().Value;
+        }
+
+        public IWebDriver StartNewDriver()
+        {
+            Driver?.Dispose();
+            this.Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            return Driver;
         }
     }
 }
