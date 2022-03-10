@@ -11,7 +11,7 @@ namespace UI.Model
         public string MacScreenResolution = "2360x1770";
         public int MaxDurationInSeconds { get; set; } = 60 * 10;
         public string SeleniumVersion = "4.1.0";
-        public string Timezone = "London";
+        public string Timezone = "UTC";
         public string Name { get; set; }
         public string WindowsScreenResolution = "2560x1600";
     }
