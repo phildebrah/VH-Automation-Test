@@ -13,6 +13,7 @@ using OpenQA.Selenium;
 using System.Linq;
 using OpenQA.Selenium.Interactions;
 using TestFramework;
+using UI.Utilities;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -34,6 +35,13 @@ namespace SeleniumSpecFlow.Steps
         {
             LoginByUrl(userName, Config.VideoUrl);
         }
+
+        [Given(@"I log in hearing url ""([^""]*)""")]
+        public void GivenILogInHearingUrl(string userName)
+        {
+            var result = CommonPageActions.NavigateToPage(ApplicationData.hearingListUrl);
+        }
+
 
         [Given(@"I log in as ""([^""]*)""")]
         public void GivenILogInAs(string userName)

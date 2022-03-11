@@ -10,11 +10,15 @@ Scenario: Quick Link Test
 		| Birmingham Civil and Family Justice Centre |
 	When I click on view hearings
 	Then I should naviagte to Hearing list page
-	And I click on link copy id to clipboard it should able to copy
+	And I click on copy hearing id to clipboard it should able to copy
+	And And I click on copy joining by phone details to clipboard it should able to copy 
     And I click on link to join by quick link details to clipboard it should able to open on new browser 
-	And I want to join hearing with details
-	| Full Name |
-	| AA        |
+
+Scenario: ROpen hearing list
+	Given I log in hearing url "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
+	Then I want to join hearing with details
+	| Full Name       |
+	| Michael Jackson |
 	And I click on signintoHearing 
 	And I confirm equipment is working
 #	And I switch on camera and continue to the video
@@ -23,7 +27,5 @@ Scenario: Quick Link Test
 #	And I agree to court rules and declaration
 #	And I start a private meeting
 #	And I join a private meeting
-#
-#	
-#	
-#	And And I click on hearing link to clipboard it should able to copy hearing link 
+	
+	And And I click on hearing link to clipboard it should able to copy hearing link 

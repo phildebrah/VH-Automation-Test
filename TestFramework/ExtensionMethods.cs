@@ -306,6 +306,15 @@ namespace TestFramework
             webdriver.Navigate().GoToUrl(url);
         }
 
+        public static void CloseAndOpenBrowser(IWebDriver webDriver, String url)
+        {
+            webDriver.FindElement(By.CssSelector("#logout-link")).Click();
+            ((IJavaScriptExecutor)webDriver).ExecuteScript("window.open();");
+            webDriver.Close();
+            webDriver = webDriver.SwitchTo().Window(webDriver.WindowHandles.Last());
+            webDriver.Navigate().GoToUrl(url);
+        }
+
 
 
         //public static void ClickEnter(IWebDriver webdriver)
