@@ -11,11 +11,13 @@ using SeleniumSpecFlow.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using TestFramework;
 using TestLibrary.Utilities;
+using UI.Model;
 
 namespace SeleniumSpecFlow
 {
@@ -83,13 +85,26 @@ namespace SeleniumSpecFlow
         [BeforeScenario("web")]
         public void BeforeScenarioWeb(ScenarioContext scenarioContext)
         {
-            IWebDriver Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-            //IWebDriver Driver =  DriverFactory.InitializeDriver(TestConfigHelper.browser);
-            //Driver.(TestConfigHelper.browser.ToString());
+            var title = scenarioContext.ScenarioInfo.Title;
+            var tags= scenarioContext.ScenarioInfo.Tags;
+
+            _scenario = _feature.CreateNode<Scenario>(title);
+            _scenario.AssignCategory(tags);
+
+            IWebDriver Driver;
+            if (RunOnSauceLabs(tags))
+            {
+                SauceLabsOptions sauceOptions = new SauceLabsOptions();
+                sauceOptions.Name=title;
+                Driver= new DriverFactory().InitializeSauceDriver(sauceOptions,config.SauceLabsConfiguration);
+            }
+            else
+            {
+                Driver= new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            }
+             
             scenarioContext.Add("driver", Driver);
             scenarioContext.Add("config", config);
-            _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
-            _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
 
 
@@ -368,6 +383,11 @@ namespace SeleniumSpecFlow
         {
             var featureTitle = featureContext.FeatureInfo.Title;
             Logger.Info($"Ending feature '{featureTitle}'");
+        }
+
+        private static bool RunOnSauceLabs(string[] tags)
+        {
+            return config.RunOnSaucelabs && tags.Any(s => s.Contains("DeviceTest"));
         }
     }
 }
