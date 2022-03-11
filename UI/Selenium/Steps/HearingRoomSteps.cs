@@ -140,8 +140,8 @@ namespace UI.Steps
             Assert.IsFalse(ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ParticipantHandRaised, _scenarioContext));
         }
 
-        [Then(@"when the participant switches off their camera, the judge can see it on the screen")]
-        public void ThenWhenTheParticipantSwitchesOffTheirCameraTheJudgeCanSeeItOnTheScreen()
+        [When(@"the participant switches off their camera, the judge can see it on the screen")]
+        public void WhenTheParticipantSwitchesOffTheirCameraTheJudgeCanSeeItOnTheScreen()
         {
             Driver = GetDriver(_hearing.Participant[1].Id, _scenarioContext);
             _scenarioContext["driver"] = Driver;
@@ -152,5 +152,6 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantCameraOffIcon));
         }
+
     }
 }

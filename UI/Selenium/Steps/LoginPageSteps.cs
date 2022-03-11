@@ -61,11 +61,6 @@ namespace SeleniumSpecFlow.Steps
                 _scenarioContext["driver"] = Driver;
                 Driver.Navigate().GoToUrl(Config.VideoUrl);
                 var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
-                // wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.AccountTypeJudge));
-                //if (participant.Party.Name.ToString().Contains("judge"))
-                //    Driver.FindElement(LoginPage.AccountTypeJudge).Click();
-                //else
-                //    Driver.FindElement(LoginPage.AccountTypeParticipant).Click();
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
                 _scenarioContext.UpdatePageName("Video Web Login");
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);

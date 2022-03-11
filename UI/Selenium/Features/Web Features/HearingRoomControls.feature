@@ -40,6 +40,6 @@ Scenario: Hearing Room Controls
 	And all participants are redirected to the hearing room when the judge resumes the video hearing
 	And when a participant raises their hand, it shows on the judge's screen
 	And the judge can lower participants hands
-	And when the participant switches off their camera, the judge can see it on the screen
+    When the participant switches off their camera, the judge can see it on the screen
 	Then the judge closes the hearing
 	And everyone signs out
