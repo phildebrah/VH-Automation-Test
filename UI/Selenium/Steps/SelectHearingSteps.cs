@@ -7,8 +7,6 @@ using System.Threading;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
-using System.Windows.Forms;
-using com.sun.media.sound;
 using OpenQA.Selenium.Interactions;
 using UI.Utilities;
 
@@ -54,6 +52,9 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).Clear();
             ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).SendKeys(Keys.Control+"v");
             ApplicationData.hearingListUrl = ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).GetAttribute("value");
+
+
+
             //ExtensionMethods.OpenNewPage(Driver, url);
             //ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.signOut, _scenarioContext).Click();
             //ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.hereLink, _scenarioContext).Click();

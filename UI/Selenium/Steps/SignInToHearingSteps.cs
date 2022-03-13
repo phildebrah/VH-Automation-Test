@@ -7,23 +7,30 @@ using System.Threading;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
-using System.Windows.Forms;
-using com.sun.media.sound;
 using OpenQA.Selenium.Interactions;
 using UI.Utilities;
 
 namespace UI.Steps
 {
     [Binding]
-    public class QuickLinkSteps : ObjectFactory
+    public class SignInToHearingSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;
 
-        QuickLinkSteps(ScenarioContext scenarioContext)
+        SignInToHearingSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
-        } 
-  }
+        }
+                
+        [Then(@"I click on signintoHearing")]
+        public void ThenIClickOnSignintoHearing()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, SignInToHearingPage.SignInToHearingButton, _scenarioContext).Click();
+           
+        }
+
+        
+    }
 }
 

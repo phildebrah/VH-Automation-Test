@@ -42,22 +42,25 @@ namespace UI.Steps
             }
             if (ExtensionMethods.IsElementExists(Driver, JoinYourHearingPage.ContinueButton, _scenarioContext))
             {
-                ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.ContinueButton, _scenarioContext).Submit();
+                ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.ContinueButton, _scenarioContext).Click();
             }
         }
 
-        [Then(@"I click on signintoHearing")]
-        public void ThenIClickOnSignintoHearing()
-        {
-            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.SignInToHearingButton, _scenarioContext).Click();
-            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.NextButton, _scenarioContext).Click();
-        }
+       
+       
+       
+       
 
-        [Then(@"I confirm equipment is working")]
-        public void ThenIConfirmEquipmentIsWorking()
-        {
-            ExtensionMethods.FindElementWithWait(Driver, QuickLinkPage.ContinueBtn, _scenarioContext).Click();
-        }
+        
+       
+       
+       
+       
+
+       
+
+
+
 
 
 

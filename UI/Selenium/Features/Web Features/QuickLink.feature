@@ -20,12 +20,17 @@ Scenario: ROpen hearing list
 	| Full Name       |
 	| Michael Jackson |
 	And I click on signintoHearing 
+	And I get ready for the hearing
 	And I confirm equipment is working
-#	And I switch on camera and continue to the video
-#	And I test my equipment 
-#	And I make sure camera and microphone working and could see and video clearly
-#	And I agree to court rules and declaration
-#	And I start a private meeting
-#	And I join a private meeting
+	And I make sure camera and microphone switched on
+	And I continue to watch the video
+	And Testing your equipment 
+	And Checking was your camera working
+	And Checking was your microphone working
+	And Checking were the image and sound clear
+	And I agree to court rules 
+	And I confirm declaration
+##	And I start a private meeting
+##	And I join a private meeting
 	
-	And And I click on hearing link to clipboard it should able to copy hearing link 
+	

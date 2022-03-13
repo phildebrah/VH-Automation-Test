@@ -315,6 +315,30 @@ namespace TestFramework
             webDriver.Navigate().GoToUrl(url);
         }
 
+        public static void ClickThroughJS(IWebDriver webdriver, By element, ScenarioContext sConext)
+        {
+            ((IJavaScriptExecutor)webdriver).ExecuteScript("aurguments[0].click();", element);
+        }
+
+        public static bool WaitForPageLoad(IWebDriver driver, By by, ScenarioContext scenarioContext)
+        {
+            var pageName = scenarioContext.GetPageName();
+            var userName = scenarioContext.GetUserName();
+
+            try
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+                wait.Until(ExpectedConditions.ElementExists(by));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Wait for Page load failed");
+                return false;
+            }
+        }
+
 
 
         //public static void ClickEnter(IWebDriver webdriver)

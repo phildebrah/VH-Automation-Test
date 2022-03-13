@@ -7,23 +7,29 @@ using System.Threading;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
-using System.Windows.Forms;
-using com.sun.media.sound;
 using OpenQA.Selenium.Interactions;
 using UI.Utilities;
 
 namespace UI.Steps
 {
     [Binding]
-    public class QuickLinkSteps : ObjectFactory
+    public class ConfirmEquipmentSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;
 
-        QuickLinkSteps(ScenarioContext scenarioContext)
+        ConfirmEquipmentSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
-        } 
-  }
+        }
+
+        [Then(@"I confirm equipment is working")]
+        public void ThenIConfirmEquipmentIsWorking()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, ConfirmEquipmentPage.ContinueBtn, _scenarioContext).Click();
+        }
+
+
+    }
 }
 

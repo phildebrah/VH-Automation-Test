@@ -7,23 +7,29 @@ using System.Threading;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
-using System.Windows.Forms;
-using com.sun.media.sound;
 using OpenQA.Selenium.Interactions;
 using UI.Utilities;
 
 namespace UI.Steps
 {
     [Binding]
-    public class QuickLinkSteps : ObjectFactory
+    public class SwitchOnCameraMicrophoneSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;
 
-        QuickLinkSteps(ScenarioContext scenarioContext)
+        SwitchOnCameraMicrophoneSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
-        } 
-  }
+        }
+
+        [Then(@"I make sure camera and microphone switched on")]
+        public void ThenIMakeSureCameraAndMicrophoneSwitchedOn()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, SwitchOnCameraMicrophonePage.SwitchOnButton, _scenarioContext).Click();
+        }
+
+
+    }
 }
 
