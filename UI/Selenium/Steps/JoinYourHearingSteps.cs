@@ -25,7 +25,7 @@ namespace UI.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [Then(@"I want to join hearing with details")]
+        [When(@"I want to join hearing with details")]
         public void ThenIWantToJoinHearingWithDetails(Table table)
         {
             foreach (var row in table.Rows)
