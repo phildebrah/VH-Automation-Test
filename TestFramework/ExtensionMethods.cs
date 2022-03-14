@@ -96,7 +96,7 @@ namespace TestFramework
                 {
                     try
                     {
-                        var result = d.FindElements(findBy).FirstOrDefault(elem => elem.Displayed);
+                        var result = d.FindElements(findBy)?.FirstOrDefault(elem => elem.Displayed);
                         return result;
                     }
                     catch (StaleElementReferenceException)
@@ -111,6 +111,7 @@ namespace TestFramework
             }
             return webelement;
         }
+
         public static bool IsElementVisible(IWebDriver driver, By by, ScenarioContext scenarioContext)
         {
             var pageName = scenarioContext.GetPageName();
@@ -121,10 +122,12 @@ namespace TestFramework
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
                 wait.Until(ExpectedConditions.ElementIsVisible(by));
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 return driver.FindElement(by).Displayed && driver.FindElement(by).Enabled;
             }
             catch (Exception ex)
             {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 Logger.Error(ex, $"Element is not visible By locator:'{by.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return false;
             }
@@ -148,7 +151,6 @@ namespace TestFramework
                 return false;
             }
         }
-
         public static bool IsElementNotExists(IWebDriver driver, By by, ScenarioContext scenarioContext)
         {
             var pageName = scenarioContext.GetPageName();
@@ -272,6 +274,66 @@ namespace TestFramework
             }
             webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
             return null;
+        }
+
+        public static bool IsElementEnabled(IWebDriver driver, By by)
+        {
+            try
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                return driver.FindElement(by).Enabled;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static string GetText(IWebDriver driver, By by, ScenarioContext scenarioContext)
+        {
+            try
+            {
+                return driver.FindElement(by).Text;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Cannot Move to element By locator:'{by.Criteria}' on page:'{scenarioContext.GetPageName()}, logged in User: {scenarioContext.GetUserName()}");
+            }
+            return null;
+        }
+
+        public static string GetValue(IWebDriver driver, By by, ScenarioContext scenarioContext)
+        {
+            try
+            {
+                return driver.FindElement(by).GetAttribute("value");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Cannot Move to element By locator:'{by.Criteria}' on page:'{scenarioContext.GetPageName()}, logged in User: {scenarioContext.GetUserName()}");
+            }
+            return null;
+        }
+
+        public static void ClickAll(IWebDriver driver, By by)
+        {
+            foreach (var el in driver.FindElements(by))
+            {
+                try
+                {
+                    el.Click();
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        public static void SendKeys(IWebDriver driver, string keys)
+        {
+            Actions action = new Actions(driver);
+            action.SendKeys(keys);
+            action.Perform();
         }
     }
 }

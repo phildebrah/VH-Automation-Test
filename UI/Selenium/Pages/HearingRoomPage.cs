@@ -22,6 +22,14 @@ namespace UISelenium.Pages
         public static By LowerHands => By.XPath("//*[contains(text(),'Lower hands')]");
         public static By ParticipantDisplayName(string name) => By.XPath($"//*[contains(text(),'{name}')]");
         public static By IncomingFeedJudgeVideo => By.Id("incomingFeedJudgePrivate");
-        //
+        public static By ParticipantMicLocked => By.Id("toggle-audio-mute-locked-img-desktop");
+        public static By ParticipantMicUnlocked => By.Id("toggle-audio-mute-img-desktop");
+        public static By JudgeMicMuted => By.XPath("//div[@id='toggle-audio-mute-img-desktop']//svg[@data-icon='microphone-slash']");
+        public static By JudgeMicActive => By.XPath("//div[@id='toggle-audio-mute-img-desktop']//svg[@data-icon='microphone']");
+        public static By JudgeYellow => By.XPath("//div[@id='panelList']//div[@class='yellow']");
+        public static By ParticipantToggleRaiseHand => By.Id("toggle-hand-raised-img-desktop");
+        public static By ParticipantToggleVideo => By.Id("toggle-video-mute-img-desktop");
+        public static By ParticipantHandRaised => By.XPath("//div[@colour='grey'][@class='icon-button']//fa-icon[@class='ng-fa-icon yellow']");
+        public static By ParticipantCameraOffIcon => By.XPath("//div[@class='icon-button no-click']//fa-icon[@icon='video-slash']");
     }
 }

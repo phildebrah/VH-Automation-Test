@@ -56,6 +56,7 @@ namespace SeleniumSpecFlow.Steps
         public void ThenAllParticipantsLogInToVideoWeb()
         {
             _hearing = (Hearing)_scenarioContext["Hearing"];
+            Driver?.Dispose();
             foreach (var participant in _hearing.Participant)
             {
                 Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);

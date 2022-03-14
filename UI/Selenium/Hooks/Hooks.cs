@@ -2,32 +2,33 @@
 using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
 using Microsoft.Extensions.Configuration;
+using NLog;
+using NLog.Web;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
-using RestSharp;
 using SeleniumSpecFlow.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
-using TestLibrary.Utilities;
-using NLog;
-using System.Text;
 using TestFramework;
-using NLog.Web;
+using TestLibrary.Utilities;
+using UI.Model;
 
 namespace SeleniumSpecFlow
 {
     [Binding]
-    public class Hooks //: ObjectFactory
+    public class Hooks 
     {
-         public static RestClient restClient { get; private set; }
         public IConfiguration Configuration { get; }
         public static EnvironmentConfigSettings config;
-        public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 17);
-        public static string PathReport = ProjectPath + "\\TestResults\\Report\\ExtentReport.html";
+        private static string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        public static string PathReport ;
+        private static string ImagesPath;
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
         private static ExtentReports _extent;
@@ -40,12 +41,21 @@ namespace SeleniumSpecFlow
         {
             try
             {
-                Directory.CreateDirectory(ProjectPath + Path.Combine("\\TestResults\\Report"));
-                Directory.CreateDirectory(ProjectPath + Path.Combine("\\TestResults\\Img"));
+                config = TestConfigHelper.GetApplicationConfiguration();
+
+                Logger.Info("Automation Test Execution Commenced");
+                
+                var logFilePath = Util.GetLogFileName("logfile");
+                var logFileName = Path.GetFileNameWithoutExtension(logFilePath);
+                var folderName = logFileName.Replace(":",".");
+
+                ImagesPath=Path.Combine(config.ImageLocation, folderName);
+                Directory.CreateDirectory(ProjectPath + ImagesPath);
+
+                PathReport= Path.Combine(ProjectPath+config.ReportLocation, folderName, "ExtentReport.html");
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
                 _extent.AttachReporter(reporter);
-                Logger.Info("Automation Test Execution Commenced");
             }
             catch (Exception ex)
             {
@@ -61,7 +71,6 @@ namespace SeleniumSpecFlow
 
             Logger.Info($"Starting feature '{featureTitle}'");
 
-            config = TestConfigHelper.GetApplicationConfiguration();
             _specFlowOutputHelper = outputHelper;
         }
 
@@ -75,9 +84,23 @@ namespace SeleniumSpecFlow
         [BeforeScenario("web")]
         public void BeforeScenarioWeb(ScenarioContext scenarioContext)
         {
-            IWebDriver Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-            //IWebDriver Driver =  DriverFactory.InitializeDriver(TestConfigHelper.browser);
-            //Driver.(TestConfigHelper.browser.ToString());
+            var title = scenarioContext.ScenarioInfo.Title;
+            var tags= scenarioContext.ScenarioInfo.Tags;
+
+            _scenario = _feature.CreateNode<Scenario>(title);
+            _scenario.AssignCategory(tags);
+
+            IWebDriver Driver;
+            if (RunOnSauceLabs(tags))
+            {
+                SauceLabsOptions sauceOptions = new SauceLabsOptions();
+                sauceOptions.Name=title;
+                Driver= new DriverFactory().InitializeSauceDriver(sauceOptions,config.SauceLabsConfiguration);
+            }
+            else
+            {
+                Driver= new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            }
             scenarioContext.Add("driver", Driver);
             scenarioContext.Add("config", config);
             scenarioContext.Add("feature", featureTitle);
@@ -92,7 +115,6 @@ namespace SeleniumSpecFlow
             var scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
 
-            restClient = new RestClient(config.ApiUrl);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
@@ -103,7 +125,6 @@ namespace SeleniumSpecFlow
             var scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
 
-            restClient = new RestClient(config.SoapApiUrl);
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
@@ -126,7 +147,7 @@ namespace SeleniumSpecFlow
         public static void InsertReportingStepsWeb(ScenarioContext scenarioContext)
         {
             var driver = (IWebDriver)scenarioContext["driver"];
-            var ScreenshotFilePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".png");
+            var ScreenshotFilePath = Path.Combine(ProjectPath + ImagesPath, Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
             if (scenarioContext.TestError != null && !(scenarioContext.TestError is AssertionException))
@@ -207,10 +228,6 @@ namespace SeleniumSpecFlow
             {
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
-
-                //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
-
-                // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
                 //For Extent report
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
@@ -229,7 +246,7 @@ namespace SeleniumSpecFlow
                 }
 
                 // For Living Doc
-                filePath = Path.Combine(ProjectPath + "\\TestResults\\Img", Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
+                filePath = Path.Combine(ProjectPath + ImagesPath, Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
                 driver.TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {filePath}");
 
@@ -314,23 +331,15 @@ namespace SeleniumSpecFlow
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
-            if(scenarioContext.ContainsKey("drivers"))
+            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
+            foreach (var driver in drivers)
             {
-                var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-                foreach (var driver in drivers)
+                if (scenarioContext.ContainsKey("driver"))
                 {
-                    driver.Value.Quit();
-                    Logger.Info($"{driver.Key} Driver has been closed");
+                    driver.Value?.Quit();
+                    Logger.Info($"Driver has been closed");
                 }
             }
-
-            if (scenarioContext.ContainsKey("driver"))
-            {
-                var driver = (IWebDriver)scenarioContext["driver"];
-                driver.Quit();
-                Logger.Info($"Driver has been closed");
-            }
-
             _extent.Flush();
             Logger.Info("Flush Extent Report Instance");
             TestContext.AddTestAttachment(filePath);
@@ -342,13 +351,6 @@ namespace SeleniumSpecFlow
         {
             _extent.Flush();
             GC.SuppressFinalize(this);
-        }
-
-        [AfterScenario]
-        public void AfterScenario(ScenarioContext scenarioContext)
-        {
-            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
-            Logger.Info($"Ending scenario '{scenarioTitle}'");
         }
 
         [AfterTestRun]
@@ -363,6 +365,11 @@ namespace SeleniumSpecFlow
         {
             var featureTitle = featureContext.FeatureInfo.Title;
             Logger.Info($"Ending feature '{featureTitle}'");
+        }
+
+        private static bool RunOnSauceLabs(string[] tags)
+        {
+            return config.RunOnSaucelabs && tags.Any(s => s.Contains("DeviceTest"));
         }
     }
 }

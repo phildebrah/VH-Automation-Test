@@ -27,6 +27,5 @@ namespace UISelenium.Pages
         public static By IncomingStreamVideo => By.Id("incomingStream");
         public static By OutgoingStreamVideo => By.Id("outgoingStream");
         public static By Meter => By.Id("meter");
-        //meter
     }
 }

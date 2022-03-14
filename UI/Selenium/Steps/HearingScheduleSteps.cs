@@ -39,6 +39,7 @@ namespace UI.Steps
         {
             try
             {
+                // commented below out, Will need revisiting
                 //IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
                 //js.ExecuteScript("document.getElementById('hearingDate').setAttribute('type', '')");
                 
