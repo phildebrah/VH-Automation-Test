@@ -9,5 +9,7 @@ namespace UI.Utilities
     internal class ApplicationData
     {
         public static String hearingListUrl = "";
+        public static String hearingID = "";
+        public static String hearingPhone = "";
     }
 }
