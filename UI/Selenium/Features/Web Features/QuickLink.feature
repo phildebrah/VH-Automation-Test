@@ -1,9 +1,9 @@
 ﻿@EndtoEndTest
 @web
 
-Feature: Quick Link
+Feature: Joining Hearing By Quick Link
 	
-Scenario: Quick Link Test
+Scenario: Copy Quick Link Test
 	Given I log in video url as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I choose from hearing lists
 		| Select your hearing lists                  |
@@ -14,7 +14,7 @@ Scenario: Quick Link Test
 	And And I click on copy joining by phone details to clipboard it should able to copy 
     And I click on link to join by quick link details to clipboard it should able to open on new browser 
 
-Scenario: ROpen hearing list
+Scenario: Open hearing list
 	Given I log in hearing url "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
 	Then I want to join hearing with details
 	| Full Name       |
@@ -30,7 +30,6 @@ Scenario: ROpen hearing list
 	And Checking were the image and sound clear
 	And I agree to court rules 
 	And I confirm declaration
-##	And I start a private meeting
-##	And I join a private meeting
+
 	
 	

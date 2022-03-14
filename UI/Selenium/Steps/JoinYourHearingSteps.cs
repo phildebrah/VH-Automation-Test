@@ -25,9 +25,6 @@ namespace UI.Steps
             _scenarioContext = scenarioContext;
         }
 
-        
-
-
         [Then(@"I want to join hearing with details")]
         public void ThenIWantToJoinHearingWithDetails(Table table)
         {

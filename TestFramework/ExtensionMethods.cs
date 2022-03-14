@@ -247,8 +247,6 @@ namespace TestFramework
             return webdriver.Url.Contains(title);
         }
 
-        
-
         public static IWebElement FindElementEnabledWithWait(IWebDriver webdriver, By findBy, int? waitTimeInSec = null)
         {
             int count = 0;
@@ -288,10 +286,7 @@ namespace TestFramework
             {
                 ((IJavaScriptExecutor)webdriver).ExecuteScript("window.open();");
                 webdriver = webdriver.SwitchTo().Window(webdriver.WindowHandles.Last());
-                webdriver.Navigate().GoToUrl(url); //table - row
-                
-                //webdriver.FindElement(By.CssSelector(".table-row")).Click();
-                //webdriver.FindElement(By.LinkText("here")).Click();
+                webdriver.Navigate().GoToUrl(url); 
             }
             catch (Exception ex)
             {
@@ -315,11 +310,6 @@ namespace TestFramework
             webDriver.Navigate().GoToUrl(url);
         }
 
-        public static void ClickThroughJS(IWebDriver webdriver, By element, ScenarioContext sConext)
-        {
-            ((IJavaScriptExecutor)webdriver).ExecuteScript("aurguments[0].click();", element);
-        }
-
         public static bool WaitForPageLoad(IWebDriver driver, By by, ScenarioContext scenarioContext)
         {
             var pageName = scenarioContext.GetPageName();
@@ -338,13 +328,5 @@ namespace TestFramework
                 return false;
             }
         }
-
-
-
-        //public static void ClickEnter(IWebDriver webdriver)
-        //{ 
-        //    webdriver.
-        //}
-
     }
 }
