@@ -64,8 +64,33 @@ namespace SeleniumSpecFlow.Utilities
                     Logger.Info(" Chrome Driver started in maximized mode");
                     break;
                 default:
-                    // code block
+                    // code block 
                     break;
+            }
+            return WebDriver;
+        }
+
+        public IWebDriver InitializeSauceDriver(SauceLabsOptions sauceLabsOptions, SauceLabsConfiguration config)
+        {
+            AppiumOptions options = new AppiumOptions();
+            options.DeviceName=config.DeviceName;
+            options.PlatformName=config.PlatformName;
+            options.BrowserName=config.BrowserName;
+            options.AddAdditionalAppiumOption(MobileCapabilityType.AppiumVersion, config.AppiumVersion);
+            options.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
+            options.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
+
+            Dictionary<string, object> SauceOptions = new Dictionary<string, object>
+            {
+                {"username",config.SauceUsername },
+                {"accessKey",config.SauceAccessKey },
+                { "name",sauceLabsOptions.Name}
+                ,{"commandTimeout",sauceLabsOptions.CommandTimeoutInSeconds }
+                ,{"idleTimeout",sauceLabsOptions.IdleTimeoutInSeconds }
+                ,{"maxDuration",sauceLabsOptions.MaxDurationInSeconds }
+                ,{"seleniumVersion",sauceLabsOptions.SeleniumVersion }
+                ,{"timeZone",sauceLabsOptions.Timezone }
+            };
 
             }
             return WebDriver;

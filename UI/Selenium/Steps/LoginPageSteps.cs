@@ -22,11 +22,11 @@ namespace SeleniumSpecFlow.Steps
     {
         private ScenarioContext _scenarioContext;
         private Hearing _hearing;
-        private Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
         public LoginPageSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            _scenarioContext.Add("drivers", drivers);
         }
 
 
@@ -74,6 +74,7 @@ namespace SeleniumSpecFlow.Steps
         public void ThenAllParticipantsLogInToVideoWeb()
         {
             _hearing = (Hearing)_scenarioContext["Hearing"];
+            Driver?.Dispose();
             foreach (var participant in _hearing.Participant)
             {
                 Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
@@ -85,8 +86,7 @@ namespace SeleniumSpecFlow.Steps
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
                 Login(participant.Id, Config.UserPassword);
             }
-            _scenarioContext.UpdatePageName("Your Video Hearings");
-            _scenarioContext.Add("drivers", drivers);
+            _scenarioContext["drivers"] = drivers;
         }
     }
 }
