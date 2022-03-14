@@ -7,8 +7,6 @@ using System.Threading;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
-using System.Windows.Forms;
-using com.sun.media.sound;
 using OpenQA.Selenium.Interactions;
 using UI.Utilities;
 
