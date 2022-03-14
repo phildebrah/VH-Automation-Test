@@ -102,7 +102,6 @@ namespace SeleniumSpecFlow
             {
                 Driver= new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             }
-             
             scenarioContext.Add("driver", Driver);
             scenarioContext.Add("config", config);
         }
@@ -227,10 +226,6 @@ namespace SeleniumSpecFlow
             {
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
-
-                //Driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
-
-                // ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(filePath);
                 //For Extent report
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
@@ -334,23 +329,15 @@ namespace SeleniumSpecFlow
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
-            if(scenarioContext.ContainsKey("drivers"))
+            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
+            foreach (var driver in drivers)
             {
-                var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-                foreach (var driver in drivers)
+                if (scenarioContext.ContainsKey("driver"))
                 {
-                    driver.Value.Quit();
-                    Logger.Info($"{driver.Key} Driver has been closed");
+                    driver.Value?.Quit();
+                    Logger.Info($"Driver has been closed");
                 }
             }
-
-            if (scenarioContext.ContainsKey("driver"))
-            {
-                var driver = (IWebDriver)scenarioContext["driver"];
-                driver.Quit();
-                Logger.Info($"Driver has been closed");
-            }
-
             _extent.Flush();
             Logger.Info("Flush Extent Report Instance");
             TestContext.AddTestAttachment(filePath);
@@ -362,13 +349,6 @@ namespace SeleniumSpecFlow
         {
             _extent.Flush();
             GC.SuppressFinalize(this);
-        }
-
-        [AfterScenario]
-        public void AfterScenario(ScenarioContext scenarioContext)
-        {
-            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
-            Logger.Info($"Ending scenario '{scenarioTitle}'");
         }
 
         [AfterTestRun]

@@ -53,7 +53,6 @@ namespace UI.Steps
             }
             catch
             {
-                //log the exception
                 return false;
             }
         }
