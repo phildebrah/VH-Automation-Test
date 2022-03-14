@@ -43,13 +43,7 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.ViewHearings, _scenarioContext).Click();
         }
 
-        [Then(@"I should naviagte to Hearing list page")]
-        public void ThenIShouldNaviagteToHearingListPage()
-        {
-            //Assert.IsTrue(ExtensionMethods.VerifyPageUrl(Driver, "hearings-list"));
-        }
-
-
+      
     }
 }
 

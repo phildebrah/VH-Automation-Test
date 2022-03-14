@@ -51,9 +51,7 @@ namespace UI.Steps
 
         [Then(@"I should able to open quicklink on new browser")]
         public void ThenIShouldAbleToOpenQuicklinkOnNewBrowser()
-        {
-            // ApplicationData.hearingListUrl = ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).GetAttribute("value");
-
+        {            
             Driver.Quit();
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             _scenarioContext["driver"] = Driver;

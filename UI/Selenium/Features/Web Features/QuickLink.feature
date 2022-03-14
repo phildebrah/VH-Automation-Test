@@ -8,8 +8,7 @@ Scenario: Get Hearing lists and join Hearing by Quick Link
 		| Select your hearing lists                  |
 		| Birmingham Civil and Family Justice Centre |
 	When I click on view hearings
-	Then I should naviagte to Hearing list page
-	When I click on copy hearing id to clipboard
+	And  I click on copy hearing id to clipboard
     Then Hearing id should be copied
 	When I click on copy joining by phone details to clipboard
     Then phone details should be copied
