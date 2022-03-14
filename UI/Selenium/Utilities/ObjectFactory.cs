@@ -16,9 +16,8 @@ namespace SeleniumSpecFlow.Utilities
     {
         public LoginPage LoginPage { get; set; }
         public CommonPageActions CommonPageActions { get; set; }
-
         public DashboardPage DashboardPage { get; set; }
-
+        public Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
         public HearingAssignJudgePage HearingAssignJudgePage { get; set; }
         public EnvironmentConfigSettings Config { get; set; }
         public IWebDriver Driver { get; set; }
@@ -31,7 +30,9 @@ namespace SeleniumSpecFlow.Utilities
         }
         public IWebDriver GetDriver(string participant, ScenarioContext _scenarioContext)
         {
-            return ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Where(a => a.Key.ToLower().Contains(participant.ToLower()))?.FirstOrDefault().Value;
+            var driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Where(a => a.Key.ToLower().Contains(participant.ToLower()))?.FirstOrDefault().Value;
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
+            return driver;
         }
     }
 }

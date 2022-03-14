@@ -34,7 +34,7 @@ namespace UI.Steps
 
         public void SignAllParticipantsIn()
         {
-            foreach(var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
+            foreach(var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"]) 
             {
                 Driver = driver.Value;
                 ProceedToWaitingRoom(driver.Key.Split('#').FirstOrDefault(), _hearing.Case.CaseNumber);

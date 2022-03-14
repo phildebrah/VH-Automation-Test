@@ -42,7 +42,7 @@ namespace UI.Steps
 
         private void EnterJudgeDetails(Judge judge)
         {
-            Driver.FindElement(HearingAssignJudgePage.JudgeEmail).SendKeys(judge.Email);
+            ExtensionMethods.FindElementWithWait(Driver,HearingAssignJudgePage.JudgeEmail, _scenarioContext).SendKeys(judge.Email);
             ExtensionMethods.FindElementWithWait(Driver, HearingAssignJudgePage.SearchResults, _scenarioContext).Click();
             Driver.FindElement(HearingAssignJudgePage.NextButton).Click();
             var participant = new Participant();
