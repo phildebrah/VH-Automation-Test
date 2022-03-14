@@ -28,8 +28,7 @@ namespace UI.Steps
         {
             ExtensionMethods.FindElementWithWait(Driver, WatchtheVideoPage.WatchVideoButton, _scenarioContext).Click();
         }
-
-
+        
     }
 }
 

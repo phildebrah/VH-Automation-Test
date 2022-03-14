@@ -27,12 +27,9 @@ namespace UI.Steps
         public void ThenIConfirmEquipmentIsWorking()
         {
             ExtensionMethods.FindElementWithWait(Driver, TestingEquipmentPage.ContinueBtn, _scenarioContext).Click();
-           
-            
+                       
         }
-
       
-
     }
 }
 

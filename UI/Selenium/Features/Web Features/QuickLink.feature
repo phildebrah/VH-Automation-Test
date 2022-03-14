@@ -12,13 +12,11 @@ Scenario: Copy Quick Link Test
 	Then I should naviagte to Hearing list page
 	When I click on copy hearing id to clipboard
     Then Hearing id should be copied
-	#And I click on copy hearing id to clipboard it should able to copy
 	When I click on copy joining by phone details to clipboard
     Then phone details should be copied
-	#And And I click on copy joining by phone details to clipboard it should able to copy 
     When I click on link to join by Quicklink details to clipboard
     Then I should able to open quicklink on new browser
-    #And I click on link to join by quick link details to clipboard it should able to open on new browser 
+    
 
 Scenario: Open hearing list
 	Given I log in hearing url "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"

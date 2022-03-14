@@ -25,7 +25,6 @@ namespace UI.Steps
           
         [STAThread]
        
-        
         [When(@"I click on copy hearing id to clipboard")]
         public void WhenIClickOnCopyHearingIdToClipboard()
         {
@@ -43,9 +42,7 @@ namespace UI.Steps
         {
             String hearingID = ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).GetAttribute("value");
             Assert.IsTrue(hearingID.Length > 0, "ID verified");
-        }
-
-              
+        }                      
 
         [When(@"I click on link to join by Quicklink details to clipboard")]
         public void WhenIClickOnLinkToJoinByQuicklinkDetailsToClipboard()
@@ -66,8 +63,6 @@ namespace UI.Steps
             ApplicationData.hearingListUrl = ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).GetAttribute("value");
 
         }
-
-
         
         [When(@"I click on copy joining by phone details to clipboard")]
         public void WhenIClickOnCopyJoiningByPhoneDetailsToClipboard()
@@ -87,9 +82,6 @@ namespace UI.Steps
             String hearingID = ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.NewMessageBox, _scenarioContext).GetAttribute("value");
             Assert.IsTrue(hearingID.Contains("+448000488500"), "Phone verified");
         }
-
-
-
 
     }
 }
