@@ -10,7 +10,7 @@ namespace TestLibrary.Utilities
         public string UserPassword { get; set; }
         public string ApiUrl { get; set; }
         public string SoapApiUrl { get; set; }
-        public string DefaultElementWait { get; set; }
+        public int DefaultElementWait { get; set; }
         public string OneMinuteElementWait { get; set; }
         public string VideoUrl { get; set; }
         public string AdminUrl { get; set; }
@@ -22,6 +22,8 @@ namespace TestLibrary.Utilities
         public string ReportLocation { get; set; }
         public string ImageLocation { get; set; }
         public bool RunOnSaucelabs { get; set; }
+        public int PipelineElementWait { get; set; }
+        public int SaucelabsElementWait { get; set; }
         public SauceLabsConfiguration SauceLabsConfiguration { get; set; }
     }
 
