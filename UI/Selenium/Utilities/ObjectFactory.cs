@@ -6,6 +6,7 @@ using UI.Steps.CommonActions;
 using OpenQA.Selenium;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace SeleniumSpecFlow.Utilities
 {
@@ -38,6 +39,20 @@ namespace SeleniumSpecFlow.Utilities
             Driver?.Dispose();
             this.Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             return Driver;
+        }
+
+        public string RandomizeEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return string.Empty;
+            }
+            Random rnd = new Random();
+            var num = rnd.Next(1, 10).ToString();
+            num = num.ToCharArray().Count() < 2 ? $"0{num}": num;
+            var a = email.Split('@').LastOrDefault();
+            var b = email.Split('@').FirstOrDefault();
+            return $"{ b.Substring(0, b.LastIndexOf("_")) }_{ num }@{ a }";
         }
     }
 }

@@ -331,15 +331,25 @@ namespace SeleniumSpecFlow
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
-            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-            foreach (var driver in drivers)
+            if(scenarioContext.ContainsKey("drivers"))
             {
-                if (scenarioContext.ContainsKey("driver"))
+                var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
+                foreach (var driver in drivers)
                 {
-                    driver.Value?.Quit();
-                    Logger.Info($"Driver has been closed");
+                    if (scenarioContext.ContainsKey("driver"))
+                    {
+                        driver.Value?.Quit();
+                        Logger.Info($"Driver has been closed");
+                    }
                 }
             }
+            else
+            {
+                var driver = (IWebDriver)scenarioContext["driver"];
+                driver.Quit();
+                Logger.Info($"Driver has been closed");
+            }
+           
             _extent.Flush();
             Logger.Info("Flush Extent Report Instance");
             TestContext.AddTestAttachment(filePath);

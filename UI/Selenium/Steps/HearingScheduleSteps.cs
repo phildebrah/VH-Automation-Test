@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using SeleniumSpecFlow.Utilities;
 using System;
 using TechTalk.SpecFlow;
@@ -8,9 +7,6 @@ using TestFramework;
 using UI.Model;
 using UISelenium.Pages;
 using System.Linq;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 
 namespace UI.Steps
 {
@@ -42,8 +38,7 @@ namespace UI.Steps
                 // commented below out, Will need revisiting
                 //IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
                 //js.ExecuteScript("document.getElementById('hearingDate').setAttribute('type', '')");
-                
-                Driver.FindElement(HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
+                ExtensionMethods.FindElementEnabledWithWait(Driver, HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
                 Driver.FindElement(HearingSchedulePage.HearingDate).Click();
             }
             catch (Exception ex)

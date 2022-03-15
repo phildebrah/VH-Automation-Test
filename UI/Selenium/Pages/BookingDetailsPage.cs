@@ -13,5 +13,6 @@ namespace UISelenium.Pages
         public static By EditBookingButton => By.Id("edit-button");
 
         public static By CloseBookingFailureWindowButton = By.Id("btnTryAgain");
+        public static By BookingConfirmedStatus = By.XPath("//div[@class='vh-created-booking'][text()='Confirmed']");
     }
 }

@@ -38,6 +38,7 @@ namespace UI.Steps
 
         private void EnterOtherInformation()
         {
+            ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.OtherInfo, _scenarioContext);
             if (_hearing.OtherInformation.IsHearingRecorded && ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes, _scenarioContext).Enabled)
             {
                 ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes, _scenarioContext).Click();

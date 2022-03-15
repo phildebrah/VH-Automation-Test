@@ -1,16 +1,11 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using SeleniumSpecFlow.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UI.Model;
 using UISelenium.Pages;
 using TestLibrary.Utilities;
-using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium;
 
 namespace UI.Steps
@@ -59,7 +54,7 @@ namespace UI.Steps
                     {
                         Name = row["Role"]
                     },
-                    Id = row["Id"],
+                    Id = RandomizeEmail(row["Id"]),
                     Name = new Name
                     {
                         FirstName = $"AutoFirst{Util.RandomAlphabet(4)}",
