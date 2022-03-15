@@ -31,11 +31,11 @@ namespace UI.Steps
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
-            ExtensionMethods.FindElementEnabledWithWait(Driver, HearingRoomPage.IncomingFeedJudgeVideo, int.Parse(Config.DefaultElementWait));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
+            ExtensionMethods.FindElementEnabledWithWait(Driver, HearingRoomPage.IncomingFeedJudgeVideo, Config.DefaultElementWait);
             foreach (var participant in _hearing.Participant)
             {
-                ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}"), int.Parse(Config.DefaultElementWait)).Displayed.Should().BeTrue();
+                ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}"), Config.DefaultElementWait).Displayed.Should().BeTrue();
             }
         }
 
@@ -47,7 +47,7 @@ namespace UI.Steps
             _scenarioContext["driver"] = Driver;
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
             Driver.FindElement(HearingRoomPage.CloseHearingButton).Click();
             Driver.FindElement(HearingRoomPage.ConfirmCloseHearingButton).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
@@ -92,7 +92,7 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.UnlockMute));
             wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
             Driver.FindElement(HearingRoomPage.UnlockMute).Click();
             foreach (var participant in _hearing.Participant)
             {

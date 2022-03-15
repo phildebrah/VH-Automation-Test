@@ -45,7 +45,7 @@ namespace UI.Steps
         {
             Driver = GetDriver(participant, _scenarioContext);
             _scenarioContext["driver"] = Driver;
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
             var elements = Driver.FindElements(JudgeHearingListPage.HealingListRow);
             Driver.FindElement(ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber)).Click();
             if (!participant.ToLower().Contains("judge"))
@@ -65,10 +65,10 @@ namespace UI.Steps
                 else
                 {
                     TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
-                    Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+                    Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                 }
                 Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
-                Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait));
+                Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                 Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
                 Driver.FindElement(ParticipantHearingListPage.MicrophoneWorkingYes).Click();
                 Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
