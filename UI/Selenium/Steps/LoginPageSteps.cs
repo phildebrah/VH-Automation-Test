@@ -13,6 +13,7 @@ using OpenQA.Selenium;
 using System.Linq;
 using OpenQA.Selenium.Interactions;
 using TestFramework;
+using UI.Utilities;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -24,14 +25,33 @@ namespace SeleniumSpecFlow.Steps
         private Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
         public string LoginUrl { get; set; }
         public LoginPageSteps(ScenarioContext scenarioContext)
-            :base (scenarioContext)
+            : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
             LoginUrl = Config.AdminUrl;
         }
 
+
+        [Given(@"I log in video url as ""([^""]*)""")]
+        public void GivenILogInVideoUrlAs(string userName)
+        {
+            LoginByUrl(userName, Config.VideoUrl);
+        }
+
+        [Given(@"I log in hearing url ""([^""]*)""")]
+        public void GivenILogInHearingUrl(string userName)
+        {
+            var result = CommonPageActions.NavigateToPage(ApplicationData.hearingListUrl);
+        }
+
+
         [Given(@"I log in as ""([^""]*)""")]
         public void GivenILogInAs(string userName)
+        {
+            LoginByUrl(userName, Config.AdminUrl);
+        }
+
+        private void LoginByUrl(string userName, string url)
         {
             _scenarioContext.UpdatePageName("Login");
             var result= CommonPageActions.NavigateToPage(LoginUrl, "login.microsoftonline.com");
@@ -39,7 +59,7 @@ namespace SeleniumSpecFlow.Steps
             _scenarioContext.UpdateUserName(userName);
             _scenarioContext.UpdatePageName("Dashboard");
         }
-    
+
         public void Login(string username, string password)
         {
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait))).SendKeys(username);
@@ -51,6 +71,7 @@ namespace SeleniumSpecFlow.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
             Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
+
         }
 
         [Then(@"all participants log in to video web")]
