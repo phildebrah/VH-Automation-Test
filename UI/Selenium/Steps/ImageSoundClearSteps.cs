@@ -29,7 +29,5 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, ImageSoundClearPage.VideoYesRadioButton, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, ImageSoundClearPage.Continue, _scenarioContext).Click();
         }
-
     }
 }
-

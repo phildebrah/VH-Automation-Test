@@ -28,5 +28,5 @@ namespace UI.Steps
         {
             ExtensionMethods.FindElementWithWait(Driver, ConfirmEquipmentPage.ContinueBtn, _scenarioContext).Click();
         }
-   }
+    }
 }

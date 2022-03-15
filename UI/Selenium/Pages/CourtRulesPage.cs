@@ -9,8 +9,6 @@ namespace UISelenium.Pages
 {
     public class CourtRulesPage
     {
-
-        public static By CourtRulesContinueBtn => By.Id("nextButton");
-
+       public static By CourtRulesContinueBtn => By.Id("nextButton");
     }
 }

@@ -9,10 +9,8 @@ namespace UISelenium.Pages
 {
     public class ImageSoundClearPage
     {
-
         public static By VideoYesRadioButton => By.CssSelector("label.govuk-label.govuk-radios__label");
         public static By VideoNoRadioButton => By.Id("video-no");
         public static By Continue = By.Id("continue-btn");
-
     }
 }

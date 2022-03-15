@@ -49,7 +49,7 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.QuicklinkCopy, _scenarioContext).Click();
             ApplicationData.hearingListUrl = new TextCopy.Clipboard().GetText();
 
-       }
+        }
 
         [Then(@"I should able to open quicklink on new browser")]
         public void ThenIShouldAbleToOpenQuicklinkOnNewBrowser()
@@ -66,7 +66,7 @@ namespace UI.Steps
             ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Phonetoclipboard, _scenarioContext).Click();
             ApplicationData.hearingPhone = new TextCopy.Clipboard().GetText();
-
+            
         }
 
         [Then(@"phone details should be copied")]
@@ -74,8 +74,6 @@ namespace UI.Steps
         {
             Assert.IsTrue(ApplicationData.hearingPhone.Contains("+448000488500"), "Phone verified");
             
-        }
-       
+        }       
     }
 }
-

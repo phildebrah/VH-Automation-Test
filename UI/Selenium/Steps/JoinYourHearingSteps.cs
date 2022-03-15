@@ -40,8 +40,5 @@ namespace UI.Steps
                 ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.ContinueButton, _scenarioContext).Click();
             }
         }
-
-
     }
 }
-

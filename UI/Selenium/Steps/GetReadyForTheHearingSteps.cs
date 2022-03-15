@@ -27,10 +27,7 @@ namespace UI.Steps
         public void ThenIGetReadyForTheHearing()
         {
             ExtensionMethods.FindElementWithWait(Driver, GetReadyForTheHearingPage.NextButton,_scenarioContext).Click();
-                
+               
         }
-
-
     }
 }
-

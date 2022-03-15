@@ -66,7 +66,7 @@ namespace SeleniumSpecFlow.Steps
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
-            Driver.FindElement(LoginPage.PasswordField).SendKeys("_6qc2;b=s4m:NRK[");
+            Driver.FindElement(LoginPage.PasswordField).SendKeys(Config.UserPassword);
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
         }
 

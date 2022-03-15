@@ -9,8 +9,6 @@ namespace UISelenium.Pages
 {
     public class GetReadyForTheHearingPage
     {
-
         public static By NextButton => By.Id("next");
-
     }
 }

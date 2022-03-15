@@ -28,9 +28,6 @@ namespace UI.Steps
         {
             ExtensionMethods.FindElementWithWait(Driver, SignInToHearingPage.SignInToHearingButton, _scenarioContext).Click();
            
-        }
-
-        
+        }        
     }
 }
-

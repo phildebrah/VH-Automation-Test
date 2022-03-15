@@ -29,7 +29,5 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, DeclarationPage.DeclarationCheckBox, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, DeclarationPage.DeclarationContinueBtn, _scenarioContext).Click();
         }
-
-        }
+    }
 }
-

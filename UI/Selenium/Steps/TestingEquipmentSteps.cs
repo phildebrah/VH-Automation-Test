@@ -28,8 +28,6 @@ namespace UI.Steps
         {
             ExtensionMethods.FindElementWithWait(Driver, TestingEquipmentPage.ContinueBtn, _scenarioContext).Click();
                        
-        }
-      
+        }      
     }
 }
-

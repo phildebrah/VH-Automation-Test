@@ -31,11 +31,7 @@ namespace UI.Steps
                 ExtensionMethods.FindElementWithWait(Driver, CameraWorkingPage.CameraYesRadioButton, _scenarioContext).Click();
 
                 ExtensionMethods.FindElementWithWait(Driver, CameraWorkingPage.Continue, _scenarioContext).Click();
-
             }
-
         }
-
     }
 }
-

@@ -9,8 +9,6 @@ namespace UISelenium.Pages
 {
     public class WatchtheVideoPage
     {
-
         public static By WatchVideoButton => By.Id("watch-video-btn");
-
     }
 }

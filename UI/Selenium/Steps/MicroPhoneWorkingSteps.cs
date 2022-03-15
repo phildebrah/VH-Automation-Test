@@ -28,7 +28,5 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, MicroPhoneWorkingPage.MicrophoneYesRadioBUtton, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, MicroPhoneWorkingPage.Continue, _scenarioContext).Click();
         }
-
     }
 }
-

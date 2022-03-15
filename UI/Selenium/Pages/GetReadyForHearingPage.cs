@@ -10,6 +10,5 @@ namespace UISelenium.Pages
     public class GetReadyForHearingPage
     {
         public static By Quicklinks => By.CssSelector("fa-icon");
-       
     }
 }

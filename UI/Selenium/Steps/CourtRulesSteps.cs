@@ -28,9 +28,5 @@ namespace UI.Steps
         {
             ExtensionMethods.FindElementWithWait(Driver, CourtRulesPage.CourtRulesContinueBtn, _scenarioContext).Click();
         }
-
-
-
     }
 }
-
