@@ -9,8 +9,6 @@ namespace UISelenium.Pages
 {
     public class ConfirmEquipmentPage
     {
-
         public static By ContinueBtn => By.Id("continue-btn");
-
     }
 }

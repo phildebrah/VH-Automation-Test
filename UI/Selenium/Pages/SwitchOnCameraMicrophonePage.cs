@@ -9,8 +9,6 @@ namespace UISelenium.Pages
 {
     public class SwitchOnCameraMicrophonePage
     {
-
         public static By SwitchOnButton => By.Id("switch-on-btn");
-
     }
 }

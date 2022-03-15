@@ -242,12 +242,7 @@ namespace TestFramework
                 Logger.Error(ex, $"Cannot Move to element By locator:'{locator.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return el;
             }
-        }
-
-        public static bool VerifyPageUrl(IWebDriver webdriver, string title)
-        {
-            return webdriver.Url.Contains(title);
-        }
+        }       
 
         public static IWebElement FindElementEnabledWithWait(IWebDriver webdriver, By findBy, int? waitTimeInSec = null)
         {
@@ -357,12 +352,7 @@ namespace TestFramework
             }
 
         }
-
-        public static void NavigateUrl(IWebDriver webdriver, String url)
-        {
-            webdriver.Navigate().GoToUrl(url);
-        }
-
+       
         public static void CloseAndOpenBrowser(IWebDriver webDriver, String url)
         {
             webDriver.FindElement(By.CssSelector("#logout-link")).Click();

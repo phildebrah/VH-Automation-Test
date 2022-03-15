@@ -28,8 +28,5 @@ namespace UI.Steps
         {
             ExtensionMethods.FindElementWithWait(Driver, SwitchOnCameraMicrophonePage.SwitchOnButton, _scenarioContext).Click();
         }
-
-
     }
 }
-

@@ -9,7 +9,6 @@ using TestFramework;
 using UISelenium.Pages;
 using OpenQA.Selenium.Interactions;
 using UI.Utilities;
-
 namespace UI.Steps
 {
     [Binding]
