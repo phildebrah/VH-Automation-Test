@@ -31,7 +31,7 @@ namespace SeleniumSpecFlow.Utilities
                     firefoxoptions.AddArgument("no-sandbox");
                     firefoxoptions.AddArguments("--use-fake-ui-for-media-stream");
                     firefoxoptions.AddArguments("--use-fake-device-for-media-stream");
-                    WebDriver = new FirefoxDriver(firefoxoptions);  
+                    WebDriver = new FirefoxDriver(firefoxoptions);
                     WebDriver.Manage().Window.Maximize();
                     Logger.Info(" Firefox started in maximized mode");
                     break;
@@ -52,7 +52,7 @@ namespace SeleniumSpecFlow.Utilities
                     WebDriver.Manage().Window.Maximize();
                     Logger.Info(" Safari started in maximized mode");
                     break;
-              
+
                 case BrowserType.Chrome:
                     new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                     ChromeOptions chromeoptions = new ChromeOptions();
@@ -73,9 +73,9 @@ namespace SeleniumSpecFlow.Utilities
         public IWebDriver InitializeSauceDriver(SauceLabsOptions sauceLabsOptions, SauceLabsConfiguration config)
         {
             AppiumOptions options = new AppiumOptions();
-            options.DeviceName=config.DeviceName;
-            options.PlatformName=config.PlatformName;
-            options.BrowserName=config.BrowserName;
+            options.DeviceName = config.DeviceName;
+            options.PlatformName = config.PlatformName;
+            options.BrowserName = config.BrowserName;
             options.AddAdditionalAppiumOption(MobileCapabilityType.AppiumVersion, config.AppiumVersion);
             options.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
             options.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
@@ -92,20 +92,10 @@ namespace SeleniumSpecFlow.Utilities
                 ,{"timeZone",sauceLabsOptions.Timezone }
             };
 
-            foreach (var (key, value) in SauceOptions)
-            {
-                options.AddAdditionalCapability(key, value);
-            }
-
-            var remoteUrl= new Uri($"http://{config.SauceUsername}:{config.SauceAccessKey}{config.SauceUrl}");
-            //var remoteUrl = new Uri("http://VideoHearings:dc0b098c-8279-4877-8690-aa942327be3f@ondemand.eu-central-1.saucelabs.com/wd/hub");
-
-            WebDriver = new RemoteWebDriver(remoteUrl, options.ToCapabilities());
 
             return WebDriver;
         }
-
-
-
     }
+
 }
+

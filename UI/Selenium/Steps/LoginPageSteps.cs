@@ -13,6 +13,7 @@ using OpenQA.Selenium;
 using System.Linq;
 using OpenQA.Selenium.Interactions;
 using TestFramework;
+using UI.Utilities;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -22,22 +23,41 @@ namespace SeleniumSpecFlow.Steps
         private ScenarioContext _scenarioContext;
         private Hearing _hearing;
         public LoginPageSteps(ScenarioContext scenarioContext)
-            :base (scenarioContext)
+            : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
             _scenarioContext.Add("drivers", drivers);
         }
 
+
+        [Given(@"I log in video url as ""([^""]*)""")]
+        public void GivenILogInVideoUrlAs(string userName)
+        {
+            LoginByUrl(userName, Config.VideoUrl);
+        }
+
+        [Given(@"I log in hearing url ""([^""]*)""")]
+        public void GivenILogInHearingUrl(string userName)
+        {
+            var result = CommonPageActions.NavigateToPage(ApplicationData.hearingListUrl);
+        }
+
+
         [Given(@"I log in as ""([^""]*)""")]
         public void GivenILogInAs(string userName)
         {
+            LoginByUrl(userName, Config.AdminUrl);
+        }
+
+        private void LoginByUrl(string userName, string url)
+        {
             _scenarioContext.UpdatePageName("Login");
-            var result= CommonPageActions.NavigateToPage(Config.AdminUrl, "login.microsoftonline.com");
+            var result = CommonPageActions.NavigateToPage(url, "login.microsoftonline.com");
             Login(userName, Config.UserPassword);
             _scenarioContext.UpdateUserName(userName);
             _scenarioContext.UpdatePageName("Dashboard");
         }
-    
+
         public void Login(string username, string password)
         {
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).SendKeys(username);
@@ -46,7 +66,7 @@ namespace SeleniumSpecFlow.Steps
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
-            Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
+            Driver.FindElement(LoginPage.PasswordField).SendKeys(Config.UserPassword);
             TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
         }
 
