@@ -1,5 +1,4 @@
 ﻿using SeleniumSpecFlow.Utilities;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
 using UI.Model;
 using SeleniumSpecFlow.Steps;
@@ -7,9 +6,6 @@ using Selenium.Axe;
 using FluentAssertions;
 using TestFramework;
 using UISelenium.Pages;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System;
 namespace UI.Steps
 {
     [Binding]
@@ -18,7 +14,6 @@ namespace UI.Steps
         private ScenarioContext _scenarioContext;
         private LoginPageSteps loginSteps;
         private DashboardSteps dashboardSteps;
-        VideoAccessSteps videoAccessSteps;
         private AxeBuilder axeResult;
         AccessibilitySteps_VideoBooking accessibilitySteps;
         public string username = "auto_vw.individual_05@hearings.reform.hmcts.net";
@@ -30,7 +25,6 @@ namespace UI.Steps
             _scenarioContext = scenarioContext;
             loginSteps = new LoginPageSteps(scenarioContext);
             dashboardSteps = new DashboardSteps(scenarioContext);
-            videoAccessSteps = new VideoAccessSteps(scenarioContext);
             accessibilitySteps = new AccessibilitySteps_VideoBooking(scenarioContext);
             axeResult = new AxeBuilder(Driver);
         }

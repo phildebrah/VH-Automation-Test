@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium.Support.UI;
 using SeleniumSpecFlow.Utilities;
 using System;
 using TechTalk.SpecFlow;
@@ -33,17 +32,8 @@ namespace UI.Steps
 
         private void EnterHearingSchedule(HearingSchedule hearingSchedule)
         {
-            try
-            {
-                // commented below out, Will need revisiting
-                //IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
-                //js.ExecuteScript("document.getElementById('hearingDate').setAttribute('type', '')");
-                ExtensionMethods.FindElementEnabledWithWait(Driver, HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
-                Driver.FindElement(HearingSchedulePage.HearingDate).Click();
-            }
-            catch (Exception ex)
-            {
-            }
+            ExtensionMethods.FindElementEnabledWithWait(Driver, HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
+            Driver.FindElement(HearingSchedulePage.HearingDate).Click();
             Driver.FindElement(HearingSchedulePage.HearingStartTimeHour).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("HH"));
             Driver.FindElement(HearingSchedulePage.HearingStartTimeMinute).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("mm"));
             Driver.FindElement(HearingSchedulePage.HearingDurationHour).SendKeys(hearingSchedule.DurationHours);

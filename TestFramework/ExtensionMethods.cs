@@ -317,6 +317,7 @@ namespace TestFramework
 
         public static void ClickAll(IWebDriver driver, By by)
         {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
             foreach (var el in driver.FindElements(by))
             {
                 try

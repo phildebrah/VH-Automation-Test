@@ -7,10 +7,11 @@ using TechTalk.SpecFlow;
 using SeleniumSpecFlow.Steps;
 using UI.Utilities;
 using UI.Model;
+using TestFramework;
+using UISelenium.Pages;
 namespace UI.Steps
 {
-    [Binding]
-    internal class DeleteBookingSteps : ObjectFactory
+     internal class BookingListSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
         public string username = "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net";
@@ -25,7 +26,7 @@ namespace UI.Steps
         SummaryPageSteps summaryPageSteps;
         Hearing _hearing;
 
-        public DeleteBookingSteps(ScenarioContext scenarioContext)
+        public BookingListSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
@@ -42,6 +43,7 @@ namespace UI.Steps
         [Given(@"I have a booked hearing")]
         public void GivenIHaveABookedHearing()
         {
+
             loginSteps.GivenILogInAs(username);
             dashboardSteps.GivenISelectBookAHearing();
             createHearingDetails.GivenIWantToCreateAHearingWithCaseDetails(StepsHelper.Set.HearingDetailsData());
@@ -57,14 +59,24 @@ namespace UI.Steps
             summaryPageSteps.ThenAHearingShouldBeCreated();
         }
 
-        [When(@"I delete the booking")]
-        public void WhenIDeleteTheBooking()
+        [When(@"I navigate to booking list page")]
+        public void INavigateToBookingListPage()
         {
-
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+            ExtensionMethods.FindElementWithWait(Driver, Header.BookingsList, _scenarioContext).Click();
+            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDateTitle).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRow).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.Case.CaseName)).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.HearingSchedule.HearingVenue)).Displayed.Should().BeTrue();
+            Driver.FindElement(BookingListPage.SearchCaseTextBox).SendKeys(_hearing.Case.CaseNumber);
+            Driver.FindElement(BookingListPage.SearchButton).Click();
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.BookingConfirmedStatus, _scenarioContext);
+            Driver.FindElements(BookingListPage.HearingDetailsRow).Count.Should().Be(1);
         }
 
-        [Then(@"The booking should be deleted")]
-        public void ThenTheBookingShouldBeDeleted()
+        [Then(@"The booking should contain expected values")]
+        public void ThenTheBookingShouldContainExpectedValues()
         {
 
         }

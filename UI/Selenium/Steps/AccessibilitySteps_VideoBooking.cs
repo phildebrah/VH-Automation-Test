@@ -17,7 +17,7 @@ namespace UI.Steps
     public class AccessibilitySteps_VideoBooking : ObjectFactory
     {
         private ScenarioContext _scenarioContext;
-        public string username = "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net";
+        public string username = "auto_aw.videohearingsofficer_02@hearings.reform.hmcts.net";
         private LoginPageSteps loginSteps;
         private DashboardSteps dashboardSteps;
         private HearingScheduleSteps hearingScheduleSteps;
@@ -47,7 +47,6 @@ namespace UI.Steps
         public void GivenImOnThePage(string pageName)
         {
             PageName = pageName;
-            //username = RandomizeEmail(username);
             loginSteps.GivenILogInAs(username);
         }
 
@@ -99,7 +98,7 @@ namespace UI.Steps
                     table = StepsHelper.Set.ParticipantsData();
                     participantsSteps.GivenIWantToCreateAHearingFor(table);
                     ExtensionMethods.GetSelectElementWithText(Driver, VideoAccessPointsPage.DefenceAdvocate(0), "None", _scenarioContext);
-                    // axeResult.Analyze().Violations.Should().BeEmpty(); THIS IS CURRENTLY FAILING- UNCOMMENT LATER
+                    axeResult.Analyze().Violations.Should().BeEmpty(); //THIS IS CURRENTLY FAILING- UNCOMMENT LATER
                     break;
                 case "Other Information":
                     ProceedToPage("Video Access Points");
@@ -120,7 +119,7 @@ namespace UI.Steps
                     ProceedToPage("Summary");
                     summaryPageSteps.GivenIBookTheHearing();
                     summaryPageSteps.ThenAHearingShouldBeCreated();
-                    //axeResult.Analyze().Violations.Should().BeEmpty(); // AXE VIOLATIONS ON THIS PAGE
+                    axeResult.Analyze().Violations.Should().BeEmpty(); // AXE VIOLATIONS ON THIS PAGE
                     break;
                 case "Booking Details":
                     ProceedToPage("Booking Confirmation");
@@ -131,7 +130,7 @@ namespace UI.Steps
                     WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
                     ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.BookingConfirmedStatus, _scenarioContext);
-                    //axeResult.Analyze().Violations.Should().BeEmpty(); // AXE VIOLATIONS ON THIS PAGE => Ensures every id attribute value is unique
+                    axeResult.Analyze().Violations.Should().BeEmpty(); // AXE VIOLATIONS ON THIS PAGE => Ensures every id attribute value is unique
                     break;
                 case "Booking List":
                     ExtensionMethods.FindElementWithWait(Driver, Header.BookingsList, _scenarioContext).Click();

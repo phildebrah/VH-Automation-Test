@@ -1,11 +1,11 @@
-﻿Feature: DeleteBooking
+﻿Feature: BookingList
 
 This test runs an a basic e2e test for book a hearing
-And then it deletes the hearing
+And then it checks booking list contains newly created hearing
 
 @web
 @tag1
-Scenario: Delete a confirmed hearing
+Scenario: Check booking list contains expected values
 	Given I have a booked hearing
-	When I delete the booking
-	Then The booking should be deleted
+	When I navigate to booking list page
+	Then The booking should contain expected values

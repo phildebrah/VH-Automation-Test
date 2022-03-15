@@ -70,7 +70,6 @@ namespace UI.Steps
 
         public void EnterParticipants()
         {
-            
             foreach (var participant in _hearing.Participant)
             {
                 if (!string.IsNullOrEmpty(participant.Party?.Name) && participant.Party?.Name != "Judge")
