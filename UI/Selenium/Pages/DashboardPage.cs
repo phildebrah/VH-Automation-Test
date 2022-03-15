@@ -15,5 +15,10 @@ namespace UISelenium.Pages
         public static By ChangeUserPasswordButton = By.Id("changePasswordBtn");
         public static By DeleteParticipantButton = By.Id("deleteUserBtn");
         public static By EditPparticipantNameButton = By.Id("editUserBtn");
+        public static By QuestionairVHTable = By.Id("vh-table");
+        public static By CaseNumber = By.Id("caseNumber");
+        public static By UserName = By.Id("userName");
+        public static By ContactEmail = By.Id("contactEmail");
+        
     }
 }

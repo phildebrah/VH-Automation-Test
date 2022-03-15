@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UI.Model;
-using UI.Pages;
 using OpenQA.Selenium.Support.UI;
+using UISelenium.Pages;
 namespace UI.Steps
 {
     [Binding]

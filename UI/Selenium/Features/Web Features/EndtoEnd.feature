@@ -6,7 +6,7 @@ Feature: EndtoEnd
 
 	@DeviceTest
 Scenario: End to End test
-	Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_11@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details
 	| Case Number | Case Name              | Case Type | Hearing Type        |
