@@ -38,7 +38,8 @@ namespace UI.Steps
         [Then(@"Hearing id should be copied")]
         public void ThenHearingIdShouldBeCopied()
         {
-            Assert.IsTrue(ApplicationData.hearingID.Length > 0, "ID verified");
+            bool isValid = Guid.TryParse(ApplicationData.hearingID, out Guid guidOutput);
+            Assert.IsTrue(isValid);
         }                      
 
         [When(@"I click on link to join by Quicklink details to clipboard")]
@@ -47,6 +48,7 @@ namespace UI.Steps
             ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.QuicklinkCopy, _scenarioContext).Click();
             ApplicationData.hearingListUrl = new TextCopy.Clipboard().GetText();
+
        }
 
         [Then(@"I should able to open quicklink on new browser")]
@@ -71,8 +73,9 @@ namespace UI.Steps
         public void ThenPhoneDetailsShouldBeCopied()
         {
             Assert.IsTrue(ApplicationData.hearingPhone.Contains("+448000488500"), "Phone verified");
+            
         }
-
+       
     }
 }
 
