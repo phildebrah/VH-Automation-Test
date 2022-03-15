@@ -80,7 +80,7 @@ namespace UI.Steps
             {
                 if (!string.IsNullOrEmpty(participant.Party?.Name) && participant.Party?.Name != "Judge")
                 {
-                    WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                    WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
                     ExtensionMethods.GetSelectElementWithText(Driver, ParticipantsPage.PartyDropdown, participant.Party.Name, _scenarioContext);
                     _scenarioContext.UpdateElementName("PartyDropdown");
                     _scenarioContext.UpdateActionName("SendKeys");

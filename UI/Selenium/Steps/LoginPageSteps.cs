@@ -40,9 +40,9 @@ namespace SeleniumSpecFlow.Steps
     
         public void Login(string username, string password)
         {
-            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait))).SendKeys(username);
+            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).SendKeys(username);
             Driver.FindElement(LoginPage.Next).Click();
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
@@ -60,7 +60,7 @@ namespace SeleniumSpecFlow.Steps
                 Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
                 _scenarioContext["driver"] = Driver;
                 Driver.Navigate().GoToUrl(Config.VideoUrl);
-                var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
                 _scenarioContext.UpdatePageName("Video Web Login");
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
