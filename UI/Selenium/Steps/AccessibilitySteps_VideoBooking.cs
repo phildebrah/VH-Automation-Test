@@ -53,10 +53,10 @@ namespace UI.Steps
         [Then(@"the page should be accessible")]
         public void ThenThePageShouldBeAccessible()
         {
-            CheckAccessibilityCompliency(PageName);
+            CheckAccessibilityCompliance(PageName);
         }
 
-        private void CheckAccessibilityCompliency(string pageName)
+        private void CheckAccessibilityCompliance(string pageName)
         {
             ExtensionMethods.FindElementWithWait(Driver, DashboardPage.BookHearingButton, _scenarioContext);
             axeResult.Analyze().Violations.Should().BeEmpty();
@@ -166,7 +166,7 @@ namespace UI.Steps
 
         private void ProceedToPage(string pageName)
         {
-            CheckAccessibilityCompliency(pageName);
+            CheckAccessibilityCompliance(pageName);
         }
     }
 }
