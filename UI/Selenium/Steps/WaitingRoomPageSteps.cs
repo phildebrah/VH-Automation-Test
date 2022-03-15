@@ -60,7 +60,7 @@ namespace UI.Steps
                 if (!participant.Party.Name.ToLower().Contains("judge"))
                 {
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
-                    WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                    WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
                     wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.JoinPrivateMeetingButton));
                     wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.ChooseCameraAndMicButton));
                     var waitingRoomPage = Driver.PageSource;

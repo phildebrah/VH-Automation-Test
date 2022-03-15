@@ -24,6 +24,7 @@ namespace TestLibrary.Utilities
 
         public static EnvironmentConfigSettings GetApplicationConfiguration()
         {
+            EnvironmentConfigSettings configSettings=null;
             LaunchSettingsFixture();
             var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
             browser = (BrowserType)Enum.Parse(typeof(BrowserType), Environment.GetEnvironmentVariable("BROWSER"));
@@ -36,20 +37,24 @@ namespace TestLibrary.Utilities
             {
                 if (environment.ToLower() == "Development".ToLower())
                 {
-                    return systemConfiguration.DevelopmentEnvironmentConfigSettings;
+                    configSettings=systemConfiguration.DevelopmentEnvironmentConfigSettings;
                 }
                 else if (environment.ToLower() == "Acceptance".ToLower())
                 {
-                    return systemConfiguration.AcceptanceEnvironmentConfigSettings;
+                    configSettings=systemConfiguration.AcceptanceEnvironmentConfigSettings;
                 }
                 else if (environment.ToLower() == "Production".ToLower())
                 {
-                    return systemConfiguration.ProductionEnvironmentConfigSettings;
+                    configSettings=systemConfiguration.ProductionEnvironmentConfigSettings;
                 }
 
-
+                //set the correct ElementWait based on execution environment
+                if (configSettings.RunOnSaucelabs)
+                {
+                    configSettings.DefaultElementWait=configSettings.SaucelabsElementWait;
+                }
             }
-            return null;
+            return configSettings;
         }
 
         public static void LaunchSettingsFixture()
