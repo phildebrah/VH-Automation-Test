@@ -25,7 +25,7 @@ namespace UI.Steps
         [Given(@"I select Check Equipment")]
         public void GivenISelectCheckEquipment()
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(ParticipantHearingListPage.CheckEquipment));
 
             var element = Driver.FindElement(ParticipantHearingListPage.CheckEquipment);

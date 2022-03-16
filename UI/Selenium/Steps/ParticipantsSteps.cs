@@ -1,16 +1,12 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using SeleniumSpecFlow.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UI.Model;
 using UISelenium.Pages;
 using TestLibrary.Utilities;
-using SeleniumExtras.WaitHelpers;
+using OpenQA.Selenium;
 
 namespace UI.Steps
 {
@@ -74,12 +70,11 @@ namespace UI.Steps
 
         public void EnterParticipants()
         {
-            
             foreach (var participant in _hearing.Participant)
             {
                 if (!string.IsNullOrEmpty(participant.Party?.Name) && participant.Party?.Name != "Judge")
                 {
-                    WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                    WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
                     ExtensionMethods.GetSelectElementWithText(Driver, ParticipantsPage.PartyDropdown, participant.Party.Name, _scenarioContext);
                     _scenarioContext.UpdateElementName("PartyDropdown");
                     _scenarioContext.UpdateActionName("SendKeys");
@@ -90,13 +85,11 @@ namespace UI.Steps
                     _scenarioContext.UpdateElementName("ParticipantEmailTextfield");
                     _scenarioContext.UpdateActionName("SendKeys");
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.ParticipantEmailTextfield, _scenarioContext).SendKeys(participant.Id.Replace("hearings.reform.hmcts.net", "hmcts.net"));
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.EmailList, _scenarioContext, TimeSpan.FromSeconds(1));
                     _scenarioContext["Hearing"] = _hearing;
-                    _scenarioContext.UpdateElementName("FirstNameTextfield");
-                    _scenarioContext.UpdateActionName("SendKeys");
-                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.FirstNameTextfield, _scenarioContext).SendKeys(participant.Name.FirstName);
-                    _scenarioContext.UpdateElementName("LastNameTextfield");
-                    _scenarioContext.UpdateActionName("SendKeys");
-                    ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.LastNameTextfield, _scenarioContext).SendKeys(participant.Name.LastName);
+                    new SelectElement(Driver.FindElement(ParticipantsPage.TitleDropdown)).SelectByText("Mr");
+                    ExtensionMethods.SendKeys(Driver, Keys.Tab);
+                    ExtensionMethods.ClickAll(Driver, ParticipantsPage.EmailList);
                     _scenarioContext.UpdateElementName("PhoneTextfield");
                     _scenarioContext.UpdateActionName("SendKeys");
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PhoneTextfield, _scenarioContext).SendKeys("07021234567");
@@ -109,6 +102,29 @@ namespace UI.Steps
                         _scenarioContext.UpdateActionName("SendKeys");
                         ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield, _scenarioContext).SendKeys($"AutoOrg{Util.RandomAlphabet(4)}");
                     }
+
+                    if (ExtensionMethods.IsElementEnabled(Driver, ParticipantsPage.FirstNameTextfield))
+                    {
+                        _scenarioContext.UpdateElementName("FirstNameTextfield");
+                        _scenarioContext.UpdateActionName("SendKeys");
+                        ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.FirstNameTextfield, _scenarioContext).SendKeys(participant.Name.FirstName);
+                    }
+                    else
+                    {
+                        participant.Name.FirstName = ExtensionMethods.GetValue(Driver, ParticipantsPage.FirstNameTextfield, _scenarioContext);
+                    }
+
+                    if (ExtensionMethods.IsElementEnabled(Driver, ParticipantsPage.LastNameTextfield))
+                    {
+                        _scenarioContext.UpdateElementName("LastNameTextfield");
+                        _scenarioContext.UpdateActionName("SendKeys");
+                        ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.LastNameTextfield, _scenarioContext).SendKeys(participant.Name.LastName);
+                    }
+                    else
+                    {
+                        participant.Name.LastName = ExtensionMethods.GetValue(Driver, ParticipantsPage.LastNameTextfield, _scenarioContext);
+                    }
+
                     _scenarioContext.UpdateElementName("DisplayNameTextfield");
                     _scenarioContext.UpdateActionName("SendKeys");
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.DisplayNameTextfield, _scenarioContext).SendKeys($"{participant.Name.FirstName} {participant.Name.LastName}");

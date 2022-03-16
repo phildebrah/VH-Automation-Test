@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
+﻿using OpenQA.Selenium.Support.UI;
 using SeleniumSpecFlow.Utilities;
 using System;
 using TechTalk.SpecFlow;
@@ -8,6 +6,7 @@ using TestFramework;
 using UI.Model;
 using UISelenium.Pages;
 using System.Linq;
+
 namespace UI.Steps
 {
     [Binding]
@@ -33,7 +32,8 @@ namespace UI.Steps
 
         private void EnterHearingSchedule(HearingSchedule hearingSchedule)
         {
-            Driver.FindElement(HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
+            ExtensionMethods.FindElementEnabledWithWait(Driver, HearingSchedulePage.HearingDate).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("dd/MM/yyyy"));
+            Driver.FindElement(HearingSchedulePage.HearingDate).Click();
             Driver.FindElement(HearingSchedulePage.HearingStartTimeHour).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("HH"));
             Driver.FindElement(HearingSchedulePage.HearingStartTimeMinute).SendKeys(hearingSchedule.HearingDate.FirstOrDefault().ToString("mm"));
             Driver.FindElement(HearingSchedulePage.HearingDurationHour).SendKeys(hearingSchedule.DurationHours);
@@ -47,7 +47,7 @@ namespace UI.Steps
         {
             var tableRow = table.Rows[0];
             var date = DateTime.Now.AddMinutes(min);
-            _hearing.HearingSchedule.HearingDate = new System.Collections.Generic.List<DateTime> { date };
+             _hearing.HearingSchedule.HearingDate = new System.Collections.Generic.List<DateTime> { date };
             _hearing.HearingSchedule.HearingTime = date;
             _hearing.HearingSchedule.DurationHours = tableRow["Duration Hour"];
             _hearing.HearingSchedule.DurationMinutes = tableRow["Duration Minute"];

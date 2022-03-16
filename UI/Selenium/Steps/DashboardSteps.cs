@@ -5,10 +5,7 @@ using SeleniumSpecFlow.Utilities;
 using System;
 using TechTalk.SpecFlow;
 using TestFramework;
-using UI.Model;
 using UISelenium.Pages;
-using System.Linq;
-using System.Collections.Generic;
 namespace UI.Steps
 {
     [Binding]
@@ -46,14 +43,13 @@ namespace UI.Steps
         {
             try
             {
-                WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.DefaultElementWait)));
+                WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
                 wait.Until(ExpectedConditions.ElementIsVisible(HearingDetailsPage.CaseNumber));
                
                 return true;
             }
             catch
             {
-                //log the exception
                 return false;
             }
         }

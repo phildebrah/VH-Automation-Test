@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
+		<IsPackable>false</IsPackable>
 
-    <AssemblyName>UISelenium</AssemblyName>
-  </PropertyGroup>
+		<AssemblyName>UISelenium</AssemblyName>
+	</PropertyGroup>
 
+	<ItemGroup>
+		<Compile Remove="Utilities\Reporter.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="App.config" />
+	</ItemGroup>
   <ItemGroup>
-    <Compile Remove="Utilities\Reporter.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="App.config" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Appium.WebDriver" Version="5.0.0-beta01" />
     <PackageReference Include="ExtentReports" Version="4.1.0" />
     <PackageReference Include="FluentAssertions" Version="6.5.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
@@ -32,6 +32,7 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="RestSharp" Version="106.15.0" />
+    <PackageReference Include="Selenium.Axe" Version="3.1.5" />
     <PackageReference Include="Selenium.Support" Version="4.1.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="98.0.4758.8000" />
@@ -41,29 +42,31 @@
     <PackageReference Include="SpecFlow.NUnit" Version="3.9.50" />
     <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
     <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.50" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
+    <PackageReference Include="TextCopy" Version="6.1.0" />
     <PackageReference Include="WebDriverManager" Version="2.12.3" />
   </ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="NLog.config">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="passwords.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Properties\launchSettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="passwords.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Properties\launchSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="TestResults\Img\" />
+		<Folder Include="TestResults\Logs\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TestResults\Img\" />
-    <Folder Include="TestResults\Logs\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\TestFramework\TestFramework.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\TestFramework\TestFramework.csproj" />
+	</ItemGroup>
 
 </Project>

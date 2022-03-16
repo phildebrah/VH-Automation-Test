@@ -4,8 +4,9 @@
 Feature: EndtoEnd
 	To book and attend a Hearing
 
+	@DeviceTest
 Scenario: End to End test
-	Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_11@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -38,3 +39,4 @@ Scenario: End to End test
 	And the judge checks that all participants have joined the hearing room
 	Then the judge closes the hearing
 	And everyone signs out
+
