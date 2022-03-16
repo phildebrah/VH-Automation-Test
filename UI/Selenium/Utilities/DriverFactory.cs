@@ -73,9 +73,9 @@ namespace SeleniumSpecFlow.Utilities
         public IWebDriver InitializeSauceDriver(SauceLabsOptions sauceLabsOptions, SauceLabsConfiguration config)
         {
             AppiumOptions options = new AppiumOptions();
-            options.DeviceName=config.DeviceName;
-            options.PlatformName=config.PlatformName;
-            options.BrowserName=config.BrowserName;
+            options.DeviceName = config.DeviceName;
+            options.PlatformName = config.PlatformName;
+            options.BrowserName = config.BrowserName;
             options.AddAdditionalAppiumOption(MobileCapabilityType.AppiumVersion, config.AppiumVersion);
             options.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
             options.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
