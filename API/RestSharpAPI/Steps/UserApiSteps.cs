@@ -11,6 +11,7 @@ using Bookings;
 using Notification;
 using User;
 using Video;
+using System.Collections.Generic;
 
 namespace RestSharpApi.Steps
 {
@@ -26,6 +27,7 @@ namespace RestSharpApi.Steps
         private static string _tenetid = "fb6e0e22-0da3-4c35-972a-9d61eb256508";
         private static string _authority = "https://login.microsoftonline.com/";
         private static BookingsApi BookingApiService;
+        private static SpecFlowContext _context;
 
         ScenarioContext scenarioContext;
 
@@ -37,10 +39,11 @@ namespace RestSharpApi.Steps
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GetServiceToServiceToken());
              BookingApiService = new BookingsApi(_client);
             BookingApiService.BaseUrl = "https://vh-bookings-api-dev.azurewebsites.net/";
+            var _context = base.
         }
 
         [Given(@"I have a userApi")]
-        public async void GivenIHaveAUserApi()
+        public async Task GivenIHaveAUserApi()
         {
             var _baseUrl = "https://vh-bookings-api-dev.azurewebsites.net";
             var _client = new HttpClient();
@@ -119,30 +122,51 @@ namespace RestSharpApi.Steps
         }
 
         [When(@"I check its health")]
-        public void WhenICheckItsHealth()
+        public async Task WhenICheckItsHealth()
         {
             throw new PendingStepException();
         }
 
         [Then(@"I see that it is sucessful")]
-        public void ThenISeeThatItIsSucessful()
+        public async Task ThenISeeThatItIsSucessful()
         {
             throw new PendingStepException();
         }
 
         [When(@"I book a hearing")]
-        public void WhenIBookAHearing()
+        public async Task WhenIBookAHearing()
         {
 
-            BookAHearing();
+            await BookAHearing();
+            await ConfirmAHearing();
         }
         public async Task BookAHearing()
         {
             _logger.Info("MK is Booking a hearing");
             BookNewHearingRequest _request = new BookNewHearingRequest();
-            ////_request.Case_type_name = "Civil";
-            //_request.Scheduled_duration = 60;
-            //_request.Hearing_venue_name = "Birmingham Civil and Family Justice Centre";
+            _request.Audio_recording_required = false;
+            _request.Scheduled_date_time = DateTime.Now.AddMinutes(1);
+            _request.Hearing_venue_name = "Birmingham Civil and Family Justice Centre";
+            _request.Case_type_name = "Civil";
+            CaseRequest _request2 = new CaseRequest { Is_lead_case = true, Name = "Case aaa", Number = "AA/AAA111"};
+            var cases = new List<CaseRequest> { _request2 };
+            _request.Cases = cases;
+
+            Bookings.ParticipantRequest _request3 = new Bookings.ParticipantRequest
+            {
+                Username = "auto_aw_Judge01@hearings.reform.hmcts.net",
+                Case_role_name = "Judge",
+                Hearing_role_name = "Judge",
+                Contact_email = "auto_aw_Judge01@hearings.reform.hmcts.net",
+                Last_name = "Judge_01",
+                First_name = "auto_aw.",
+                Display_name = "auto_aw_Judge01"
+            };
+            var participantList = new List<Bookings.ParticipantRequest> { _request3 };
+            _request.Participants = participantList;
+            _request2.Number = "121212";
+            _request.Scheduled_duration = 60;
+            _request.Hearing_type_name = "Civil Enforcement";
             HearingDetailsResponse _response = new HearingDetailsResponse();
             try
             {
@@ -151,12 +175,26 @@ namespace RestSharpApi.Steps
                 _logger.Info($"response is {_response.Id}");
 
             }
+            catch (Bookings.ApiException<Bookings.ProblemDetails> e)
+            {
+                _logger.Info(e.Message);
+                Bookings.ProblemDetails pd = e.Result;
+                _logger.Info(pd.AdditionalProperties);
+                foreach (var it in pd.AdditionalProperties)
+                    _logger.Info(it.ToString);
+                _logger.Info($" exception type {e.GetType().Name}");
+                throw;
+            }
             catch (Exception e)
             {
                 _logger.Info(e.Message);
                 _logger.Info($" exception type {e.GetType().Name}");
                 throw;
             }
+            
+            _logger.Info($"Hearing: Response id {_response.Id}, status is{_response.Status}");
+            _logger.Info(_response.ToString());
+            
             _logger.Info($"Booking ended");
         }
 
@@ -177,6 +215,15 @@ protected string GetServiceToServiceToken()
 
             return result.AccessToken;
         }
+
+        public async Task ConfirmAHearing()
+        {
+            var _hearingId = null;
+            UpdateBookingStatusRequest request = new UpdateBookingStatusRequest();
+            await UpdateBookingStatusAsync(_hearingid);
+        }
+
+
     [When(@"I get case Types")]
     public async Task WhenIGetCaseTypes()
     {
