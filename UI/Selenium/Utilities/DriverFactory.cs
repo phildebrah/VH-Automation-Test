@@ -73,12 +73,13 @@ namespace SeleniumSpecFlow.Utilities
         public IWebDriver InitializeSauceDriver(SauceLabsOptions sauceLabsOptions, SauceLabsConfiguration config)
         {
             AppiumOptions options = new AppiumOptions();
-            options.DeviceName = config.DeviceName;
-            options.PlatformName = config.PlatformName;
-            options.BrowserName = config.BrowserName;
+            options.DeviceName=config.DeviceName;
+            options.PlatformName=config.PlatformName;
+            options.BrowserName=config.BrowserName;
             options.AddAdditionalAppiumOption(MobileCapabilityType.AppiumVersion, config.AppiumVersion);
             options.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
             options.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
+            options.AddAdditionalAppiumOption("name", sauceLabsOptions.Name);
 
             Dictionary<string, object> SauceOptions = new Dictionary<string, object>
             {
@@ -92,6 +93,14 @@ namespace SeleniumSpecFlow.Utilities
                 ,{"timeZone",sauceLabsOptions.Timezone }
             };
 
+            foreach (var (key, value) in SauceOptions)
+            {
+                options.AddAdditionalCapability(key, value);
+            }
+
+            var remoteUrl = new Uri($"http://{config.SauceUsername}:{config.SauceAccessKey}{config.SauceUrl}");
+   
+            WebDriver = new RemoteWebDriver(remoteUrl, options.ToCapabilities());
 
             return WebDriver;
         }
