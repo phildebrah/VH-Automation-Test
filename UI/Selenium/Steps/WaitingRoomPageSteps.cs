@@ -36,6 +36,15 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton, _scenarioContext).Click();
             _scenarioContext.UpdatePageName("Judge Waiting Room");
         }
+        [When(@"the judge selects Enter consultation room")]
+        public void WhenJudgeSelectsEnterConsultation()
+        {
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
+            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext).Click();
+        }
 
         [Then(@"all participants are redirected to the hearing room when the judge resumes the video hearing")]
         public void ThenAllParticipantsAreRedirectedToTheHearingRoomWhenTheJudgeResumesTheVideoHearing()

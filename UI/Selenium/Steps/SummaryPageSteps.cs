@@ -41,5 +41,21 @@ namespace UI.Steps
             successTitle.Text.Should().Contain("Your hearing booking was successful");
         }
 
+        [Then(@"optionally I confirm the booking")]
+        public void ThenConfirmTheBooking()
+        {
+            _scenarioContext.UpdatePageName("Hearing summary");
+            ExtensionMethods.FindElementWithWait(Driver, SummaryPage.ViewThisBooking, _scenarioContext).Click();
+
+            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingDetailsPage.ConfirmBookingButton);
+
+            if (ExtensionMethods.IsElementExists(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext))
+            {
+                ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext).Click();
+
+                WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
+            }
+        }
     }
 }
