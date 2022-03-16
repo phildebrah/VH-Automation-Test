@@ -1,7 +1,7 @@
 ﻿@EndtoEndTest
 @web
 Feature: Join Hearing By Quick Link
-
+@DeviceTest
 Scenario: Get Hearing lists and join Hearing by Quick Link
 	Given I log in video url as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I choose from hearing lists

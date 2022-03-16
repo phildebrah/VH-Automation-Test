@@ -14,7 +14,7 @@ namespace UI.Steps
      internal class BookingListSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
-        public string username = "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net";
+        public string username = "auto_aw.videohearingsofficer_02@hearings.reform.hmcts.net";
         private LoginPageSteps loginSteps;
         private DashboardSteps dashboardSteps;
         private HearingScheduleSteps hearingScheduleSteps;
@@ -37,7 +37,6 @@ namespace UI.Steps
             videoAccessSteps = new VideoAccessSteps(scenarioContext);
             otherInformationSteps = new OtherInformationSteps(scenarioContext);
             summaryPageSteps = new SummaryPageSteps(scenarioContext);
-            username = RandomizeEmail(username);
         }
 
         [Given(@"I have a booked hearing")]

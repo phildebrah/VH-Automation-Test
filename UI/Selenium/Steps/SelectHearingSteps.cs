@@ -32,7 +32,6 @@ namespace UI.Steps
             ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Hearingidtoclipboard, _scenarioContext).Click();
             ApplicationData.hearingID = new TextCopy.Clipboard().GetText();
-
         }
 
         [Then(@"Hearing id should be copied")]
