@@ -54,7 +54,7 @@ namespace UI.Steps
                     {
                         Name = row["Role"]
                     },
-                    Id = RandomizeEmail(row["Id"]),
+                    Id = row["Id"],
                     Name = new Name
                     {
                         FirstName = $"AutoFirst{Util.RandomAlphabet(4)}",
