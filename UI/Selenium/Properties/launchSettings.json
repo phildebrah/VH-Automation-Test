@@ -2,10 +2,10 @@
   "profiles": {
     "TestLibrary": {
       "commandName": "Project",
-      "environmentVariables": {
-        "BROWSER": "Chrome",
-        "ENVIRONMENT": "Acceptance"
-      },
+        "environmentVariables": {
+            "BROWSER": "Chrome",
+            "ENVIRONMENT": "Development"
+        },
       "sqlDebugging": true,
       "nativeDebugging": true
     }

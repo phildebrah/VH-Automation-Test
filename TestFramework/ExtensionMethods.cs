@@ -242,7 +242,7 @@ namespace TestFramework
                 Logger.Error(ex, $"Cannot Move to element By locator:'{locator.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return el;
             }
-        }
+        }       
 
         public static IWebElement FindElementEnabledWithWait(IWebDriver webdriver, By findBy, int? waitTimeInSec = null)
         {
@@ -317,6 +317,7 @@ namespace TestFramework
 
         public static void ClickAll(IWebDriver driver, By by)
         {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
             foreach (var el in driver.FindElements(by))
             {
                 try
@@ -334,6 +335,51 @@ namespace TestFramework
             Actions action = new Actions(driver);
             action.SendKeys(keys);
             action.Perform();
+        }
+
+        public static void OpenNewPage(IWebDriver webdriver, String url)
+        {
+           
+            try
+            {
+                ((IJavaScriptExecutor)webdriver).ExecuteScript("window.open();");
+                webdriver = webdriver.SwitchTo().Window(webdriver.WindowHandles.Last());
+                webdriver.Navigate().GoToUrl(url); 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Cannot Move to element By locator:");
+               
+            }
+
+        }
+       
+        public static void CloseAndOpenBrowser(IWebDriver webDriver, String url)
+        {
+            webDriver.FindElement(By.CssSelector("#logout-link")).Click();
+            ((IJavaScriptExecutor)webDriver).ExecuteScript("window.open();");
+            webDriver.Close();
+            webDriver = webDriver.SwitchTo().Window(webDriver.WindowHandles.Last());
+            webDriver.Navigate().GoToUrl(url);
+        }
+
+        public static bool WaitForPageLoad(IWebDriver driver, By by, ScenarioContext scenarioContext)
+        {
+            var pageName = scenarioContext.GetPageName();
+            var userName = scenarioContext.GetUserName();
+
+            try
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+                wait.Until(ExpectedConditions.ElementExists(by));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"Wait for Page load failed");
+                return false;
+            }
         }
     }
 }

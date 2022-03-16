@@ -39,23 +39,13 @@ namespace UI.Steps
             _scenarioContext.UpdatePageName("Hearing booking confirmation");
             var successTitle = ExtensionMethods.FindElementWithWait(Driver, SummaryPage.SuccessTitle, _scenarioContext);
             successTitle.Text.Should().Contain("Your hearing booking was successful");
-        }
 
-        [Then(@"optionally I confirm the booking")]
-        public void ThenConfirmTheBooking()
-        {
-            _scenarioContext.UpdatePageName("Hearing summary");
-            ExtensionMethods.FindElementWithWait(Driver, SummaryPage.ViewThisBooking, _scenarioContext).Click();
-
-            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingDetailsPage.ConfirmBookingButton);
-
-            if (ExtensionMethods.IsElementExists(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext))
-            {
-                ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext).Click();
-
-                WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
-                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
-            }
+            ExtensionMethods.FindElementWithWait(Driver, BookingConfirmationPage.ViewBookingLink, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext);
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext).Click();
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.BookingConfirmedStatus, _scenarioContext);
         }
     }
 }

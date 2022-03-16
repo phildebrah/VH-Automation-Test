@@ -13,6 +13,7 @@ using OpenQA.Selenium;
 using System.Linq;
 using OpenQA.Selenium.Interactions;
 using TestFramework;
+using UI.Utilities;
 
 namespace SeleniumSpecFlow.Steps
 {
@@ -21,33 +22,56 @@ namespace SeleniumSpecFlow.Steps
     {
         private ScenarioContext _scenarioContext;
         private Hearing _hearing;
+        private Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
+        public string LoginUrl { get; set; }
         public LoginPageSteps(ScenarioContext scenarioContext)
-            :base (scenarioContext)
+            : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _scenarioContext.Add("drivers", drivers);
+            LoginUrl = Config.AdminUrl;
         }
+
+
+        [Given(@"I log in video url as ""([^""]*)""")]
+        public void GivenILogInVideoUrlAs(string userName)
+        {
+            LoginByUrl(userName, Config.VideoUrl);
+        }
+
+        [Given(@"I log in hearing url ""([^""]*)""")]
+        public void GivenILogInHearingUrl(string userName)
+        {
+            var result = CommonPageActions.NavigateToPage(ApplicationData.hearingListUrl);
+        }
+
 
         [Given(@"I log in as ""([^""]*)""")]
         public void GivenILogInAs(string userName)
         {
+            LoginByUrl(userName, Config.AdminUrl);
+        }
+
+        private void LoginByUrl(string userName, string url)
+        {
             _scenarioContext.UpdatePageName("Login");
-            var result= CommonPageActions.NavigateToPage(Config.AdminUrl, "login.microsoftonline.com");
+            var result= CommonPageActions.NavigateToPage(LoginUrl, "login.microsoftonline.com");
             Login(userName, Config.UserPassword);
             _scenarioContext.UpdateUserName(userName);
             _scenarioContext.UpdatePageName("Dashboard");
         }
-    
+
         public void Login(string username, string password)
         {
-            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).SendKeys(username);
+            ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).SendKeys(username);
+
             Driver.FindElement(LoginPage.Next).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
             Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
-            TestFramework.ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
+
         }
 
         [Then(@"all participants log in to video web")]
@@ -66,7 +90,8 @@ namespace SeleniumSpecFlow.Steps
                 drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
                 Login(participant.Id, Config.UserPassword);
             }
-            _scenarioContext["drivers"] = drivers;
+            _scenarioContext.UpdatePageName("Your Video Hearings");
+            _scenarioContext.Add("drivers", drivers);
         }
     }
 }

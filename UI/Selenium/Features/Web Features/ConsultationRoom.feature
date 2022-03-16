@@ -27,7 +27,6 @@ Scenario: Consultation room
 	|                | This is a test info |
 	And I book the hearing
     Then A hearing should be created
-	And optionally I confirm the booking
 	And I log off
 	And all participants log in to video web
 	And all participants have joined the hearing waiting room

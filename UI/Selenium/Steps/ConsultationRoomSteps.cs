@@ -71,6 +71,9 @@ namespace UI.Steps
             var script = "document.getElementById('leaveButton-landscape').click();";
             var scriptExecutor = Driver as IJavaScriptExecutor;
             scriptExecutor.ExecuteScript(script);
+            ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ConfirmLeaveButton, _scenarioContext).Click();
+
+            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
 
             var isBtnVisible=ExtensionMethods.IsElementVisible(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
             isBtnVisible.Should().BeTrue("Judge didn't leave consultation room");
@@ -82,6 +85,8 @@ namespace UI.Steps
 
             scriptExecutor = Driver as IJavaScriptExecutor;
             scriptExecutor.ExecuteScript(script);
+            ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ConfirmLeaveButton, _scenarioContext).Click();
+
             Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}")).Displayed.Should().BeTrue();
             Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Party.Name)).Displayed.Should().BeTrue();
             Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
