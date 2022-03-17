@@ -13,5 +13,6 @@ namespace UISelenium.Pages
         public static By DotLoader = By.Id("dot-loader");
         public static By TryAgainButton = By.Id("btnTryAgain");
         public static By SuccessTitle = By.ClassName("govuk-panel__title");
+        public static By ViewThisBooking = By.LinkText("View this booking");
     }
 }
