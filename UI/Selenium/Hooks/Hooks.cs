@@ -226,6 +226,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError == null)
             {
+                driver = (IWebDriver)scenarioContext["driver"];
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
                 //For Extent report
