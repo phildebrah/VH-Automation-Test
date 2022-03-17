@@ -43,12 +43,8 @@ namespace UI.Steps
             {
                 Driver = GetDriver(participant.Id, _scenarioContext);
                 _scenarioContext["driver"] = Driver;
-                //ThenILogOff();
                 Driver.FindElement(Header.SignOut).Click();
-                Driver.Url.Should().Contain(loginUrl);
             }
-
-            Driver?.Close();
         }
     }
 }

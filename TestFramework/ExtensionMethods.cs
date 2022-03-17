@@ -79,19 +79,16 @@ namespace TestFramework
 
         public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, ScenarioContext scenarioContext,TimeSpan? waitPeriod=null)
         {
-            waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod;
+            waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod.Value;
             IWebElement webelement = null;
-            var pageName = scenarioContext.GetPageName();
-            var userName = scenarioContext.GetUserName();
+            var pageName = scenarioContext?.GetPageName();
+            var userName = scenarioContext?.GetUserName();
 
             try
             {
                 //If there is no page specific timeout specified, use default timeout
                 var wait = new WebDriverWait(webdriver, waitPeriod.Value);
                 wait.Until(ExpectedConditions.ElementIsVisible(findBy));
-                //wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(findBy));
-                //wait.Until(ExpectedConditions.ElementToBeClickable(findBy));
-
                 webelement = wait.Until(d =>
                 {
                     try
@@ -114,15 +111,14 @@ namespace TestFramework
 
         public static bool IsElementVisible(IWebDriver driver, By by, ScenarioContext scenarioContext)
         {
-            var pageName = scenarioContext.GetPageName();
-            var userName = scenarioContext.GetUserName();
+            var pageName = scenarioContext?.GetPageName();
+            var userName = scenarioContext?.GetUserName();
 
             try
             {
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
                 wait.Until(ExpectedConditions.ElementIsVisible(by));
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 return driver.FindElement(by).Displayed && driver.FindElement(by).Enabled;
             }
             catch (Exception ex)
@@ -379,6 +375,60 @@ namespace TestFramework
             {
                 Logger.Error(ex, $"Wait for Page load failed");
                 return false;
+            }
+        }
+
+        public static void WaitForElementNotVisible(IWebDriver driver, By by, int? timeInSec = null)
+        {
+            bool isVisible = true;
+            timeInSec = timeInSec == null ? 20 : timeInSec.Value;
+            int count = 1;
+            while (isVisible)
+            {
+                try
+                {
+                    if (!IsElementVisible(driver, by, null))
+                    {
+                        break;
+                    }
+                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
+                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
+                    isVisible = IsElementVisible(driver, by, null);
+                }
+                catch
+                {
+
+                }
+                if (count > timeInSec && isVisible)
+                {
+                    throw new Exception($"Element {by.Criteria} was not expected to be visible after {timeInSec} sec, but it was");
+                }
+                count++;
+            }
+        }
+
+        public static void WaitForElementVisible(IWebDriver driver, By by, int? timeInSec = null)
+        {
+            bool isVisible = false;
+            timeInSec = timeInSec == null ? 20 : timeInSec.Value;
+            int count = 1;
+            while (!isVisible)
+            {
+                try
+                {
+                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
+                    wait.Until(ExpectedConditions.ElementIsVisible(by));
+                    isVisible = IsElementVisible(driver, by, null);
+                }
+                catch
+                {
+
+                }
+                if (count > timeInSec && !isVisible)
+                {
+                    throw new Exception($"Element {by.Criteria} was expected to be visible after {timeInSec} sec, but it was not");
+                }
+                count++;
             }
         }
     }
