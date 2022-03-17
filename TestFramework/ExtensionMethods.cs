@@ -401,6 +401,7 @@ namespace TestFramework
                 }
                 if (count > timeInSec && isVisible)
                 {
+                    Logger.Error($"Element {by.Criteria} was not expected to be visible after {timeInSec} sec, but it was");
                     throw new Exception($"Element {by.Criteria} was not expected to be visible after {timeInSec} sec, but it was");
                 }
                 count++;
@@ -426,6 +427,7 @@ namespace TestFramework
                 }
                 if (count > timeInSec && !isVisible)
                 {
+                    Logger.Error($"Element {by.Criteria} was expected to be visible after {timeInSec} sec, but it was not");
                     throw new Exception($"Element {by.Criteria} was expected to be visible after {timeInSec} sec, but it was not");
                 }
                 count++;
