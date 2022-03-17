@@ -11,6 +11,7 @@ using OpenQA.Selenium.Appium;
 using TestLibrary.Utilities;
 using OpenQA.Selenium.Appium.Enums;
 using UI.Model;
+using UI.Utilities;
 
 namespace SeleniumSpecFlow.Utilities
 {
@@ -72,36 +73,101 @@ namespace SeleniumSpecFlow.Utilities
 
         public IWebDriver InitializeSauceDriver(SauceLabsOptions sauceLabsOptions, SauceLabsConfiguration config)
         {
-            AppiumOptions options = new AppiumOptions();
-            options.DeviceName = config.DeviceName;
-            options.PlatformName = config.PlatformName;
-            options.BrowserName = config.BrowserName;
-            options.AddAdditionalAppiumOption(MobileCapabilityType.AppiumVersion, config.AppiumVersion);
-            options.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
-            options.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
-            options.AddAdditionalAppiumOption("name", sauceLabsOptions.Name);
-
             Dictionary<string, object> SauceOptions = new Dictionary<string, object>
-            {
-                {"username",config.SauceUsername },
-                {"accessKey",config.SauceAccessKey },
-                { "name",sauceLabsOptions.Name}
-                ,{"commandTimeout",sauceLabsOptions.CommandTimeoutInSeconds }
-                ,{"idleTimeout",sauceLabsOptions.IdleTimeoutInSeconds }
-                ,{"maxDuration",sauceLabsOptions.MaxDurationInSeconds }
-                ,{"seleniumVersion",sauceLabsOptions.SeleniumVersion }
-                ,{"timeZone",sauceLabsOptions.Timezone }
-            };
-
-            foreach (var (key, value) in SauceOptions)
-            {
-                options.AddAdditionalCapability(key, value);
-            }
-
+                    {
+                        {"username",config.SauceUsername },
+                        {"accessKey",config.SauceAccessKey },
+                        { "name",sauceLabsOptions.Name}
+                        ,{"commandTimeout",sauceLabsOptions.CommandTimeoutInSeconds }
+                        ,{"idleTimeout",sauceLabsOptions.IdleTimeoutInSeconds }
+                        ,{"maxDuration",sauceLabsOptions.MaxDurationInSeconds }
+                        ,{"seleniumVersion",sauceLabsOptions.SeleniumVersion }
+                        ,{"timeZone",sauceLabsOptions.Timezone }
+                    };
             var remoteUrl = new Uri($"http://{config.SauceUsername}:{config.SauceAccessKey}{config.SauceUrl}");
-   
-            WebDriver = new RemoteWebDriver(remoteUrl, options.ToCapabilities());
 
+            switch (config.PlatformName)
+            {
+                case "Android":
+                    AppiumOptions options = new AppiumOptions();
+                    options.DeviceName = config.DeviceName;
+                    options.PlatformName = config.PlatformName;
+                    options.BrowserName = config.BrowserName;
+                    options.AddAdditionalAppiumOption(MobileCapabilityType.AppiumVersion, config.AppiumVersion);
+                    options.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
+                    options.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
+                    options.AddAdditionalAppiumOption("name", sauceLabsOptions.Name);
+
+                    foreach (var (key, value) in SauceOptions)
+                    {
+                        options.AddAdditionalOption(key, value);
+                    }
+                    WebDriver = new RemoteWebDriver(remoteUrl, options.ToCapabilities());
+                    break;
+
+                case "iOS":
+                    AppiumOptions iosOptions = new AppiumOptions();
+                    iosOptions.DeviceName = config.DeviceName;
+                    iosOptions.PlatformName = config.PlatformName;
+                    iosOptions.BrowserName = config.BrowserName;
+                    iosOptions.AddAdditionalAppiumOption(MobileCapabilityType.AppiumVersion, config.AppiumVersion);
+                    iosOptions.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
+                    iosOptions.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
+                    iosOptions.AddAdditionalAppiumOption("name", sauceLabsOptions.Name);
+
+                    foreach (var (key, value) in SauceOptions)
+                    {
+                        iosOptions.AddAdditionalOption(key, value);
+                    }
+                    WebDriver = new RemoteWebDriver(remoteUrl, iosOptions.ToCapabilities());
+                    break;
+
+                case "macOS 12":
+                    if (config.BrowserName.Equals("chrome"))
+                    {
+                        ChromeOptions chromeOptions = new ChromeOptions();
+                        chromeOptions.PlatformName = config.PlatformName;
+                        foreach (var (key, value) in SauceOptions)
+                        {
+                            chromeOptions.AddAdditionalOption(key, value);
+                        }
+                        WebDriver = new RemoteWebDriver(remoteUrl, chromeOptions);
+                        break;
+                    }
+                    else if (config.BrowserName.Equals("Firefox")) {
+                        FirefoxOptions ffOptions = new FirefoxOptions();
+                        ffOptions.PlatformName = config.PlatformName;
+                        foreach (var (key, value) in SauceOptions)
+                        {
+                            ffOptions.AddAdditionalOption(key, value);
+                        }
+                        WebDriver = new RemoteWebDriver(remoteUrl, ffOptions);
+                        break;
+                    }
+                    else if (config.BrowserName.Equals("Edge"))
+                    {
+                        EdgeOptions edgeOptions = new EdgeOptions();
+                        edgeOptions.PlatformName = config.PlatformName;
+                        foreach (var (key, value) in SauceOptions)
+                        {
+                            edgeOptions.AddAdditionalOption(key, value);
+                        }
+                        WebDriver = new RemoteWebDriver(remoteUrl, edgeOptions);
+                        break;
+                    }
+                    else if (config.BrowserName.Equals("Safari"))
+                    {
+                        SafariOptions safariOptions = new SafariOptions();
+                        safariOptions.PlatformName = config.PlatformName;
+                        foreach (var (key, value) in SauceOptions)
+                        {
+                            safariOptions.AddAdditionalOption(key, value);
+                        }
+                        WebDriver = new RemoteWebDriver(remoteUrl, safariOptions);
+                        break;
+                    }
+                    break;
+            }
             return WebDriver;
         }
     }

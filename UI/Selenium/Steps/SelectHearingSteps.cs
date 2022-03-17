@@ -29,9 +29,13 @@ namespace UI.Steps
         [When(@"I click on copy hearing id to clipboard")]
         public void WhenIClickOnCopyHearingIdToClipboard()
         {
-            ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
-            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Hearingidtoclipboard, _scenarioContext).Click();
-            ApplicationData.hearingID = new TextCopy.Clipboard().GetText();
+            if (ExtensionMethods.WaitForPageLoad(Driver, SelectHearingPage.Quicklinks, _scenarioContext))
+            {
+                ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
+                ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Hearingidtoclipboard, _scenarioContext).Click();
+                ApplicationData.hearingID = new TextCopy.Clipboard().GetText();
+                
+            }
         }
 
         [Then(@"Hearing id should be copied")]
@@ -44,10 +48,12 @@ namespace UI.Steps
         [When(@"I click on link to join by Quicklink details to clipboard")]
         public void WhenIClickOnLinkToJoinByQuicklinkDetailsToClipboard()
         {
-            ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
-            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.QuicklinkCopy, _scenarioContext).Click();
-            ApplicationData.hearingListUrl = new TextCopy.Clipboard().GetText();
-
+            if (ExtensionMethods.WaitForPageLoad(Driver, SelectHearingPage.Quicklinks, _scenarioContext))
+            {
+                ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
+                ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.QuicklinkCopy, _scenarioContext).Click();
+                ApplicationData.hearingListUrl = new TextCopy.Clipboard().GetText();
+            }
         }
 
         [Then(@"I should able to open quicklink on new browser")]
@@ -62,10 +68,12 @@ namespace UI.Steps
         [When(@"I click on copy joining by phone details to clipboard")]
         public void WhenIClickOnCopyJoiningByPhoneDetailsToClipboard()
         {
-            ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
-            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Phonetoclipboard, _scenarioContext).Click();
-            ApplicationData.hearingPhone = new TextCopy.Clipboard().GetText();
-            
+            if (ExtensionMethods.WaitForPageLoad(Driver, SelectHearingPage.Quicklinks, _scenarioContext))
+            {
+                ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
+                ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Phonetoclipboard, _scenarioContext).Click();
+                ApplicationData.hearingPhone = new TextCopy.Clipboard().GetText();
+            }
         }
 
         [Then(@"phone details should be copied")]
