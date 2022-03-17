@@ -28,6 +28,9 @@ namespace UI.Steps
         {
             _scenarioContext.UpdatePageName("Consultation Room");
 
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+
             _hearing = _scenarioContext.Get<Hearing>("Hearing");
             var participantName = _hearing.Participant[0].Name;
 
