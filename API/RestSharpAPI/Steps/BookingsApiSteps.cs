@@ -38,7 +38,6 @@ namespace RestSharpApi.Steps
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GetServiceToServiceToken());
              BookingApiService = new BookingsApi(_client);
-            //BookingApiService.BaseUrl = "https://vh-bookings-api-dev.azurewebsites.net/";
             BookingApiService.BaseUrl = config.bookingsapi;
             _scenarioContext = scenarioContext;
         }
@@ -248,7 +247,6 @@ namespace RestSharpApi.Steps
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client2.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GetServiceToServiceToken());
             BookingsApi BookingApiService2 = new BookingsApi(_client2);
-            //BookingApiService2.BaseUrl = "https://vh-bookings-api-dev.azurewebsites.net/";
             BookingApiService2.BaseUrl = config.bookingsapi;
             //HearingDetailsResponse h = new HearingDetailsResponse();
             //try

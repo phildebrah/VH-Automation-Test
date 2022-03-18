@@ -29,14 +29,12 @@ namespace RestSharpApi.Steps
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GetServiceToServiceToken());
             UserApiService = new UserApi(_client);
-            //UserApiService.BaseUrl = "https://vh-user-api-dev.azurewebsites.net/";
             UserApiService.BaseUrl = config.usersapi;
         }
 
         [Given(@"I have a userApi")]
         public async Task GivenIHaveAUserApi()
         {
-            //var _baseUrl = "https://vh-user-api-dev.azurewebsites.net";
             var _baseUrl = config.usersapi;
             var _client = new HttpClient();
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer","");
