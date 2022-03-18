@@ -41,7 +41,7 @@ namespace SeleniumSpecFlow.Steps
         [Given(@"I log in hearing url ""([^""]*)""")]
         public void GivenILogInHearingUrl(string userName)
         {
-            var result = CommonPageActions.NavigateToPage(ApplicationData.hearingListUrl);
+            var result = CommonPageActions.NavigateToPage(LoginUrl, "login.microsoftonline.com");
         }
 
 
@@ -54,7 +54,7 @@ namespace SeleniumSpecFlow.Steps
         private void LoginByUrl(string userName, string url)
         {
             _scenarioContext.UpdatePageName("Login");
-            var result= CommonPageActions.NavigateToPage(LoginUrl, "login.microsoftonline.com");
+            var result= CommonPageActions.NavigateToPage(url, "login.microsoftonline.com");
             Login(userName, Config.UserPassword);
             _scenarioContext.UpdateUserName(userName);
             _scenarioContext.UpdatePageName("Dashboard");

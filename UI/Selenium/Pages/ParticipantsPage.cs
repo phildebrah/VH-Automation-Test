@@ -23,7 +23,7 @@ namespace UISelenium.Pages
         public static By UpdateParticipantLink = By.Id("updateParticipantBtn");
         public static By ClearDetailsLink = By.PartialLinkText("Clear details");
         public static By NextButton = By.Id(("nextButton"));
-        public static By CancelButton = By.Id("cancelButton");
+        public static By CancelButton = By.Id("cancelBtn");
         public static By ExistingEmailLinks = By.XPath("//li[@class='vk-showlist-m30']/a");
         public static By ParticipantsList = By.XPath("//*[contains(@class, 'vhtable-header')]");
         public static By InterpreteeDropdown = By.Id("interpreterFor");

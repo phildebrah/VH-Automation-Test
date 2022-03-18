@@ -68,16 +68,13 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.IncomingFeedJudgeVideo));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantMicUnlocked));
             wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
-            //auto_aw.judge_02
-
             Driver.FindElement(HearingRoomPage.MuteAndLock).Click();
             foreach (var participant in _hearing.Participant)
             {
                 if (!participant.Party.Name.ToLower().Contains("judge"))
                 {
-                    Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
-                    wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantMicLocked));
-                    Driver.FindElement(HearingRoomPage.ParticipantMicLocked).Displayed.Should().BeTrue();
+                    Driver = GetDriver(participant.Id, _scenarioContext);
+                    ExtensionMethods.FindElementEnabledWithWait(Driver, HearingRoomPage.ParticipantMicLocked).Displayed.Should().BeTrue();
                 }
             }
         }
@@ -133,10 +130,10 @@ namespace UI.Steps
         {
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
-            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.ParticipantHandRaised));
-            wait.Until(ExpectedConditions.ElementExists(HearingRoomPage.JudgeYellow));
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ParticipantHandRaised, _scenarioContext);
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.JudgeYellow, _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.LowerHands, _scenarioContext).Click();
+            ExtensionMethods.WaitForElementNotVisible(Driver, HearingRoomPage.ParticipantHandRaised);
             Assert.IsFalse(ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ParticipantHandRaised, _scenarioContext));
         }
 

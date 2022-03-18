@@ -25,7 +25,7 @@ namespace UI.Steps
             _scenarioContext.UpdatePageName("Hearing summary");
             ExtensionMethods.FindElementWithWait(Driver, SummaryPage.BookButton, _scenarioContext).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
-            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
+            ExtensionMethods.WaitForElementNotVisible(Driver, SummaryPage.DotLoader);
             if (ExtensionMethods.IsElementExists(Driver, SummaryPage.TryAgainButton, _scenarioContext))
             {
                 ExtensionMethods.FindElementWithWait(Driver, SummaryPage.TryAgainButton, _scenarioContext).Click();
@@ -44,10 +44,8 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
-            wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
             ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.BookingConfirmedStatus, _scenarioContext);
         }
-
     }
 }
