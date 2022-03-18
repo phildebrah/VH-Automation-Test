@@ -14,25 +14,33 @@ using System.Text;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 
+using Utilities;
+
 namespace RestSharpApi.Hooks
 {
     [Binding]
     public  class RestSharpHooks 
     {
         public static RestClient _restClient;
-        public static string ProjectPath = AppDomain.CurrentDomain.BaseDirectory.ToString().Remove(AppDomain.CurrentDomain.BaseDirectory.ToString().LastIndexOf("\\") - 17);
+        public static string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
         public static string PathReport = ProjectPath + "\\TestResults\\Report\\ExtentReport.html";
         private static ExtentReports _extent;
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
-        private static SpecFlowContext _context;
         public static Logger _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+        public static EnvironmentConfigSettings config;
+        public IConfiguration Configuration { get; }
+
+        public RestSharpHooks()
+        {
+        }
 
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
             try
             {
+                config = TestConfigHelper.GetApplicationConfiguration();
                 Directory.CreateDirectory(ProjectPath + Path.Combine("\\TestResults\\Report"));
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();

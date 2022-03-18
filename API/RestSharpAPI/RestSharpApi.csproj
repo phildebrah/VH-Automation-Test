@@ -7,14 +7,19 @@
   <ItemGroup>
     <Compile Remove="Drivers\**" />
     <Compile Remove="SwaggerDefinitions\**" />
+    <Compile Remove="TestResults\Logs\**" />
     <EmbeddedResource Remove="Drivers\**" />
     <EmbeddedResource Remove="SwaggerDefinitions\**" />
+    <EmbeddedResource Remove="TestResults\Logs\**" />
     <None Remove="Drivers\**" />
     <None Remove="SwaggerDefinitions\**" />
+    <None Remove="TestResults\Logs\**" />
     <SpecFlowFeatureFiles Remove="Drivers\**" />
     <SpecFlowFeatureFiles Remove="SwaggerDefinitions\**" />
+    <SpecFlowFeatureFiles Remove="TestResults\Logs\**" />
     <SpecFlowObsoleteCodeBehindFiles Remove="Drivers\**" />
     <SpecFlowObsoleteCodeBehindFiles Remove="SwaggerDefinitions\**" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="TestResults\Logs\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="ExtentReports" Version="4.1.0" />
     <PackageReference Include="JsonSubTypes" Version="1.8.0" />
+    <PackageReference Include="LaunchDarkly.ServerSdk" Version="6.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -95,15 +101,22 @@
 
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="OpenAPIs\swagger.json" ClassName="BookingsApi" />
     <None Update="OpenAPIs\swagger1.json" ClassName="NotificationsApi" />
     <None Update="OpenAPIs\swagger2.json" ClassName="UserApi" />
     <None Update="OpenAPIs\swagger3.json" ClassName="VideoApi" />
     <None Update="passwords.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Properties\launchSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestResults\" />
   </ItemGroup>
 
 
