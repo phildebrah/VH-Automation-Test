@@ -29,13 +29,15 @@ namespace RestSharpApi.Steps
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GetServiceToServiceToken());
             UserApiService = new UserApi(_client);
-            UserApiService.BaseUrl = "https://vh-bookings-api-dev.azurewebsites.net/";
+            //UserApiService.BaseUrl = "https://vh-user-api-dev.azurewebsites.net/";
+            UserApiService.BaseUrl = config.usersapi;
         }
 
         [Given(@"I have a userApi")]
         public async Task GivenIHaveAUserApi()
         {
-            var _baseUrl = "https://vh-bookings-api-dev.azurewebsites.net";
+            //var _baseUrl = "https://vh-user-api-dev.azurewebsites.net";
+            var _baseUrl = config.usersapi;
             var _client = new HttpClient();
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer","");
             var UserApiService = new BookingsApi(_client);
@@ -44,10 +46,6 @@ namespace RestSharpApi.Steps
             var drop = health1.App_version;
             _logger.Info("test");
             _logger.Info($"Drop is {drop}");
-
-            //var last = health4.App_version;
-            //Object caseTypes;
-
         }
 
         protected string GetServiceToServiceToken()
