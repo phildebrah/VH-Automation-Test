@@ -100,7 +100,7 @@ namespace SeleniumSpecFlow.Utilities
 
                     foreach (var (key, value) in SauceOptions)
                     {
-                        options.AddAdditionalOption(key, value);
+                        options.AddAdditionalCapability(key, value);
                     }
                     WebDriver = new RemoteWebDriver(remoteUrl, options.ToCapabilities());
                     break;
@@ -117,7 +117,7 @@ namespace SeleniumSpecFlow.Utilities
 
                     foreach (var (key, value) in SauceOptions)
                     {
-                        iosOptions.AddAdditionalOption(key, value);
+                        iosOptions.AddAdditionalCapability(key, value);
                     }
                     WebDriver = new RemoteWebDriver(remoteUrl, iosOptions.ToCapabilities());
                     break;
