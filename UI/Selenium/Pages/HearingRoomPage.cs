@@ -24,6 +24,7 @@ namespace UISelenium.Pages
         public static By IncomingFeedJudgeVideo => By.Id("incomingFeedJudgePrivate");
         public static By ParticipantMicLocked => By.Id("toggle-audio-mute-locked-img-desktop");
         public static By ParticipantMicUnlocked => By.Id("toggle-audio-mute-img-desktop");
+        public static By MicMutedIcon => By.XPath("//img[@alt='Microphone muted icon']");
         public static By JudgeMicMuted => By.XPath("//div[@id='toggle-audio-mute-img-desktop']//svg[@data-icon='microphone-slash']");
         public static By JudgeMicActive => By.XPath("//div[@id='toggle-audio-mute-img-desktop']//svg[@data-icon='microphone']");
         public static By JudgeYellow => By.XPath("//div[@id='panelList']//div[@class='yellow']");
@@ -31,5 +32,11 @@ namespace UISelenium.Pages
         public static By ParticipantToggleVideo => By.Id("toggle-video-mute-img-desktop");
         public static By ParticipantHandRaised => By.XPath("//div[@colour='grey'][@class='icon-button']//fa-icon[@class='ng-fa-icon yellow']");
         public static By ParticipantCameraOffIcon => By.XPath("//div[@class='icon-button no-click']//fa-icon[@icon='video-slash']");
+        public static By ShareScreenButton => By.Id("start-screenshare-img-desktop");
+        public static By StopSharingScreen => By.Id("stop-screenshare-img-desktop");
+        public static By ShareDocuments => By.Id("shareDropdown-startDocumentSharing");
+        public static By OutgoingScreenShare => By.ClassName("outgoing-present-video-container");
+        public static By SecondVideoFeed => By.XPath("//div[@id='secondIncomingFeed']");
+        public static By ParticipantPanelToggel => By.Id("toggle-participants-panel");
     }
 }
