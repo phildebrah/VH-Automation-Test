@@ -41,5 +41,7 @@ Scenario: Hearing Room Controls
 	And when a participant raises their hand, it shows on the judge's screen
 	And the judge can lower participants hands
     When the participant switches off their camera, the judge can see it on the screen
+	When the participant shares their screen, everyone should be able to see the shared screen
+	And the judge can open and close the chat panel
 	Then the judge closes the hearing
 	And everyone signs out
