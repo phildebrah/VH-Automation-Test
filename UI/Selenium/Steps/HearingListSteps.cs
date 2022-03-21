@@ -46,9 +46,9 @@ namespace UI.Steps
             Driver = GetDriver(participant, _scenarioContext);
             _scenarioContext["driver"] = Driver;
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
-            var elements = Driver.FindElements(JudgeHearingListPage.HealingListRow);
+            ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
             Driver.FindElement(ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber)).Click();
-            if (!participant.ToLower().Contains("judge"))
+            if (!(participant.ToLower().Contains("judge") || participant.ToLower().Contains("panel")))
             {
                 Driver.FindElement(ParticipantHearingListPage.ButtonNext).Click();
                 Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();

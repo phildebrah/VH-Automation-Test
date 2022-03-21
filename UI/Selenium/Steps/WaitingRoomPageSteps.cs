@@ -34,6 +34,7 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton, _scenarioContext).Click();
             _scenarioContext.UpdatePageName("Judge Waiting Room");
         }
+
         [When(@"the judge selects Enter consultation room")]
         public void WhenJudgeSelectsEnterConsultation()
         {
@@ -43,6 +44,17 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
             ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext).Click();
         }
+
+        [When(@"the panel member selects Enter consultation room")]
+        public void WhenJoHSelectsEnterConsultation()
+        {
+            Driver = GetDriver("panel", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
+            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext).Click();
+        }
+
 
         [Then(@"all participants are redirected to the hearing room when the judge resumes the video hearing")]
         public void ThenAllParticipantsAreRedirectedToTheHearingRoomWhenTheJudgeResumesTheVideoHearing()
@@ -66,7 +78,7 @@ namespace UI.Steps
         {
             foreach (var participant in _hearing.Participant)
             {
-                if (!participant.Party.Name.ToLower().Contains("judge"))
+                if (!(participant.Party.Name.ToLower().Contains("judge") || participant.Party.Name.ToLower().Contains("panel")))
                 {
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
                     WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));

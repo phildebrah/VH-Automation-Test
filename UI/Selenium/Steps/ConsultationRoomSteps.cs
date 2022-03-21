@@ -21,6 +21,7 @@ namespace UI.Steps
             :base(context)
         {
             _scenarioContext = context;
+            _hearing = _scenarioContext.Get<Hearing>("Hearing");
         }
 
         [When(@"judge invites participant into the consultation")]
@@ -31,17 +32,17 @@ namespace UI.Steps
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
 
-            _hearing = _scenarioContext.Get<Hearing>("Hearing");
             var participantName = _hearing.Participant[0].Name;
 
             var element=ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.InviteParticipant(participantName.FirstName), _scenarioContext);
             element.Click();
         }
 
+
         [When(@"participant accepts the consultation room invitation")]
         public void WhenParticipantAcceptsTheConsultationRoomInvitation()
         {
-            var participant = _hearing.Participant.FirstOrDefault(p=>!p.Id.ToLower().Contains("judge"));
+            var participant = _hearing.Participant.FirstOrDefault(p => !p.Id.ToLower().Contains("judge"));
             var participantKey = $"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}";
             Driver = GetDriver(participantKey, _scenarioContext);
             _scenarioContext["driver"] = Driver;
@@ -61,6 +62,7 @@ namespace UI.Steps
 
             var participant = _hearing.Participant.FirstOrDefault(p => !p.Id.ToLower().Contains("judge"));
             var participantName = participant.Name;
+            ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ParticipantTick(participantName.FirstName), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
             var isTickVisible=ExtensionMethods.IsElementVisible(Driver, ConsultationRoomPage.ParticipantTick(participantName.FirstName),_scenarioContext);
             isTickVisible.Should().BeTrue("tick icon in judge panel not visible");
         }
@@ -91,10 +93,22 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ConfirmLeaveButton, _scenarioContext).Click();
 
             Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}")).Displayed.Should().BeTrue();
-            Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Party.Name)).Displayed.Should().BeTrue();
-            Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
+            
+            ExtensionMethods.FindElementWithWait(Driver,ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber),_scenarioContext,TimeSpan.FromSeconds(Config.DefaultElementWait)).Displayed.Should().BeTrue();
             Driver.FindElement(ParticipantWaitingRoomPage.ChooseCameraAndMicButton).Displayed.Should().BeTrue();
-            Driver.FindElement(ParticipantWaitingRoomPage.JoinPrivateMeetingButton).Displayed.Should().BeTrue();
+            if(participant.Role.Name.Contains("Panel Member"))
+            {
+                Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Name.FirstName)).Displayed.Should().BeTrue();
+                ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
+
+                isBtnVisible = ExtensionMethods.IsElementVisible(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
+                isBtnVisible.Should().BeTrue("Panel member didn't leave consultation room");
+            }
+            else
+            {
+                Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Party.Name)).Displayed.Should().BeTrue();
+                Driver.FindElement(ParticipantWaitingRoomPage.JoinPrivateMeetingButton).Displayed.Should().BeTrue();
+            }
         }
     }
 }
