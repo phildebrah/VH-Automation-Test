@@ -10,18 +10,21 @@ using UISelenium.Pages;
 using OpenQA.Selenium.Interactions;
 using UI.Utilities;
 using TestLibrary.Utilities;
+using UI.Model;
 
 namespace UI.Steps
 {
     [Binding]
     public class SelectHearingSteps : ObjectFactory
     {
-        ScenarioContext _scenarioContext;
+        private ScenarioContext _scenarioContext;
+        private HearingList _hearingList;
 
         SelectHearingSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            _hearingList = (HearingList)_scenarioContext["HearingList"];
         }
           
         [STAThread]
@@ -29,25 +32,32 @@ namespace UI.Steps
         [When(@"I click on copy hearing id to clipboard")]
         public void WhenIClickOnCopyHearingIdToClipboard()
         {
-            ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
-            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Hearingidtoclipboard, _scenarioContext).Click();
-            ApplicationData.hearingID = new TextCopy.Clipboard().GetText();
+            if (ExtensionMethods.WaitForPageLoad(Driver, SelectHearingPage.Quicklinks, _scenarioContext))
+            {
+                ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
+                ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Hearingidtoclipboard, _scenarioContext).Click();
+                _hearingList.HearingListID = new TextCopy.Clipboard().GetText();
+                
+            }
         }
 
         [Then(@"Hearing id should be copied")]
         public void ThenHearingIdShouldBeCopied()
         {
-            bool isValid = Guid.TryParse(ApplicationData.hearingID, out Guid guidOutput);
+            bool isValid = Guid.TryParse(_hearingList.HearingListID, out Guid guidOutput);
             Assert.IsTrue(isValid);
         }                      
 
         [When(@"I click on link to join by Quicklink details to clipboard")]
         public void WhenIClickOnLinkToJoinByQuicklinkDetailsToClipboard()
         {
-            ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
-            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.QuicklinkCopy, _scenarioContext).Click();
-            ApplicationData.hearingListUrl = new TextCopy.Clipboard().GetText();
-
+            if (ExtensionMethods.WaitForPageLoad(Driver, SelectHearingPage.Quicklinks, _scenarioContext))
+            {
+                ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
+                ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.QuicklinkCopy, _scenarioContext).Click();
+                var url = new TextCopy.Clipboard().GetText();
+                _hearingList.HearingListURL = url;
+            }
         }
 
         [Then(@"I should able to open quicklink on new browser")]
@@ -56,22 +66,24 @@ namespace UI.Steps
             Driver.Quit();
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             _scenarioContext["driver"] = Driver;
-            Driver.Navigate().GoToUrl(ApplicationData.hearingListUrl);
+            Driver.Navigate().GoToUrl(_hearingList.HearingListURL);
         }
 
         [When(@"I click on copy joining by phone details to clipboard")]
         public void WhenIClickOnCopyJoiningByPhoneDetailsToClipboard()
         {
-            ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
-            ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Phonetoclipboard, _scenarioContext).Click();
-            ApplicationData.hearingPhone = new TextCopy.Clipboard().GetText();
-            
+            if (ExtensionMethods.WaitForPageLoad(Driver, SelectHearingPage.Quicklinks, _scenarioContext))
+            {
+                ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
+                ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Phonetoclipboard, _scenarioContext).Click();
+                _hearingList.HearingListPhone = new TextCopy.Clipboard().GetText();
+            }
         }
 
         [Then(@"phone details should be copied")]
         public void ThenPhoneDetailsShouldBeCopied()
         {
-            Assert.IsTrue(ApplicationData.hearingPhone.Contains("+448000488500"), "Phone verified");
+            Assert.IsTrue(_hearingList.HearingListPhone.Contains("448000488500"), "Phone verified");
             
         }       
     }

@@ -1,5 +1,4 @@
-﻿@EndtoEndTest
-@web
+﻿@web
 Feature: Join Hearing By Quick Link
 @DeviceTest
 Scenario: Get Hearing lists and join Hearing by Quick Link
