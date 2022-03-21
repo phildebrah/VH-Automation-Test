@@ -123,51 +123,32 @@ namespace SeleniumSpecFlow.Utilities
                     break;
 
                 case "macOS 12":
+                    DriverOptions driverOptions = null;
                     if (config.BrowserName.Equals("chrome"))
                     {
-                        ChromeOptions chromeOptions = new ChromeOptions();
-                        chromeOptions.PlatformName = config.PlatformName;
-                        foreach (var (key, value) in SauceOptions)
-                        {
-                            chromeOptions.AddAdditionalOption(key, value);
-                        }
-                        WebDriver = new RemoteWebDriver(remoteUrl, chromeOptions);
-                        break;
+                        driverOptions = new ChromeOptions();
                     }
-                    else if (config.BrowserName.Equals("Firefox")) {
-                        FirefoxOptions ffOptions = new FirefoxOptions();
-                        ffOptions.PlatformName = config.PlatformName;
-                        foreach (var (key, value) in SauceOptions)
-                        {
-                            ffOptions.AddAdditionalOption(key, value);
-                        }
-                        WebDriver = new RemoteWebDriver(remoteUrl, ffOptions);
-                        break;
+                    else if (config.BrowserName.Equals("Firefox"))
+                    {
+                        driverOptions = new FirefoxOptions();
                     }
                     else if (config.BrowserName.Equals("Edge"))
                     {
-                        EdgeOptions edgeOptions = new EdgeOptions();
-                        edgeOptions.PlatformName = config.PlatformName;
-                        foreach (var (key, value) in SauceOptions)
-                        {
-                            edgeOptions.AddAdditionalOption(key, value);
-                        }
-                        WebDriver = new RemoteWebDriver(remoteUrl, edgeOptions);
-                        break;
+                        driverOptions = new EdgeOptions();
                     }
                     else if (config.BrowserName.Equals("Safari"))
                     {
-                        SafariOptions safariOptions = new SafariOptions();
-                        safariOptions.PlatformName = config.PlatformName;
-                        foreach (var (key, value) in SauceOptions)
-                        {
-                            safariOptions.AddAdditionalOption(key, value);
-                        }
-                        WebDriver = new RemoteWebDriver(remoteUrl, safariOptions);
-                        break;
+                        driverOptions = new SafariOptions();
                     }
+                    driverOptions.PlatformName = config.PlatformName;
+                    foreach (var (key, value) in SauceOptions)
+                    {
+                        driverOptions.AddAdditionalOption(key, value);
+                    }
+                    WebDriver = new RemoteWebDriver(remoteUrl, driverOptions);
                     break;
-            }
+            
+            }                  
             return WebDriver;
         }
     }
