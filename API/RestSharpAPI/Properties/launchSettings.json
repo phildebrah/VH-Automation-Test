@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TestLibrary": {
+      "commandName": "Project",
+        "environmentVariables": {
+            "ENVIRONMENT": "Development"
+        },
+      "sqlDebugging": true,
+      "nativeDebugging": true
+    }
+  }
+}

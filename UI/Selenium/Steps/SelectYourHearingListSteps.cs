@@ -9,6 +9,7 @@ using TestFramework;
 using UISelenium.Pages;
 using OpenQA.Selenium.Interactions;
 using UI.Utilities;
+using UI.Model;
 
 namespace UI.Steps
 {
@@ -16,6 +17,7 @@ namespace UI.Steps
     public class SelectYourHearingListSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;
+        private HearingList _hearingList;
 
         SelectYourHearingListSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
@@ -41,6 +43,8 @@ namespace UI.Steps
         public void WhenIClickOnViewHearings()
         {
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.ViewHearings, _scenarioContext).Click();
+            _hearingList = new HearingList();
+            _scenarioContext.Add("HearingList", _hearingList);
         }
 
       

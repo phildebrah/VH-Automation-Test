@@ -35,15 +35,11 @@ namespace TestFramework.Hooks
         [BeforeScenario]
         public static void BeforeRestSharpScenario()
         {
-            Console.WriteLine("RestSharp API call Starting");
-            //_specFlowOutputHelper.WriteLine("RestSharp API call Starting");
         }
 
         [AfterScenario]
         public static void AfterRestSharpScenario()
         {
-            Console.WriteLine("RestSharp API Test Complete");
-            //_specFlowOutputHelper.WriteLine("RestSharp API Test Complete");
         }
 
         [BeforeTestRun]
