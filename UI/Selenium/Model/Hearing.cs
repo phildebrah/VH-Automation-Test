@@ -10,11 +10,11 @@ namespace UI.Model
     {
         public Case Case { get; set; } = new Case();
         public List<string> Interpreters { get; set; } = new List<string>();
-        public List<Participant> Participant  { get; set; } = new List<Participant>();
+        public List<Participant> Participant { get; set; } = new List<Participant>();
         public string VHO { get; set; }
         public string JOH { get; set; }
         public HearingSchedule HearingSchedule { get; set; } = new HearingSchedule();
-        public Judge Judge { get; set; } = new Judge();
+        public  Judge Judge { get; set; } = new Judge();
         public List<VideoAccessPoints> VideoAccessPoints { get; set; } = new List<VideoAccessPoints>();
         public OtherInformation OtherInformation { get; set; } = new OtherInformation();
 
@@ -36,9 +36,9 @@ namespace UI.Model
         public DateTime HearingTime { get; set; }
         public string DurationHours { get; set; }
         public string DurationMinutes { get; set; }
-        public string HearingVenue  { get; set; }
+        public string HearingVenue { get; set; }
         public string HearingRoom { get; set; }
-        
+
     }
 
     public class Judge
@@ -73,13 +73,13 @@ namespace UI.Model
 
     public class VideoAccessPoints
     {
-        public string DisplayName { get; set; } 
+        public string DisplayName { get; set; }
         public string Advocate { get; set; }
     }
 
     public class OtherInformation
     {
-        public bool IsHearingRecorded { get; set; } = true;   
+        public bool IsHearingRecorded { get; set; } = true;
         public string AnyOtherInfo { get; set; }
     }
 
@@ -87,5 +87,13 @@ namespace UI.Model
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+    }
+
+    public class HearingList
+    {
+        public string HearingListID { get; set; }
+        public string HearingListURL { get; set; }
+        public string HearingListPhone { get; set; }
+
     }
 }
