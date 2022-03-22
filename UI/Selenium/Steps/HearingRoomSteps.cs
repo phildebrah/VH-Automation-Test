@@ -213,7 +213,7 @@ namespace UI.Steps
         [When(@"the judge can open and close the chat panel")]
         public void WhenTheJudgeCanOpenAndCloseTheChatPanel()
         {
-            var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
+            var judge = _hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault();
             Driver = GetDriver(judge.Id, _scenarioContext);
             _scenarioContext["driver"] = Driver;
             // open / close chart panel
@@ -238,8 +238,8 @@ namespace UI.Steps
         [When(@"the judge can send a message to a VHO using via hearing room chat panel")]
         public void WhenTheJudgeCanSendAMessageToAVHOUsingViaHearingRoomChatPanel()
         {
-            var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
-            Driver = GetDriver(judge.Id, _scenarioContext);
+            var judge = _hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault();
+            Driver = GetDriver(judge.Role.Name, _scenarioContext);
             _scenarioContext["driver"] = Driver;
             string messageToVHO = "Hi, could you please join the hearing";
             if (!ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ChatList, null))
