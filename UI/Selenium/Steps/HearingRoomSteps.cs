@@ -187,8 +187,8 @@ namespace UI.Steps
             }
         }
 
-        [When(@"the judge can open and close the chat panel")]
-        public void WhenTheJudgeCanOpenAndCloseTheChatPanel()
+        [When(@"the judge can open and close the participant panel")]
+        public void WhenTheJudgeCanOpenAndCloseTheParticipantPanel()
         {
             var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
             Driver = GetDriver(judge.Id, _scenarioContext);
