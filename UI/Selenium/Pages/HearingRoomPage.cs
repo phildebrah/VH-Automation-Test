@@ -38,5 +38,11 @@ namespace UISelenium.Pages
         public static By OutgoingScreenShare => By.ClassName("outgoing-present-video-container");
         public static By SecondVideoFeed => By.XPath("//div[@id='secondIncomingFeed']");
         public static By ParticipantPanelToggel => By.Id("toggle-participants-panel");
+        public static By ChatPanel => By.Id("toggle-chat-panel-desktop");
+        public static By ChatInputBox => By.Id("new-message-box");
+        public static By ChatSendMessageButton => By.Id("send-new-message-btn");
+        public static By ChatSentMessageItem => By.ClassName("message-item message-item-sent");
+        public static By ChatList => By.Id("chat-list");
+        public static By JudgeMessageSent(string message) => By.XPath($"//div[text()[contains(.,'{message}')]]");
     }
 }

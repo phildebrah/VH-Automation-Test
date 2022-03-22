@@ -187,8 +187,8 @@ namespace UI.Steps
             }
         }
 
-        [When(@"the judge can open and close the chat panel")]
-        public void WhenTheJudgeCanOpenAndCloseTheChatPanel()
+        [When(@"the judge can open and close the participant panel")]
+        public void WhenTheJudgeCanOpenAndCloseTheParticipantPanel()
         {
             var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
             Driver = GetDriver(judge.Id, _scenarioContext);
@@ -209,5 +209,50 @@ namespace UI.Steps
                 }
             }
         }
+
+        [When(@"the judge can open and close the chat panel")]
+        public void WhenTheJudgeCanOpenAndCloseTheChatPanel()
+        {
+            var judge = _hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault();
+            Driver = GetDriver(judge.Id, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            // open / close chart panel
+            for (int i = 0; i < 2; i++)
+            {
+                if (ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ChatList, null))
+                {
+                    ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatPanel, _scenarioContext).Click();
+                    ExtensionMethods.WaitForElementNotVisible(Driver, HearingRoomPage.ChatInputBox, null);
+                    ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ChatList, null).Should().BeFalse();
+                }
+                else
+                {
+                    ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatPanel, _scenarioContext).Click();
+                    ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.PanelList, _scenarioContext).Should().BeFalse();
+                    ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatList, _scenarioContext).Displayed.Should().BeTrue();
+                    ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatInputBox, _scenarioContext).Displayed.Should().BeTrue();
+                }
+            }
+        }
+
+        [When(@"the judge can send a message to a VHO using via hearing room chat panel")]
+        public void WhenTheJudgeCanSendAMessageToAVHOUsingViaHearingRoomChatPanel()
+        {
+            var judge = _hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault();
+            Driver = GetDriver(judge.Role.Name, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            string messageToVHO = "Hi, could you please join the hearing";
+            if (!ExtensionMethods.IsElementVisible(Driver, HearingRoomPage.ChatList, null))
+            {
+                ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatPanel, _scenarioContext).Click();
+                ExtensionMethods.WaitForElementVisible(Driver, HearingRoomPage.ChatInputBox, null);
+            }
+
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatInputBox, _scenarioContext).SendKeys(messageToVHO);
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatSendMessageButton, _scenarioContext).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatSendMessageButton, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.JudgeMessageSent(messageToVHO), _scenarioContext).Displayed.Should().BeTrue();
+        }
+
     }
 }
