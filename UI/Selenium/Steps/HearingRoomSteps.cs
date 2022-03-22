@@ -187,7 +187,7 @@ namespace UI.Steps
             }
         }
 
-        [When(@"the judge can open and close the chat panel")]
+        [When(@"the judge can open and close the participant panel")]
         public void WhenTheJudgeCanOpenAndCloseTheChatPanel()
         {
             var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
