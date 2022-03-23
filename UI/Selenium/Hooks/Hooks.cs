@@ -80,6 +80,7 @@ namespace SeleniumSpecFlow
         {
             var scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
+            ImageNumber=0;
         }
         
         [BeforeScenario("web")]
