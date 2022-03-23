@@ -2,7 +2,7 @@
 @web
 
 Feature: Consultation room 
-	Judge invites the participant to join the consultation room
+	Participants can join the consultation room
 
 Scenario: Judge invites the participant to join the consultation room
 	Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
@@ -14,7 +14,6 @@ Scenario: Judge invites the participant to join the consultation room
 	| Schedule Date | Duration Hour | Duration Minute |
 	|               | 0             | 30              |
 	And I want to Assign a Judge with courtroom details
-	| Judge or Courtroom Account                 |
 	| auto_aw.judge_02@hearings.reform.hmcts.net |   
 	And I want to create a Hearing for
 	| Party     | Role               | Id                                  |
@@ -99,7 +98,8 @@ Scenario: Consultation room: Private can start and leave
 	And I log off
 	Then all participants log in to video web
 	And all participants have joined the hearing waiting room
-	When 1st participant start a private meeting and selects 2nd participant
-	Then 2nd participant is in the private consultation room
-	And both participants click on the leave button to leave the room
+	When 'Litigant in person' start a private meeting and selects 'Representative'
+	Then 'Representative' is in the private consultation room
+	And 'Litigant in person' click on the leave button to leave the consultation room 
+	And 'Representative' click on the leave button to leave the consultation room 
 	And everyone signs out	
