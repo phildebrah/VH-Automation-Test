@@ -43,10 +43,11 @@ namespace UI.Steps
             {
                 ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.RecordAudioYes, _scenarioContext).Click();
             }
-
+           
             if (!_hearing.OtherInformation.IsHearingRecorded && Driver.FindElement(OtherInformationPage.RecordAudioNo).Enabled)
             {
-                Driver.FindElement(OtherInformationPage.RecordAudioNo).Click();
+                var element = Driver.FindElement(OtherInformationPage.RecordAudioNo);
+                element.Click();
             }
 
             if (!string.IsNullOrEmpty(_hearing.OtherInformation.AnyOtherInfo))
