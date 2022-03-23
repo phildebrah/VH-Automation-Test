@@ -2,9 +2,9 @@
   "profiles": {
     "TestLibrary": {
       "commandName": "Project",
-        "environmentVariables": {
-            "ENVIRONMENT": "Development"
-        },
+      "environmentVariables": {
+        "ENVIRONMENT": "Acceptance"
+      },
       "sqlDebugging": true,
       "nativeDebugging": true
     }
