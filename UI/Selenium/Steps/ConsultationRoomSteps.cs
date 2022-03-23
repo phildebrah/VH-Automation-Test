@@ -114,7 +114,7 @@ namespace UI.Steps
         [Then(@"both participants click on the leave button to leave the room")]
         public void ThenBothParticipantsLeaveConsultationRoom()
         {
-            var participants = _hearing.Participant.Where(p => !p.Id.ToLower().Contains("judge")).ToList();
+            var participants = _hearing.Participant.Where(p => p.Party.Name.ToLower().Contains("claimant") || p.Party.Name.ToLower().Contains("defendant")).ToList();
 
             foreach (var participant in participants)
             {
@@ -139,7 +139,7 @@ namespace UI.Steps
         [When(@"1st participant start a private meeting and selects 2nd participant")]
         public void When1stParticipantStartAPrivateMeetingAndSelects2ndParticipant()
         {
-            var participants = _hearing.Participant.Where(p => !p.Id.ToLower().Contains("judge")).ToList();
+            var participants = _hearing.Participant.Where(p => p.Party.Name.ToLower().Contains("claimant") || p.Party.Name.ToLower().Contains("defendant")).ToList(); ;
             var firstParticipant = participants[0];
             var firstParticipantKey = $"{firstParticipant.Id}#{firstParticipant.Party.Name}-{firstParticipant.Role.Name}";
             Driver = GetDriver(firstParticipantKey, _scenarioContext);
@@ -170,7 +170,7 @@ namespace UI.Steps
         [Then(@"2nd participant is in the private consultation room")]
         public void Then2ndParticipantIsInThePrivateConsultationRoom()
         {
-            var participants = _hearing.Participant.Where(p => !p.Id.ToLower().Contains("judge")).ToList();
+            var participants = _hearing.Participant.Where(p => p.Party.Name.ToLower().Contains("claimant") || p.Party.Name.ToLower().Contains("defendant")).ToList();
             var secondParticipant = participants[1];
             var secondParticipantKey = $"{secondParticipant.Id}#{secondParticipant.Party.Name}-{secondParticipant.Role.Name}";
             Driver = GetDriver(secondParticipantKey, _scenarioContext);
