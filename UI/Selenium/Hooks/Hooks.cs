@@ -36,6 +36,7 @@ namespace SeleniumSpecFlow
         private static string filePath;
         private static Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         private static string featureTitle;
+        private static int ImageNumber=0;
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
@@ -79,6 +80,7 @@ namespace SeleniumSpecFlow
         {
             var scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
+            ImageNumber=0;
         }
         
         [BeforeScenario("web")]
@@ -147,7 +149,9 @@ namespace SeleniumSpecFlow
         public static void InsertReportingStepsWeb(ScenarioContext scenarioContext)
         {
             var driver = (IWebDriver)scenarioContext["driver"];
-            var ScreenshotFilePath = Path.Combine(ProjectPath + ImagesPath, Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".png");
+            var imageNumberStr = (++ImageNumber).ToString("D4");
+            var imageFileName = $"{scenarioContext.ScenarioInfo.Title.Replace(" ","_")}{imageNumberStr}";
+            var ScreenshotFilePath = Path.Combine(ProjectPath + ImagesPath, $"{imageFileName}.png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
             if (scenarioContext.TestError != null && !(scenarioContext.TestError is AssertionException))
@@ -188,7 +192,6 @@ namespace SeleniumSpecFlow
 
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
-                driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
 
                 switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
                 {
@@ -245,11 +248,6 @@ namespace SeleniumSpecFlow
                         _scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Pass(string.Empty, mediaModel);
                         break;
                 }
-
-                // For Living Doc
-                filePath = Path.Combine(ProjectPath + ImagesPath, Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
-                driver.TakeScreenshot().SaveAsFile(filePath, ScreenshotImageFormat.Png);
-                Logger.Info($"Screenshot has been saved to {filePath}");
 
                 _specFlowOutputHelper.WriteLine("Logging Using Specflow");
                 _specFlowOutputHelper.AddAttachment(filePath);
