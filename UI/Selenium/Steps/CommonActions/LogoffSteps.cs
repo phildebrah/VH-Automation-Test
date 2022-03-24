@@ -5,7 +5,7 @@ using UI.Model;
 using UISelenium.Pages;
 using FluentAssertions;
 using TestFramework;
-
+using OpenQA.Selenium;
 namespace UI.Steps
 {
     [Binding]
@@ -26,7 +26,8 @@ namespace UI.Steps
         public void ThenILogOff()
         {
             _scenarioContext.UpdatePageName("logout");
-            if (Driver.FindElement(Header.LinkSignOut)?.Displayed == true)
+            Driver = (IWebDriver)_scenarioContext["driver"];
+            if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
             {
                 Driver.FindElement(Header.LinkSignOut).Click();
             }

@@ -19,7 +19,7 @@ namespace UI.Steps
     {
         ScenarioContext _scenarioContext;
         private Hearing _hearing;
-        HearingListSteps(ScenarioContext scenarioContext)
+        public HearingListSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;

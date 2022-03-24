@@ -107,7 +107,7 @@ namespace UI.Steps
             else
             {
                 Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Party.Name)).Displayed.Should().BeTrue();
-                Driver.FindElement(ParticipantWaitingRoomPage.JoinPrivateMeetingButton).Displayed.Should().BeTrue();
+                Driver.FindElement(ParticipantWaitingRoomPage.StartPrivateMeetingButton).Displayed.Should().BeTrue();
             }
         }
 

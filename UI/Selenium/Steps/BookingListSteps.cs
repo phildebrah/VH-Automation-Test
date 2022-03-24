@@ -1,8 +1,5 @@
 ﻿using FluentAssertions;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using SeleniumSpecFlow.Utilities;
-using System;
 using TechTalk.SpecFlow;
 using SeleniumSpecFlow.Steps;
 using UI.Utilities;
@@ -58,12 +55,17 @@ namespace UI.Steps
             summaryPageSteps.ThenAHearingShouldBeCreated();
         }
 
-        [When(@"I navigate to booking list page")]
+        [When(@"I navigate to booking list page")] 
         public void INavigateToBookingListPage()
         {
             _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementWithWait(Driver, Header.BookingsList, _scenarioContext).Click();
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDateTitle).Displayed.Should().BeTrue();
+        }
+
+        [Then(@"The booking should contain expected values")]
+        public void ThenTheBookingShouldContainExpectedValues()
+        {
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRow).Displayed.Should().BeTrue();
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.Case.CaseName)).Displayed.Should().BeTrue();
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
@@ -73,12 +75,5 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.BookingConfirmedStatus, _scenarioContext);
             Driver.FindElements(BookingListPage.HearingDetailsRow).Count.Should().Be(1);
         }
-
-        [Then(@"The booking should contain expected values")]
-        public void ThenTheBookingShouldContainExpectedValues()
-        {
-
-        }
-
     }
 }

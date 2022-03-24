@@ -254,5 +254,18 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.JudgeMessageSent(messageToVHO), _scenarioContext).Displayed.Should().BeTrue();
         }
 
+        [When(@"the judge pauses the hearing")]
+        public void WhenTheJudgePausesTheHearing()
+        {
+            _scenarioContext.UpdatePageName("Judge Waiting Room");
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.PauseHearing));
+            Driver.FindElement(HearingRoomPage.PauseHearing).Click();
+            ExtensionMethods.WaitForElementVisible(Driver, JudgeWaitingRoomPage.ResumeVideoHearing);
+            // Assert participants are redirected back to the participants waiting room
+            new WaitingRoomPageSteps(_scenarioContext).CheckParticipantsAreInWaitingRoom();
+        }
     }
 }
