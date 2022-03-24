@@ -36,6 +36,6 @@ Scenario: Judge invites the participants to join meeting in consultation room
 	| Role        |
 	| Witness     |
 	| Interpreter | 
-	Then judge checks every participant joined the consultation room
+	Then judge participant panel shows consultation room in use
 	And every participants leave consultation room
 	And everyone signs out

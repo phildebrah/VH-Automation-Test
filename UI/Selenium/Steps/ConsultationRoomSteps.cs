@@ -95,9 +95,9 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ParticipantTick(participantName.FirstName), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
             var isTickVisible = ExtensionMethods.IsElementVisible(Driver, ConsultationRoomPage.ParticipantTick(participantName.FirstName),_scenarioContext);
         }
-
-        [Then(@"judge checks every participant joined the consultation room")]
-        public void ThenJudgeChecksEveryParticipantJoinedTheConsultationRoom()
+       
+        [Then(@"judge participant panel shows consultation room in use")]
+        public void ThenJudgeParticipantPanelShowsConsultationRoomInUse()
         {
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
@@ -107,6 +107,7 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ParticipantsTick, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
             var isTickVisible = ExtensionMethods.IsElementVisible(Driver, ConsultationRoomPage.ParticipantsTick, _scenarioContext);
             isTickVisible.Should().BeTrue("tick icon in judge panel not visible");
+
         }
 
         [Then(@"all participants leave consultation room")]
