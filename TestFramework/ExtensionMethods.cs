@@ -411,7 +411,7 @@ namespace TestFramework
         public static void WaitForElementVisible(IWebDriver driver, By by, int? timeInSec = null)
         {
             bool isVisible = false;
-            timeInSec = timeInSec == null ? 20 : timeInSec.Value;
+            timeInSec = timeInSec == null ? 30 : timeInSec.Value;
             int count = 1;
             while (!isVisible)
             {

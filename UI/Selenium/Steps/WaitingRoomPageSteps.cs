@@ -7,7 +7,7 @@ using FluentAssertions;
 using TestFramework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-
+using System.Linq;
 namespace UI.Steps
 {
     [Binding]
@@ -15,11 +15,17 @@ namespace UI.Steps
     {
         ScenarioContext _scenarioContext;
         private Hearing _hearing;
+        HearingListSteps hearingListSteps;
+        HearingRoomSteps hearingRoomSteps;
+        LogoffSteps logoffSteps;
         public WaitingRoomPageSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
             _hearing = (Hearing)_scenarioContext["Hearing"];
+            hearingListSteps = new HearingListSteps(scenarioContext);
+            hearingRoomSteps = new HearingRoomSteps(scenarioContext);
+            logoffSteps = new LogoffSteps(scenarioContext);
         }
 
         [Then(@"the judge starts the hearing")]
@@ -73,7 +79,7 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.ConfirmStartButton));
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton, _scenarioContext).Click();
         }
-
+         
         public void CheckParticipantsAreInWaitingRoom()
         {
             foreach (var participant in _hearing.Participant)
@@ -101,6 +107,92 @@ namespace UI.Steps
                     Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
                     Driver.FindElement(ParticipantWaitingRoomPage.ChooseCameraAndMicButton).Displayed.Should().BeTrue();
                     Driver.FindElement(ParticipantWaitingRoomPage.JoinPrivateMeetingButton).Displayed.Should().BeTrue();
+                }
+            }
+        }
+
+        [Then(@"the judge signs into the hearing")]
+        public void ThenTheJudgeSignsIntoTheHearing()
+        {
+            Driver = GetDriver("Judge", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext).Click();
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.StartVideoHearingButton));
+        }
+
+        [Then(@"assert the judge sees the correct status for each participant as NOT SIGNED IN")]
+        public void ThenAssertTheJudgeSeesTheCorrectStatusForEachParticipantAsNOTSIGNEDIN()
+        {
+            var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
+            Driver = GetDriver(judge.Role.Name, _scenarioContext);
+            var noOfParticipantsNotSignedIn = Driver.FindElements(ParticipantWaitingRoomPage.NotSignedInStatus)?.Count();
+            var numberOParticipantsInAHearing = _hearing.Participant.Count() - 1;
+            noOfParticipantsNotSignedIn.Value.Should().Be(numberOParticipantsInAHearing);
+        }
+
+        [Then(@"assert the judge and participant's status change as each participant join the waiting room")]
+        public void ThenAssertTheJudgeAndParticipantsStatusChangeAsMoreParticipantsJoinTheWaitingRoom()
+        {
+            var noOfParticipantsNotSignedIn = Driver.FindElements(ParticipantWaitingRoomPage.NotSignedInStatus)?.Count();
+            var numberOParticipantsInAHearing = _hearing.Participant.Count() - 1;
+            foreach (var participant in _hearing.Participant)
+            {
+                if (!participant.Role.Name.ToLower().Contains("judge"))
+                {
+                    Driver = GetDriver(participant.Id, _scenarioContext);
+                    hearingListSteps.ProceedToWaitingRoom(participant.Id, _hearing.Case.CaseNumber);
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.JoinPrivateMeetingButton);
+                    ExtensionMethods.IsElementVisible(Driver, ParticipantWaitingRoomPage.JoinPrivateMeetingButton, null).Should().BeTrue();
+                    var unAvailableParticipants = noOfParticipantsNotSignedIn.Value == 1 ? 0 : Driver.FindElements(ParticipantWaitingRoomPage.UnAvailableStatus)?.Count();
+                    (noOfParticipantsNotSignedIn.Value - 1).Should().Be(unAvailableParticipants);
+                    // Assert Judge status changed
+                    var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
+                    Driver = GetDriver(judge.Role.Name, _scenarioContext);
+                    var newNotSignedIn = noOfParticipantsNotSignedIn.Value == 1 ? 0 : Driver.FindElements(ParticipantWaitingRoomPage.NotSignedInStatus)?.Count();
+                    newNotSignedIn.Should().BeLessThan(noOfParticipantsNotSignedIn.Value);
+                    noOfParticipantsNotSignedIn = noOfParticipantsNotSignedIn.Value == 1 ? 0 : Driver.FindElements(ParticipantWaitingRoomPage.NotSignedInStatus)?.Count(); 
+                }
+            }
+        }
+
+        [Then(@"the judge starts the hearing and checks that all participants have joined the hearing room")]
+        public void ThenTheJudgeStartsTheHearingAndChecksThatAllParticipantsHaveJoinedTheHearingRoom()
+        {
+            ThenTheJudgeStartsTheHearing();
+            hearingRoomSteps.ThenTheJudgeChecksThatAllParticipantsHaveJoinedTheHearingRoom();
+        }
+
+        [When(@"each have their status as CONNECTED and Available on judge's and participants screen respectively")]
+        public void WhenEachHaveTheirStatusAsCONNECTEDAndAvailableOnJudgeScreenRespectively()
+        {
+            var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
+            Driver = GetDriver(judge.Role.Name, _scenarioContext);
+            var numberOParticipantsInAHearing = _hearing.Participant.Count() - 1;
+            var noOfParticipantsConnected = Driver.FindElements(ParticipantWaitingRoomPage.ConnectedStatus)?.Count();
+            noOfParticipantsConnected.Value.Should().Be(numberOParticipantsInAHearing);
+        }
+
+        [When(@"status should show Disconnected and Unavailable for judge and participants respectively when a participant logs off or close browser")]
+        public void WhenStatusShouldShowDisconnectedAndUnavailableForJudgeAndParticipantsRespectivelyWhenAParticipantLogsOffOrCloseBrowser()
+        {
+            var participants = _hearing.Participant.Where(a => !a.Id.ToLower().Contains("judge"));
+            var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
+            var disconnectedParticipant = participants.FirstOrDefault();
+            Driver = GetDriver($"{disconnectedParticipant.Id}#{disconnectedParticipant.Party.Name}-{disconnectedParticipant.Role.Name}", _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            logoffSteps.ThenILogOff();
+            // check for DISCONECTED status on judges waiting room screen
+            Driver = GetDriver(judge.Role.Name, _scenarioContext);
+            ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.DisconnectedStatus);
+            Driver.FindElements(ParticipantWaitingRoomPage.DisconnectedStatus)?.Count().Should().BeGreaterThan(0);
+            //check for unavailable status on other participants waiting room screen
+            foreach(var participant in participants)
+            {
+                if(participant != disconnectedParticipant)
+                {
+                    Driver = GetDriver(participant.Id, _scenarioContext);
+                    ExtensionMethods.IsElementVisible(Driver, ParticipantWaitingRoomPage.UnAvailableStatus, null).Should().BeTrue();
                 }
             }
         }
