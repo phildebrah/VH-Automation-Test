@@ -100,6 +100,13 @@ namespace UI.Steps
                         _scenarioContext.UpdateElementName("PhoneTextfield");
                         _scenarioContext.UpdateActionName("SendKeys");
                     }
+
+                    if (participant.Role.Name.Equals("Interpreter"))
+                    {
+                        IWebElement el = Driver.FindElement(ParticipantsPage.InterpreterFor);
+                        SelectElement element = new SelectElement(el);
+                        element.SelectByIndex(1);
+                    }
                     
                     if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield,_scenarioContext))
                     {
