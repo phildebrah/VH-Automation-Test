@@ -88,7 +88,7 @@ namespace UI.Steps
                 {
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
                     WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
-                    wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.JoinPrivateMeetingButton));
+                    wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.StartPrivateMeetingButton));
                     wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.ChooseCameraAndMicButton));
                     var waitingRoomPage = Driver.PageSource;
                     bool isPaused = waitingRoomPage.Contains("Your video hearing is paused") ? true : false;
@@ -106,7 +106,7 @@ namespace UI.Steps
                     Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Party.Name)).Displayed.Should().BeTrue();
                     Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
                     Driver.FindElement(ParticipantWaitingRoomPage.ChooseCameraAndMicButton).Displayed.Should().BeTrue();
-                    Driver.FindElement(ParticipantWaitingRoomPage.JoinPrivateMeetingButton).Displayed.Should().BeTrue();
+                    Driver.FindElement(ParticipantWaitingRoomPage.StartPrivateMeetingButton).Displayed.Should().BeTrue();
                 }
             }
         }
@@ -142,8 +142,8 @@ namespace UI.Steps
                 {
                     Driver = GetDriver(participant.Id, _scenarioContext);
                     hearingListSteps.ProceedToWaitingRoom(participant.Id, _hearing.Case.CaseNumber);
-                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.JoinPrivateMeetingButton);
-                    ExtensionMethods.IsElementVisible(Driver, ParticipantWaitingRoomPage.JoinPrivateMeetingButton, null).Should().BeTrue();
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.StartPrivateMeetingButton);
+                    ExtensionMethods.IsElementVisible(Driver, ParticipantWaitingRoomPage.StartPrivateMeetingButton, null).Should().BeTrue();
                     var unAvailableParticipants = noOfParticipantsNotSignedIn.Value == 1 ? 0 : Driver.FindElements(ParticipantWaitingRoomPage.UnAvailableStatus)?.Count();
                     (noOfParticipantsNotSignedIn.Value - 1).Should().Be(unAvailableParticipants);
                     // Assert Judge status changed
