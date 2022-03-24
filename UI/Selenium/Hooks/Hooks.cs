@@ -33,10 +33,10 @@ namespace SeleniumSpecFlow
         private static ExtentTest _scenario;
         private static ExtentReports _extent;
         private static ISpecFlowOutputHelper _specFlowOutputHelper;
-        private static string filePath;
         private static Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         private static string featureTitle;
         private static int ImageNumber=0;
+        private static string scenarioTitle;
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
@@ -78,7 +78,7 @@ namespace SeleniumSpecFlow
         [BeforeScenario]
         public void BeforeScenario(ScenarioContext scenarioContext)
         {
-            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
+            scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
             ImageNumber=0;
         }
@@ -88,7 +88,7 @@ namespace SeleniumSpecFlow
         {
             var title = scenarioContext.ScenarioInfo.Title;
             var tags= scenarioContext.ScenarioInfo.Tags;
-
+            scenarioTitle = scenarioContext.ScenarioInfo.Title;
             _scenario = _feature.CreateNode<Scenario>(title);
             _scenario.AssignCategory(tags);
 
@@ -114,7 +114,7 @@ namespace SeleniumSpecFlow
         [BeforeScenario("api")]
         public void BeforeScenarioApi(ScenarioContext scenarioContext)
         {
-            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
+            scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
 
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
@@ -124,7 +124,7 @@ namespace SeleniumSpecFlow
         [BeforeScenario("soap")]
         public void BeforeScenarioSoapApi(ScenarioContext scenarioContext)
         {
-            var scenarioTitle = scenarioContext.ScenarioInfo.Title;
+            scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
 
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
@@ -150,7 +150,7 @@ namespace SeleniumSpecFlow
         {
             var driver = (IWebDriver)scenarioContext["driver"];
             var imageNumberStr = (++ImageNumber).ToString("D4");
-            var imageFileName = $"{scenarioContext.ScenarioInfo.Title.Replace(" ","_")}{imageNumberStr}";
+            var imageFileName = $"{scenarioTitle.Replace(" ","_")}{imageNumberStr}";
             var ScreenshotFilePath = Path.Combine(ProjectPath + ImagesPath, $"{imageFileName}.png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
@@ -250,7 +250,7 @@ namespace SeleniumSpecFlow
                 }
 
                 _specFlowOutputHelper.WriteLine("Logging Using Specflow");
-                _specFlowOutputHelper.AddAttachment(filePath);
+                _specFlowOutputHelper.AddAttachment(ScreenshotFilePath);
             }
         }
 
@@ -341,7 +341,7 @@ namespace SeleniumSpecFlow
                         Logger.Info($"Driver has been closed");
                     }
                 }
-            }
+            } 
             else
             {
                 var driver = (IWebDriver)scenarioContext["driver"];
@@ -351,7 +351,6 @@ namespace SeleniumSpecFlow
            
             _extent.Flush();
             Logger.Info("Flush Extent Report Instance");
-            TestContext.AddTestAttachment(filePath);
             GC.SuppressFinalize(this);
         }
 
