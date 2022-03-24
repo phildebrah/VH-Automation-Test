@@ -94,6 +94,7 @@ namespace UI.Steps
             var participantName = participant.Name;
             ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ParticipantTick(participantName.FirstName), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
             var isTickVisible = ExtensionMethods.IsElementVisible(Driver, ConsultationRoomPage.ParticipantTick(participantName.FirstName),_scenarioContext);
+            isTickVisible.Should().BeTrue("tick icon in judge panel not visible");
         }
        
         [Then(@"judge participant panel shows consultation room in use")]
