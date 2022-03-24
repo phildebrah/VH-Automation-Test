@@ -42,6 +42,8 @@ Scenario: Hearing Room Controls
 	And the judge can lower participants hands
     When the participant switches off their camera, the judge can see it on the screen
 	When the participant shares their screen, everyone should be able to see the shared screen
+	And the judge can open and close the participant panel
 	And the judge can open and close the chat panel
+	And the judge can send a message to a VHO using via hearing room chat panel
 	Then the judge closes the hearing
 	And everyone signs out
