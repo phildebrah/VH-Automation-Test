@@ -36,9 +36,7 @@ Scenario: Get audio file for main Hearing and Interpreter room
 	And the judge checks that all participants have joined the hearing room
 	Then the judge closes the hearing
 	And everyone signs out
-	Given I have an audio recording for a closed conference with an interpreter
-	And the Video Hearings Officer has progressed to the Get Audio File page
+	Given I open a new browser and log into admin web as "auto_aw.videohearingsofficer_12@hearings.reform.hmcts.net"
+	And Progress to the Get Audio File page
 	When I search for the audio recording by case number
-	Then the audio recording is retrieved
-	And the audio recording link can be retrieved for main hearing
-	And the audio recording link can be retrieved for interpreter VMR
+	Then the audio recording link for main hearing and for interpreter VMR can be retrieved

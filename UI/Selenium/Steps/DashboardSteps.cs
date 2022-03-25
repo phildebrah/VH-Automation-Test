@@ -35,6 +35,10 @@ namespace UI.Steps
                     ExtensionMethods.FindElementWithWait(Driver, DashboardPage.BookHearingButton, _scenarioContext).Click();
                     isPageLoaded=IsHeardingDetailsPageLoaded();
                     break;
+                case "Get audio file link":
+                    ExtensionMethods.FindElementWithWait(Driver, DashboardPage.GetAudioFileLinkButton, _scenarioContext).Click();
+                    ExtensionMethods.WaitForElementVisible(Driver, GetAudioFilePage.HearingAudioFileRadio);
+                    break;
             }
             isPageLoaded.Should().BeTrue($"cannot load {optionName} page");
         }
