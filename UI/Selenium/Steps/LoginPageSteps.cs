@@ -14,7 +14,7 @@ using System.Linq;
 using OpenQA.Selenium.Interactions;
 using TestFramework;
 using UI.Utilities;
-
+using System.Linq;
 namespace SeleniumSpecFlow.Steps
 {
     [Binding]
@@ -93,5 +93,29 @@ namespace SeleniumSpecFlow.Steps
             _scenarioContext.UpdatePageName("Your Video Hearings");
             _scenarioContext.Add("drivers", drivers);
         }
+
+        [When(@"Video Hearing Officer logs into video web as ""([^""]*)""")]
+        public void WhenVideoHearingOfficerLogsIntoVideoWebAs(string email)
+        {
+            Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            _scenarioContext["driver"] = Driver;
+            Driver.Navigate().GoToUrl(Config.VideoUrl);
+            _hearing.Participant.Add(new Participant
+            {
+                Id = email,
+                Party = new Party
+                {
+                    Name = "VHO"
+                },
+                Role = new Role
+                {
+                    Name = "VHO"
+                }
+            });
+            var participant = _hearing.Participant.Where(a => a.Id == email).FirstOrDefault();
+            drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
+            Login(participant.Id, Config.UserPassword);
+        }
+
     }
 }
