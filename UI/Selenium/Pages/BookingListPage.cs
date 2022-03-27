@@ -14,5 +14,7 @@ namespace UISelenium.Pages
         public static By HearingDetailsRowSpecific(string text) => By.XPath($"//div[text()[contains(.,'{text}')]]");
         public static By SearchCaseTextBox = By.Id("caseNumber");
         public static By SearchButton => By.Id("searchButton");
+        public static By ConfirmedButton => By.ClassName("vh-created-booking");
+        public static By TelephoneParticipantLink => By.Id("conference_phone_details");
     }
 }

@@ -63,6 +63,7 @@ namespace UI.Steps
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDateTitle).Displayed.Should().BeTrue();
         }
 
+
         [Then(@"The booking should contain expected values")]
         public void ThenTheBookingShouldContainExpectedValues()
         {
@@ -75,5 +76,25 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.BookingConfirmedStatus, _scenarioContext);
             Driver.FindElements(BookingListPage.HearingDetailsRow).Count.Should().Be(1);
         }
+        [When(@"I search for case number")]
+        public void WhenISearchForCaseNumber()
+        {
+            Driver.FindElement(BookingListPage.SearchCaseTextBox).SendKeys(_hearing.Case.CaseNumber);
+            Driver.FindElement(BookingListPage.SearchButton).Click();
+
+        }
+
+        [When(@"I copy telephone participant link")]
+        public void WhenICopyTelephoneParticipantLink()
+        {
+            throw new PendingStepException();
+        }
+
+        [Then(@"telephone participant link should be copied")]
+        public void ThenTelephoneParticipantLinkShouldBeCopied()
+        {
+            throw new PendingStepException();
+        }
+
     }
 }
