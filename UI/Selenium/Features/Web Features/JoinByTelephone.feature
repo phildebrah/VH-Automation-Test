@@ -32,5 +32,5 @@ Scenario:  Join By Telephone
 	And I search for case number
 	And I copy telephone participant link
 	Then telephone participant link should be copied
-	And everyone signs out
-
+	And I copy video participant link
+	Then video participant link should be copied
