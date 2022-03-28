@@ -60,6 +60,7 @@ namespace UI.Steps
         {
             _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementWithWait(Driver, Header.BookingsList, _scenarioContext).Click();
+            ExtensionMethods.WaitForElementVisible(Driver, BookingListPage.HearingDateTitle);
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDateTitle).Displayed.Should().BeTrue();
         }
 
