@@ -38,22 +38,19 @@ namespace UI.Steps
             _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementWithWait(Driver, GetAudioFilePage.CaseNumberInput, _scenarioContext).SendKeys(_hearing.Case.CaseNumber);
             ExtensionMethods.FindElementWithWait(Driver, GetAudioFilePage.SearchButton, _scenarioContext).Click();
-            ExtensionMethods.WaitForElementVisible(Driver, GetAudioFilePage.GetLinkButton(_hearing.Case.CaseNumber));
-            ExtensionMethods.FindElementEnabledWithWait(Driver, By.Id("vhDate")).SendKeys(DateTime.Today.ToShortDateString());
-            ExtensionMethods.FindElementWithWait(Driver, GetAudioFilePage.GetLinkButton(_hearing.Case.CaseNumber), _scenarioContext).Click();
+            ExtensionMethods.WaitForElementVisible(Driver, GetAudioFilePage.GetLinkButton);
+            ExtensionMethods.FindElementWithWait(Driver, GetAudioFilePage.GetLinkButton, _scenarioContext).Click();
         }
 
         [Then(@"the audio recording link for main hearing and for interpreter VMR can be retrieved")]
         public void ThenTheAudioRecordingLinkForMainHearingAndForInterpreterVMRCanBeRetrieved()
         {
-            ExtensionMethods.WaitForElementVisible(Driver, GetAudioFilePage.CopyLinkButton(_hearing.Case.CaseNumber));
-            foreach(var element in Driver.FindElements(GetAudioFilePage.CopyLinkButton(_hearing.Case.CaseNumber)))
+            ExtensionMethods.WaitForElementVisible(Driver, GetAudioFilePage.CopyLinkButton);
+            foreach(var element in Driver.FindElements(GetAudioFilePage.CopyLinkButton))
             {
                 element.Click();
                 ExtensionMethods.WaitForElementVisible(Driver, GetAudioFilePage.LinkCopiedMessage);
-                Driver.FindElement(GetAudioFilePage.LinkCopiedMessage).Text.Contains("Audio file link copied to clipboard");
                 ExtensionMethods.WaitForElementNotVisible(Driver, GetAudioFilePage.LinkCopiedMessage);
-
             }
         }
     }

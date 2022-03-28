@@ -27,7 +27,7 @@ Scenario: Get audio file for main Hearing and Interpreter room
 	|              |          |
 	And I set any other information
 	| Record Hearing | Other information   |
-	|                | This is a test info |
+	| True           | This is a test info |
 	And I book the hearing
 	Then A hearing should be created
 	And I log off
