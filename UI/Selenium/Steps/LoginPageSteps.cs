@@ -98,7 +98,7 @@ namespace SeleniumSpecFlow.Steps
         {
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             _scenarioContext["driver"] = Driver;
-            _scenarioContext.Add("drivers", drivers);
+            _scenarioContext["drivers"] = drivers;
             Driver.Navigate().GoToUrl(Config.AdminUrl);
             var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));

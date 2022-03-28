@@ -4,7 +4,7 @@
       "commandName": "Project",
       "environmentVariables": {
         "BROWSER": "Chrome",
-        "ENVIRONMENT": "Acceptance"
+        "ENVIRONMENT": "Development"
       },
       "sqlDebugging": true,
       "nativeDebugging": true

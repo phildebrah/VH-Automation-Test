@@ -35,10 +35,11 @@ namespace UI.Steps
         [When(@"I search for the audio recording by case number")]
         public void WhenISearchForTheAudioRecordingByCaseNumber()
         {
-            _hearing = (Hearing)_scenarioContext["hearing"];
+            _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementWithWait(Driver, GetAudioFilePage.CaseNumberInput, _scenarioContext).SendKeys(_hearing.Case.CaseNumber);
             ExtensionMethods.FindElementWithWait(Driver, GetAudioFilePage.SearchButton, _scenarioContext).Click();
             ExtensionMethods.WaitForElementVisible(Driver, GetAudioFilePage.GetLinkButton(_hearing.Case.CaseNumber));
+            ExtensionMethods.FindElementEnabledWithWait(Driver, By.Id("vhDate")).SendKeys(DateTime.Today.ToShortDateString());
             ExtensionMethods.FindElementWithWait(Driver, GetAudioFilePage.GetLinkButton(_hearing.Case.CaseNumber), _scenarioContext).Click();
         }
 

@@ -1,8 +1,9 @@
-﻿Feature: GetAudioFile
+﻿@web
+
+Feature: GetAudioFile
 
 A short summary of the feature
 
-@tag1
 Scenario: Get audio file for main Hearing and Interpreter room
    
     Given I log in as "auto_aw.videohearingsofficer_11@hearings.reform.hmcts.net"
@@ -33,7 +34,7 @@ Scenario: Get audio file for main Hearing and Interpreter room
 	And all participants log in to video web
 	And all participants have joined the hearing waiting room
 	And the judge starts the hearing
-	And the judge checks that all participants have joined the hearing room
+	And the judge checks that all participants have joined the hearing room 
 	Then the judge closes the hearing
 	And everyone signs out
 	Given I open a new browser and log into admin web as "auto_aw.videohearingsofficer_12@hearings.reform.hmcts.net"
