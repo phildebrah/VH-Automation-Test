@@ -62,10 +62,8 @@ namespace UI.Steps
         public void INavigateToBookingListPage()
         {
             _hearing = (Hearing)_scenarioContext["Hearing"];
-            ExtensionMethods.FindElementWithWait(Driver, Header.BookingsList, _scenarioContext).Click();
-           // ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDateTitle).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementWithWait(Driver, Header.BookingsList, _scenarioContext).Click();          
         }
-
 
         [Then(@"The booking should contain expected values")]
         public void ThenTheBookingShouldContainExpectedValues()
@@ -100,20 +98,6 @@ namespace UI.Steps
         public void ThenTelephoneParticipantLinkShouldBeCopied()
         {
             Assert.IsTrue(_hearing.BookingList.TelephoneParticipantLink.Contains("+448000488500"), "Phone verified");
-        }
-
-        [Then(@"I copy video participant link")]
-        public void ThenICopyVideoParticipantLink()
-        {
-            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.VideoParticipantLink, _scenarioContext).Click();
-            _hearing.BookingList.VideoParticipantLink = new TextCopy.Clipboard().GetText();
-        }
-
-        [Then(@"video participant link should be copied")]
-        public void ThenVideoParticipantLinkShouldBeCopied()
-        {
-            Assert.IsTrue(_hearing.BookingList.VideoParticipantLink.Contains("https://vh-video-web-aat.hearings.reform.hmcts.net"), "Video link verification failed");
-        }
-
+        }      
     }
 }

@@ -14,5 +14,4 @@ Scenario: Check  list contains expected values
 	When I navigate to booking list page
 	And I search for case number
 	And I copy telephone participant link
-	Then telephone participant link should be copied
-	
+	Then telephone participant link should be copied	

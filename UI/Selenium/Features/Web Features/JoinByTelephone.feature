@@ -1,8 +1,7 @@
 ﻿@web
 
 Feature: Join By Telephone Number Are Correct
-	To book and attend a Hearing
-
+	
 	@DeviceTest
 Scenario:  Join By Telephone
 	Given I log in as "auto_aw.videohearingsofficer_10@hearings.reform.hmcts.net"
@@ -31,6 +30,4 @@ Scenario:  Join By Telephone
 	When I navigate to booking list page
 	And I search for case number
 	And I copy telephone participant link
-	Then telephone participant link should be copied
-	And I copy video participant link
-	Then video participant link should be copied
+	Then telephone participant link should be copied	
