@@ -460,5 +460,36 @@ namespace TestFramework
             }
             return null;
         }
+      
+        public static void ClearText(this IWebElement element, int? timeInSec = null)
+        {
+            var isCleared = false;
+            timeInSec = timeInSec == null ? 30 : timeInSec.Value;
+            var count = 1;
+            while(!isCleared)
+            {
+                try
+                {
+                    element.Clear();
+                    var text = element.Text;
+                    if(string.IsNullOrEmpty(text))
+                    {
+                        isCleared=true;
+                    }
+                }
+
+                catch
+                {
+                    Logger.Error($"Exception occured while clearing text for element {element}");
+                }
+
+                if (count > timeInSec && !isCleared)
+                {
+                    Logger.Error($"Element {element} text was expected to be deleted , but it was not");
+                    throw new Exception($"Element {element} text was expected to be deleted , but it was not");
+                }
+                count++;
+            }
+        }
     }
 }
