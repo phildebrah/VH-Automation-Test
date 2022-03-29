@@ -29,6 +29,7 @@ Scenario: Hearing Room Controls
 	|                | This is a test info |
 	And I book the hearing
     Then A hearing should be created
+	And I log off
 	And all participants log in to video web
 	And all participants have joined the hearing waiting room
 	And the judge starts the hearing
