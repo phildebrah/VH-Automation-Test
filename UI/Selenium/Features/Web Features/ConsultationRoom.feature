@@ -72,7 +72,7 @@ Scenario: Closed hearings - can join consultation room after hearing is closed
     And all participants leave consultation room
     And everyone signs out
 
-Scenario: Consultation room: Private can start and leave
+Scenario: Participants start and leave Private Consultatin room
     Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
     And I select book a hearing
     And I want to create a hearing with case details 
@@ -105,7 +105,7 @@ Scenario: Consultation room: Private can start and leave
     And 'Representative' click on the leave button to leave the consultation room 
     And everyone signs out	
 
-Scenario: Consultation room: JOH can start and leave
+Scenario: JOH can start and leave Consultation room
     Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
     And I select book a hearing
     And I want to create a hearing with case details 
@@ -131,8 +131,6 @@ Scenario: Consultation room: JOH can start and leave
     And I log off
     And all participants log in to video web
     And all participants have joined the hearing waiting room
-    #And the judge starts the hearing
-    #And the judge checks that all participants have joined the hearing room
     When the judge selects Enter consultation room
     And the panel member selects Enter consultation room
     Then judge checks participant joined the consultation room
