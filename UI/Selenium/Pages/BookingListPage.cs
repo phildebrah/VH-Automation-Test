@@ -16,6 +16,7 @@ namespace UISelenium.Pages
         public static By SearchButton => By.Id("searchButton");
         public static By ConfirmedButton => By.XPath("//*[contains(text(),'Confirmed')]");
         public static By TelephoneParticipantLink => By.XPath("//div[@id='conference_phone_details']");
-        public static By VideoParticipantLink => By.XPath("//div[@id='conference_join_by_link_details']");
+        public static By VideoParticipantLink => By.XPath("//div[contains(text(),'video-participant-link')]");
+        public static By SearchPanelButton => By.Id("openSearchPanelButton");
     }
 }

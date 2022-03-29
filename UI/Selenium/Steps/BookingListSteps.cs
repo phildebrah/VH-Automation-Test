@@ -81,6 +81,7 @@ namespace UI.Steps
         [When(@"I search for case number")]
         public void WhenISearchForCaseNumber()
         {
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchCaseTextBox, _scenarioContext).SendKeys(_hearing.Case.CaseNumber);
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchButton, _scenarioContext).Click();
 
@@ -98,6 +99,20 @@ namespace UI.Steps
         public void ThenTelephoneParticipantLinkShouldBeCopied()
         {
             Assert.IsTrue(_hearing.BookingList.TelephoneParticipantLink.Contains("+448000488500"), "Phone verified");
-        }      
+        }
+
+        [When(@"I copy video participant link")]
+        public void WhenICopyVideoParticipantLink()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.ConfirmedButton, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.VideoParticipantLink, _scenarioContext).Click();
+            _hearing.BookingList.VideoParticipantLink = new TextCopy.Clipboard().GetText();
+        }
+
+        [Then(@"video participant link should be copied")]
+        public void ThenVideoParticipantLinkShouldBeCopied()
+        {
+            Assert.IsTrue(_hearing.BookingList.VideoParticipantLink.Contains(".hearings.reform.hmcts.net"), "Video link verification failed :" + _hearing.BookingList.VideoParticipantLink);
+        }
     }
 }
