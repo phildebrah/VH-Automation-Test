@@ -72,7 +72,7 @@ Scenario: Closed hearings - can join consultation room after hearing is closed
     And all participants leave consultation room
     And everyone signs out
 
-Scenario: Private can start and leave Consultatin room
+Scenario: Participants start and leave Private Consultatin room
     Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
     And I select book a hearing
     And I want to create a hearing with case details 
