@@ -127,6 +127,7 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I set any other information
 	| Record Hearing | Other information   | 
 	|                | This is a test info |
+
 	And I book the hearing
     Then A hearing should be created
 	And I log off
