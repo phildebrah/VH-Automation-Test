@@ -9,6 +9,6 @@ namespace UI.Utilities
     public class ApplicationValidationData
     {
         static string Alerts_IncompleteTest = "Failed self-test (Incomplete Test)";
-        static string Alerts_cameraTest = "Failed self-test (Incomplete Test)";
+        static string Alerts_SelfTestcamera = "Failed self-test (Camera)";
     }
 }

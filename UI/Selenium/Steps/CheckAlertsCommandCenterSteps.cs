@@ -118,6 +118,7 @@ namespace UI.Steps
         [When(@"the Video Hearings Officer check alerts for this hearing")]
         public void WhenTheVideoHearingsOfficerCheckAlertsForThisHearing()
         {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.ViewHearings, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.SelectCaseNumber(_hearing.Case.CaseNumber), _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.HearingBtn, _scenarioContext).Click();
@@ -131,8 +132,9 @@ namespace UI.Steps
                     string alertMsg = Driver.FindElement(By.CssSelector("div#tasks-list div.govuk-grid-row:nth-child(" + i + ") .task-body")).Text;
                     string firstLastName = Driver.FindElement(By.CssSelector("div#tasks-list div.govuk-grid-row:nth-child(" + i + ") .task-origin")).Text;
 
-                    Assert.AreEqual(alertMsg.Equals("Failed self-test (Camera)"), "Alert Message validation failed");
-                    Assert.AreEqual(alertMsg.Equals(_hearing.Participant[0].Name), "Name validation failed");
+                    Assert.AreEqual(alertMsg,"Failed self-test (Camera)");
+                    Assert.True(firstLastName.Contains(_hearing.Participant[0].Name.FirstName));
+                    Assert.True(firstLastName.Contains(_hearing.Participant[0].Name.LastName));
                 }
 
             }
