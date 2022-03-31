@@ -133,9 +133,6 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I log off
 	And all participants log in to video web
 	And all participants have joined the hearing waiting room
-	And the judge starts the hearing
-	And the judge checks that all participants have joined the hearing room
-	And all participants are redirected to the waiting room when the judge pauses the hearing
 	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
