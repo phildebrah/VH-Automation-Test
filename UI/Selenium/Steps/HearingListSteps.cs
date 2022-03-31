@@ -39,6 +39,8 @@ namespace UI.Steps
                 Driver = driver.Value;
                 ProceedToWaitingRoom(driver.Key.Split('#').FirstOrDefault(), _hearing.Case.CaseNumber);
             }
+            _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
+            _scenarioContext["Hearing"] = _hearing;
         }
 
         public void ProceedToWaitingRoom(string participant, string caseNumber)
@@ -78,5 +80,60 @@ namespace UI.Steps
                 Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
             }
         }
+
+        [When(@"selects current hearing")]
+        public void WhenSelectsCurrentHearing()
+        {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId));
+            ExtensionMethods.MoveToElement(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId), _scenarioContext);
+            ExtensionMethods.FindElementWithWait(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId), _scenarioContext).Click();
+        }
+
+        [When(@"starts a consultation with a judge")]
+        public void WhenStartsAConsultationWithAJudge()
+        {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.WaitingRoomIframe);
+            ExtensionMethods.SwitchToIframe(Driver, HearingListPage.WaitingRoomIframe);
+            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.WaitingRoomJudgeLink);
+            Driver.FindElement(HearingListPage.WaitingRoomJudgeLink).Click();
+            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.PrivateConsultation);
+            Driver.FindElement(HearingListPage.PrivateConsultation).Click();
+            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.HearingListConsultationRooms);
+            Driver.SwitchTo().DefaultContent();
+            Driver.SwitchTo().Window("Private Consultation");
+            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.SelfViewButton);
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "judge").FirstOrDefault().Id, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+        }
+
+        [Then(@"check judge is in the consultation room")]
+        public void ThenCheckJudgeIsInTheConsultationRoom()
+        {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "judge").FirstOrDefault().Id, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            ExtensionMethods.WaitForElementVisible(Driver, HearingRoomPage.LeaveHearingButton);
+            Assert.True(Driver.Url.Contains("/judge/waiting-room"));
+        }
+
+        [Then(@"closes the consultation")]
+        public void ThenClosesTheConsultation()
+        {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
+            _scenarioContext["driver"] = Driver;
+            Driver.SwitchTo().Window("Private Consultation");
+            ExtensionMethods.FindElementEnabledWithWait(Driver, ConsultationRoomPage.CloseButton);
+            Driver.SwitchTo().DefaultContent();
+        }
+
+        [Then(@"check the judge returns to the waiting room")]
+        public void ThenCheckTheJudgeReturnsToTheWaitingRoom()
+        {
+            throw new PendingStepException();
+        }
+
     }
 }

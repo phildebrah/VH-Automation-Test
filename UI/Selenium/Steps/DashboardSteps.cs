@@ -59,7 +59,7 @@ namespace UI.Steps
         {
             selectYourHearingListSteps = new SelectYourHearingListSteps(_scenarioContext);
             selectYourHearingListSteps.SelectVenue("Birmingham Civil and Family Justice Centre");
-            selectYourHearingListSteps.WhenIClickOnViewHearings();//AA80855
+            selectYourHearingListSteps.WhenIClickOnViewHearings();
         }
     }
 }

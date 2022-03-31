@@ -135,10 +135,12 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And all participants have joined the hearing waiting room
 	And the judge starts the hearing
 	And the judge checks that all participants have joined the hearing room
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_11@hearings.reform.hmcts.net"
+	And all participants are redirected to the waiting room when the judge pauses the hearing
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	And starts a consultation with a judge
+	And the invite into consultation room gets accepted
 	Then check judge is in the consultation room
 	And closes the consultation
 	Then check the judge returns to the waiting room

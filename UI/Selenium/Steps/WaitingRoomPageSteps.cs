@@ -196,5 +196,17 @@ namespace UI.Steps
                 }
             }
         }
+
+        [When(@"the invite into consultation room gets accepted")]
+        public void WhenTheJudgeAcceptsTheIncomingInvite()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.ToastInviteAcceptButton, _scenarioContext).Click();
+            ExtensionMethods.WaitForElementNotVisible(Driver, JudgeWaitingRoomPage.ToastInviteAcceptButton);
+        }
+
+        public void RefreshPage()
+        {
+            Driver.Navigate().Refresh();
+        }
     }
 }
