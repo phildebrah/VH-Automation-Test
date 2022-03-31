@@ -94,12 +94,12 @@ namespace UI.Steps
                     new SelectElement(Driver.FindElement(ParticipantsPage.TitleDropdown)).SelectByText("Mr");
                     ExtensionMethods.SendKeys(Driver, Keys.Tab);
                     ExtensionMethods.ClickAll(Driver, ParticipantsPage.EmailList);
-                    if(Driver.FindElement(ParticipantsPage.PhoneTextfield).GetAttribute("value") == String.Empty)
-                    {
-                        Driver.FindElement(ParticipantsPage.PhoneTextfield).SendKeys("07021234567");
-                        _scenarioContext.UpdateElementName("PhoneTextfield");
-                        _scenarioContext.UpdateActionName("SendKeys");
-                    }
+
+                    Driver.FindElement(ParticipantsPage.PhoneTextfield).ClearText();
+                    Driver.FindElement(ParticipantsPage.PhoneTextfield).SendKeys("07021234567");
+                    _scenarioContext.UpdateElementName("PhoneTextfield");
+                    _scenarioContext.UpdateActionName("SendKeys");
+                    
 
                     if (participant.Role.Name.Equals("Interpreter"))
                     {
@@ -115,6 +115,7 @@ namespace UI.Steps
                         ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepresentingTextfield, _scenarioContext).SendKeys($"AutoRepresent{Util.RandomAlphabet(4)}");
                         _scenarioContext.UpdateElementName("RepOrganisationTextfield");
                         _scenarioContext.UpdateActionName("SendKeys");
+                        ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield, _scenarioContext).ClearText(Config.DefaultElementWait);
                         ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield, _scenarioContext).SendKeys($"AutoOrg{Util.RandomAlphabet(4)}");
                     }
 

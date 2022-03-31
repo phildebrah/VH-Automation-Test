@@ -433,6 +433,64 @@ namespace TestFramework
                 count++;
             }
         }
+
+        public static IWebElement FindElementWithWait(IWebDriver driver, By findBy, int? waitPeriod = null)
+        {
+            waitPeriod = waitPeriod == null ? 60 : waitPeriod.Value;
+            var timeStart = new TimeSpan(DateTime.Now.Ticks);
+            bool isVisible = IsElementVisible(driver, findBy, null);
+            while (!isVisible)
+            {
+                if (driver.FindElement(By.TagName("body")).Text.Contains("You've been signed out of the service"))
+                {
+                    driver.Navigate().Back();
+                }
+                var timeSpent = Math.Abs((timeStart - new TimeSpan(DateTime.Now.Ticks)).TotalSeconds);
+                if (timeSpent > waitPeriod)
+                {
+                    return null;
+                }
+
+                isVisible = IsElementVisible(driver, findBy, null);
+            }
+
+            if (isVisible)
+            {
+                return driver.FindElement(findBy);
+            }
+            return null;
+        }
+      
+        public static void ClearText(this IWebElement element, int? timeInSec = null)
+        {
+            var isCleared = false;
+            timeInSec = timeInSec == null ? 30 : timeInSec.Value;
+            var count = 1;
+            while(!isCleared)
+            {
+                try
+                {
+                    element.Clear();
+                    var text = element.Text;
+                    if(string.IsNullOrEmpty(text))
+                    {
+                        isCleared=true;
+                    }
+                }
+
+                catch
+                {
+                    Logger.Error($"Exception occured while clearing text for element {element}");
+                }
+
+                if (count > timeInSec && !isCleared)
+                {
+                    Logger.Error($"Element {element} text was expected to be deleted , but it was not");
+                    throw new Exception($"Element {element} text was expected to be deleted , but it was not");
+                }
+                count++;
+            }
+        }
         public static void SwitchToIframe(IWebDriver driver, By by)
         {
             driver.SwitchTo().Frame(driver.FindElement(by));
