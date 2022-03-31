@@ -14,6 +14,7 @@ using TestLibrary.Utilities;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System.Collections.Generic;
+using FluentAssertions;
 
 namespace UI.Steps
 {
@@ -107,6 +108,9 @@ namespace UI.Steps
                         TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     }
+                    Driver.FindElement(ParticipantHearingListPage.CameraWorkingNo)?.Click();
+                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
+                    
                 }
             }
         }
@@ -120,17 +124,19 @@ namespace UI.Steps
 
             if(ExtensionMethods.IsElementExists(Driver, SelectYourHearingListPage.FailedAlert, _scenarioContext)){
                 var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
-
-                foreach (var alert in alerts)
+                
+                for (int i = 1; i <= alerts.Count; i++)
                 {
-                   string user =  Driver.FindElement(By.CssSelector("div#tasks-list div.govuk-grid-row .task-body")).Text;
-                   string task =  Driver.FindElement(By.CssSelector("div#tasks-list div.govuk-grid-row .task-origin")).Text;
+                   
+                    string alertMsg = Driver.FindElement(By.CssSelector("div#tasks-list div.govuk-grid-row:nth-child(" + i + ") .task-body")).Text;
+                    string firstLastName = Driver.FindElement(By.CssSelector("div#tasks-list div.govuk-grid-row:nth-child(" + i + ") .task-origin")).Text;
+
+                    Assert.AreEqual(alertMsg.Equals("Failed self-test (Camera)"), "Alert Message validation failed");
+                    Assert.AreEqual(alertMsg.Equals(_hearing.Participant[0].Name), "Name validation failed");
                 }
+
             }
         }
-
-
-
 
     }
 }

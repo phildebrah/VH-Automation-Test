@@ -26,7 +26,7 @@ namespace UI.Steps
         [When(@"I want to join hearing with details")]
         public void ThenIWantToJoinHearingWithDetails(Table table)
         {
-            foreach (var row in table.Rows)
+                foreach (var row in table.Rows)
             {
                 ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.FullName, _scenarioContext).SendKeys(row[0]);
             }
