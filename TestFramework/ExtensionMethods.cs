@@ -433,20 +433,6 @@ namespace TestFramework
                 count++;
             }
         }
-
-        public static void ClickUsingJs(IWebDriver driver, By by)
-        {
-            try
-            {
-                var element = driver.FindElement(by);
-                IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-                js.ExecuteScript("arguments[0].click();", element);
-            }   
-            catch
-            {
-            }
-        }
-
         public static void SwitchToIframe(IWebDriver driver, By by)
         {
             driver.SwitchTo().Frame(driver.FindElement(by));
