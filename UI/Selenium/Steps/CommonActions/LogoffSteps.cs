@@ -24,7 +24,7 @@ namespace UI.Steps
 
         [Then(@"I log off")]
         public void ThenILogOff()
-        {
+            {
             _scenarioContext.UpdatePageName("logout");
             Driver = (IWebDriver)_scenarioContext["driver"];
             if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
