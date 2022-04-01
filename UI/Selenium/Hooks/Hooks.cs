@@ -10,6 +10,7 @@ using OpenQA.Selenium.Support.Extensions;
 using SeleniumSpecFlow.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,8 @@ namespace SeleniumSpecFlow
         private static string featureTitle;
         private static int ImageNumber=0;
         private static string scenarioTitle;
+        private static DateTime TestStartTime;
+        private string browserName;
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
@@ -57,6 +60,8 @@ namespace SeleniumSpecFlow
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
                 _extent.AttachReporter(reporter);
+
+                TestStartTime=DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -65,14 +70,14 @@ namespace SeleniumSpecFlow
         }
 
         [BeforeFeature]
-        public static void BeforeFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
+        public static void BeforeFeature(FeatureContext featureContext)
         {
             featureTitle = featureContext.FeatureInfo.Title;
             _feature = _extent.CreateTest<Feature>(featureTitle);
 
             Logger.Info($"Starting feature '{featureTitle}'");
 
-            _specFlowOutputHelper = outputHelper;
+            //_specFlowOutputHelper = outputHelper;
         }
 
         [BeforeScenario]
@@ -134,14 +139,14 @@ namespace SeleniumSpecFlow
         [BeforeStep]
         public static void BeforeStep(ScenarioContext scenarioContext)
         {
-            var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+            var stepTitle = scenarioContext.StepContext.StepInfo.Text;
             Logger.Info($"Starting step '{stepTitle}'");
         }
 
         [AfterStep]
         public static void AfterStep(ScenarioContext scenarioContext)
         {
-            var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+            var stepTitle = scenarioContext.StepContext.StepInfo.Text;
             Logger.Info($"ending step '{stepTitle}'");
         }
 
@@ -156,7 +161,7 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.TestError != null && !(scenarioContext.TestError is AssertionException))
             {
-                var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
+                var stepTitle = scenarioContext.StepContext.StepInfo.Text;
                 Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:'{stepTitle}'");
                 var infoTextBuilder = new StringBuilder();
                 
@@ -191,38 +196,38 @@ namespace SeleniumSpecFlow
                 }
 
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
-                Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
+                Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}"); 
 
-                switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
-                        _scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Fail(scenarioContext.TestError.Message, mediaModel);
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message, mediaModel);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
-                        _scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Fail(scenarioContext.TestError.Message, mediaModel);
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message, mediaModel);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
-                        _scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Fail(scenarioContext.TestError.Message, mediaModel);
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message, mediaModel);
                         break;
                 }
             }
 
             if (scenarioContext.ScenarioExecutionStatus == ScenarioExecutionStatus.StepDefinitionPending)
             {
-                switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
-                        _scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending", mediaModel);
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending", mediaModel);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
-                        _scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending", mediaModel);
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending", mediaModel);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
-                        _scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending", mediaModel);
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending", mediaModel);
                         break;
                 }
             }
@@ -233,24 +238,23 @@ namespace SeleniumSpecFlow
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
                 //For Extent report
-                switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
-                        _scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Pass(string.Empty, mediaModel);
-                        _scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Pass(string.Empty, mediaModel);
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty, mediaModel);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
-                        _scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Pass(string.Empty, mediaModel);
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty, mediaModel);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
-                        _scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Pass(string.Empty, mediaModel);
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty, mediaModel);
                         break;
                 }
 
-                _specFlowOutputHelper.WriteLine("Logging Using Specflow");
-                _specFlowOutputHelper.AddAttachment(ScreenshotFilePath);
+                //_specFlowOutputHelper.WriteLine("Logging Using Specflow");
+                //_specFlowOutputHelper.AddAttachment(ScreenshotFilePath);
             }
         }
 
@@ -259,54 +263,54 @@ namespace SeleniumSpecFlow
         {
             if (scenarioContext.TestError != null)
             {
-                switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
-                        _scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Fail(scenarioContext.TestError.Message);
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
-                        _scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Fail(scenarioContext.TestError.Message);
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
-                        _scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Fail(scenarioContext.TestError.Message);
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
                         break;
                 }
             }
 
             if (scenarioContext.ScenarioExecutionStatus == ScenarioExecutionStatus.StepDefinitionPending)
             {
-                switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
-                        _scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending");
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
-                        _scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending");
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
-                        _scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending");
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
                         break;
                 }
             }
 
             if (scenarioContext.TestError == null)
             {
-                switch (ScenarioStepContext.Current.StepInfo.StepDefinitionType)
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
-                        _scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Pass(string.Empty);
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
-                        _scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Pass(string.Empty);
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
                         break;
 
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
-                        _scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Pass(string.Empty);
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
                         break;
                 }
             }
@@ -318,10 +322,14 @@ namespace SeleniumSpecFlow
             var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
             foreach(var driver in drivers)
             {
+                browserName=$@"{((WebDriver)driver.Value).Capabilities["browserName"]}.exe";
                 driver.Value.Quit();
+                driver.Value.Dispose();
                 Logger.Info("Driver has been closed");
 
             }
+
+            KillAllBrowserInstances(browserName);
             _extent.Flush();
             Logger.Info("Flush Extent Report Instance");
             GC.SuppressFinalize(this);
@@ -337,7 +345,9 @@ namespace SeleniumSpecFlow
                 {
                     if (scenarioContext.ContainsKey("driver"))
                     {
+                        browserName=$@"{((WebDriver)driver.Value).Capabilities["browserName"]}.exe";
                         driver.Value?.Quit();
+                        driver.Value?.Dispose();
                         Logger.Info($"Driver has been closed");
                     }
                 }
@@ -345,10 +355,14 @@ namespace SeleniumSpecFlow
             else
             {
                 var driver = (IWebDriver)scenarioContext["driver"];
+                browserName=$@"{((WebDriver)driver).Capabilities["browserName"]}.exe";
                 driver.Quit();
+                driver.Dispose();
                 Logger.Info($"Driver has been closed");
             }
-           
+            
+            KillAllBrowserInstances(browserName);
+
             _extent.Flush();
             Logger.Info("Flush Extent Report Instance");
             GC.SuppressFinalize(this);
@@ -369,7 +383,7 @@ namespace SeleniumSpecFlow
         }
 
         [AfterFeature]
-        public static void AfterFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
+        public static void AfterFeature(FeatureContext featureContext)
         {
             var featureTitle = featureContext.FeatureInfo.Title;
             Logger.Info($"Ending feature '{featureTitle}'");
@@ -378,6 +392,18 @@ namespace SeleniumSpecFlow
         private static bool RunOnSauceLabs(string[] tags)
         {
             return config.RunOnSaucelabs && tags.Any(s => s.Contains("DeviceTest"));
+        }
+
+        private static void KillAllBrowserInstances(string processName)
+        {
+            var processes = Process.GetProcessesByName(processName);
+            foreach(var process in processes)
+            {
+                if(process.StartTime > TestStartTime)
+                {
+                    process.Kill(true);
+                }
+            }
         }
     }
 }
