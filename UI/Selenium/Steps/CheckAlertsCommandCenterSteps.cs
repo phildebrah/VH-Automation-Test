@@ -58,22 +58,20 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
         }
 
-        [Then(@"I log off and close application")]
-        public void ThenILogOffAndCloseApplication()
-        {
-            _scenarioContext.UpdatePageName("logout");
-            Driver = (IWebDriver)_scenarioContext["driver"];
-            if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
-            {
-                Driver.FindElement(Header.LinkSignOut).Click();
-            }
-            else
-            {
-                Driver.FindElement(Header.SignOut).Click();
-            }
-
-          //  Driver.Close();
-        }
+        //[Then(@"I log off and close application")]
+        //public void ThenILogOffAndCloseApplication()
+        //{
+        //    _scenarioContext.UpdatePageName("logout");
+        //    Driver = (IWebDriver)_scenarioContext["driver"];
+        //    if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
+        //    {
+        //        Driver.FindElement(Header.LinkSignOut).Click();
+        //    }
+        //    else
+        //    {
+        //        Driver.FindElement(Header.SignOut).Click();
+        //    }            
+        //}
 
         [Then(@"participant has joined and progressed to waiting room without completing self test")]
         public void ThenParticipantHasJoinedAndProgressedToWaitingRoomWithoutCompletingSelfTest()
@@ -110,7 +108,7 @@ namespace UI.Steps
                     }
                     Driver.FindElement(ParticipantHearingListPage.CameraWorkingNo)?.Click();
                     Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                    
+
                 }
             }
         }
@@ -123,21 +121,78 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.SelectCaseNumber(_hearing.Case.CaseNumber), _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.HearingBtn, _scenarioContext).Click();
 
-            if(ExtensionMethods.IsElementExists(Driver, SelectYourHearingListPage.FailedAlert, _scenarioContext)){
+        }
+
+        [Then(@"the the Video Hearings Officer see the alert Failed self-test \(No to Camera\) participant F & L name")]
+        public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestNoToCameraParticipantFLName()
+        {         
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+
+            if (ExtensionMethods.IsElementExists(Driver, SelectYourHearingListPage.FailedAlert, _scenarioContext))
+            {
                 var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
-                
+
                 for (int i = 1; i <= alerts.Count; i++)
                 {
-                   
-                    string alertMsg = Driver.FindElement(By.CssSelector("div#tasks-list div.govuk-grid-row:nth-child(" + i + ") .task-body")).Text;
-                    string firstLastName = Driver.FindElement(By.CssSelector("div#tasks-list div.govuk-grid-row:nth-child(" + i + ") .task-origin")).Text;
 
-                    Assert.AreEqual(alertMsg,"Failed self-test (Camera)");
-                    Assert.True(firstLastName.Contains(_hearing.Participant[0].Name.FirstName));
-                    Assert.True(firstLastName.Contains(_hearing.Participant[0].Name.LastName));
+                    string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
+                    string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
+
+                    Assert.AreEqual(alertMsg, "Failed self-test (Camera)");
+                    Assert.True(firstLastName.Contains(_hearing.Participant[1].Name.FirstName));
+                    Assert.True(firstLastName.Contains(_hearing.Participant[1].Name.LastName));
                 }
 
             }
+
+        }
+
+        [Then(@"the the Video Hearings Officer see the alert Failed self-test \(No to Microphone\) participant F & L name")]
+        public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestNoToMicrophoneParticipantFLName()
+        {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+
+            if (ExtensionMethods.IsElementExists(Driver, SelectYourHearingListPage.FailedAlert, _scenarioContext))
+            {
+                var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
+
+                for (int i = 1; i <= alerts.Count; i++)
+                {
+
+                    string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
+                    string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
+
+                    Assert.AreEqual(alertMsg, "Failed self-test (Microphone)");
+                    Assert.True(firstLastName.Contains(_hearing.Participant[1].Name.FirstName));
+                    Assert.True(firstLastName.Contains(_hearing.Participant[1].Name.LastName));
+                }
+
+            }
+
+        }
+
+        [Then(@"the the Video Hearings Officer see the alert Failed self-test \(No to Video\) participant F & L name")]
+        public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestNoToVideoParticipantFLName()
+        {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+
+            if (ExtensionMethods.IsElementExists(Driver, SelectYourHearingListPage.FailedAlert, _scenarioContext))
+            {
+                var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
+
+                for (int i = 1; i <= alerts.Count; i++)
+                {
+
+                    string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
+                    string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
+
+                    Assert.AreEqual(alertMsg, "Failed self-test (Video)");
+                    Assert.True(firstLastName.Contains(_hearing.Participant[1].Name.FirstName));
+                    Assert.True(firstLastName.Contains(_hearing.Participant[1].Name.LastName));
+                }
+
+            }
+
         }
 
     }

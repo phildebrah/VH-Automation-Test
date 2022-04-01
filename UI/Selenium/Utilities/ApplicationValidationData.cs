@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace UI.Utilities
 {
-    public class ApplicationValidationData
+    public static class ApplicationValidationData
     {
-        static string Alerts_IncompleteTest = "Failed self-test (Incomplete Test)";
-        static string Alerts_SelfTestcamera = "Failed self-test (Camera)";
+        static readonly string Alerts_IncompleteTest = "Failed self-test (Incomplete Test)";
+        static readonly string Alerts_SelfTestcamera = "Failed self-test (Camera)";
     }
 }
