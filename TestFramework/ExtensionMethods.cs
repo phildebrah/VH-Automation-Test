@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-
+using OpenQA.Selenium.Support.Extensions;
 namespace TestFramework
 {
     public static class ExtensionMethods
@@ -529,6 +529,10 @@ namespace TestFramework
                 }
                 count++;
             }
+        }
+        public static void SwitchToIframe(IWebDriver driver, By by)
+        {
+            driver.SwitchTo().Frame(driver.FindElement(by));
         }
     }
 }
