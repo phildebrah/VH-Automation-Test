@@ -8,6 +8,7 @@ using TestFramework;
 using UISelenium.Pages;
 using System;
 using NUnit.Framework;
+using OpenQA.Selenium.Support.UI;
 
 namespace UI.Steps
 {
@@ -49,6 +50,25 @@ namespace UI.Steps
             _hearing = (Hearing)_scenarioContext["Hearing"];
             hearingScheduleSteps = new HearingScheduleSteps(_scenarioContext);
             hearingScheduleSteps.GivenTheHearingHasTheFollowingScheduleDetails(StepsHelper.Set.HearingScheduleData());
+            hearingAssignJudgeSteps = new HearingAssignJudgeSteps(_scenarioContext);
+            hearingAssignJudgeSteps.GivenIWantToAssignAJudgeWithCourtroomDetails(StepsHelper.Set.JudgeData());
+            participantsSteps.GivenIWantToCreateAHearingFor(StepsHelper.Set.ParticipantsData());
+            videoAccessSteps.GivenWithVideoAccessPointsDetails(StepsHelper.Set.VideoAccessPointData());
+            otherInformationSteps.GivenISetAnyOtherInformation(StepsHelper.Set.SetOtherInfoData());
+            summaryPageSteps.GivenIBookTheHearing();
+            summaryPageSteps.ThenAHearingShouldBeCreated();
+        }
+
+        [Given(@"I have booked a hearing in next (\d+) minutes")]
+        public void GivenIHaveABookedHearingInNextMinutes(int min)
+        {
+
+            loginSteps.GivenILogInAs(username);
+            dashboardSteps.GivenISelectBookAHearing();
+            createHearingDetails.GivenIWantToCreateAHearingWithCaseDetails(StepsHelper.Set.HearingDetailsData());
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+            hearingScheduleSteps = new HearingScheduleSteps(_scenarioContext);
+            hearingScheduleSteps.GivenTheHearingHasTheScheduleDetails(StepsHelper.Set.HearingScheduleData(), min);
             hearingAssignJudgeSteps = new HearingAssignJudgeSteps(_scenarioContext);
             hearingAssignJudgeSteps.GivenIWantToAssignAJudgeWithCourtroomDetails(StepsHelper.Set.JudgeData());
             participantsSteps.GivenIWantToCreateAHearingFor(StepsHelper.Set.ParticipantsData());
@@ -142,6 +162,21 @@ namespace UI.Steps
         public void ThenVideoParticipantLinkShouldBeCopied()
         {
             Assert.IsTrue(_hearing.BookingList.VideoParticipantLink.Contains(".hearings.reform.hmcts.net"), "Video link verification failed :" + _hearing.BookingList.VideoParticipantLink);
+        }
+
+        [When(@"the VHO cancels the hearing for the reason '(.*)'")]
+        public void WhenTheVHOCancelsTheHearing(string reason)
+        {
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.CancelBookingButton, _scenarioContext).Click();
+            var selectElement = new SelectElement(ExtensionMethods.WaitForDropDownListItems(Driver, BookingDetailsPage.CancelReason));
+            selectElement.SelectByText(reason);
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmCancelButton, _scenarioContext).Click();
+        }
+
+        [Then(@"the VHO sees the hearing is cancelled")]
+        public void ThenTheVHOSeesTheHearingIsCancelled()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.SpecificBookingCancelledStatus(_hearing.Case.CaseNumber), _scenarioContext).Displayed.Should().BeTrue();
         }
     }
 }
