@@ -22,7 +22,9 @@ namespace UISelenium.Pages
         public static By CameraWorkingYes => By.Id("camera-yes");
         public static By CameraWorkingNo => By.Id("camera-no");
         public static By MicrophoneWorkingYes => By.Id("microphone-yes");
+        public static By MicrophoneWorkingNo => By.Id("microphone-no");
         public static By VideoWorkingYes => By.Id("video-yes");
+        public static By VideoWorkingNo => By.Id("video-no");
         public static By NextButton => By.Id("nextButton");
         public static By DeclareCheckbox => By.Id("declare");
         public static By IncomingStreamVideo => By.Id("incomingStream");
