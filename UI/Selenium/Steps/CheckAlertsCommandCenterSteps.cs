@@ -47,8 +47,7 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
             _scenarioContext.UpdatePageName("Video Web Login");
             Login(userName, Config.UserPassword);
-            //_scenarioContext.UpdatePageName("Your Video Hearings");
-            //_scenarioContext.Add("drivers", drivers);
+           
         }
 
         public void Login(string username, string password)
@@ -294,7 +293,6 @@ namespace UI.Steps
 
                 for (int i = 1; i <= alerts.Count; i++)
                 {
-
                     string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
                     string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
 
