@@ -17,3 +17,14 @@ Scenario: VHO Bookings Search by Case Number
 	Then the booking is retrieved
 	And VHO selects booking
 	And the VHO is on the Booking Details page
+
+@web
+Scenario: Cancel a future hearing
+	Given I have booked a hearing in next 60 minutes
+	When I navigate to booking list page
+	And the VHO search for the booking by case number
+	Then the booking is retrieved
+	And VHO selects booking
+	And the VHO is on the Booking Details page
+	When the VHO cancels the hearing for the reason 'Judge decision'
+	Then the VHO sees the hearing is cancelled
