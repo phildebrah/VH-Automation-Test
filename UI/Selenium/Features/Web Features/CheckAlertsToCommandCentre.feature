@@ -141,7 +141,7 @@ Scenario: Alert Failed self test - No to Camera
 	Then the the Video Hearings Officer see the alert Failed self-test (incomplete) participant F & L name
 
 	Scenario: Alert Failed self test - Disconnected
-	Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -154,7 +154,7 @@ Scenario: Alert Failed self test - No to Camera
 	| auto_aw.judge_03@hearings.reform.hmcts.net |   
 	And I want to create a Hearing for
 	| Party    | Role        | Id                                               |
-	| Claimant | Witness     | auto_vw.individual_05@hearings.reform.hmcts.net  |
+	| Claimant | Witness     | auto_vw.individual_06@hearings.reform.hmcts.net  |
 	And With video Access points details
 	| Display Name | Advocate |
 	|              |          |		
