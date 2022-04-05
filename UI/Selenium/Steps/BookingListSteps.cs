@@ -125,7 +125,6 @@ namespace UI.Steps
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.HearingSchedule.HearingVenue)).Displayed.Should().BeTrue();
         }
 
-
         [When(@"the VHO scrolls to the hearing")]
         public void WhenTheVHOScrollsToTheHearing()
         {
