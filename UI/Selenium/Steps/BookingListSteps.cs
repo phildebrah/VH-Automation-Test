@@ -9,6 +9,8 @@ using UISelenium.Pages;
 using System;
 using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
+using System.Diagnostics;
 
 namespace UI.Steps
 {
@@ -99,8 +101,17 @@ namespace UI.Steps
         [When(@"the VHO search for the booking by case number")]
         public void WhenTheVHOSearchForTheBookingByCaseNumber()
         {
-            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton,_scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton, _scenarioContext).Click();
             Driver.FindElement(BookingListPage.SearchCaseTextBox).SendKeys(_hearing.Case.CaseNumber);
+            Driver.FindElement(BookingListPage.SearchButton).Click();
+        }
+
+        [When(@"the VHO search for the booking by venue '(.*)'")]
+        public void WhenTheVHOSearchForTheBookingByVenue(string venue)
+        {
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.VenueListbox, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.VenueCheckbox(venue), _scenarioContext).Click();
             Driver.FindElement(BookingListPage.SearchButton).Click();
         }
 
@@ -114,11 +125,34 @@ namespace UI.Steps
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.HearingSchedule.HearingVenue)).Displayed.Should().BeTrue();
         }
 
+        [When(@"the VHO scrolls to the hearing")]
+        public void WhenTheVHOScrollsToTheHearing()
+        {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            var isFound = false;
+            while (!isFound && timer.Elapsed <=TimeSpan.FromSeconds(Config.DefaultElementWait))
+            {
+                var allHearings = Driver.FindElements(BookingListPage.AllHearings);
+                var lastHearingElement = allHearings[allHearings.Count-1];
+                Actions actions = new Actions(Driver);
+                actions.MoveToElement(lastHearingElement);
+                actions.Perform();
+                var element = ExtensionMethods.FindElementWithWait(Driver, BookingListPage.HearingSelectionSpecificRow(_hearing.Case.CaseNumber), _scenarioContext);
+                if (element!=null)
+                {
+                    actions = new Actions(Driver);
+                    actions.MoveToElement(element);
+                    actions.Perform();
+                    isFound=true;
+                }
+            }
+        }
+
         [Then(@"VHO selects booking")]
         public void ThenVHOSelectsBooking()
         {
-            var element=ExtensionMethods.FindElementWithWait(Driver, BookingListPage.HearingSelectionSpecificRow(_hearing.Case.CaseNumber), _scenarioContext);
-            element.Click();
+            Driver.RetryClick(BookingListPage.HearingSelectionSpecificRow(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
         }
 
         [Then(@"the VHO is on the Booking Details page")]
