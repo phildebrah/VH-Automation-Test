@@ -115,6 +115,16 @@ namespace UI.Steps
             Driver.FindElement(BookingListPage.SearchButton).Click();
         }
 
+        [When(@"the VHO search for the booking by date")]
+        public void WhenTheVHOSearchForTheBookingByDate()
+        {
+            var currentDate = DateTime.Now.ToString("dd/MM/yyyy");
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton, _scenarioContext).Click();
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.StartDate, _scenarioContext).SendKeys(currentDate);
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.EndDate, _scenarioContext).SendKeys(currentDate); ;
+            Driver.FindElement(BookingListPage.SearchButton).Click();
+        }
+
         [Then(@"the booking is retrieved")]
         public void ThenTheBookingIsRetrieved()
         {
