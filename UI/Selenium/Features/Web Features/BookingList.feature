@@ -38,4 +38,3 @@ Scenario: VHO Bookings Search by Venue
 	And the VHO scrolls to the hearing
 	Then VHO selects booking
 	And the VHO is on the Booking Details page
-	
