@@ -21,7 +21,7 @@ namespace UI.Steps
     [Binding]
     public class CheckAlertsCommandCenterSteps : ObjectFactory
     {
-        ScenarioContext _scenarioContext;
+        private readonly ScenarioContext _scenarioContext;
         private Hearing _hearing;
 
         public readonly string CAMERA_ALERT = "Failed self-test (Camera)";

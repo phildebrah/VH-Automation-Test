@@ -93,6 +93,30 @@ namespace SeleniumSpecFlow.Steps
             _scenarioContext.Add("drivers", drivers);
         }
 
+        [Then(@"three participants log in to video web")]
+        public void ThenThreeParticipantsLogInToVideoWeb()
+        {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+            Driver?.Dispose();
+            foreach (var participant in _hearing.Participant)
+            {
+                if (!participant.Id.Equals("auto_vw.individual_08@hearings.reform.hmcts.net"))
+                {
+                    Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+                    _scenarioContext["driver"] = Driver;
+                    Driver.Navigate().GoToUrl(Config.VideoUrl);
+                    var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
+                    wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
+                    _scenarioContext.UpdatePageName("Video Web Login");
+                    drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
+                    Login(participant.Id, Config.UserPassword);
+                }
+                
+            }
+            _scenarioContext.UpdatePageName("Your Video Hearings");
+            _scenarioContext.Add("drivers", drivers);
+        }
+
         [Given(@"I open a new browser and log into admin web as ""([^""]*)""")] 
         public void GivenIOpenANewBrowserAndLogInAs(string email)
         {
