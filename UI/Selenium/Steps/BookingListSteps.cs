@@ -83,15 +83,15 @@ namespace UI.Steps
         [When(@"I navigate to booking list page")] 
         public void INavigateToBookingListPage()
         {
-            _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementWithWait(Driver, Header.BookingsList, _scenarioContext).Click();
-            ExtensionMethods.WaitForElementVisible(Driver, BookingListPage.HearingDateTitle);
-            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDateTitle).Displayed.Should().BeTrue();
+            ExtensionMethods.WaitForElementVisible(Driver, BookingListPage.HearingDetailsRow);
+            ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRow).Displayed.Should().BeTrue();
         }
 
         [Then(@"The booking should contain expected values")]
         public void ThenTheBookingShouldContainExpectedValues()
         {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRow).Displayed.Should().BeTrue();
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.Case.CaseName)).Displayed.Should().BeTrue();
             ExtensionMethods.FindElementEnabledWithWait(Driver, BookingListPage.HearingDetailsRowSpecific(_hearing.Case.CaseNumber)).Displayed.Should().BeTrue();
@@ -101,6 +101,7 @@ namespace UI.Steps
         [When(@"the VHO search for the booking by case number")]
         public void WhenTheVHOSearchForTheBookingByCaseNumber()
         {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton, _scenarioContext).Click();
             Driver.FindElement(BookingListPage.SearchCaseTextBox).SendKeys(_hearing.Case.CaseNumber);
             Driver.FindElement(BookingListPage.SearchButton).Click();
@@ -221,6 +222,39 @@ namespace UI.Steps
         public void ThenTheVHOSeesTheHearingIsCancelled()
         {
             ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.SpecificBookingCancelledStatus(_hearing.Case.CaseNumber), _scenarioContext).Displayed.Should().BeTrue();
+        }
+
+        [When(@"the VHO search for the booking by case type '(.*)'")]
+        public void WhenTheVHOSearchForTheBookingByCaseType(string caseType)
+        {
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton, _scenarioContext).Click();
+            foreach(var type in caseType.Split(','))
+            {
+                var _type = type.Trim();
+                ExtensionMethods.FindElementWithWait(Driver, BookingListPage.CaseTypes, _scenarioContext).SendKeys(_type);
+                ExtensionMethods.WaitForElementVisible(Driver, BookingListPage.CaseTypeCheckbox(_type));
+                ExtensionMethods.FindElementWithWait(Driver, BookingListPage.CaseTypeCheckbox(_type), _scenarioContext).Click();
+            }
+            
+            ExtensionMethods.FindElementWithWait(Driver, BookingListPage.VenueListbox, _scenarioContext).Click();
+            Driver.FindElement(BookingListPage.SearchButton).Click();
+        }
+
+        [Then(@"VHO selects any booking")]
+        public void ThenVHOSelectsAnyBooking()
+        {
+            ExtensionMethods.WaitForElementVisible(Driver, BookingListPage.HearingDetailsRow);
+            Driver.FindElement(BookingListPage.HearingDetailsRow).Click();
+        }
+
+        [Then(@"the VHO can see Booking Details page")]
+        public void ThenTheVHOCanSeeBookingDetailsPage()
+        {
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.BookingConfirmedStatus, _scenarioContext).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.EditBookingButton, _scenarioContext).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ParticipantDetails, _scenarioContext).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.CourtRoomAddress, _scenarioContext).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.HearingStart, _scenarioContext).Displayed.Should().BeTrue();
         }
     }
 }
