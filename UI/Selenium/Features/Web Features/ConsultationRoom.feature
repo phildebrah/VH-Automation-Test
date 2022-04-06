@@ -181,3 +181,41 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	Then check judge is in the consultation room
 	And closes the consultation
 	Then check the judge returns to the waiting room
+
+    Scenario: Consultation room: Check Instant Messages are sent correctly
+Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	And I select book a hearing
+	And I want to create a hearing with case details 
+	| Case Number | Case Name              | Case Type | Hearing Type        |
+	| AA          | AutomationTestCaseName | Civil     | Enforcement Hearing |
+	And the hearing has the following schedule details
+	| Schedule Date | Duration Hour | Duration Minute |
+	|               | 0             | 30              |
+	And I want to Assign a Judge with courtroom details
+	| Judge or Courtroom Account                 |
+	| auto_aw.judge_01@hearings.reform.hmcts.net |   
+	And I want to create a Hearing for
+	| Party     | Role               | Id                                  |
+	| Claimant  | Litigant in person | auto_vw.individual_05@hearings.reform.hmcts.net    |
+
+	And With video Access points details
+	| Display Name | Advocate |
+	|              |          | 
+	And I set any other information
+	| Record Hearing | Other information   | 
+	|                | This is a test info |
+
+	And I book the hearing
+    Then A hearing should be created
+	And I log off
+	And all participants log in to video web
+	And all participants have joined the hearing waiting room
+     And the judge starts the hearing
+    And the judge checks that all participants have joined the hearing room
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	And selects hearing venue in the venue list
+	And selects current hearing
+    And selects the messages tab
+    And is able to see and send messages to the hearing participants
+    Then all participants are redirected to the waiting room when the judge pauses the hearing
+	And vho can IM both judge and participants while in the waiting room

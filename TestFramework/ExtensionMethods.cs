@@ -534,5 +534,30 @@ namespace TestFramework
         {
             driver.SwitchTo().Frame(driver.FindElement(by));
         }
+
+        public static void WaitForTextPresent(IWebDriver driver, string text, int? timeInSec = null)
+        {
+            bool isPresent = false;
+            timeInSec = timeInSec == null ? 30 : timeInSec.Value;
+            int count = 1;
+            while (!isPresent)
+            {
+                try
+                {
+                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
+                    isPresent = driver.FindElement(By.XPath("//body")).Text.Contains(text);
+                }
+                catch
+                {
+
+                }
+                if (count > timeInSec && !isPresent)
+                {
+                    Logger.Error($"Text {text} was expected to be present after {timeInSec} sec, but it was not");
+                    throw new Exception($"Text {text} was expected to be present after {timeInSec} sec, but it was not");
+                }
+                count++;
+            }
+        }
     }
 }
