@@ -544,8 +544,12 @@ namespace TestFramework
             {
                 try
                 {
-                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
-                    isPresent = driver.FindElement(By.XPath("//body")).Text.Contains(text);
+                    isPresent = driver.FindElement(By.TagName("body")).Text.Contains(text);
+                    if (!isPresent)
+                    {
+                        WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
+                        wait.Until(ExpectedConditions.TextToBePresentInElement(driver.FindElement(By.TagName("body")), text));
+                    }
                 }
                 catch
                 {

@@ -159,10 +159,8 @@ namespace UI.Steps
         {
             var msg = "Hi Judge, this is a test message";
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "judge").FirstOrDefault().Id, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             hearingRoomSteps.WhenTheJudgeCanSendAMessageToAVHOUsingViaHearingRoomChatPanel();
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             Driver.FindElements(HearingListPage.IMAvailableParticipant)?.FirstOrDefault()?.Click();
             ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.InstantMessageInput);
             ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.ChatWindow);
@@ -172,17 +170,15 @@ namespace UI.Steps
             ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.DivContainsText(msg));
             Driver.FindElement(HearingListPage.ChatWindow).Text.Should().Contain(msg);
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "judge").FirstOrDefault().Id, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.JudgeMessageSent(msg), _scenarioContext).Displayed.Should().BeTrue();
         }
 
         [Then(@"vho can IM both judge and participants while in the waiting room")]
         public void ThenVhoCanIMBothJudgeAndParticipants()
         {
-            var judgeMsg = "Hi Judge, I can see you're in the waiting room now";
+            var judgeMsg = "Hi Judge, I can see you are in the waiting room now";
             var participantMsg = "Hello, welcome to the waiting room, enjoy your break";
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             Driver.FindElements(HearingListPage.IMAvailableParticipant)?.FirstOrDefault()?.Click();
             ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.InstantMessageInput);
             ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.ChatWindow);
@@ -195,21 +191,18 @@ namespace UI.Steps
             Driver.FindElement(HearingListPage.InstantMessageButton).Click();
             ExtensionMethods.WaitForTextPresent(Driver, participantMsg);
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "judge").FirstOrDefault().Id, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             ExtensionMethods.WaitForTextPresent(Driver, judgeMsg);
             judgeMsg = $"Send me a message to my email at {_hearing.Participant.Where(a => a.Role.Name.ToLower() == "judge").FirstOrDefault().Id}";
             Driver.FindElement(HearingListPage.InstantMessageInput).SendKeys(judgeMsg);
             Driver.FindElement(HearingListPage.InstantMessageButton).Click();
             ExtensionMethods.WaitForTextPresent(Driver, judgeMsg);
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() != "judge" && a.Role.Name.ToLower() != "vho").FirstOrDefault().Id, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             ExtensionMethods.WaitForTextPresent(Driver, participantMsg);
             participantMsg = "Thank you, see you later #Monday";
             Driver.FindElement(HearingListPage.InstantMessageInput).SendKeys(participantMsg);
             Driver.FindElement(HearingListPage.InstantMessageButton).Click();
             ExtensionMethods.WaitForTextPresent(Driver, participantMsg);
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             Driver.FindElements(HearingListPage.IMAvailableParticipant)?.FirstOrDefault()?.Click();
             ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.InstantMessageInput);
             ExtensionMethods.WaitForTextPresent(Driver, judgeMsg);
