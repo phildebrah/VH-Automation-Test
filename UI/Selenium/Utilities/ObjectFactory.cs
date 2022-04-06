@@ -31,6 +31,7 @@ namespace SeleniumSpecFlow.Utilities
         {
             var driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Where(a => a.Key.ToLower().Contains(participant.ToLower()))?.FirstOrDefault().Value;
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
+            _scenarioContext["driver"] = driver;
             return driver;
         }
 
