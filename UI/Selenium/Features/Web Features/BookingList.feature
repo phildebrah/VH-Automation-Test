@@ -38,3 +38,12 @@ Scenario: VHO Bookings Search by Venue
 	And the VHO scrolls to the hearing
 	Then VHO selects booking
 	And the VHO is on the Booking Details page
+
+@web
+Scenario: VHO Bookings Search by Date
+	Given I have booked a hearing in next 60 minutes
+	When I navigate to booking list page
+	And the VHO search for the booking by date
+	And the VHO scrolls to the hearing
+	Then VHO selects booking
+	And the VHO is on the Booking Details page

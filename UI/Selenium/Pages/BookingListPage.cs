@@ -22,5 +22,7 @@ namespace UISelenium.Pages
         public static By VenueListbox => By.Id("venues");
         public static By VenueCheckbox(string venue) => By.XPath($"//input[@aria-label='Venue name {venue}']");
         public static By AllHearings => By.XPath("//div[@class='govuk-grid-row vh-row vh-a']");
+        public static By StartDate => By.Id("startDate");
+        public static By EndDate => By.Id("endDate");
     }
 }
