@@ -84,7 +84,7 @@ namespace UI.Steps
         {
             foreach (var participant in _hearing.Participant)
             {
-                if (!(participant.Party.Name.ToLower().Contains("judge") || participant.Party.Name.ToLower().Contains("panel")))
+                if (!(participant.Party.Name.ToLower().Contains("judge") || participant.Party.Name.ToLower().Contains("panel")) && !participant.Party.Name.ToLower().Contains("vho"))
                 {
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
                     WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
