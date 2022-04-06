@@ -75,7 +75,7 @@ namespace SeleniumSpecFlow.Steps
 
         [Then(@"all participants log in to video web")]
         public void ThenAllParticipantsLogInToVideoWeb()
-        {
+            {
             _hearing = (Hearing)_scenarioContext["Hearing"];
             Driver?.Dispose();
             foreach (var participant in _hearing.Participant)
@@ -93,7 +93,7 @@ namespace SeleniumSpecFlow.Steps
             _scenarioContext.Add("drivers", drivers);
         }
 
-        [Given(@"I open a new browser and log into admin web as ""([^""]*)""")]
+        [Given(@"I open a new browser and log into admin web as ""([^""]*)""")] 
         public void GivenIOpenANewBrowserAndLogInAs(string email)
         {
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);

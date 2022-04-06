@@ -24,7 +24,7 @@ namespace UI.Steps
 
         [Then(@"I log off")]
         public void ThenILogOff()
-        {
+            {
             _scenarioContext.UpdatePageName("logout");
             Driver = (IWebDriver)_scenarioContext["driver"];
             if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
@@ -43,7 +43,6 @@ namespace UI.Steps
             foreach (var participant in _hearing.Participant)
             {
                 Driver = GetDriver(participant.Id, _scenarioContext);
-                _scenarioContext["driver"] = Driver;
                 Driver.FindElement(Header.SignOut).Click();
             }
         }

@@ -21,6 +21,10 @@ namespace UISelenium.Pages
         public static By ConnectedStatus => By.XPath("//label[contains(@class,'label-status--available')]");
         public static By UnAvailableStatus => By.XPath("//label[contains(@class,'label-status--unavailable')]");
         public static By DisconnectedStatus => By.XPath("//label[contains(@class,'label-status--disconnected')]");
-        
+        public static By Returntovideohearinglist => By.Id("back-link");
+
+
+
+
     }
 }
