@@ -35,6 +35,7 @@ Scenario: Alert Failed self test - No to Camera
 		| Birmingham Civil and Family Justice Centre |
 	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Camera) participant F & L name
+	And I log off 
 	And everyone signs out
 
 
@@ -71,7 +72,8 @@ Scenario: Alert Failed self test - No to Camera
 		| Birmingham Civil and Family Justice Centre |
 	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Microphone) participant F & L name
-
+	And I log off 
+	And everyone signs out
 
 	Scenario: Alert Failed self test - No to Video
 	Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
@@ -105,7 +107,8 @@ Scenario: Alert Failed self test - No to Camera
 		| Birmingham Civil and Family Justice Centre |
 	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Video) participant F & L name
-
+	And I log off 
+	And everyone signs out
 
 	Scenario: Alert Failed self test - Incomplete
 	Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
@@ -139,6 +142,8 @@ Scenario: Alert Failed self test - No to Camera
 		| Birmingham Civil and Family Justice Centre |
 	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (incomplete) participant F & L name
+	And I log off 
+	And everyone signs out
 
 	Scenario: Alert Failed self test - Disconnected
 	Given I log in as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net"
@@ -172,3 +177,5 @@ Scenario: Alert Failed self test - No to Camera
 		| Birmingham Civil and Family Justice Centre |
 	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (disconnected) participant F & L name
+	And I log off 
+	And everyone signs out

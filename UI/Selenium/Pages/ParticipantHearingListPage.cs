@@ -11,6 +11,7 @@ namespace UISelenium.Pages
     {
         public static By CheckEquipment = By.Id("check-equipment-btn");
         public static By HearingListPageTitle = By.XPath("//*[contains(text(), 'Video hearings for') or contains(text(),'Your video hearing') or contains(text(),'Your video hearings')]");
+        public static By TestingYourEquipment = By.XPath("//*[contains(text(), ' Testing your equipment')]");
         public static By SignInTime(string conferenceId) => By.Id($"participant-sign-in-time-{conferenceId}");
         public static By SignInButton(string conferenceId) => By.Id($"sign-into-hearing-btn-{conferenceId}");
         public static By HealingListRow => By.XPath("//tr[@class='govuk-table__row']");
