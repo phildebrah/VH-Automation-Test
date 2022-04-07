@@ -16,6 +16,7 @@ namespace UI.Steps
         private DashboardSteps dashboardSteps;
         private AxeBuilder axeResult;
         AccessibilitySteps_VideoBooking accessibilitySteps;
+        BookingListSteps bookingListSteps;
         public string username = "auto_vw.individual_05@hearings.reform.hmcts.net";
         string _pageName;
         Hearing _hearing;
@@ -25,6 +26,7 @@ namespace UI.Steps
             _scenarioContext = scenarioContext;
             loginSteps = new LoginPageSteps(scenarioContext);
             dashboardSteps = new DashboardSteps(scenarioContext);
+            bookingListSteps = new BookingListSteps(scenarioContext);
             accessibilitySteps = new AccessibilitySteps_VideoBooking(scenarioContext);
             axeResult = new AxeBuilder(Driver);
         }
@@ -33,9 +35,8 @@ namespace UI.Steps
         public void GivenAnIndividualOnThePage(string pageName)
         {
             _pageName = pageName;
-            accessibilitySteps.GivenImOnThePage("Booking Details");
-            accessibilitySteps.ThenThePageShouldBeAccessible();
-            RetryBookingConfirmationIfFails();
+            accessibilitySteps.PageName = pageName;
+            bookingListSteps.GivenIHaveABookedHearingInNextMinutes(3);
             _hearing = (Hearing)_scenarioContext["Hearing"];
             loginSteps.LoginUrl = Config.VideoUrl;
         }
@@ -53,27 +54,27 @@ namespace UI.Steps
             {
                 case "Hearing List":
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.CheckEquipment);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
 
                 case "Introduction":
                     ProceedToPage("Hearing List");
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber)).Click();
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
 
                 case "Equipment-Check":
                     ProceedToPage("Introduction");
                     Driver.FindElement(ParticipantHearingListPage.ButtonNext).Click();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
 
                 case "Switch-On-Camera-Microphone":
                     ProceedToPage("Equipment-Check");
                     Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.SwitchOnButton);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
 
                 case "Camera-Working":
@@ -83,14 +84,14 @@ namespace UI.Steps
                     Driver.Navigate().GoToUrl(url);
                     Driver.SwitchTo().Alert().Accept();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.CameraWorkingYes);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
                 case "Microphone-Working":
                     ProceedToPage("Camera-Working");
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.CameraWorkingYes).Click();
                     Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.MicrophoneWorkingYes);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
 
                 case "See-And-Hear-Video":
@@ -98,27 +99,27 @@ namespace UI.Steps
                     Driver.FindElement(ParticipantHearingListPage.MicrophoneWorkingYes).Click();
                     Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.VideoWorkingYes);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
                 case "Hearing-Rules":
                     ProceedToPage("See-And-Hear-Video");
                     Driver.FindElement(ParticipantHearingListPage.VideoWorkingYes).Click();
                     Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.NextButton);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
                 case "Declaration":
                     ProceedToPage("Hearing-Rules");
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.NextButton).Click();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.DeclareCheckbox);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
                 case "Waiting Room":
                     ProceedToPage("Declaration");
                     Driver.FindElement(ParticipantHearingListPage.DeclareCheckbox).Click();
                     Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantWaitingRoomPage.ChooseCameraAndMicButton);
-                    axeResult.Analyze().Violations.Should().BeEmpty();
+                    accessibilitySteps.AxeAnalyze(pageName);
                     break;
             }
         }
