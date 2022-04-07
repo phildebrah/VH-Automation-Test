@@ -13,5 +13,8 @@ namespace UISelenium.Pages
         public static By SpecificBookingCancelledStatus(string caseNumber) => By.XPath($"//div[@class='govuk-grid-column-full' and contains(.,'{caseNumber}') and contains(.,'Cancelled')]");
         public static By ConfirmCancelButton => By.Id("btnCancelBooking");
         public static By CancelReason => By.Id("cancel-reason");
+        public static By ParticipantDetails => By.ClassName("participant-details");
+        public static By CourtRoomAddress => By.Id("court-room-address");
+        public static By HearingStart => By.Id("hearing-start");
     }
 }
