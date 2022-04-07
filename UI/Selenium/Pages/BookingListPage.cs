@@ -24,5 +24,7 @@ namespace UISelenium.Pages
         public static By AllHearings => By.XPath("//div[@class='govuk-grid-row vh-row vh-a']");
         public static By StartDate => By.Id("startDate");
         public static By EndDate => By.Id("endDate");
+        public static By CaseTypes => By.Id("caseTypes");
+        public static By CaseTypeCheckbox(string caseType) => By.XPath($"//input[@aria-label='Case type {caseType}']");
     }
 }
