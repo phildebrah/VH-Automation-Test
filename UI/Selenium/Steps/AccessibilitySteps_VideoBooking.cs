@@ -96,7 +96,7 @@ namespace UI.Steps
                     table = StepsHelper.Set.ParticipantsData();
                     participantsSteps.GivenIWantToCreateAHearingFor(table);
                     ExtensionMethods.GetSelectElementWithText(Driver, VideoAccessPointsPage.DefenceAdvocate(0), "None", _scenarioContext);
-                    AxeAnalyze(pageName); //THIS IS CURRENTLY FAILING- UNCOMMENT LATER
+                    AxeAnalyze(pageName);
                     break;
                 case "Other Information":
                     ProceedToPage("Video Access Points");
@@ -117,14 +117,14 @@ namespace UI.Steps
                     ProceedToPage("Summary");
                     summaryPageSteps.GivenIBookTheHearing();
                     summaryPageSteps.ThenAHearingShouldBeCreated();
-                    AxeAnalyze(pageName); // AXE VIOLATIONS ON THIS PAGE
+                    AxeAnalyze(pageName);
                     break;
                 case "Booking Details":
                     ProceedToPage("Booking Confirmation");
                     WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(SummaryPage.DotLoader));
                     ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.BookingConfirmedStatus, _scenarioContext);
-                    AxeAnalyze(pageName); // AXE VIOLATIONS ON THIS PAGE => Ensures every id attribute value is unique
+                    AxeAnalyze(pageName);
                     break;
                 case "Booking List":
                     ExtensionMethods.FindElementWithWait(Driver, Header.BookingsList, _scenarioContext).Click();
