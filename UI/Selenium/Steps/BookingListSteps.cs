@@ -141,17 +141,15 @@ namespace UI.Steps
             timer.Start();
             var isFound = false;
             Actions actions = new Actions(Driver);
-            int attempts = 15;
-            while (!isFound && attempts <= 15)
+            int attempts = 0;
+            while (!isFound && attempts <= 20)
             {
                 isFound = Driver.FindElement(OpenQA.Selenium.By.TagName("body")).Text.Contains(_hearing.Case.CaseNumber);
                 if (!isFound)
                 {
                     actions = new Actions(Driver);
-                    actions.SendKeys(OpenQA.Selenium.Keys.End);
-                    actions.Perform();
-                    actions.SendKeys(OpenQA.Selenium.Keys.PageUp);
-                    actions.Perform();
+                    actions.SendKeys(OpenQA.Selenium.Keys.End).Perform();
+                    actions.SendKeys(OpenQA.Selenium.Keys.PageUp).Perform();
                 }
 
                 attempts++;
