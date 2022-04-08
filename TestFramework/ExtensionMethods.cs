@@ -5,12 +5,8 @@ using OpenQA.Selenium.Support.UI;
 using Polly;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-using OpenQA.Selenium.Support.Extensions;
 namespace TestFramework
 {
     public static class ExtensionMethods
