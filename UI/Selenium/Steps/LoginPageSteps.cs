@@ -3,7 +3,6 @@ using SeleniumSpecFlow.Utilities;
 using UISelenium.Pages;
 using FluentAssertions;
 using SeleniumExtras.WaitHelpers;
-using SeleniumExtras;
 using OpenQA.Selenium.Support.UI;
 using System;
 using UI.Model;
@@ -11,10 +10,7 @@ using TestLibrary.Utilities;
 using System.Collections.Generic;
 using OpenQA.Selenium;
 using System.Linq;
-using OpenQA.Selenium.Interactions;
 using TestFramework;
-using UI.Utilities;
-using System.Linq;
 namespace SeleniumSpecFlow.Steps
 {
     [Binding]
@@ -113,6 +109,7 @@ namespace SeleniumSpecFlow.Steps
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
             ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add(email, Driver);
+            Driver = GetDriver(email, _scenarioContext);
             Driver.Navigate().GoToUrl(Config.VideoUrl);
             _hearing.Participant.Add(new Participant
             {
@@ -130,6 +127,5 @@ namespace SeleniumSpecFlow.Steps
             drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
             Login(participant.Id, Config.UserPassword);
         }
-
     }
 }
