@@ -37,7 +37,8 @@ namespace UI.Steps
                     isPageLoaded.Should().BeTrue($"cannot load {optionName} page");
                     break;
                 case "Get audio file link":
-                    ExtensionMethods.FindElementWithWait(Driver, DashboardPage.GetAudioFileLinkButton, _scenarioContext).Click();
+                    ExtensionMethods.WaitForElementVisible(Driver, DashboardPage.GetAudioFileLinkButton);
+                    Driver.FindElement(DashboardPage.GetAudioFileLinkButton).Click();
                     ExtensionMethods.WaitForElementVisible(Driver, GetAudioFilePage.CaseNumberInput);
                     break;
             }

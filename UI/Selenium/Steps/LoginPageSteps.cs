@@ -3,7 +3,6 @@ using SeleniumSpecFlow.Utilities;
 using UISelenium.Pages;
 using FluentAssertions;
 using SeleniumExtras.WaitHelpers;
-using SeleniumExtras;
 using OpenQA.Selenium.Support.UI;
 using System;
 using UI.Model;
@@ -11,10 +10,7 @@ using TestLibrary.Utilities;
 using System.Collections.Generic;
 using OpenQA.Selenium;
 using System.Linq;
-using OpenQA.Selenium.Interactions;
 using TestFramework;
-using UI.Utilities;
-using System.Linq;
 namespace SeleniumSpecFlow.Steps
 {
     [Binding]
@@ -22,7 +18,6 @@ namespace SeleniumSpecFlow.Steps
     {
         private ScenarioContext _scenarioContext;
         private Hearing _hearing;
-        private Dictionary<string, IWebDriver> drivers = new Dictionary<string, IWebDriver>();
         public string LoginUrl { get; set; }
         public LoginPageSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
@@ -71,34 +66,37 @@ namespace SeleniumSpecFlow.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
             Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
+            ExtensionMethods.CheckForUnExpectedErrors(Driver);
         }
 
         [Then(@"all participants log in to video web")]
         public void ThenAllParticipantsLogInToVideoWeb()
-            {
+        {
             _hearing = (Hearing)_scenarioContext["Hearing"];
             Driver?.Dispose();
             foreach (var participant in _hearing.Participant)
             {
                 Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+                ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
                 _scenarioContext["driver"] = Driver;
+                
                 Driver.Navigate().GoToUrl(Config.VideoUrl);
                 var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
                 wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
                 _scenarioContext.UpdatePageName("Video Web Login");
-                drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
+                ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
                 Login(participant.Id, Config.UserPassword);
             }
             _scenarioContext.UpdatePageName("Your Video Hearings");
-            _scenarioContext.Add("drivers", drivers);
         }
 
         [Given(@"I open a new browser and log into admin web as ""([^""]*)""")] 
         public void GivenIOpenANewBrowserAndLogInAs(string email)
         {
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-            _scenarioContext["driver"] = Driver;
-            _scenarioContext["drivers"] = drivers;
+            ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
+            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add(email, Driver);
+            Driver = GetDriver(email, _scenarioContext);
             Driver.Navigate().GoToUrl(Config.AdminUrl);
             var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
@@ -109,7 +107,9 @@ namespace SeleniumSpecFlow.Steps
         public void WhenVideoHearingOfficerLogsIntoVideoWebAs(string email)
         {
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-            _scenarioContext["driver"] = Driver;
+            ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
+            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add(email, Driver);
+            Driver = GetDriver(email, _scenarioContext);
             Driver.Navigate().GoToUrl(Config.VideoUrl);
             _hearing.Participant.Add(new Participant
             {
@@ -127,6 +127,5 @@ namespace SeleniumSpecFlow.Steps
             drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
             Login(participant.Id, Config.UserPassword);
         }
-
     }
 }

@@ -5,12 +5,8 @@ using OpenQA.Selenium.Support.UI;
 using Polly;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-using OpenQA.Selenium.Support.Extensions;
 namespace TestFramework
 {
     public static class ExtensionMethods
@@ -122,7 +118,6 @@ namespace TestFramework
             IWebElement webelement = null;
             var pageName = scenarioContext?.GetPageName();
             var userName = scenarioContext?.GetUserName();
-
             try
             {
                 //If there is no page specific timeout specified, use default timeout
@@ -561,6 +556,16 @@ namespace TestFramework
                     throw new Exception($"Text {text} was expected to be present after {timeInSec} sec, but it was not");
                 }
                 count++;
+            }
+        }
+
+        public static void CheckForUnExpectedErrors(IWebDriver driver)
+        {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            if (driver.FindElement(By.TagName("body")).Text.Contains("You've been signed out of the service")
+                || driver.FindElement(By.TagName("body")).Text.Contains("403 Forbidden"))
+            {
+                driver.Navigate().Back();
             }
         }
     }
