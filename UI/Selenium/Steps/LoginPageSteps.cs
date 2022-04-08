@@ -48,7 +48,7 @@ namespace SeleniumSpecFlow.Steps
         [Given(@"I log in as ""([^""]*)""")]
         public void GivenILogInAs(string userName)
         {
-            LoginByUrl(userName, Config.AdminUrl);
+            LoginByUrl(userName, LoginUrl);
         }
 
         private void LoginByUrl(string userName, string url)
