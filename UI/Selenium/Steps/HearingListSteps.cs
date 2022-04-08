@@ -59,7 +59,7 @@ namespace UI.Steps
                 ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ContinueButton);
                 Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
                 ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.SwitchOnButton);
-                Driver.FindElement(ParticipantHearingListPage.SwitchOnButton).Click();
+                Driver.RetryClick(ParticipantHearingListPage.SwitchOnButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
                 ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.WatchVideoButton);
                 Driver.FindElement(ParticipantHearingListPage.WatchVideoButton).Click();
                 // Assert video is playing

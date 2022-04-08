@@ -38,8 +38,6 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	And everyone signs out
 
-
-
 	Scenario: Alert Failed self test - No to Microphone
 	Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
 	And I select book a hearing

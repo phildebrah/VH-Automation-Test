@@ -45,7 +45,6 @@ namespace UI.Steps
         [Given(@"I have a booked hearing")]
         public void GivenIHaveABookedHearing()
         {
-
             loginSteps.GivenILogInAs(username);
             dashboardSteps.GivenISelectBookAHearing();
             createHearingDetails.GivenIWantToCreateAHearingWithCaseDetails(StepsHelper.Set.HearingDetailsData());
@@ -64,7 +63,6 @@ namespace UI.Steps
         [Given(@"I have booked a hearing in next (\d+) minutes")]
         public void GivenIHaveABookedHearingInNextMinutes(int min)
         {
-
             loginSteps.GivenILogInAs(username);
             dashboardSteps.GivenISelectBookAHearing();
             createHearingDetails.GivenIWantToCreateAHearingWithCaseDetails(StepsHelper.Set.HearingDetailsData());
