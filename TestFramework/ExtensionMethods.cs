@@ -112,6 +112,23 @@ namespace TestFramework
                 element.Click();
             });
         }
+
+        public static void RetryCheckboxClick(this IWebElement parentElement, By findBy)
+        {
+            var retryPolicy = Policy.Handle<StaleElementReferenceException>()
+                                    .Or<NullReferenceException>()
+                              .WaitAndRetry(5, iteration => TimeSpan.FromSeconds(1));
+            retryPolicy.Execute(() =>
+            {
+                var element = parentElement.FindElement(findBy);
+                element.Click();
+                if (!element.Selected)
+                {
+                    throw new NullReferenceException("Checkbox not checked");
+                }
+            });
+        }
+
         public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, ScenarioContext scenarioContext,TimeSpan? waitPeriod=null)
         {
             waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod.Value;

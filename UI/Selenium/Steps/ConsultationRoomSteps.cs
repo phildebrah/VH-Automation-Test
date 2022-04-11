@@ -217,7 +217,7 @@ namespace UI.Steps
             Driver.SwitchTo().ActiveElement();
             var modelDialog = Driver.FindElement(ParticipantWaitingRoomPage.PrivateMeetingModal);
 
-            modelDialog.RetryClick(ParticipantWaitingRoomPage.JointPrivateMeetingCheckbox(secondParticipant.Name.FirstName));
+            modelDialog.RetryCheckboxClick(ParticipantWaitingRoomPage.JointPrivateMeetingCheckbox(secondParticipant.Name.FirstName));
 
             modelDialog.FindElement(ParticipantWaitingRoomPage.ContinueJoiningPrivateMeetingButton).Click();
 
