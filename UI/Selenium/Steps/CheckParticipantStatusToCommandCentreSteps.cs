@@ -84,7 +84,7 @@ namespace UI.Steps
             ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.WatchVideoButton);
             Driver.FindElement(ParticipantHearingListPage.WatchVideoButton).Click();
             // Assert video is playing
-            Driver.RetryClick(ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            Driver.RetryClick(ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(180));
             if (SkipPracticeVideoHearingDemo)
             {
                 string cameraUrl = Driver.Url.Replace("practice-video-hearing", "camera-working");
@@ -112,34 +112,43 @@ namespace UI.Steps
         public void ThenTheTheVideoHearingsOfficerShouldAbleToSeeTheStatus()
         {
             _hearing = (Hearing)_scenarioContext["Hearing"];
-            ExtensionMethods.WaitForElementVisible(Driver, VHOHearingListPage.ParticipantName);
-            var participantNames = Driver.FindElements(VHOHearingListPage.ParticipantName);
-            var participantStatus = Driver.FindElements(VHOHearingListPage.ParticipantStatus);
-
-            Assert.IsTrue(participantNames.Count > 0);
-
-            for (int i = 1; i<participantNames.Count; i++)
+            foreach (var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
             {
-                string name = participantNames.ElementAt(i).Text;
-                string status = participantStatus.ElementAt(i).Text;
+                Driver = driver.Value;
+                string participant = driver.Key.Split('#').FirstOrDefault();
+                Driver = GetDriver(participant, _scenarioContext);
+                if (participant.ToLower().Contains("VHO")){
+                    ExtensionMethods.WaitForElementVisible(Driver, VHOHearingListPage.ParticipantName);
+                    var participantNames = Driver.FindElements(VHOHearingListPage.ParticipantName);
+                    var participantStatus = Driver.FindElements(VHOHearingListPage.ParticipantStatus);
 
-                if (name.Contains("Individual_05"))
-                {
-                    Assert.IsTrue(status.Equals("Available"));
-                }
-                else if (name.Contains("Individual_06"))
-                {
-                    Assert.IsTrue(status.Equals("Joining"));
-                }
-                else if (name.Contains("Individual_07"))
-                {
-                    Assert.IsTrue(status.Equals("Disconnected"));
-                }
-                else if (name.Contains("Individual_08"))
-                {
-                    Assert.IsTrue(status.Equals("Not signed in"));
+                    Assert.IsTrue(participantNames.Count > 0);
+
+                    for (int i = 1; i < participantNames.Count; i++)
+                    {
+                        string name = participantNames.ElementAt(i).Text;
+                        string status = participantStatus.ElementAt(i).Text;
+
+                        if (name.Contains("Individual_05"))
+                        {
+                            Assert.IsTrue(status.Equals("Available"));
+                        }
+                        else if (name.Contains("Individual_06"))
+                        {
+                            Assert.IsTrue(status.Equals("Joining"));
+                        }
+                        else if (name.Contains("Individual_07"))
+                        {
+                            Assert.IsTrue(status.Equals("Disconnected"));
+                        }
+                        else if (name.Contains("Individual_08"))
+                        {
+                            Assert.IsTrue(status.Equals("Not signed in"));
+                        }
+                    }
                 }
             }
+            
         }
     }
 }

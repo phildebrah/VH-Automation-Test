@@ -265,6 +265,8 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.ViewHearings, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.SelectCaseNumber(_hearing.Case.CaseNumber), _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.HearingBtn, _scenarioContext).Click();
+            _scenarioContext.UpdatePageName("VHO Web Login");
+            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add($"{"VHO"}#{"VHO"}-{"VHO"}", Driver);
 
         }
 
@@ -272,6 +274,7 @@ namespace UI.Steps
         public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestNoToCameraParticipantFLName()
         {         
             _hearing = (Hearing)_scenarioContext["Hearing"];
+
             var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
             Assert.IsTrue(alerts.Count > 0);
 
@@ -331,7 +334,7 @@ namespace UI.Steps
             _hearing = (Hearing)_scenarioContext["Hearing"];
 
             var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
-            Thread.Sleep(5000);
+            //Thread.Sleep(5000);
             Assert.IsTrue(alerts.Count > 0);
 
             string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg("1"), _scenarioContext).Text;
