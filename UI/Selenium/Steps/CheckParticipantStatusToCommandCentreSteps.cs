@@ -117,7 +117,7 @@ namespace UI.Steps
                 Driver = driver.Value;
                 string participant = driver.Key.Split('#').FirstOrDefault();
                 Driver = GetDriver(participant, _scenarioContext);
-                if (participant.ToLower().Contains("VHO")){
+                if (participant.Equals("VHO")){
                     ExtensionMethods.WaitForElementVisible(Driver, VHOHearingListPage.ParticipantName);
                     var participantNames = Driver.FindElements(VHOHearingListPage.ParticipantName);
                     var participantStatus = Driver.FindElements(VHOHearingListPage.ParticipantStatus);
