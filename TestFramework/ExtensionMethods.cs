@@ -76,15 +76,16 @@ namespace TestFramework
 
         public static bool IsDisplayed(this IWebDriver webdriver, By findBy, ScenarioContext scenarioContext, TimeSpan? waitPeriod = null)
         {
-            try
+            var isDisplayed = false;
+            var timeoutAfterPolicy = Policy.Timeout(waitPeriod.Value);
+            var retryPolicy = Policy.Handle<StaleElementReferenceException>()
+                              .WaitAndRetryForever(iteration => TimeSpan.FromSeconds(1));
+            isDisplayed= timeoutAfterPolicy.Wrap(retryPolicy).Execute(() =>
             {
-                webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
-                return webdriver.FindElement(findBy).Displayed && webdriver.FindElement(findBy).Enabled;
-            }
-            catch
-            {
-                return false;
-            }
+                var element = FindElementWithWait(webdriver, findBy, scenarioContext, waitPeriod);
+                return element.Displayed;
+            });
+            return isDisplayed;
         }
 
         public static void RetryClick(this IWebDriver webdriver, By findBy, ScenarioContext scenarioContext, TimeSpan? waitPeriod = null)
@@ -169,10 +170,11 @@ namespace TestFramework
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
                 wait.Until(ExpectedConditions.ElementIsVisible(by));
-                return driver.FindElement(by).Displayed;
+                return driver.FindElement(by).Displayed && driver.FindElement(by).Enabled;
             }
             catch (Exception ex)
             {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 Logger.Error(ex, $"Element is not visible By locator:'{by.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return false;
             }
@@ -304,6 +306,7 @@ namespace TestFramework
                     }
                     else
                     {
+                        webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                         return webdriver.FindElement(findBy);
                     }
                 }
@@ -316,6 +319,7 @@ namespace TestFramework
                 }
                 count++;
             }
+            webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
             return null;
         }
 

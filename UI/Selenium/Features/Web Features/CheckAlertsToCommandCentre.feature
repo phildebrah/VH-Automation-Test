@@ -29,9 +29,11 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
-	And selects hearing venue in the venue list
-	And selects current hearing
+	Given I login to VHO in video url as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net" for existing hearing
+	And I choose from hearing lists
+		| Select your hearing lists                  |
+		| Birmingham Civil and Family Justice Centre |
+	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Camera) participant F & L name
 	And I log off 
 	And everyone signs out
@@ -62,9 +64,11 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test microphone
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
-	And selects hearing venue in the venue list
-	And selects current hearing
+	Given I login to VHO in video url as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net" for existing hearing
+	And I choose from hearing lists
+		| Select your hearing lists                  |
+		| Birmingham Civil and Family Justice Centre |
+	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Microphone) participant F & L name
 	And I log off 
 	And everyone signs out
@@ -95,9 +99,11 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test video
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
-	And selects hearing venue in the venue list
-	And selects current hearing
+	Given I login to VHO in video url as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net" for existing hearing
+	And I choose from hearing lists
+		| Select your hearing lists                  |
+		| Birmingham Civil and Family Justice Centre |
+	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Video) participant F & L name
 	And I log off 
 	And everyone signs out
@@ -128,9 +134,11 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test Incomplete
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
-	And selects hearing venue in the venue list
-	And selects current hearing
+	Given I login to VHO in video url as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net" for existing hearing
+	And I choose from hearing lists
+		| Select your hearing lists                  |
+		| Birmingham Civil and Family Justice Centre |
+	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (incomplete) participant F & L name
 	And I log off 
 	And everyone signs out
@@ -161,9 +169,11 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test disconnected
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
-	And selects hearing venue in the venue list
-	And selects current hearing
+	Given I login to VHO in video url as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net" for existing hearing
+	And I choose from hearing lists
+		| Select your hearing lists                  |
+		| Birmingham Civil and Family Justice Centre |
+	When the Video Hearings Officer check alerts for this hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (disconnected) participant F & L name
 	And I log off 
 	And everyone signs out
