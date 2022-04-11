@@ -40,6 +40,7 @@ namespace UI.Steps
             participantsSteps = new ParticipantsSteps(scenarioContext);
             videoAccessSteps = new VideoAccessSteps(scenarioContext);
             otherInformationSteps = new OtherInformationSteps(scenarioContext);
+            summaryPageSteps = new SummaryPageSteps(scenarioContext);
         }
 
         [Given(@"I'm on the ""([^""]*)"" page")]

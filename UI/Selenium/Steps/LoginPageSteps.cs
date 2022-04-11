@@ -109,8 +109,6 @@ namespace SeleniumSpecFlow.Steps
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             _scenarioContext["driver"]=Driver;
             ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
-            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add(email, Driver);
-            Driver = GetDriver(email, _scenarioContext);
             Driver.Navigate().GoToUrl(Config.VideoUrl);
             _hearing.Participant.Add(new Participant
             {
@@ -125,7 +123,8 @@ namespace SeleniumSpecFlow.Steps
                 }
             });
             var participant = _hearing.Participant.Where(a => a.Id == email).FirstOrDefault();
-            drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
+            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
+            Driver = GetDriver(participant.Id, _scenarioContext);
             Login(participant.Id, Config.UserPassword);
         }
     }

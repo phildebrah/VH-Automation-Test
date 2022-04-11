@@ -11,7 +11,7 @@ using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 using System.Diagnostics;
-
+using System.Linq;
 namespace UI.Steps
 {
      internal class BookingListSteps : ObjectFactory
@@ -140,21 +140,19 @@ namespace UI.Steps
             Stopwatch timer = new Stopwatch();
             timer.Start();
             var isFound = false;
-            while (!isFound && timer.Elapsed <=TimeSpan.FromSeconds(Config.DefaultElementWait))
+            Actions actions = new Actions(Driver);
+            int attempts = 0;
+            while (!isFound && attempts <= 20)
             {
-                var allHearings = Driver.FindElements(BookingListPage.AllHearings);
-                var lastHearingElement = allHearings[allHearings.Count-1];
-                Actions actions = new Actions(Driver);
-                actions.MoveToElement(lastHearingElement);
-                actions.Perform();
-                var element = ExtensionMethods.FindElementWithWait(Driver, BookingListPage.HearingSelectionSpecificRow(_hearing.Case.CaseNumber), _scenarioContext);
-                if (element!=null)
+                isFound = Driver.FindElement(OpenQA.Selenium.By.TagName("body")).Text.Contains(_hearing.Case.CaseNumber);
+                if (!isFound)
                 {
                     actions = new Actions(Driver);
-                    actions.MoveToElement(element);
-                    actions.Perform();
-                    isFound=true;
+                    actions.SendKeys(OpenQA.Selenium.Keys.End).Perform();
+                    actions.SendKeys(OpenQA.Selenium.Keys.PageUp).Perform();
                 }
+
+                attempts++;
             }
         }
 
