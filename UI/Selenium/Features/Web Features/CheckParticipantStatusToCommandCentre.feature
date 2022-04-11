@@ -43,7 +43,7 @@ Scenario: Check participant status
 	And everyone signs out
 
 	Scenario: Check panel member and other participant status
-	Given I log in as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -53,7 +53,7 @@ Scenario: Check participant status
 	|               | 0             | 30              |
 	And I want to Assign a Judge with courtroom details
 	| Judge or Courtroom Account                 |
-	| auto_aw.judge_03@hearings.reform.hmcts.net |   
+	| auto_aw.judge_07@hearings.reform.hmcts.net |   
 	And I want to create a Hearing for
 	| Party        | Role               | Id                                               |
 	| Claimant     | Litigant in person | auto_vw.individual_04@hearings.reform.hmcts.net  |
@@ -71,7 +71,7 @@ Scenario: Check participant status
 	And all participants log in to video web
 	And all participants have joined the hearing waiting room
     When the panel member selects Enter consultation room
-	Given I login to VHO in video url as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net" for existing hearing
+	Given I login to VHO in video url as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net" for existing hearing
 	And I choose from hearing lists
 		| Select your hearing lists                  |
 		| Birmingham Civil and Family Justice Centre |

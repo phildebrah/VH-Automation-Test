@@ -58,13 +58,10 @@ namespace UI.Steps
                         ProceedToWaitingRoom(_hearing.Case.CaseNumber);
                         _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
                         _scenarioContext["Hearing"] = _hearing;
-                        if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
-                        {
-                            Driver.FindElement(Header.LinkSignOut).Click();
-                        }
-                        else
+                        if (ExtensionMethods.IsElementVisible(Driver, Header.SignOut, null))
                         {
                             Driver.FindElement(Header.SignOut).Click();
+                            ExtensionMethods.FindElementWithWait(Driver, Header.SignoutCompletely).Click();
                         }
                     }
                 }

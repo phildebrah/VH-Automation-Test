@@ -12,5 +12,6 @@ namespace UISelenium.Pages
         public static By SignOut = By.Id("logout-link");
         public static By LinkSignOut = By.Id("linkSignOut");
         public static By BookingsList = By.XPath("//ul[@id='navigation']//a[text()[contains(.,'Booking')]]");
+        public static By SignoutCompletely = By.CssSelector("div.table-cell.text-left.content");
     }
 }
