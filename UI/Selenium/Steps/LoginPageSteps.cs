@@ -107,6 +107,7 @@ namespace SeleniumSpecFlow.Steps
         public void WhenVideoHearingOfficerLogsIntoVideoWebAs(string email)
         {
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            _scenarioContext["driver"]=Driver;
             ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
             ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add(email, Driver);
             Driver = GetDriver(email, _scenarioContext);
