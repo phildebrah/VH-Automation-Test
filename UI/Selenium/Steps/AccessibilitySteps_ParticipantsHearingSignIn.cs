@@ -65,6 +65,7 @@ namespace UI.Steps
 
                 case "Equipment-Check":
                     ProceedToPage("Introduction");
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
                     Driver.FindElement(ParticipantHearingListPage.ButtonNext).Click();
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton);
                     accessibilitySteps.AxeAnalyze(pageName);

@@ -315,24 +315,6 @@ namespace SeleniumSpecFlow
             }
         }
 
-        [AfterScenario("Hearing")]
-        public void AfterScenarioHearing(ScenarioContext scenarioContext)
-        {
-            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-            foreach(var driver in drivers)
-            {
-                browserName=$@"{((WebDriver)driver.Value).Capabilities["browserName"]}";
-                driver.Value.Quit();
-                driver.Value.Dispose();
-                Logger.Info("Driver has been closed");
-
-            }
-
-            _extent.Flush();
-            Logger.Info("Flush Extent Report Instance");
-            GC.SuppressFinalize(this);
-        }
-
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext, FeatureContext featureContext)
         {

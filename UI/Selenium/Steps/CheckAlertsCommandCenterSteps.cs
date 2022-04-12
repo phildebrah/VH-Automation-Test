@@ -10,6 +10,9 @@ using UISelenium.Pages;
 using UI.Model;
 using System.Collections.Generic;
 using FluentAssertions;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
+using TestLibrary.Utilities;
 
 namespace UI.Steps
 {
@@ -27,6 +30,33 @@ namespace UI.Steps
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
+        }
+
+        [Given(@"I login to VHO in video url as ""([^""]*)"" for existing hearing")]
+        public void GivenILoginToVHOInVideoUrlAsForExistingHearing(string userName)
+        {
+
+            Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            _scenarioContext["driver"] = Driver;
+            Driver.Navigate().GoToUrl(Config.VideoUrl);
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
+            _scenarioContext.UpdatePageName("Video Web Login");
+            Login(userName, Config.UserPassword);
+           
+        }
+
+        public void Login(string username, string password)
+        {
+            ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).SendKeys(username);
+
+            Driver.FindElement(LoginPage.Next).Click();
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
+            wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.SignIn));
+            wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
+            Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
+            ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
         }
 
         [Then(@"participant has joined and progressed to waiting room without completing self test")]
