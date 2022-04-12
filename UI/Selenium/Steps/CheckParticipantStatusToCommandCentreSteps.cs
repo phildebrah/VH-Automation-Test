@@ -13,6 +13,7 @@ using UI.Model;
 using TestLibrary.Utilities;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using FluentAssertions;
 using System.Collections.Generic;
 
 namespace UI.Steps
@@ -33,36 +34,39 @@ namespace UI.Steps
         public void ThenParticipantsHaveJoinedTheHearingWaitingRoom()
         {
              int participantNum = 0;
-            _hearing = (Hearing)_scenarioContext["Hearing"];
-            foreach (var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
-            {
-                Driver = driver.Value;
-                string participant = driver.Key.Split('#').FirstOrDefault();
-
-                Driver = GetDriver(participant, _scenarioContext);
+            _hearing = (Hearing)_scenarioContext["Hearing"];        
+            foreach (var participant in _hearing.Participant)
+            {   
+                Driver = GetDriver(participant.Id, _scenarioContext);
                 _scenarioContext["driver"] = Driver;
                 Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                 ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
-                if (!(participant.ToLower().Contains("judge") || participant.ToLower().Contains("panel")))
+                if (!(participant.Party.Name.ToLower().Contains("judge") || participant.Party.Name.ToLower().Contains("panel")))
                 {
                     if (participantNum == 1)
                     {
-                        Driver = driver.Value;
                         ProceedToWaitingRoom(_hearing.Case.CaseNumber);
                         _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
                         _scenarioContext["Hearing"] = _hearing;
                     }
                     else if (participantNum == 3)
                     {
-                        Driver = driver.Value;
-                        ProceedToWaitingRoom(_hearing.Case.CaseNumber);
+                        ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
+                        //ProceedToWaitingRoom(_hearing.Case.CaseNumber);
                         _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
                         _scenarioContext["Hearing"] = _hearing;
-                        if (ExtensionMethods.IsElementVisible(Driver, Header.SignOut, null))
-                        {
-                            Driver.FindElement(Header.SignOut).Click();
-                            ExtensionMethods.FindElementWithWait(Driver, Header.SignoutCompletely).Click();
-                        }
+                        Driver.Navigate().GoToUrl(Driver.Url.Replace("introduction", "participant/waiting-room"));
+                        Driver.SwitchTo().Alert().Accept();
+                        //Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
+                        //ExtensionMethods.WaitForTextPresent(Driver, "CONNECTED", 15);
+                        Driver = GetDriver(participant.Id, _scenarioContext);
+                        ExtensionMethods.FindElementEnabledWithWait(Driver, Header.SignOut)?.Click();
+                        ExtensionMethods.FindElementWithWait(Driver, Header.SignoutCompletely)?.Click();
+                        Thread.Sleep(000);
+                        //Driver.FindElement(Header.SignOut).Click();
+                        //ExtensionMethods.FindElementWithWait(Driver, Header.SignoutCompletely).Click();
+                        //Driver = GetDriver(_hearing.Participant.Where( a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
+                        //ExtensionMethods.WaitForTextPresent(Driver, "DISCONNECTED", 120);
                     }
                 }
                 participantNum++;
@@ -114,38 +118,16 @@ namespace UI.Steps
                 Driver = driver.Value;
                 string participant = driver.Key.Split('#').FirstOrDefault();
                 Driver = GetDriver(participant, _scenarioContext);
-                if (participant.Equals("VHO")){
+                if (participant.Equals("VHO"))
+                {
                     ExtensionMethods.WaitForElementVisible(Driver, VHOHearingListPage.ParticipantName);
-                    var participantNames = Driver.FindElements(VHOHearingListPage.ParticipantName);
-                    var participantStatus = Driver.FindElements(VHOHearingListPage.ParticipantStatus);
-
-                    Assert.IsTrue(participantNames.Count > 0);
-
-                    for (int i = 1; i < participantNames.Count; i++)
-                    {
-                        string name = participantNames.ElementAt(i).Text;
-                        string status = participantStatus.ElementAt(i).Text;
-
-                        if (name.Contains("Individual_05"))
-                        {
-                            Assert.IsTrue(status.Equals("Available"));
-                        }
-                        else if (name.Contains("Individual_06"))
-                        {
-                            Assert.IsTrue(status.Equals("Joining"));
-                        }
-                        else if (name.Contains("Individual_07"))
-                        {
-                            Assert.IsTrue(status.Equals("Disconnected"));
-                        }
-                        else if (name.Contains("Individual_08"))
-                        {
-                            Assert.IsTrue(status.Equals("Not signed in"));
-                        }
-                    }
-                }
+                    //Driver.FindElement(VHOHearingListPage.ParticipantStatus(_hearing.HearingId)).Displayed.Should().BeTrue();
+                    Driver.FindElements(VHOHearingListPage.ParticipantStatusInHearing).Count.Should().Equals(2);
+                    //Driver.FindElement(VHOHearingListPage.ParticipantStatusDisconnected).Displayed.Should().BeTrue();
+                    Driver.FindElement(VHOHearingListPage.ParticipantStatusJoining).Displayed.Should().BeTrue();
+                    Driver.FindElement(VHOHearingListPage.ParticipantStatusNotSignedIn).Displayed.Should().BeTrue();
+                }               
             }
-            
         }
     }
 }
