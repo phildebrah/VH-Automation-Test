@@ -138,7 +138,7 @@ namespace UI.Steps
                            , _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
 
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Displayed.Should().BeTrue();
-            Driver.FindElement(ParticipantWaitingRoomPage.ChooseCameraAndMicButton).Displayed.Should().BeTrue();
+            ExtensionMethods.FindElementWithWait(Driver,ParticipantWaitingRoomPage.ChooseCameraAndMicButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Displayed.Should().BeTrue();
             if (participant.Role.Name.Contains("Panel Member"))
             {
                 Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Name.FirstName)).Displayed.Should().BeTrue();

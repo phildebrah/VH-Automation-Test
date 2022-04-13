@@ -56,8 +56,10 @@ namespace UI.Steps
         {
             Driver = GetDriver("panel", _scenarioContext);
             _scenarioContext["driver"] = Driver;
+            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.NumberOfJohsInConsultaionRoom, _scenarioContext,TimeSpan.FromSeconds(Config.DefaultElementWait));
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
+            wait.Until(ExpectedConditions.TextToBePresentInElementLocated(JudgeWaitingRoomPage.NumberOfJohsInConsultaionRoom, "1"));
             ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext).Click();
         }
 

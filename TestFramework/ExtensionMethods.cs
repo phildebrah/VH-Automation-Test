@@ -511,7 +511,38 @@ namespace TestFramework
             }
             return null;
         }
-      
+
+        public static void ClearTextByJS(this IWebDriver driver, string id, int? timeInSec = null)
+        {
+            var isCleared = false;
+            timeInSec = timeInSec == null ? 30 : timeInSec.Value;
+            var count = 1;
+            while (!isCleared)
+            {
+                try
+                {
+                    ((IJavaScriptExecutor)driver).ExecuteScript($"document.getElementById('{id}').value=''");
+                    var text = ((IJavaScriptExecutor)driver).ExecuteScript($"return document.getElementById('{id}').value") as string;
+                    if (string.IsNullOrEmpty(text))
+                    {
+                        isCleared=true;
+                    }
+                }
+
+                catch
+                {
+                    Logger.Error($"Exception occured while clearing text for element by Id {id}");
+                }
+
+                if (count > timeInSec && !isCleared)
+                {
+                    Logger.Error($"Element by Id {id} text was expected to be deleted , but it was not");
+                    throw new Exception($"Element by Id {id} text was expected to be deleted , but it was not");
+                }
+                count++;
+            }
+        }
+
         public static void ClearText(this IWebElement element, int? timeInSec = null)
         {
             var isCleared = false;

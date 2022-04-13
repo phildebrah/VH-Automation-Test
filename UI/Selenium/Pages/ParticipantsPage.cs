@@ -16,6 +16,7 @@ namespace UISelenium.Pages
         public static By LastNameTextfield = By.Id("lastName");
         public static By IndividualOrganisationTextfield = By.Id("companyNameIndividual");
         public static By RepOrganisationTextfield = By.Id("companyName");
+        public static string RepOrganisationTextfieldId = "companyName";
         public static By PhoneTextfield = By.Id("phone");
         public static By InterpreterFor = By.Id("interpreterFor");
         public static By DisplayNameTextfield = By.Id("displayName");

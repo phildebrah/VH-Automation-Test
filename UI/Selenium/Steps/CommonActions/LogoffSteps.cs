@@ -29,7 +29,7 @@ namespace UI.Steps
             Driver = (IWebDriver)_scenarioContext["driver"];
             if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
             {
-                Driver.FindElement(Header.LinkSignOut).Click();
+                Driver.RetryClick(Header.LinkSignOut);
             }
             else
             {

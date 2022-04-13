@@ -40,7 +40,7 @@ namespace SeleniumSpecFlow
         private static int ImageNumber=0;
         private static string scenarioTitle;
         private static DateTime TestStartTime;
-        private static string browserName;
+        private static string BrowserName;
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
@@ -76,7 +76,6 @@ namespace SeleniumSpecFlow
             _feature = _extent.CreateTest<Feature>(featureTitle);
 
             Logger.Info($"Starting feature '{featureTitle}'");
-            featureContext.Add("drivers", new Dictionary<string, IWebDriver>());
         }
 
         [BeforeScenario]
@@ -88,7 +87,7 @@ namespace SeleniumSpecFlow
         }
         
         [BeforeScenario("web")]
-        public void BeforeScenarioWeb(ScenarioContext scenarioContext, FeatureContext featureContext)
+        public void BeforeScenarioWeb(ScenarioContext scenarioContext)
         {
             var title = scenarioContext.ScenarioInfo.Title;
             var tags= scenarioContext.ScenarioInfo.Tags;
@@ -255,6 +254,14 @@ namespace SeleniumSpecFlow
                         break;
                 }
             }
+
+            if (scenarioContext.StepContext.StepInfo.Text.Equals("I log off"))
+            {
+                driver.Close();
+                driver.Quit();
+                driver.Dispose();
+                scenarioContext.Remove("driver");
+            }
         }
 
         [AfterStep("api", "soap")]
@@ -321,7 +328,8 @@ namespace SeleniumSpecFlow
             var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
             foreach(var driver in drivers)
             {
-                browserName=$@"{((WebDriver)driver.Value).Capabilities["browserName"]}";
+                BrowserName=$@"{((WebDriver)driver.Value).Capabilities["browserName"]}";
+                driver.Value.Close();
                 driver.Value.Quit();
                 driver.Value.Dispose();
                 Logger.Info("Driver has been closed");
@@ -334,22 +342,10 @@ namespace SeleniumSpecFlow
         }
 
         [AfterScenario("web")]
-        public void AfterScenarioWeb(ScenarioContext scenarioContext, FeatureContext featureContext)
+        public void AfterScenarioWeb(ScenarioContext scenarioContext)
         {
-            featureContext["drivers"] = scenarioContext["drivers"];
             StopAllDrivers(scenarioContext);
-            if (scenarioContext.ContainsKey("driver"))
-            {
-                var driver = (IWebDriver)scenarioContext["driver"];
-                browserName=$@"{((WebDriver)driver).Capabilities["browserName"]}";
-                driver?.Quit();
-                driver?.Dispose();
-                Logger.Info($"Driver has been closed");
-                scenarioContext.Remove("driver");
-            }
-            
-            KillAllBrowserInstances(scenarioContext);
-
+ 
             _extent.Flush();
             Logger.Info("Flush Extent Report Instance");
             GC.SuppressFinalize(this);
@@ -365,6 +361,7 @@ namespace SeleniumSpecFlow
         [AfterTestRun]
         public static void AfterTestRun()
         {
+            KillAllBrowserInstances(BrowserName);
             Logger.Info("Automation Test Execution Ended");
             LogManager.Shutdown();
         }
@@ -374,7 +371,6 @@ namespace SeleniumSpecFlow
         {
             var featureTitle = featureContext.FeatureInfo.Title;
             Logger.Info($"Ending feature '{featureTitle}'");
-            StopAllDrivers(featureContext);
         }
 
         private static bool RunOnSauceLabs(string[] tags)
@@ -418,30 +414,36 @@ namespace SeleniumSpecFlow
 
         private static void StopAllDrivers(Object obj)
         {
-            var objectType = obj.GetType().Name;
-            if(objectType == "ScenarioContext")
+            try
             {
-                var context  = (ScenarioContext)obj;
-                var drivers = (Dictionary<string, IWebDriver>)context["drivers"];
-                foreach (var driver in drivers)
+                var objectType = obj.GetType().Name;
+                if (objectType == "ScenarioContext")
                 {
-                    browserName = $@"{((WebDriver)driver.Value).Capabilities["browserName"]}";
-                    driver.Value?.Dispose();
-                    Logger.Info($"Driver has been closed");
+                    var context = (ScenarioContext)obj;
+                    var drivers = (Dictionary<string, IWebDriver>)context["drivers"];
+                    foreach (var driver in drivers)
+                    {
+                        BrowserName = $@"{((WebDriver)driver.Value).Capabilities["browserName"]}";
+                        driver.Value?.Close();
+                        driver.Value?.Quit();
+                        driver.Value?.Dispose();
+                        Logger.Info($"Driver has been closed");
+                    }
+                    context.Remove("drivers");
+                    if (context.ContainsKey("driver"))
+                    {
+                        var driver = (IWebDriver)context["driver"];
+                        driver?.Close();
+                        driver.Quit();
+                        driver.Dispose();
+                        Logger.Info($"Driver has been closed");
+                        context.Remove("driver");
+                    }
                 }
-                context.Remove("drivers");
             }
-            else if(objectType == "FeatureContext")
+            catch
             {
-                var context = (FeatureContext)obj;
-                var drivers = (Dictionary<string, IWebDriver>)context["drivers"];
-                foreach (var driver in drivers)
-                {
-                    browserName = $@"{((WebDriver)driver.Value).Capabilities["browserName"]}";
-                    driver.Value?.Dispose();
-                    Logger.Info($"Driver has been closed");
-                }
-                context.Remove("drivers");
+                KillAllBrowserInstances((ScenarioContext)obj);
             }
         }
     }
