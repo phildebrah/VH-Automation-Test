@@ -2,7 +2,7 @@
 
 Feature:Check participant status
 	
-Scenario: Check participant status
+Scenario: Check different individual participant status
 
 	Given I log in as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net"
 	And I select book a hearing
@@ -16,10 +16,10 @@ Scenario: Check participant status
 	| Judge or Courtroom Account                 |
 	| auto_aw.judge_03@hearings.reform.hmcts.net |   
 	And I want to create a Hearing for
-	| Party    | Role        | Id                                               |
-	| Claimant | Litigant in person     | auto_vw.individual_05@hearings.reform.hmcts.net  |
-	| Claimant | Litigant in person     | auto_vw.individual_06@hearings.reform.hmcts.net  |
-	| Defendant | Litigant in person    | auto_vw.individual_08@hearings.reform.hmcts.net  |
+	| Party     | Role               | Id                                              |
+	| Claimant  | Litigant in person | auto_vw.individual_05@hearings.reform.hmcts.net |
+	| Claimant  | Litigant in person | auto_vw.individual_06@hearings.reform.hmcts.net |
+	| Defendant | Litigant in person | auto_vw.individual_08@hearings.reform.hmcts.net |
 	And With video Access points details
 	| Display Name | Advocate |
 	|              |          |		
@@ -41,7 +41,7 @@ Scenario: Check participant status
 	And I log off 
 	And everyone signs out
 
-	Scenario: Check panel member and other participant status
+Scenario: Check panel member and other participant status
 	Given I log in as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 

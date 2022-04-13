@@ -18,7 +18,7 @@ namespace UISelenium.Pages
         public static By ParticipantStatusDisconnected => By.XPath($"//p[contains(@Id,'participant-status-')][contains(text(),'Disconnected')]");
         public static By ParticipantStatusNotSignedIn => By.XPath($"//p[contains(@Id,'participant-status-')][contains(text(),'Not signed in')]");
         public static By ParticipantStatusAvailable => By.XPath($"//p[contains(@Id,'participant-status-')][contains(text(),'Available')]");
-        public static By ParticipantStatusInConsultation => By.XPath($"//p[contains(@Id,'participant-status-')][contains(text(),'InConsultation')]");
+        public static By ParticipantStatusInConsultation => By.XPath($"//p[contains(@Id,'participant-status-')][contains(text(),'In consultation')]");
         public static By ParticipantStatusUnavailable => By.XPath($"//p[contains(@Id,'participant-status-')][contains(text(),'Unavailable')]");
     }
 }

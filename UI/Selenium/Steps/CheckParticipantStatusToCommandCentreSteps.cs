@@ -150,8 +150,9 @@ namespace UI.Steps
                 {
                     ExtensionMethods.WaitForElementVisible(Driver, VHOHearingListPage.ParticipantName);
                     Driver.FindElement(VHOHearingListPage.ParticipantStatusAvailable).Displayed.Should().BeTrue();
-                    Driver.FindElement(VHOHearingListPage.ParticipantStatusInConsultation).Displayed.Should().BeTrue();
                     Driver.FindElement(VHOHearingListPage.ParticipantStatusUnavailable).Displayed.Should().BeTrue();
+                    Driver.FindElement(VHOHearingListPage.ParticipantStatusInConsultation).Displayed.Should().BeTrue();
+                    
                 }
             }
         }
