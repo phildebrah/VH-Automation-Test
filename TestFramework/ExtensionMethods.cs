@@ -557,6 +557,7 @@ namespace TestFramework
 
         public static void CheckForUnExpectedErrors(IWebDriver driver)
         {
+            System.Threading.Thread.Sleep(2000); // Needed here as for some reason without it, we're getting 'your not authorised when signing in'
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             if (driver.FindElement(By.TagName("body")).Text.Contains("You've been signed out of the service")
                 || driver.FindElement(By.TagName("body")).Text.Contains("403 Forbidden"))

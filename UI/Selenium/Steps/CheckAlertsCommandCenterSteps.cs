@@ -250,7 +250,7 @@ namespace UI.Steps
                     }
 
                     ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.ChooseCameraAndMicButton);
-                    Thread.Sleep(3000);
+                    Thread.Sleep(3000); // Needed here as without, tests fail
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.Returntovideohearinglist, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 }
             }

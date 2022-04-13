@@ -66,7 +66,6 @@ namespace SeleniumSpecFlow.Steps
             wait.Until(ExpectedConditions.ElementToBeClickable(LoginPage.BackButton));
             Driver.FindElement(LoginPage.PasswordField).SendKeys(password);
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.SignIn, _scenarioContext).Click();
-            System.Threading.Thread.Sleep(2000);
             ExtensionMethods.CheckForUnExpectedErrors(Driver);
         }
 
