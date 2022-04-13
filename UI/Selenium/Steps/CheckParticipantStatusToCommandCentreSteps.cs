@@ -48,8 +48,7 @@ namespace UI.Steps
                         ProceedToWaitingRoom(_hearing.Case.CaseNumber);
                         _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
                         _scenarioContext["Hearing"] = _hearing;
-                    }
-                    
+                    }                    
                 }
                 participantNum++;
             }
@@ -76,7 +75,6 @@ namespace UI.Steps
                         ProceedToWaitingRoom(_hearing.Case.CaseNumber);
                         _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
                         _scenarioContext["Hearing"] = _hearing;
-
                     }
                 }
             }
@@ -151,11 +149,9 @@ namespace UI.Steps
                     ExtensionMethods.WaitForElementVisible(Driver, VHOHearingListPage.ParticipantName);
                     Driver.FindElement(VHOHearingListPage.ParticipantStatusAvailable).Displayed.Should().BeTrue();
                     Driver.FindElement(VHOHearingListPage.ParticipantStatusUnavailable).Displayed.Should().BeTrue();
-                    Driver.FindElement(VHOHearingListPage.ParticipantStatusInConsultation).Displayed.Should().BeTrue();
-                    
+                    Driver.FindElement(VHOHearingListPage.ParticipantStatusInConsultation).Displayed.Should().BeTrue();                    
                 }
             }
         }
-
     }
 }

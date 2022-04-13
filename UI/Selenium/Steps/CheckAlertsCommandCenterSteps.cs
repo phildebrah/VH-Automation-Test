@@ -254,9 +254,7 @@ namespace UI.Steps
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.Returntovideohearinglist, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 }
             }
-
         }
-
 
         [When(@"the Video Hearings Officer check alerts for this hearing")]
         public void WhenTheVideoHearingsOfficerCheckAlertsForThisHearing()
@@ -267,7 +265,6 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.HearingBtn, _scenarioContext).Click();
             _scenarioContext.UpdatePageName("VHO Web Login");
             ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add($"{"VHO"}#{"VHO"}-{"VHO"}", Driver);
-
         }
 
         [Then(@"the the Video Hearings Officer see the alert Failed self-test \(No to Camera\) participant F & L name")]
