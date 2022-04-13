@@ -20,7 +20,7 @@ namespace UISelenium.Pages
         public static By ContinueButton => By.Id("continue-btn");
         public static By SwitchOnButton => By.Id("switch-on-btn");
         public static By WatchVideoButton => By.Id("watch-video-btn");
-        public static By CameraWorkingYes => By.Id("camera-yes");
+        public static By CameraWorkingYes => By.XPath("//label[@for='camera-yes']");
         public static By CameraWorkingNo => By.Id("camera-no");
         public static By MicrophoneWorkingYes => By.Id("microphone-yes");
         public static By MicrophoneWorkingNo => By.Id("microphone-no");

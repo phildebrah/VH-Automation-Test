@@ -45,7 +45,10 @@ namespace UI.Steps
             foreach (var participant in _hearing.Participant)
             {
                 Driver = GetDriver(participant.Id, _scenarioContext);
-                Driver.FindElement(Header.SignOut).Click();
+                if (Driver != null)
+                {
+                    Driver.FindElement(Header.SignOut).Click();
+                }
             }
         }
     }

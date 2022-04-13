@@ -162,19 +162,13 @@ namespace TestFramework
 
         public static bool IsElementVisible(IWebDriver driver, By by, ScenarioContext scenarioContext)
         {
-            var pageName = scenarioContext?.GetPageName();
-            var userName = scenarioContext?.GetUserName();
-
             try
             {
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
-                wait.Until(ExpectedConditions.ElementIsVisible(by));
-                return driver.FindElement(by).Displayed && driver.FindElement(by).Enabled;
+                return (bool)driver.FindElement(by)?.Displayed;
             }
-            catch (Exception ex)
+            catch
             {
-                Logger.Error(ex, $"Element is not visible By locator:'{by.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return false;
             }
         }
@@ -435,17 +429,16 @@ namespace TestFramework
             {
                 try
                 {
-                    if (!IsElementVisible(driver, by, null))
-                    {
-                        break;
-                    }
-                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
-                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                     isVisible = IsElementVisible(driver, by, null);
+                    if (isVisible)
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                    }
+                    
                 }
                 catch
                 {
-
                 }
                 if (count > timeInSec && isVisible)
                 {
@@ -465,9 +458,11 @@ namespace TestFramework
             {
                 try
                 {
-                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
-                    wait.Until(ExpectedConditions.ElementIsVisible(by));
                     isVisible = IsElementVisible(driver, by, null);
+                    if (!isVisible)
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                    }
                 }
                 catch
                 {
