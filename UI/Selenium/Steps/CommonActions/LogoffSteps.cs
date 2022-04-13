@@ -6,6 +6,8 @@ using UISelenium.Pages;
 using FluentAssertions;
 using TestFramework;
 using OpenQA.Selenium;
+using System;
+
 namespace UI.Steps
 {
     [Binding]
@@ -19,7 +21,6 @@ namespace UI.Steps
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _hearing = (Hearing)_scenarioContext["Hearing"];
         }
 
         [Then(@"I log off")]
@@ -29,7 +30,7 @@ namespace UI.Steps
             Driver = (IWebDriver)_scenarioContext["driver"];
             if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
             {
-                Driver.RetryClick(Header.LinkSignOut);
+                Driver.RetryClick(Header.LinkSignOut,_scenarioContext,TimeSpan.FromSeconds(Config.DefaultElementWait));
             }
             else
             {
@@ -40,6 +41,7 @@ namespace UI.Steps
         [Then(@"everyone signs out")]
         public void ThenEveryoneSignsOut()
         {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var participant in _hearing.Participant)
             {
                 Driver = GetDriver(participant.Id, _scenarioContext);

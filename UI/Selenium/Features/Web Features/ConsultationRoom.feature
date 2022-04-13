@@ -29,7 +29,7 @@ Scenario: Judge invites the participant to join the consultation room
     Then A hearing should be created
     And I log off
     And all participants log in to video web
-    And all participants have joined the hearing waiting room
+    And all participants have joined the hearing waiting room with SkipToWaitingRoom
     When the judge selects Enter consultation room
     And judge invites participant into the consultation
     And participant accepts the consultation room invitation
@@ -62,7 +62,7 @@ Scenario: Closed hearings - can join consultation room after hearing is closed
     Then A hearing should be created
     And I log off
     And all participants log in to video web
-    And all participants have joined the hearing waiting room
+    And all participants have joined the hearing waiting room with SkipToWaitingRoom
     And the judge starts the hearing
     And the judge checks that all participants have joined the hearing room
     And the judge closes the hearing
@@ -98,7 +98,7 @@ Scenario: Participants start and leave Private Consultatin room
     Then A hearing should be created
     And I log off
     Then all participants log in to video web
-    And all participants have joined the hearing waiting room
+    And all participants have joined the hearing waiting room with SkipToWaitingRoom
     When 'Litigant in person' start a private meeting and selects 'Representative'
     Then 'Representative' is in the private consultation room
     And 'Litigant in person' click on the leave button to leave the consultation room 
@@ -130,7 +130,7 @@ Scenario: JOH can start and leave Consultation room
     Then A hearing should be created
     And I log off
     And all participants log in to video web
-    And all participants have joined the hearing waiting room
+    And all participants have joined the hearing waiting room with SkipToWaitingRoom
     When the judge selects Enter consultation room
     And the panel member selects Enter consultation room
     Then judge checks participant joined the consultation room
@@ -162,7 +162,7 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
     Then A hearing should be created
 	And I log off
 	And all participants log in to video web
-	And all participants have joined the hearing waiting room
+	And all participants have joined the hearing waiting room with SkipToWaitingRoom
 	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
@@ -198,8 +198,8 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
     Then A hearing should be created
 	And I log off
 	And all participants log in to video web
-	And all participants have joined the hearing waiting room
-     And the judge starts the hearing
+	And all participants have joined the hearing waiting room with SkipToWaitingRoom
+    And the judge starts the hearing
     And the judge checks that all participants have joined the hearing room
 	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list

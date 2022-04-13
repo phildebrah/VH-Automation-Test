@@ -212,6 +212,8 @@ namespace UI.Steps
             var secondParticipant = _hearing.Participant.SingleOrDefault(p => p.Role.Name.ToLower().Contains(participant2.ToLower())); ;
             var secondParticipantKey = $"{secondParticipant.Id}#{secondParticipant.Party.Name}-{secondParticipant.Role.Name}";
 
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.StartPrivateMeetingButton));
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.StartPrivateMeetingButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
           
             Driver.SwitchTo().ActiveElement();
@@ -224,7 +226,7 @@ namespace UI.Steps
             Driver = GetDriver(secondParticipantKey, _scenarioContext);
             _scenarioContext["driver"] = Driver;
 
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.AcceptConsultationButton));
 
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.AcceptConsultationButton, _scenarioContext).Click();

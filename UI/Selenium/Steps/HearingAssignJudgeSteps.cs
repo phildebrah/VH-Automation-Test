@@ -1,9 +1,4 @@
-﻿using FluentAssertions;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using SeleniumSpecFlow.Utilities;
-using System;
+﻿using SeleniumSpecFlow.Utilities;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UI.Model;

@@ -29,7 +29,7 @@ Scenario: Judge invites the participants to join meeting in consultation room
     Then A hearing should be created
 	And I log off
 	And all participants log in to video web
-	And all participants have joined the hearing waiting room
+	And all participants have joined the hearing waiting room with SkipToWaitingRoom
 	When the judge selects Enter consultation room
 	And judge invites every participant into the consultation
 	And participants accepts the consultation room invitation

@@ -7,14 +7,11 @@ using System.Threading;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
-using OpenQA.Selenium.Interactions;
-using UI.Utilities;
 using UI.Model;
 using TestLibrary.Utilities;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System.Collections.Generic;
-using FluentAssertions;
 
 namespace UI.Steps
 {
@@ -39,15 +36,15 @@ namespace UI.Steps
         [Given(@"I login to VHO in video url as ""([^""]*)"" for existing hearing")]
         public void GivenILoginToVHOInVideoUrlAsForExistingHearing(string userName)
         {
+
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             _scenarioContext["driver"] = Driver;
-            ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
-            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add(userName, Driver);
             Driver.Navigate().GoToUrl(Config.VideoUrl);
             var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
             _scenarioContext.UpdatePageName("Video Web Login");
             Login(userName, Config.UserPassword);
+           
         }
 
         public void Login(string username, string password)
@@ -94,7 +91,7 @@ namespace UI.Steps
                     }
                     else
                     {
-                        TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
+                        ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     }
                     Driver.FindElement(ParticipantHearingListPage.CameraWorkingNo)?.Click();
@@ -133,7 +130,7 @@ namespace UI.Steps
                     }
                     else
                     {
-                        TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
+                        ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     }
                     Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
@@ -174,7 +171,7 @@ namespace UI.Steps
                     }
                     else
                     {
-                        TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
+                        ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     }
                     Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
@@ -252,14 +249,15 @@ namespace UI.Steps
                     }
                     else
                     {
-                        TestFramework.ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
+                        ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     }
-                    Thread.Sleep(5000);
+
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.ChooseCameraAndMicButton);
+                    Thread.Sleep(3000); // Needed here as without, tests fail
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.Returntovideohearinglist, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 }
             }
-
         }
 
 
@@ -367,7 +365,5 @@ namespace UI.Steps
                 Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.LastName));
             }
         }
-
-
     }
 }

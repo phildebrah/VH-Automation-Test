@@ -31,7 +31,7 @@ Scenario: Hearing Room Controls
     Then A hearing should be created
 	And I log off
 	And all participants log in to video web
-	And all participants have joined the hearing waiting room
+	And all participants have joined the hearing waiting room with SkipToWaitingRoom
 	And the judge starts the hearing
 	And the judge checks that all participants have joined the hearing room
 	And the the participants microphone are all muted and locked when the judge mutes them

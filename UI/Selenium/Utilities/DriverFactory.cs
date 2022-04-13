@@ -22,7 +22,6 @@ namespace SeleniumSpecFlow.Utilities
         public static int ProcessId;
         public IWebDriver InitializeDriver(BrowserType browser)
         {
-
             switch (browser)
             {
 

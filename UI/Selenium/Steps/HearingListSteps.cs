@@ -1,13 +1,9 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using SeleniumSpecFlow.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using TestFramework;
 using UI.Model;
@@ -34,18 +30,24 @@ namespace UI.Steps
             _scenarioContext.UpdatePageName("Participant Hearing Waiting Room");
         }
 
-        public void SignAllParticipantsIn()
+        [Then(@"all participants have joined the hearing waiting room with SkipToWaitingRoom")]
+        public void ThenAllParticipantsHaveJoinedTheHearingWaitingRoomWithSkipToWaitingRoom()
+        {
+            SignAllParticipantsIn(skipPreSetUpSteps: true);
+        }
+
+        public void SignAllParticipantsIn(bool skipPreSetUpSteps = false)
         {
             foreach(var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"]) 
             {
                 Driver = driver.Value;
-                ProceedToWaitingRoom(driver.Key.Split('#').FirstOrDefault(), _hearing.Case.CaseNumber);
+                ProceedToWaitingRoom(driver.Key.Split('#').FirstOrDefault(), skipPreSetUpSteps);
             }
             _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
             _scenarioContext["Hearing"] = _hearing;
         }
 
-        public void ProceedToWaitingRoom(string participant, string caseNumber)
+        public void ProceedToWaitingRoom(string participant, bool skipToWaitingRoom = false)
         {
             Driver = GetDriver(participant, _scenarioContext);
             _scenarioContext["driver"] = Driver;
@@ -55,36 +57,47 @@ namespace UI.Steps
             if (!(participant.ToLower().Contains("judge") || participant.ToLower().Contains("panel")))
             {
                 ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
-                Driver.FindElement(ParticipantHearingListPage.ButtonNext).Click();
-                ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ContinueButton);
-                Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.SwitchOnButton);
-                Driver.RetryClick(ParticipantHearingListPage.SwitchOnButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
-                ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.WatchVideoButton);
-                Driver.FindElement(ParticipantHearingListPage.WatchVideoButton).Click();
-                // Assert video is playing
-                Driver.RetryClick(ParticipantHearingListPage.ContinueButton,_scenarioContext,TimeSpan.FromSeconds(Config.DefaultElementWait));
-                if (SkipPracticeVideoHearingDemo)
+                _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
+                _scenarioContext["Hearing"] = _hearing;
+                if (skipToWaitingRoom)
                 {
-                    string cameraUrl = Driver.Url.Replace("practice-video-hearing", "camera-working");
+                    string cameraUrl = Driver.Url.Replace("introduction", "participant/waiting-room");
                     Driver.Navigate().GoToUrl(cameraUrl);
                     Driver.SwitchTo().Alert().Accept();
                 }
                 else
                 {
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
+                    Driver.FindElement(ParticipantHearingListPage.ButtonNext).Click();
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ContinueButton);
+                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.SwitchOnButton);
+                    Driver.RetryClick(ParticipantHearingListPage.SwitchOnButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.WatchVideoButton);
+                    Driver.FindElement(ParticipantHearingListPage.WatchVideoButton).Click();
+                    // Assert video is playing
+                    Driver.RetryClick(ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
+                    if (SkipPracticeVideoHearingDemo)
+                    {
+                        string cameraUrl = Driver.Url.Replace("practice-video-hearing", "camera-working");
+                        Driver.Navigate().GoToUrl(cameraUrl);
+                        Driver.SwitchTo().Alert().Accept();
+                    }
+                    else
+                    {
+                        ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
+                        Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
+                    }
                     Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
+                    Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
+                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
+                    Driver.FindElement(ParticipantHearingListPage.MicrophoneWorkingYes).Click();
+                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
+                    Driver.FindElement(ParticipantHearingListPage.VideoWorkingYes).Click();
+                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
+                    Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
+                    Driver.FindElement(ParticipantHearingListPage.DeclareCheckbox).Click();
+                    Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
                 }
-                Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
-                Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
-                Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                Driver.FindElement(ParticipantHearingListPage.MicrophoneWorkingYes).Click();
-                Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                Driver.FindElement(ParticipantHearingListPage.VideoWorkingYes).Click();
-                Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
-                Driver.FindElement(ParticipantHearingListPage.DeclareCheckbox).Click();
-                Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
             }
         }
 

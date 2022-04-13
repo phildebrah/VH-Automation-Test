@@ -7,11 +7,11 @@ Feature: AccessibilityVideoWeb
 	I want to check each page for potential accessibility issues
 
 Scenario: Hearing List page accessibility
-Given an individual on the "Hearing List" page
+Given an individual on the "Hearing-List" page
 Then assert page should be accessible
 
 Scenario: Waiting Room page accessibility
-Given an individual on the "Waiting Room" page
+Given an individual on the "Participant/Waiting-Room" page
 Then assert page should be accessible
 
 Scenario: Introduction page accessibility
