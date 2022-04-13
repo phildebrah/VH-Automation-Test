@@ -19,6 +19,7 @@ namespace SeleniumSpecFlow.Steps
         private ScenarioContext _scenarioContext;
         private Hearing _hearing;
         public string LoginUrl { get; set; }
+        public string UserName;
         public LoginPageSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
@@ -58,7 +59,6 @@ namespace SeleniumSpecFlow.Steps
         public void Login(string username, string password)
         {
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).SendKeys(username);
-
             Driver.FindElement(LoginPage.Next).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
@@ -128,8 +128,6 @@ namespace SeleniumSpecFlow.Steps
         {
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
-            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add(email, Driver);
-            Driver = GetDriver(email, _scenarioContext);
             Driver.Navigate().GoToUrl(Config.VideoUrl);
             _hearing.Participant.Add(new Participant
             {
@@ -144,7 +142,8 @@ namespace SeleniumSpecFlow.Steps
                 }
             });
             var participant = _hearing.Participant.Where(a => a.Id == email).FirstOrDefault();
-            drivers.Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
+            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add($"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}", Driver);
+            Driver = GetDriver(participant.Id, _scenarioContext);
             Login(participant.Id, Config.UserPassword);
         }
     }

@@ -15,7 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Infrastructure;
 using TestFramework;
 using TestLibrary.Utilities;
 using UI.Model;
@@ -77,6 +76,7 @@ namespace SeleniumSpecFlow
 
             Logger.Info($"Starting feature '{featureTitle}'");
             featureContext.Add("drivers", new Dictionary<string, IWebDriver>());
+            featureContext.Add("AccessibilityBaseUrl", "");
         }
 
         [BeforeScenario]
@@ -115,6 +115,7 @@ namespace SeleniumSpecFlow
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
             scenarioContext.Add("drivers", new Dictionary<string, IWebDriver>());
+            scenarioContext.Add("AccessibilityBaseUrl", featureContext["AccessibilityBaseUrl"]);
         }
 
 
@@ -157,7 +158,7 @@ namespace SeleniumSpecFlow
         {
             var driver = (IWebDriver)scenarioContext["driver"];
             var imageNumberStr = (++ImageNumber).ToString("D4");
-            var imageFileName = $"{scenarioTitle.Replace(" ","_")}{imageNumberStr}";
+            var imageFileName = $"{scenarioTitle.Replace(" ", "_")}{imageNumberStr}";
             var ScreenshotFilePath = Path.Combine(ProjectPath + ImagesPath, $"{imageFileName}.png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
@@ -166,7 +167,7 @@ namespace SeleniumSpecFlow
                 var stepTitle = scenarioContext.StepContext.StepInfo.Text;
                 Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:'{stepTitle}'");
                 var infoTextBuilder = new StringBuilder();
-                
+
                 var actionName = scenarioContext.GetActionName();
                 if (!string.IsNullOrWhiteSpace(actionName))
                 {
@@ -192,13 +193,13 @@ namespace SeleniumSpecFlow
                 }
 
                 var infoText = infoTextBuilder.ToString();
-                if(!string.IsNullOrEmpty(infoText))
+                if (!string.IsNullOrEmpty(infoText))
                 {
                     Logger.Info(infoText);
                 }
 
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
-                Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}"); 
+                Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
 
                 switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
                 {
@@ -315,39 +316,22 @@ namespace SeleniumSpecFlow
             }
         }
 
-        [AfterScenario("Hearing")]
-        public void AfterScenarioHearing(ScenarioContext scenarioContext)
-        {
-            var drivers = (Dictionary<string, IWebDriver>)scenarioContext["drivers"];
-            foreach(var driver in drivers)
-            {
-                browserName=$@"{((WebDriver)driver.Value).Capabilities["browserName"]}";
-                driver.Value.Quit();
-                driver.Value.Dispose();
-                Logger.Info("Driver has been closed");
-
-            }
-
-            _extent.Flush();
-            Logger.Info("Flush Extent Report Instance");
-            GC.SuppressFinalize(this);
-        }
-
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext, FeatureContext featureContext)
         {
             featureContext["drivers"] = scenarioContext["drivers"];
+            featureContext["AccessibilityBaseUrl"] = scenarioContext["AccessibilityBaseUrl"];
             StopAllDrivers(scenarioContext);
             if (scenarioContext.ContainsKey("driver"))
             {
                 var driver = (IWebDriver)scenarioContext["driver"];
-                browserName=$@"{((WebDriver)driver).Capabilities["browserName"]}";
+                browserName = $@"{((WebDriver)driver).Capabilities["browserName"]}";
                 driver?.Quit();
                 driver?.Dispose();
                 Logger.Info($"Driver has been closed");
                 scenarioContext.Remove("driver");
             }
-            
+
             KillAllBrowserInstances(scenarioContext);
 
             _extent.Flush();

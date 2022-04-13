@@ -1,7 +1,5 @@
 ﻿using SeleniumSpecFlow.Utilities;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
-using UI.Model;
 using SeleniumSpecFlow.Steps;
 using Selenium.Axe;
 using FluentAssertions;
@@ -40,6 +38,7 @@ namespace UI.Steps
             participantsSteps = new ParticipantsSteps(scenarioContext);
             videoAccessSteps = new VideoAccessSteps(scenarioContext);
             otherInformationSteps = new OtherInformationSteps(scenarioContext);
+            summaryPageSteps = new SummaryPageSteps(scenarioContext);
         }
 
         [Given(@"I'm on the ""([^""]*)"" page")]
