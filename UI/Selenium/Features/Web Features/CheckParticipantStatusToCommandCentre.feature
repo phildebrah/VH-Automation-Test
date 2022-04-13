@@ -1,6 +1,6 @@
 ﻿@web
 
-Feature:Check participant status
+Feature: Check participant status in command centre
 	
 Scenario: Check different individual participant status
 
@@ -41,7 +41,7 @@ Scenario: Check different individual participant status
 	And I log off 
 	And everyone signs out
 
-Scenario: Check panel member and other participant status
+Scenario: Check panel member and participant status
 	Given I log in as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
@@ -56,8 +56,7 @@ Scenario: Check panel member and other participant status
 	And I want to create a Hearing for
 	| Party        | Role               | Id                                               |
 	| Claimant     | Litigant in person | auto_vw.individual_04@hearings.reform.hmcts.net  |
-	| Panel Member | Panel Member       | auto_aw.panelmember_02@hearings.reform.hmcts.net |
-	
+	| Panel Member | Panel Member       | auto_aw.panelmember_02@hearings.reform.hmcts.net |	
 	And With video Access points details
 	| Display Name | Advocate |
 	|              |          |		
