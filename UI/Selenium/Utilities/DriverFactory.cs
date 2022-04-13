@@ -20,7 +20,7 @@ namespace SeleniumSpecFlow.Utilities
         public IWebDriver WebDriver { get; set; }
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static int ProcessId;
-        public IWebDriver InitializeDriver(BrowserType browser)
+        public IWebDriver InitializeDriver(BrowserType browser, string path = "")
         {
 
             switch (browser)
@@ -56,15 +56,17 @@ namespace SeleniumSpecFlow.Utilities
                     break;
 
                 case BrowserType.Chrome:
-                    new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
-                    var cService = ChromeDriverService.CreateDefaultService();
+                    var chromeDriverService = ChromeDriverService.CreateDefaultService(@"C:\Users\karol\Desktop\local-dev\chromedriver_win32\");
+                    chromeDriverService.HideCommandPromptWindow = true;
+                    //new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
+                    //var cService = ChromeDriverService.CreateDefaultService();
                     ChromeOptions chromeoptions = new ChromeOptions();
                     chromeoptions.AddArguments("start-maximized");
                     chromeoptions.AddArgument("no-sandbox");
                     chromeoptions.AddArguments("--use-fake-ui-for-media-stream");
                     chromeoptions.AddArguments("--use-fake-device-for-media-stream");
-                    WebDriver = new ChromeDriver(cService, chromeoptions);
-                    ProcessId = cService.ProcessId;
+                    WebDriver = new ChromeDriver(chromeDriverService, chromeoptions);
+                    ProcessId = chromeDriverService.ProcessId;
                     Logger.Info(" Chrome Driver started in maximized mode");
                     break;
                 default:

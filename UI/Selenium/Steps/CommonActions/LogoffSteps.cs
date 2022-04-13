@@ -19,7 +19,6 @@ namespace UI.Steps
             : base(scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _hearing = (Hearing)_scenarioContext["Hearing"];
         }
 
         [Then(@"I log off")]
@@ -40,6 +39,7 @@ namespace UI.Steps
         [Then(@"everyone signs out")]
         public void ThenEveryoneSignsOut()
         {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var participant in _hearing.Participant)
             {
                 try

@@ -3,9 +3,10 @@ using TechTalk.SpecFlow;
 using UI.Model;
 using SeleniumSpecFlow.Steps;
 using Selenium.Axe;
-using FluentAssertions;
 using TestFramework;
 using UISelenium.Pages;
+using OpenQA.Selenium;
+using FluentAssertions;
 namespace UI.Steps
 {
     [Binding]
@@ -20,6 +21,7 @@ namespace UI.Steps
         public string username = "auto_vw.individual_05@hearings.reform.hmcts.net";
         string _pageName;
         Hearing _hearing;
+        LogoffSteps logoffSteps;
         public AccessibilitySteps_ParticipantsHearingSignIn(ScenarioContext scenarioContext)
            : base(scenarioContext)
         {
@@ -28,6 +30,7 @@ namespace UI.Steps
             dashboardSteps = new DashboardSteps(scenarioContext);
             bookingListSteps = new BookingListSteps(scenarioContext);
             accessibilitySteps = new AccessibilitySteps_VideoBooking(scenarioContext);
+            logoffSteps = new LogoffSteps(scenarioContext);
             axeResult = new AxeBuilder(Driver);
         }
 
@@ -36,8 +39,12 @@ namespace UI.Steps
         {
             _pageName = pageName;
             accessibilitySteps.PageName = pageName;
-            bookingListSteps.GivenIHaveABookedHearingInNextMinutes(3);
-            _hearing = (Hearing)_scenarioContext["Hearing"];
+            if (string.IsNullOrEmpty((string)_scenarioContext["AccessibilityBaseUrl"]))
+            {
+                bookingListSteps.GivenIHaveABookedHearingInNextMinutes(3);
+                _hearing = (Hearing)_scenarioContext["Hearing"];
+            }
+            
             loginSteps.LoginUrl = Config.VideoUrl;
         }
 
@@ -50,78 +57,35 @@ namespace UI.Steps
 
         public void CheckAccessibility(string pageName)
         {
-            switch (pageName)
+            pageName = pageName.ToLower();
+            if (pageName == "hearing-list")
             {
-                case "Hearing List":
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.CheckEquipment);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
-
-                case "Introduction":
-                    ProceedToPage("Hearing List");
+                Driver.Navigate().GoToUrl(loginSteps.LoginUrl + "/participant/hearing-list");
+                axeResult = new AxeBuilder((IWebDriver)_scenarioContext["driver"]);
+                axeResult.Analyze().Violations.Should().BeEmpty();
+            }
+            else
+            {
+                if (string.IsNullOrEmpty((string)_scenarioContext["AccessibilityBaseUrl"]))
+                {
+                    Driver.Navigate().GoToUrl(loginSteps.LoginUrl + "/participant/hearing-list");
                     ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber)).Click();
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
-
-                case "Equipment-Check":
-                    ProceedToPage("Introduction");
                     ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
-                    Driver.FindElement(ParticipantHearingListPage.ButtonNext).Click();
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
+                    _scenarioContext["AccessibilityBaseUrl"] = Driver.Url;
+                }
 
-                case "Switch-On-Camera-Microphone":
-                    ProceedToPage("Equipment-Check");
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.SwitchOnButton);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
-
-                case "Camera-Working":
-                    ProceedToPage("Switch-On-Camera-Microphone");
-                    var url = Driver.Url;
-                    url = url.Replace("switch-on-camera-microphone", "camera-working");
-                    Driver.Navigate().GoToUrl(url);
-                    Driver.SwitchTo().Alert().Accept();
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.CameraWorkingYes);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
-                case "Microphone-Working":
-                    ProceedToPage("Camera-Working");
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.CameraWorkingYes).Click();
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.MicrophoneWorkingYes);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
-
-                case "See-And-Hear-Video":
-                    ProceedToPage("Microphone-Working");
-                    Driver.FindElement(ParticipantHearingListPage.MicrophoneWorkingYes).Click();
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.VideoWorkingYes);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
-                case "Hearing-Rules":
-                    ProceedToPage("See-And-Hear-Video");
-                    Driver.FindElement(ParticipantHearingListPage.VideoWorkingYes).Click();
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.NextButton);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
-                case "Declaration":
-                    ProceedToPage("Hearing-Rules");
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.NextButton).Click();
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.DeclareCheckbox);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
-                case "Waiting Room":
-                    ProceedToPage("Declaration");
-                    Driver.FindElement(ParticipantHearingListPage.DeclareCheckbox).Click();
-                    Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
-                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantWaitingRoomPage.ChooseCameraAndMicButton);
-                    accessibilitySteps.AxeAnalyze(pageName);
-                    break;
+                if(Driver.Url != (string)_scenarioContext["AccessibilityBaseUrl"])
+                {
+                    Driver.Navigate().GoToUrl((string)_scenarioContext["AccessibilityBaseUrl"]);
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
+                    ExtensionMethods.AcceptAlert(Driver);
+                }
+                
+                Driver.Navigate().GoToUrl(Driver.Url.Replace("introduction", pageName));
+                ExtensionMethods.AcceptAlert(Driver);
+                System.Threading.Thread.Sleep(1000); // AXE FAILS IF SLEEP IS REMOVED coz ANALYSIS MAY HAPEN BEFORE PAGE'S FULLY LOADED
+                axeResult = new AxeBuilder((IWebDriver)_scenarioContext["driver"]);
+                axeResult.Analyze().Violations.Should().BeEmpty();
             }
         }
 
@@ -138,6 +102,7 @@ namespace UI.Steps
             axeResult = new AxeBuilder(Driver);
             dashboardSteps = new DashboardSteps(_scenarioContext);
             loginSteps.LoginUrl = Config.VideoUrl;
+            loginSteps.UserName = username;
             loginSteps.GivenILogInAs(username);
         }
 

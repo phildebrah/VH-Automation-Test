@@ -11,7 +11,6 @@ using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 using System.Diagnostics;
-using System.Linq;
 namespace UI.Steps
 {
      internal class BookingListSteps : ObjectFactory

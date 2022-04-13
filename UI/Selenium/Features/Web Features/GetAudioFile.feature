@@ -32,7 +32,7 @@ Scenario: Get audio file for main Hearing and Interpreter room
 	Then A hearing should be created
 	And I log off
 	And all participants log in to video web
-	And all participants have joined the hearing waiting room
+	And all participants have joined the hearing waiting room with SkipToWaitingRoom
 	And the judge starts the hearing
 	And the judge checks that all participants have joined the hearing room 
 	Then the judge closes the hearing

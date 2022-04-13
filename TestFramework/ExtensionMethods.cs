@@ -563,6 +563,21 @@ namespace TestFramework
             {
                 driver.Navigate().Back();
             }
+            else if (driver.Url.Contains("unauthorised"))
+            {
+                driver.Navigate().GoToUrl(driver.Url.Replace("unauthorised", ""));
+            }
+        }
+
+        public static void AcceptAlert(IWebDriver driver)
+        {
+            try
+            {
+                driver.SwitchTo().Alert().Accept();
+            }
+            catch
+            {
+            }
         }
     }
 }

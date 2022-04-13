@@ -1,7 +1,5 @@
 ﻿using SeleniumSpecFlow.Utilities;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
-using UI.Model;
 using SeleniumSpecFlow.Steps;
 using Selenium.Axe;
 using FluentAssertions;
