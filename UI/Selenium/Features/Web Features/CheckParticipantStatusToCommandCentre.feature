@@ -19,7 +19,6 @@ Scenario: Check participant status
 	| Party    | Role        | Id                                               |
 	| Claimant | Litigant in person     | auto_vw.individual_05@hearings.reform.hmcts.net  |
 	| Claimant | Litigant in person     | auto_vw.individual_06@hearings.reform.hmcts.net  |
-	| Defendant | Litigant in person    | auto_vw.individual_07@hearings.reform.hmcts.net  |
 	| Defendant | Litigant in person    | auto_vw.individual_08@hearings.reform.hmcts.net  |
 	And With video Access points details
 	| Display Name | Advocate |
@@ -38,7 +37,7 @@ Scenario: Check participant status
 		| Birmingham Civil and Family Justice Centre |
 	Then the judge starts the hearing
 	When the Video Hearings Officer check alerts for this hearing
-	Then the the Video Hearings Officer should able to see the status 
+	Then the Video Hearings Officer should able to see the status 
 	And I log off 
 	And everyone signs out
 
@@ -69,13 +68,13 @@ Scenario: Check participant status
     Then A hearing should be created
 	And I log off 
 	And all participants log in to video web
-	And all participants have joined the hearing waiting room
+	And participants have joined the hearing waiting room without Judge
     When the panel member selects Enter consultation room
 	Given I login to VHO in video url as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net" for existing hearing
 	And I choose from hearing lists
 		| Select your hearing lists                  |
 		| Birmingham Civil and Family Justice Centre |
 	When the Video Hearings Officer check alerts for this hearing
-	Then the the Video Hearings Officer should able to see the status
+	Then the Video Hearings Officer should able to view the status
 	And I log off 
 	And everyone signs out

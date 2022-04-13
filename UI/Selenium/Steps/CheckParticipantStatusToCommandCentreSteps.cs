@@ -49,27 +49,36 @@ namespace UI.Steps
                         _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
                         _scenarioContext["Hearing"] = _hearing;
                     }
-                    else if (participantNum == 3)
-                    {
-                        ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
-                        //ProceedToWaitingRoom(_hearing.Case.CaseNumber);
-                        _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
-                        _scenarioContext["Hearing"] = _hearing;
-                        Driver.Navigate().GoToUrl(Driver.Url.Replace("introduction", "participant/waiting-room"));
-                        Driver.SwitchTo().Alert().Accept();
-                        //Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
-                        //ExtensionMethods.WaitForTextPresent(Driver, "CONNECTED", 15);
-                        Driver = GetDriver(participant.Id, _scenarioContext);
-                        ExtensionMethods.FindElementEnabledWithWait(Driver, Header.SignOut)?.Click();
-                        ExtensionMethods.FindElementWithWait(Driver, Header.SignoutCompletely)?.Click();
-                        Thread.Sleep(000);
-                        //Driver.FindElement(Header.SignOut).Click();
-                        //ExtensionMethods.FindElementWithWait(Driver, Header.SignoutCompletely).Click();
-                        //Driver = GetDriver(_hearing.Participant.Where( a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
-                        //ExtensionMethods.WaitForTextPresent(Driver, "DISCONNECTED", 120);
-                    }
+                    
                 }
                 participantNum++;
+            }
+        }
+
+        [Then(@"participants have joined the hearing waiting room without Judge")]
+        public void ThenParticipantsHaveJoinedTheHearingWaitingRoomWithoutJudge()
+        {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+            foreach (var participant in _hearing.Participant)
+            {
+                Driver = GetDriver(participant.Id, _scenarioContext);
+                _scenarioContext["driver"] = Driver;
+                Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
+                if (!(participant.Party.Name.ToLower().Contains("judge")))
+                {
+                    if (participant.Party.Name.ToLower().Contains("panel"))
+                    {
+                        ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    }
+                    else
+                    {
+                        ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                        ProceedToWaitingRoom(_hearing.Case.CaseNumber);
+                        _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
+                        _scenarioContext["Hearing"] = _hearing;
+
+                    }
+                }
             }
         }
 
@@ -109,8 +118,8 @@ namespace UI.Steps
             Driver.FindElement(ParticipantHearingListPage.NextButton).Click();
         }
 
-        [Then(@"the the Video Hearings Officer should able to see the status")]
-        public void ThenTheTheVideoHearingsOfficerShouldAbleToSeeTheStatus()
+        [Then(@"the Video Hearings Officer should able to see the status")]
+        public void ThenTheVideoHearingsOfficerShouldAbleToSeeTheStatus()
         {
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
@@ -121,13 +130,31 @@ namespace UI.Steps
                 if (participant.Equals("VHO"))
                 {
                     ExtensionMethods.WaitForElementVisible(Driver, VHOHearingListPage.ParticipantName);
-                    //Driver.FindElement(VHOHearingListPage.ParticipantStatus(_hearing.HearingId)).Displayed.Should().BeTrue();
-                    Driver.FindElements(VHOHearingListPage.ParticipantStatusInHearing).Count.Should().Equals(2);
-                    //Driver.FindElement(VHOHearingListPage.ParticipantStatusDisconnected).Displayed.Should().BeTrue();
+                    Driver.FindElement(VHOHearingListPage.ParticipantStatusInHearing).Displayed.Should().BeTrue();
                     Driver.FindElement(VHOHearingListPage.ParticipantStatusJoining).Displayed.Should().BeTrue();
                     Driver.FindElement(VHOHearingListPage.ParticipantStatusNotSignedIn).Displayed.Should().BeTrue();
                 }               
             }
         }
+
+        [Then(@"the Video Hearings Officer should able to view the status")]
+        public void ThenTheVideoHearingsOfficerShouldAbleToViewTheStatus()
+        {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
+            foreach (var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
+            {
+                Driver = driver.Value;
+                string participant = driver.Key.Split('#').FirstOrDefault();
+                Driver = GetDriver(participant, _scenarioContext);
+                if (participant.Equals("VHO"))
+                {
+                    ExtensionMethods.WaitForElementVisible(Driver, VHOHearingListPage.ParticipantName);
+                    Driver.FindElement(VHOHearingListPage.ParticipantStatusAvailable).Displayed.Should().BeTrue();
+                    Driver.FindElement(VHOHearingListPage.ParticipantStatusInConsultation).Displayed.Should().BeTrue();
+                    Driver.FindElement(VHOHearingListPage.ParticipantStatusUnavailable).Displayed.Should().BeTrue();
+                }
+            }
+        }
+
     }
 }
