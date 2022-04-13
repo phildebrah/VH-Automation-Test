@@ -110,13 +110,14 @@ namespace UI.Steps
                     
                     if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield,_scenarioContext))
                     {
+                        Driver.ClearTextByJS(ParticipantsPage.RepOrganisationTextfieldId);
+                        ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield, _scenarioContext).SendKeys($"AutoOrg{Util.RandomAlphabet(4)}");
+
                         _scenarioContext.UpdateElementName("RepresentingTextfield");
                         _scenarioContext.UpdateActionName("SendKeys");
                         ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepresentingTextfield, _scenarioContext).SendKeys($"AutoRepresent{Util.RandomAlphabet(4)}");
                         _scenarioContext.UpdateElementName("RepOrganisationTextfield");
                         _scenarioContext.UpdateActionName("SendKeys");
-                        ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield, _scenarioContext).Clear();
-                        ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RepOrganisationTextfield, _scenarioContext).SendKeys($"AutoOrg{Util.RandomAlphabet(4)}");
                     }
 
                     if (ExtensionMethods.IsElementEnabled(Driver, ParticipantsPage.FirstNameTextfield))
