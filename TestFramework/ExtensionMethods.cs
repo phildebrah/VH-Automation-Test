@@ -174,7 +174,6 @@ namespace TestFramework
             }
             catch (Exception ex)
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 Logger.Error(ex, $"Element is not visible By locator:'{by.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return false;
             }
@@ -306,7 +305,6 @@ namespace TestFramework
                     }
                     else
                     {
-                        webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                         return webdriver.FindElement(findBy);
                     }
                 }
@@ -319,7 +317,6 @@ namespace TestFramework
                 }
                 count++;
             }
-            webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
             return null;
         }
 
