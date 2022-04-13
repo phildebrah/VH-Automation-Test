@@ -11,6 +11,9 @@ using System.Linq;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Waiting room page
+    ///</summary>
     public class WaitingRoomPageSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

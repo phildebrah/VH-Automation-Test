@@ -11,6 +11,9 @@ using TechTalk.SpecFlow;
 namespace UI.Steps.CommonActions
 {
     [Binding]
+    ///<summary>
+    /// Class for command actions like Page Navigation, checking page title etc
+    ///</summary>
     public class CommonPageActions
     {
         IWebDriver Driver;

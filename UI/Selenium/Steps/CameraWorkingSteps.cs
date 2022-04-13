@@ -13,6 +13,9 @@ using UI.Utilities;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Camera working page
+    ///</summary>
     public class CameraWorkingSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

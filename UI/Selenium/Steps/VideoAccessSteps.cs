@@ -7,6 +7,9 @@ using UISelenium.Pages;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Video Access
+    ///</summary>
     public class VideoAccessSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

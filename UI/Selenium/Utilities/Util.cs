@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace TestLibrary.Utilities
 {
+    ///<summary>
+    /// Class with general utilities function to generate random data
+    ///</summary>
     public class Util
     {
       

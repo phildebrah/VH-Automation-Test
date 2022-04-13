@@ -16,6 +16,9 @@ using System.Collections.Generic;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for checking alerts in Command Center
+    ///</summary>
     public class CheckAlertsCommandCenterSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

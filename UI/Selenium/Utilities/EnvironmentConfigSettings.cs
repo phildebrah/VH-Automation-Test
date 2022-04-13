@@ -2,6 +2,9 @@
 
 namespace TestLibrary.Utilities
 {
+    ///<summary>
+    /// Class to hold Environment related settings 
+    ///</summary>
     public class EnvironmentConfigSettings:SystemConfigSettings
     {
         public string Environment { get; set; }

@@ -5,6 +5,9 @@ using UISelenium.Pages;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Testing equipment page
+    ///</summary>
     public class TestingEquipmentSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

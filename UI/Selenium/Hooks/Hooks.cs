@@ -24,6 +24,11 @@ using UI.Model;
 namespace SeleniumSpecFlow
 {
     [Binding]
+    ///<summary>
+    /// Class to define the code to execute at certian events during test execution
+    /// Saves images after each step
+    /// Closes any orphaned brwoser instances at the end of a Scenario and final Test Run
+    ///</summary>
     public class Hooks 
     {
         public IConfiguration Configuration { get; }

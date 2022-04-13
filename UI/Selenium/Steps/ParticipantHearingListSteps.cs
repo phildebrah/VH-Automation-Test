@@ -12,6 +12,9 @@ using System.Collections.Generic;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Participant Hearing List Page
+    ///</summary>
     public class ParticipantHearingListSteps: ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

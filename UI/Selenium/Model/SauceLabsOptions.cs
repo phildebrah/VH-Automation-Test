@@ -1,6 +1,9 @@
 ﻿
 namespace UI.Model
 {
+    /// <summary>
+    /// Configuration options for tests running in Saucelabs
+    /// </summary>
     public class SauceLabsOptions
     {
         public string AppiumVersion { get; set; } = "1.17.1";

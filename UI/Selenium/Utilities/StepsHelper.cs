@@ -8,6 +8,10 @@ namespace UI.Utilities
 {
     internal class StepsHelper
     {
+        ///<summary>
+        /// Class to create Hearing model
+        /// This model is used by various other steps
+        ///</summary>
         public abstract class Set
         {
             public static Table HearingDetailsData()

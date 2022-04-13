@@ -7,6 +7,9 @@ using UISelenium.Pages;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Assign a Judge to a Hearing page
+    ///</summary>
     public class HearingAssignJudgeSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

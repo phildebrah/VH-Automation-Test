@@ -6,6 +6,9 @@ using UISelenium.Pages;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Switch On Camera/Microphone page
+    ///</summary>
     public class SwitchOnCameraMicrophoneSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

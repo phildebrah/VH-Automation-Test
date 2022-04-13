@@ -5,6 +5,9 @@ using UI.Model;
 using UISelenium.Pages;
 namespace UI.Steps
 {
+    ///<summary>
+    /// Steps class for Get Audio File page
+    ///</summary>
     public class GetAudioFileSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;
