@@ -57,8 +57,10 @@ namespace UI.Steps
 
         [Then(@"I should able to open quicklink on new browser")]
         public void ThenIShouldAbleToOpenQuicklinkOnNewBrowser()
-        {            
+        {
+            Driver.Close();
             Driver.Quit();
+            Driver.Dispose();
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             _scenarioContext["driver"] = Driver;
             Driver.Navigate().GoToUrl(_hearingList.HearingListURL);

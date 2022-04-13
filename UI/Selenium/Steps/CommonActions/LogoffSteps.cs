@@ -6,6 +6,8 @@ using UISelenium.Pages;
 using FluentAssertions;
 using TestFramework;
 using OpenQA.Selenium;
+using System;
+
 namespace UI.Steps
 {
     [Binding]
@@ -28,7 +30,7 @@ namespace UI.Steps
             Driver = (IWebDriver)_scenarioContext["driver"];
             if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
             {
-                Driver.FindElement(Header.LinkSignOut).Click();
+                Driver.RetryClick(Header.LinkSignOut,_scenarioContext,TimeSpan.FromSeconds(Config.DefaultElementWait));
             }
             else
             {
@@ -42,12 +44,8 @@ namespace UI.Steps
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var participant in _hearing.Participant)
             {
-                try
-                {
-                    Driver = GetDriver(participant.Id, _scenarioContext);
-                    Driver.FindElement(Header.SignOut).Click();
-                }
-                catch { }
+                Driver = GetDriver(participant.Id, _scenarioContext);
+                Driver.FindElement(Header.SignOut).Click();
             }
         }
     }

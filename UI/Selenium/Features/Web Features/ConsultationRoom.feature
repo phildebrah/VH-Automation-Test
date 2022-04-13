@@ -136,16 +136,8 @@ Scenario: JOH can start and leave Consultation room
     Then judge checks participant joined the consultation room
     And all participants leave consultation room
     And everyone signs out
-	And I log off
-	Then all participants log in to video web
-	And all participants have joined the hearing waiting room with SkipToWaitingRoom
-	When 'Litigant in person' start a private meeting and selects 'Representative'
-	Then 'Representative' is in the private consultation room
-	And 'Litigant in person' click on the leave button to leave the consultation room 
-	And 'Representative' click on the leave button to leave the consultation room 
-	And everyone signs out	
 
-Scenario: Consultation room: VHO can start and close consultaion
+Scenario: Consultation room VHO can start and close consultaion
 Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
@@ -160,14 +152,12 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I want to create a Hearing for
 	| Party     | Role               | Id                                  |
 	| Claimant  | Litigant in person | auto_vw.individual_05@hearings.reform.hmcts.net    |
-
 	And With video Access points details
 	| Display Name | Advocate |
 	|              |          | 
 	And I set any other information
 	| Record Hearing | Other information   | 
 	|                | This is a test info |
-
 	And I book the hearing
     Then A hearing should be created
 	And I log off
@@ -182,7 +172,7 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And closes the consultation
 	Then check the judge returns to the waiting room
 
-    Scenario: Consultation room: Check Instant Messages are sent correctly
+Scenario: Consultation room Check Instant Messages are sent correctly
 Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
@@ -204,7 +194,6 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I set any other information
 	| Record Hearing | Other information   | 
 	|                | This is a test info |
-
 	And I book the hearing
     Then A hearing should be created
 	And I log off

@@ -76,15 +76,16 @@ namespace TestFramework
 
         public static bool IsDisplayed(this IWebDriver webdriver, By findBy, ScenarioContext scenarioContext, TimeSpan? waitPeriod = null)
         {
-            try
+            var isDisplayed = false;
+            var timeoutAfterPolicy = Policy.Timeout(waitPeriod.Value);
+            var retryPolicy = Policy.Handle<StaleElementReferenceException>()
+                              .WaitAndRetryForever(iteration => TimeSpan.FromSeconds(1));
+            isDisplayed= timeoutAfterPolicy.Wrap(retryPolicy).Execute(() =>
             {
-                webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
-                return webdriver.FindElement(findBy).Displayed && webdriver.FindElement(findBy).Enabled;
-            }
-            catch
-            {
-                return false;
-            }
+                var element = FindElementWithWait(webdriver, findBy, scenarioContext, waitPeriod);
+                return element.Displayed;
+            });
+            return isDisplayed;
         }
 
         public static void RetryClick(this IWebDriver webdriver, By findBy, ScenarioContext scenarioContext, TimeSpan? waitPeriod = null)
@@ -111,6 +112,23 @@ namespace TestFramework
                 element.Click();
             });
         }
+
+        public static void RetryCheckboxClick(this IWebElement parentElement, By findBy)
+        {
+            var retryPolicy = Policy.Handle<StaleElementReferenceException>()
+                                    .Or<NullReferenceException>()
+                              .WaitAndRetry(5, iteration => TimeSpan.FromSeconds(1));
+            retryPolicy.Execute(() =>
+            {
+                var element = parentElement.FindElement(findBy);
+                element.Click();
+                if (!element.Selected)
+                {
+                    throw new NullReferenceException("Checkbox not checked");
+                }
+            });
+        }
+
         public static IWebElement FindElementWithWait(IWebDriver webdriver, By findBy, ScenarioContext scenarioContext,TimeSpan? waitPeriod=null)
         {
             waitPeriod = waitPeriod == null ? TimeSpan.FromSeconds(60) : waitPeriod.Value;
@@ -152,7 +170,7 @@ namespace TestFramework
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
                 wait.Until(ExpectedConditions.ElementIsVisible(by));
-                return driver.FindElement(by).Displayed;
+                return driver.FindElement(by).Displayed && driver.FindElement(by).Enabled;
             }
             catch (Exception ex)
             {
@@ -490,7 +508,38 @@ namespace TestFramework
             }
             return null;
         }
-      
+
+        public static void ClearTextByJS(this IWebDriver driver, string id, int? timeInSec = null)
+        {
+            var isCleared = false;
+            timeInSec = timeInSec == null ? 30 : timeInSec.Value;
+            var count = 1;
+            while (!isCleared)
+            {
+                try
+                {
+                    ((IJavaScriptExecutor)driver).ExecuteScript($"document.getElementById('{id}').value=''");
+                    var text = ((IJavaScriptExecutor)driver).ExecuteScript($"return document.getElementById('{id}').value") as string;
+                    if (string.IsNullOrEmpty(text))
+                    {
+                        isCleared=true;
+                    }
+                }
+
+                catch
+                {
+                    Logger.Error($"Exception occured while clearing text for element by Id {id}");
+                }
+
+                if (count > timeInSec && !isCleared)
+                {
+                    Logger.Error($"Element by Id {id} text was expected to be deleted , but it was not");
+                    throw new Exception($"Element by Id {id} text was expected to be deleted , but it was not");
+                }
+                count++;
+            }
+        }
+
         public static void ClearText(this IWebElement element, int? timeInSec = null)
         {
             var isCleared = false;
