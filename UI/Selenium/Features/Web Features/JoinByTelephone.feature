@@ -31,7 +31,6 @@ Scenario:  Join By Telephone
 	And I copy telephone participant link
 	Then telephone participant link should be copied	
 
-
 	Scenario:  Join By Video Participant Link
 	Given I log in as "auto_aw.videohearingsofficer_10@hearings.reform.hmcts.net"
 	And I select book a hearing

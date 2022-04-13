@@ -106,7 +106,7 @@ namespace UI.Steps
         {
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
             _scenarioContext["driver"] = Driver;
-            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId));
+            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId), 120);
             ExtensionMethods.MoveToElement(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId), _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId), _scenarioContext).Click();
         }

@@ -44,10 +44,16 @@ namespace UI.Steps
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var participant in _hearing.Participant)
             {
-                Driver = GetDriver(participant.Id, _scenarioContext);
-                if (Driver != null)
+                try
                 {
-                    Driver.FindElement(Header.SignOut).Click();
+                    Driver = GetDriver(participant.Id, _scenarioContext);
+                    if (Driver != null)
+                    {
+                        Driver.FindElement(Header.SignOut).Click();
+                    }
+                }
+                catch 
+                { 
                 }
             }
         }

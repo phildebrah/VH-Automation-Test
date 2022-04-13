@@ -259,9 +259,9 @@ namespace SeleniumSpecFlow
 
             if (scenarioContext.StepContext.StepInfo.Text.Equals("I log off"))
             {
-                driver.Close();
-                driver.Quit();
-                driver.Dispose();
+                driver?.Close();
+                driver?.Quit();
+                driver?.Dispose();
                 scenarioContext.Remove("driver");
             }
         }

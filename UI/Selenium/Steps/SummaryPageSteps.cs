@@ -25,7 +25,7 @@ namespace UI.Steps
             _scenarioContext.UpdatePageName("Hearing summary");
             ExtensionMethods.FindElementWithWait(Driver, SummaryPage.BookButton, _scenarioContext).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
-            ExtensionMethods.WaitForElementNotVisible(Driver, SummaryPage.DotLoader);
+            ExtensionMethods.WaitForElementNotVisible(Driver, SummaryPage.DotLoader, 60);
             if (ExtensionMethods.IsElementExists(Driver, SummaryPage.TryAgainButton, _scenarioContext))
             {
                 ExtensionMethods.FindElementWithWait(Driver, SummaryPage.TryAgainButton, _scenarioContext).Click();

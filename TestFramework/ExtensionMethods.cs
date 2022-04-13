@@ -164,6 +164,8 @@ namespace TestFramework
         {
             try
             {
+                // All we want here is a true or false where or not the element is visible, there's no need for wait.Until
+                // The implicit wait (0) makes sure that that the driver wastes no time, result (true/false) is instant
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 return (bool)driver.FindElement(by)?.Displayed;
             }
@@ -180,7 +182,6 @@ namespace TestFramework
 
             try
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
                 wait.Until(ExpectedConditions.ElementExists(by));
                 return true;
@@ -198,7 +199,6 @@ namespace TestFramework
 
             try
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
                 wait.Until(ExpectedConditions.ElementExists(by));
                 return false;
@@ -425,17 +425,26 @@ namespace TestFramework
             bool isVisible = true;
             timeInSec = timeInSec == null ? 20 : timeInSec.Value;
             int count = 1;
+            string error = string.Empty;
             while (isVisible)
             {
                 try
                 {
-                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                     isVisible = IsElementVisible(driver, by, null);
                     if (isVisible)
                     {
+                        // sleep here is only acting as a clock tick/counter really
+                        // rather than as an explicit wait
+                        // the advantage here is that the code continues to execute and can check for errors
+                        // and immediately terminate if errors found rather than having a wait.Until() which
+                        // could be be 60 sec before the terminates and thus slowing the tests down
                         System.Threading.Thread.Sleep(1000);
                     }
-                    
+                    if (driver.Url.Contains("/error"))
+                    {
+                        error = driver.FindElement(By.TagName("app-eeror")).Text;
+                        NUnit.Framework.Assert.Fail(error);
+                    }
                 }
                 catch
                 {
@@ -454,6 +463,7 @@ namespace TestFramework
             bool isVisible = false;
             timeInSec = timeInSec == null ? 30 : timeInSec.Value;
             int count = 1;
+            string error = string.Empty;
             while (!isVisible)
             {
                 try
@@ -461,12 +471,25 @@ namespace TestFramework
                     isVisible = IsElementVisible(driver, by, null);
                     if (!isVisible)
                     {
+                        // sleep here is only acting as a clock tick/counter really
+                        // rather than as an explicit wait
+                        // the advantage here is that the code continues to execute and can check for errors
+                        // and immediately terminate if errors found rather than having a wait.Until() which
+                        // could be be 60 sec before the terminates and thus slowing the tests down
                         System.Threading.Thread.Sleep(1000);
+                    }
+                    if (driver.Url.Contains("/error"))
+                    {
+                        error = driver.FindElement(By.TagName("app-eeror")).Text;
+                        NUnit.Framework.Assert.Fail(error);
                     }
                 }
                 catch
                 {
-
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        NUnit.Framework.Assert.Fail(error);
+                    }
                 }
                 if (count > timeInSec && !isVisible)
                 {

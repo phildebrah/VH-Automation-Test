@@ -3,7 +3,6 @@
 Feature: Check participant status in command centre
 	
 Scenario: Check different individual participant status
-
 	Given I log in as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
@@ -31,14 +30,11 @@ Scenario: Check different individual participant status
 	And I log off 
 	Then three participants log in to video web
 	And  participants have joined the hearing waiting room
-	Given I login to VHO in video url as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net" for existing hearing
-	And I choose from hearing lists
-		| Select your hearing lists                  |
-		| Birmingham Civil and Family Justice Centre |
 	Then the judge starts the hearing
-	When the Video Hearings Officer check alerts for this hearing
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
+	And selects hearing venue in the venue list
+	And selects current hearing
 	Then the Video Hearings Officer should able to see the status 
-	And I log off 
 	And everyone signs out
 
 Scenario: Check panel member and participant status
@@ -69,11 +65,8 @@ Scenario: Check panel member and participant status
 	And all participants log in to video web
 	And participants have joined the hearing waiting room without Judge
     When the panel member selects Enter consultation room
-	Given I login to VHO in video url as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net" for existing hearing
-	And I choose from hearing lists
-		| Select your hearing lists                  |
-		| Birmingham Civil and Family Justice Centre |
-	When the Video Hearings Officer check alerts for this hearing
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
+	And selects hearing venue in the venue list
+	And selects current hearing
 	Then the Video Hearings Officer should able to view the status
-	And I log off 
 	And everyone signs out
