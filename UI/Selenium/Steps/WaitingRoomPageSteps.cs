@@ -114,8 +114,7 @@ namespace UI.Steps
         [Then(@"the judge signs into the hearing")]
         public void ThenTheJudgeSignsIntoTheHearing()
         {
-            Driver = GetDriver("Judge", _scenarioContext);
-            _scenarioContext["driver"] = Driver;
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.StartVideoHearingButton));
@@ -141,7 +140,7 @@ namespace UI.Steps
                 if (!participant.Role.Name.ToLower().Contains("judge"))
                 {
                     Driver = GetDriver(participant.Id, _scenarioContext);
-                    hearingListSteps.ProceedToWaitingRoom(participant.Id, _hearing.Case.CaseNumber);
+                    hearingListSteps.ProceedToWaitingRoom(participant.Id, skipToWaitingRoom: true);
                     ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.StartPrivateMeetingButton);
                     ExtensionMethods.IsElementVisible(Driver, ParticipantWaitingRoomPage.StartPrivateMeetingButton, null).Should().BeTrue();
                     var unAvailableParticipants = noOfParticipantsNotSignedIn.Value == 1 ? 0 : Driver.FindElements(ParticipantWaitingRoomPage.UnAvailableStatus)?.Count();
@@ -149,6 +148,7 @@ namespace UI.Steps
                     // Assert Judge status changed
                     var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
                     Driver = GetDriver(judge.Role.Name, _scenarioContext);
+                    System.Threading.Thread.Sleep(3000); // Judges status takes a couple of sec to update
                     var newNotSignedIn = noOfParticipantsNotSignedIn.Value == 1 ? 0 : Driver.FindElements(ParticipantWaitingRoomPage.NotSignedInStatus)?.Count();
                     newNotSignedIn.Should().BeLessThan(noOfParticipantsNotSignedIn.Value);
                     noOfParticipantsNotSignedIn = noOfParticipantsNotSignedIn.Value == 1 ? 0 : Driver.FindElements(ParticipantWaitingRoomPage.NotSignedInStatus)?.Count(); 

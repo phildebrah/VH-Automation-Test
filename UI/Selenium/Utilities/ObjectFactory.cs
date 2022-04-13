@@ -21,11 +21,13 @@ namespace SeleniumSpecFlow.Utilities
         public EnvironmentConfigSettings Config { get; set; }
         public IWebDriver Driver { get; set; }
         public bool SkipPracticeVideoHearingDemo = true;
+        ScenarioContext _scenarioContext;
         public ObjectFactory(ScenarioContext context)
         {
             CommonPageActions = new CommonPageActions((IWebDriver)context["driver"]);
             Config = (EnvironmentConfigSettings)context["config"];
             Driver = (IWebDriver)context["driver"];
+            _scenarioContext = context;
         }
         public IWebDriver GetDriver(string participant, ScenarioContext _scenarioContext)
         {
@@ -39,6 +41,7 @@ namespace SeleniumSpecFlow.Utilities
         {
             Driver?.Dispose();
             this.Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+            _scenarioContext["driver"] = this.Driver;
             return Driver;
         }
 
