@@ -95,9 +95,9 @@ namespace UI.Steps
 
             var participant = _hearing.Participant.FirstOrDefault(p => !p.Id.ToLower().Contains("judge"));
             var participantName = participant.Name;
-            ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ParticipantTick($"{participantName.FirstName} {participantName.LastName}"), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
-            var isTickVisible = ExtensionMethods.IsElementVisible(Driver, ConsultationRoomPage.ParticipantTick(participantName.FirstName),_scenarioContext);
-            isTickVisible.Should().BeTrue("tick icon in judge panel not visible");
+            ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ParticipantDisplayName($"{participantName.FirstName} {participantName.LastName}"), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            ExtensionMethods.WaitForTextPresent(Driver, $"{participantName.FirstName} {participantName.LastName}");
+            ExtensionMethods.IsElementVisible(Driver, ConsultationRoomPage.ParticipantDisplayName(participantName.FirstName),_scenarioContext).Should().BeTrue();
         }
        
         [Then(@"judge participant panel shows consultation room in use")]
@@ -243,8 +243,8 @@ namespace UI.Steps
             Driver = GetDriver(secondParticipantKey, _scenarioContext);
             _scenarioContext["driver"] = Driver;
 
-            ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ParticipantTick(secondParticipant.Name.FirstName), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
-            var isTickVisible = ExtensionMethods.IsElementVisible(Driver, ConsultationRoomPage.ParticipantTick(secondParticipant.Name.FirstName), _scenarioContext);
+            ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ParticipantDisplayName(secondParticipant.Name.FirstName), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            var isTickVisible = ExtensionMethods.IsElementVisible(Driver, ConsultationRoomPage.ParticipantDisplayName(secondParticipant.Name.FirstName), _scenarioContext);
             isTickVisible.Should().BeTrue($"tick icon in '{participant}' panel not visible");
         }
     }

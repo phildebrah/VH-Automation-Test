@@ -1,12 +1,9 @@
 ﻿@web
-Feature: Join Hearing By Quick Link
 @DeviceTest
+Feature: Join Hearing By Quick Link
 Scenario: Get Hearing lists and join Hearing by Quick Link
 	Given I log in video url as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
-	And I choose from hearing lists
-		| Select your hearing lists                  |
-		| Birmingham Civil and Family Justice Centre |
-	When I click on view hearings
+	When selects hearing venue in the venue list
 	And I click on copy hearing id to clipboard
 	Then Hearing id should be copied
 	When I click on copy joining by phone details to clipboard

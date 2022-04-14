@@ -165,21 +165,22 @@ namespace TestFramework
 
         public static bool IsElementVisible(IWebDriver driver, By by, ScenarioContext scenarioContext)
         {
-            var pageName = scenarioContext?.GetPageName();
-            var userName = scenarioContext?.GetUserName();
-
             try
             {
+                // All we want here is a true or false where or not the element is visible, there's no need for wait.Until
+                // The implicit wait (0) makes sure that that the driver wastes no time, result (true/false) is instant
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
-                wait.Until(ExpectedConditions.ElementIsVisible(by));
-                return driver.FindElement(by).Displayed && driver.FindElement(by).Enabled;
+                if(driver.FindElement(by).Displayed && driver.FindElement(by).Enabled)
+                {
+                    return true;
+                }
             }
-            catch (Exception ex)
+            catch
             {
-                Logger.Error(ex, $"Element is not visible By locator:'{by.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 return false;
             }
+
+            return false;
         }
 
         public static bool IsElementExists(IWebDriver driver, By by, ScenarioContext scenarioContext)
@@ -189,7 +190,6 @@ namespace TestFramework
 
             try
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
                 wait.Until(ExpectedConditions.ElementExists(by));
                 return true;
@@ -207,7 +207,6 @@ namespace TestFramework
 
             try
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(0));
                 wait.Until(ExpectedConditions.ElementExists(by));
                 return false;
@@ -434,21 +433,29 @@ namespace TestFramework
             bool isVisible = true;
             timeInSec = timeInSec == null ? 20 : timeInSec.Value;
             int count = 1;
+            string error = string.Empty;
             while (isVisible)
             {
                 try
                 {
-                    if (!IsElementVisible(driver, by, null))
-                    {
-                        break;
-                    }
-                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
-                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
                     isVisible = IsElementVisible(driver, by, null);
+                    if (isVisible)
+                    {
+                        // sleep here is only acting as a clock tick/counter really
+                        // rather than as an explicit wait
+                        // the advantage here is that the code continues to execute and can check for errors
+                        // and immediately terminate if errors found rather than having a wait.Until() which
+                        // could be be 60 sec before the terminates and thus slowing the tests down
+                        System.Threading.Thread.Sleep(1000);
+                    }
+                    if (driver.Url.Contains("/error"))
+                    {
+                        error = driver.FindElement(By.TagName("app-eeror")).Text;
+                        NUnit.Framework.Assert.Fail(error);
+                    }
                 }
                 catch
                 {
-
                 }
                 if (count > timeInSec && isVisible)
                 {
@@ -464,17 +471,33 @@ namespace TestFramework
             bool isVisible = false;
             timeInSec = timeInSec == null ? 30 : timeInSec.Value;
             int count = 1;
+            string error = string.Empty;
             while (!isVisible)
             {
                 try
                 {
-                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
-                    wait.Until(ExpectedConditions.ElementIsVisible(by));
                     isVisible = IsElementVisible(driver, by, null);
+                    if (!isVisible)
+                    {
+                        // sleep here is only acting as a clock tick/counter really
+                        // rather than as an explicit wait
+                        // the advantage here is that the code continues to execute and can check for errors
+                        // and immediately terminate if errors found rather than having a wait.Until() which
+                        // could be be 60 sec before the terminates and thus slowing the tests down
+                        System.Threading.Thread.Sleep(1000);
+                    }
+                    if (driver.Url.Contains("/error"))
+                    {
+                        error = driver.FindElement(By.TagName("app-error")).Text;
+                        NUnit.Framework.Assert.Fail(error);
+                    }
                 }
                 catch
                 {
-
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        NUnit.Framework.Assert.Fail(error);
+                    }
                 }
                 if (count > timeInSec && !isVisible)
                 {
@@ -631,6 +654,11 @@ namespace TestFramework
             catch
             {
             }
+        }
+
+        public static void WaitFor(int timeInSec)
+        {
+            System.Threading.Thread.Sleep(timeInSec * 1000);
         }
     }
 }

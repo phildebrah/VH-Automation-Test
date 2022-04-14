@@ -1,10 +1,9 @@
 ﻿@EndtoEndTest
 @web
-
+@DeviceTest
 Feature: EndtoEnd
 	To book and attend a Hearing
 
-	@DeviceTest
 Scenario: End to End test
 	Given I log in as "auto_aw.videohearingsofficer_11@hearings.reform.hmcts.net"
 	And I select book a hearing

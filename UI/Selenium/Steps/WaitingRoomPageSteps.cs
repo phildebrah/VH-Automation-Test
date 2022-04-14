@@ -34,12 +34,10 @@ namespace UI.Steps
         [Then(@"the judge starts the hearing")]
         public void ThenTheJudgeStartsTheHearing()
         {
-            Driver = GetDriver("Judge", _scenarioContext);
-            _scenarioContext["driver"] = Driver;
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
-            wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.StartVideoHearingButton));
-            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton, _scenarioContext).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.ConfirmStartButton));
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
+            ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton);
+            ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton).Click();
+            ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.ConfirmStartButton);
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton, _scenarioContext).Click();
             _scenarioContext.UpdatePageName("Judge Waiting Room");
         }
@@ -47,8 +45,7 @@ namespace UI.Steps
         [When(@"the judge selects Enter consultation room")]
         public void WhenJudgeSelectsEnterConsultation()
         {
-            Driver = GetDriver("Judge", _scenarioContext);
-            _scenarioContext["driver"] = Driver;
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
             ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext).Click();
@@ -57,15 +54,10 @@ namespace UI.Steps
         [When(@"the panel member selects Enter consultation room")]
         public void WhenJoHSelectsEnterConsultation()
         {
-            Driver = GetDriver("panel", _scenarioContext);
-            _scenarioContext["driver"] = Driver;
-            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.NumberOfJohsInConsultaionRoom, _scenarioContext,TimeSpan.FromSeconds(Config.DefaultElementWait));
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
-            wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
-            wait.Until(ExpectedConditions.TextToBePresentInElementLocated(JudgeWaitingRoomPage.NumberOfJohsInConsultaionRoom, "1"));
-            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext).Click();
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("panel")).FirstOrDefault().Id, _scenarioContext);
+            ExtensionMethods.WaitForElementVisible(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, 20);
+            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext)?.Click();
         }
-
 
         [Then(@"all participants are redirected to the hearing room when the judge resumes the video hearing")]
         public void ThenAllParticipantsAreRedirectedToTheHearingRoomWhenTheJudgeResumesTheVideoHearing()
@@ -76,8 +68,7 @@ namespace UI.Steps
 
         public void ResumeVideoHearing()
         {
-            Driver = GetDriver("Judge", _scenarioContext);
-            _scenarioContext["driver"] = Driver;
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.ResumeVideoHearing));
             ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.ResumeVideoHearing, _scenarioContext).Click();
@@ -89,7 +80,7 @@ namespace UI.Steps
         {
             foreach (var participant in _hearing.Participant)
             {
-                if (!(participant.Party.Name.ToLower().Contains("judge") || participant.Party.Name.ToLower().Contains("panel")) && !participant.Party.Name.ToLower().Contains("vho"))
+                if (!(participant.Role.Name.ToLower().Contains("judge") || participant.Party.Name.ToLower().Contains("panel")) && !participant.Party.Name.ToLower().Contains("vho"))
                 {
                     Driver = GetDriver($"#{participant.Party.Name}-{participant.Role.Name}", _scenarioContext);
                     WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
@@ -98,7 +89,6 @@ namespace UI.Steps
                     var waitingRoomPage = Driver.PageSource;
                     bool isPaused = waitingRoomPage.Contains("Your video hearing is paused") ? true : false;
                     var role = participant.Role.Name == "Solicitor" ? "Representative" : participant.Role.Name;
-                    _scenarioContext["driver"] = Driver;
                     if(isPaused)
                     {
                         waitingRoomPage.Should().Contain(ParticipantWaitingRoomPage.ParticipantWaitingRoomPausedTitle);
@@ -185,7 +175,6 @@ namespace UI.Steps
             var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
             var disconnectedParticipant = participants.FirstOrDefault();
             Driver = GetDriver($"{disconnectedParticipant.Id}#{disconnectedParticipant.Party.Name}-{disconnectedParticipant.Role.Name}", _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             logoffSteps.ThenILogOff();
             // check for DISCONECTED status on judges waiting room screen
             Driver = GetDriver(judge.Role.Name, _scenarioContext);
@@ -206,7 +195,6 @@ namespace UI.Steps
         public void WhenTheJudgeAcceptsTheIncomingInvite()
         {
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "judge").FirstOrDefault().Id, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.ToastInviteAcceptButton, _scenarioContext).Click();
             ExtensionMethods.WaitForElementNotVisible(Driver, JudgeWaitingRoomPage.ToastInviteAcceptButton);
         }

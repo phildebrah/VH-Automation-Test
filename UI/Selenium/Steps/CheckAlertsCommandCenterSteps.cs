@@ -8,10 +8,11 @@ using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
 using UI.Model;
-using TestLibrary.Utilities;
+using System.Collections.Generic;
+using FluentAssertions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System.Collections.Generic;
+using TestLibrary.Utilities;
 
 namespace UI.Steps
 {
@@ -21,15 +22,13 @@ namespace UI.Steps
     ///</summary>
     public class CheckAlertsCommandCenterSteps : ObjectFactory
     {
-        private readonly ScenarioContext _scenarioContext;
+        ScenarioContext _scenarioContext;
         private Hearing _hearing;
-
         public readonly string CAMERA_ALERT = "Failed self-test (Camera)";
         public readonly string VIDEO_ALERT = "Failed self-test (Video)";
         public readonly string MICROPHONE_ALERT = "Failed self-test (Microphone)";
         public readonly string INCOMPLETE_ALERT = "Failed self-test (Incomplete Test)";
         public readonly string DISCONNECTED_ALERT = "Disconnected";
-
         CheckAlertsCommandCenterSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
@@ -47,7 +46,7 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
             _scenarioContext.UpdatePageName("Video Web Login");
             Login(userName, Config.UserPassword);
-           
+
         }
 
         public void Login(string username, string password)
@@ -66,7 +65,6 @@ namespace UI.Steps
         [Then(@"participant has joined and progressed to waiting room without completing self test")]
         public void ThenParticipantHasJoinedAndProgressedToWaitingRoomWithoutCompletingSelfTest()
         {
-
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
             {
@@ -76,16 +74,15 @@ namespace UI.Steps
                 Driver = GetDriver(participant, _scenarioContext);
                 _scenarioContext["driver"] = Driver;
                 Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
-                Driver.RetryClick(ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
-                
+                ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 if (!(participant.ToLower().Contains("judge") || participant.ToLower().Contains("panel")))
                 {
-                    Driver.FindElement(ParticipantHearingListPage.ButtonNext).Click();
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                    Driver.FindElement(ParticipantHearingListPage.SwitchOnButton).Click();
-                    Driver.FindElement(ParticipantHearingListPage.WatchVideoButton).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ButtonNext, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SwitchOnButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.WatchVideoButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                     // Assert video is playing
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                     if (SkipPracticeVideoHearingDemo)
                     {
                         string cameraUrl = Driver.Url.Replace("practice-video-hearing", "camera-working");
@@ -97,9 +94,10 @@ namespace UI.Steps
                         ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     }
-                    Driver.FindElement(ParticipantHearingListPage.CameraWorkingNo)?.Click();
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-
+                    _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
+                    _scenarioContext["Hearing"] = _hearing;
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.CameraWorkingNo, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 }
             }
         }
@@ -136,6 +134,8 @@ namespace UI.Steps
                         ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     }
+                    _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
+                    _scenarioContext["Hearing"] = _hearing;
                     Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
                     Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
@@ -177,6 +177,8 @@ namespace UI.Steps
                         ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, 180).Click();
                         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     }
+                    _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
+                    _scenarioContext["Hearing"] = _hearing;
                     Driver.FindElement(ParticipantHearingListPage.CameraWorkingYes)?.Click();
                     Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                     Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
@@ -194,12 +196,10 @@ namespace UI.Steps
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
             {
+                var cameraUrl = "";
                 Driver = driver.Value;
                 string participant = driver.Key.Split('#').FirstOrDefault();
-                string cameraUrl = "";
-
                 Driver = GetDriver(participant, _scenarioContext);
-                _scenarioContext["driver"] = Driver;
                 Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                 ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 if (!(participant.ToLower().Contains("judge") || participant.ToLower().Contains("panel")))
@@ -208,35 +208,39 @@ namespace UI.Steps
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ContinueButton, _scenarioContext).Click();
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SwitchOnButton, _scenarioContext).Click();
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.WatchVideoButton, _scenarioContext).Click();
-                    Driver.RetryClick(ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.OutgoingStreamVideo);
+                    ExtensionMethods.WaitForElementNotVisible(Driver, ParticipantHearingListPage.OutgoingStreamVideo, 90);
+                    ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, null).Click();
+                    ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ContinueButton);
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.CameraWorkingYes, _scenarioContext, TimeSpan.FromSeconds(4));
+                    if (!Driver.Url.Contains("camera-working"))
+                    {
+                        ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, null).Click();
+                        ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.CameraWorkingYes);
+                    }
+
+                    _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
+                    _scenarioContext["Hearing"] = _hearing;
                     if (SkipPracticeVideoHearingDemo)
                     {
-                        while(true){
-                            if(Driver.Url.Contains("camera-working"))
-                            {
-                                cameraUrl = Driver.Url.Replace("camera-working", "participant/waiting-room");
-                                break;
-                            }
-                        }
+                        cameraUrl = Driver.Url.Replace("camera-working", "participant/waiting-room");
                         Driver.Navigate().GoToUrl(cameraUrl);
                         Driver.SwitchTo().Alert().Accept();
                     }
-                   }
+                }
             }
         }
 
         [Then(@"participant has joined and progressed to waiting room without completing self test disconnected")]
         public void ThenParticipantHasJoinedAndProgressedToWaitingRoomWithoutCompletingSelfTestDisconnected()
         {
-            string cameraUrl = "";
             _hearing = (Hearing)_scenarioContext["Hearing"];
+            var cameraUrl = "";
             foreach (var driver in (Dictionary<string, IWebDriver>)_scenarioContext["drivers"])
             {
                 Driver = driver.Value;
                 string participant = driver.Key.Split('#').FirstOrDefault();
-
                 Driver = GetDriver(participant, _scenarioContext);
-                _scenarioContext["driver"] = Driver;
                 Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
                 ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 if (!(participant.ToLower().Contains("judge") || participant.ToLower().Contains("panel")))
@@ -246,8 +250,9 @@ namespace UI.Steps
                         ExtensionMethods.FindElementWithWait(Driver, GetReadyForTheHearingPage.NextButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
                         var oldUrl = Driver.Url;
                         cameraUrl = oldUrl.Replace("introduction", "participant/waiting-room");
+                        _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
+                        _scenarioContext["Hearing"] = _hearing;
                         Driver.Navigate().GoToUrl(cameraUrl);
-                        Thread.Sleep(3000);
                         Driver.SwitchTo().Alert().Accept();
                     }
                     else
@@ -263,30 +268,17 @@ namespace UI.Steps
             }
         }
 
-        [When(@"the Video Hearings Officer check alerts for this hearing")]
-        public void WhenTheVideoHearingsOfficerCheckAlertsForThisHearing()
-        {
-            _hearing = (Hearing)_scenarioContext["Hearing"];
-            ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.ViewHearings, _scenarioContext).Click();
-            ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.SelectCaseNumber(_hearing.Case.CaseNumber), _scenarioContext).Click();
-            ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.HearingBtn, _scenarioContext).Click();
-            _scenarioContext.UpdatePageName("VHO Web Login");
-            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add($"{"VHO"}#{"VHO"}-{"VHO"}", Driver);
-        }
-
         [Then(@"the the Video Hearings Officer see the alert Failed self-test \(No to Camera\) participant F & L name")]
         public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestNoToCameraParticipantFLName()
-        {         
+        {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
             _hearing = (Hearing)_scenarioContext["Hearing"];
-
             var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
-            Assert.IsTrue(alerts.Count > 0);
-
+            alerts.Count.Should().BeGreaterThan(0);
             for (int i = 1; i <= alerts.Count; i++)
             {
                 string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
                 string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
-
                 Assert.AreEqual(alertMsg, CAMERA_ALERT);
                 Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.FirstName));
                 Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.LastName));
@@ -296,13 +288,12 @@ namespace UI.Steps
         [Then(@"the the Video Hearings Officer see the alert Failed self-test \(No to Microphone\) participant F & L name")]
         public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestNoToMicrophoneParticipantFLName()
         {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
             _hearing = (Hearing)_scenarioContext["Hearing"];
             var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
-            Assert.IsTrue(alerts.Count > 0);
-
+            alerts.Count.Should().BeGreaterThan(0);
             for (int i = 1; i <= alerts.Count; i++)
             {
-
                 string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
                 string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
 
@@ -315,55 +306,45 @@ namespace UI.Steps
         [Then(@"the the Video Hearings Officer see the alert Failed self-test \(No to Video\) participant F & L name")]
         public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestNoToVideoParticipantFLName()
         {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
             _hearing = (Hearing)_scenarioContext["Hearing"];
             var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
-            Assert.IsTrue(alerts.Count > 0);
-
+            alerts.Count.Should().BeGreaterThan(0);
             for (int i = 1; i <= alerts.Count; i++)
             {
-
-                    string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
-                    string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
-
-                    Assert.AreEqual(alertMsg, VIDEO_ALERT);
-                    Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.FirstName));
-                    Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.LastName));
+                string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
+                string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
+                Assert.AreEqual(alertMsg, VIDEO_ALERT);
+                Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.FirstName));
+                Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.LastName));
             }
-
         }
 
         [Then(@"the the Video Hearings Officer see the alert Failed self-test \(incomplete\) participant F & L name")]
         public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestIncompleteParticipantFLName()
         {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
             _hearing = (Hearing)_scenarioContext["Hearing"];
-
             var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
-            Thread.Sleep(5000);
-            Assert.IsTrue(alerts.Count > 0);
-
+            alerts.Count.Should().BeGreaterThan(0);
             string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg("1"), _scenarioContext).Text;
             string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName("1"), _scenarioContext).Text;
-
             Assert.AreEqual(alertMsg, INCOMPLETE_ALERT);
             Assert.True(firstLastName.Contains(_hearing.Participant[1].Name.FirstName));
             Assert.True(firstLastName.Contains(_hearing.Participant[1].Name.LastName));
-
         }
 
         [Then(@"the the Video Hearings Officer see the alert Failed self-test \(disconnected\) participant F & L name")]
         public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestDisconnectedParticipantFLName()
         {
+            Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
             _hearing = (Hearing)_scenarioContext["Hearing"];
             var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
-
-            Assert.IsTrue(alerts.Count > 0);
-
+            alerts.Count.Should().BeGreaterThan(0);
             for (int i = 1; i <= alerts.Count; i++)
             {
-
                 string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
                 string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
-
                 Assert.AreEqual(alertMsg, DISCONNECTED_ALERT);
                 Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.FirstName));
                 Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.LastName));

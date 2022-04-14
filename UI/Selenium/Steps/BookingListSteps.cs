@@ -177,7 +177,6 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchCaseTextBox, _scenarioContext).SendKeys(_hearing.Case.CaseNumber);
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchButton, _scenarioContext).Click();
-
         }
 
         [When(@"I copy telephone participant link")]

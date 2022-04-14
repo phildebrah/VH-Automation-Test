@@ -46,17 +46,14 @@ namespace UI.Steps
                 Driver = driver.Value;
                 ProceedToWaitingRoom(driver.Key.Split('#').FirstOrDefault(), skipPreSetUpSteps);
             }
-            _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
-            _scenarioContext["Hearing"] = _hearing;
         }
 
         public void ProceedToWaitingRoom(string participant, bool skipToWaitingRoom = false)
         {
             Driver = GetDriver(participant, _scenarioContext);
-            _scenarioContext["driver"] = Driver;
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
             ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber));
-            Driver.RetryClick(ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait));
+            Driver.FindElement(ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber)).Click();
             if (!(participant.ToLower().Contains("judge") || participant.ToLower().Contains("panel")))
             {
                 ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
@@ -109,7 +106,7 @@ namespace UI.Steps
         {
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower() == "vho").FirstOrDefault().Id, _scenarioContext);
             _scenarioContext["driver"] = Driver;
-            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId));
+            ExtensionMethods.WaitForElementVisible(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId), 120);
             ExtensionMethods.MoveToElement(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId), _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, HearingListPage.CaseNameListItem(_hearing.HearingId), _scenarioContext).Click();
         }

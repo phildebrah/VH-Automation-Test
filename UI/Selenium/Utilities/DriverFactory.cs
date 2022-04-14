@@ -59,16 +59,31 @@ namespace SeleniumSpecFlow.Utilities
                     break;
 
                 case BrowserType.Chrome:
-                    new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
-                    var cService = ChromeDriverService.CreateDefaultService();
-                    ChromeOptions chromeoptions = new ChromeOptions();
-                    chromeoptions.AddArguments("start-maximized");
-                    chromeoptions.AddArgument("no-sandbox");
-                    chromeoptions.AddArguments("--use-fake-ui-for-media-stream");
-                    chromeoptions.AddArguments("--use-fake-device-for-media-stream");
-                    WebDriver = new ChromeDriver(cService, chromeoptions);
-                    ProcessId = cService.ProcessId;
-                    Logger.Info(" Chrome Driver started in maximized mode");
+                    for(int i = 1; i < 3; i++)
+                    {
+                        try
+                        {
+                            new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
+                            var cService = ChromeDriverService.CreateDefaultService();
+                            ChromeOptions chromeoptions = new ChromeOptions();
+                            chromeoptions.AddArguments("start-maximized");
+                            chromeoptions.AddArgument("no-sandbox");
+                            chromeoptions.AddArguments("--use-fake-ui-for-media-stream");
+                            chromeoptions.AddArguments("--use-fake-device-for-media-stream");
+                            WebDriver = new ChromeDriver(cService, chromeoptions);
+                            ProcessId = cService.ProcessId;
+                            Logger.Info(" Chrome Driver started in maximized mode");
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            if (i > 1 && ex.Message.Contains("The HTTP request to the remote WebDriver server for URL http://localhost"))
+                            {
+                                NUnit.Framework.Assert.Fail($"Chrome failed to start after {i} attempts with exception - {ex.Message}");
+                            }
+                        }
+                    }
+
                     break;
                 default:
                     // code block 

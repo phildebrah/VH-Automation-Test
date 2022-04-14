@@ -33,7 +33,7 @@ namespace UI.Steps
             Driver = (IWebDriver)_scenarioContext["driver"];
             if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
             {
-                Driver.RetryClick(Header.LinkSignOut,_scenarioContext,TimeSpan.FromSeconds(Config.DefaultElementWait));
+                Driver.FindElement(Header.LinkSignOut).Click();
             }
             else
             {
@@ -47,8 +47,17 @@ namespace UI.Steps
             _hearing = (Hearing)_scenarioContext["Hearing"];
             foreach (var participant in _hearing.Participant)
             {
-                Driver = GetDriver(participant.Id, _scenarioContext);
-                Driver.FindElement(Header.SignOut).Click();
+                try
+                {
+                    Driver = GetDriver(participant.Id, _scenarioContext);
+                    if (Driver != null)
+                    {
+                        Driver.FindElement(Header.SignOut).Click();
+                    }
+                }
+                catch 
+                { 
+                }
             }
         }
     }
