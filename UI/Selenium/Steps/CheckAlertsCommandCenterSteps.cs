@@ -21,7 +21,7 @@ namespace UI.Steps
     ///</summary>
     public class CheckAlertsCommandCenterSteps : ObjectFactory
     {
-        ScenarioContext _scenarioContext;
+        private readonly ScenarioContext _scenarioContext;
         private Hearing _hearing;
 
         public readonly string CAMERA_ALERT = "Failed self-test (Camera)";
@@ -263,7 +263,6 @@ namespace UI.Steps
             }
         }
 
-
         [When(@"the Video Hearings Officer check alerts for this hearing")]
         public void WhenTheVideoHearingsOfficerCheckAlertsForThisHearing()
         {
@@ -271,13 +270,15 @@ namespace UI.Steps
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.ViewHearings, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.SelectCaseNumber(_hearing.Case.CaseNumber), _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.HearingBtn, _scenarioContext).Click();
-
+            _scenarioContext.UpdatePageName("VHO Web Login");
+            ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add($"{"VHO"}#{"VHO"}-{"VHO"}", Driver);
         }
 
         [Then(@"the the Video Hearings Officer see the alert Failed self-test \(No to Camera\) participant F & L name")]
         public void ThenTheTheVideoHearingsOfficerSeeTheAlertFailedSelf_TestNoToCameraParticipantFLName()
         {         
             _hearing = (Hearing)_scenarioContext["Hearing"];
+
             var alerts = Driver.FindElements(SelectYourHearingListPage.FailedAlert);
             Assert.IsTrue(alerts.Count > 0);
 
