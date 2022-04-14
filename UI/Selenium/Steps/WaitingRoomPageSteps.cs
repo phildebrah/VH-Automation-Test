@@ -48,7 +48,7 @@ namespace UI.Steps
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementToBeClickable(JudgeWaitingRoomPage.EnterPrivateConsultationButton));
-            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext).Click();
+            ExtensionMethods.RetryClick(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
         }
 
         [When(@"the panel member selects Enter consultation room")]
@@ -56,7 +56,7 @@ namespace UI.Steps
         {
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("panel")).FirstOrDefault().Id, _scenarioContext);
             ExtensionMethods.WaitForElementVisible(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, 20);
-            ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext)?.Click();
+            ExtensionMethods.RetryClick(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
         }
 
         [Then(@"all participants are redirected to the hearing room when the judge resumes the video hearing")]
