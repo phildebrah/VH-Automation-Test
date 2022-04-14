@@ -74,12 +74,12 @@ namespace UI.Steps
                 ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SelectButton(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 if (!(participant.ToLower().Contains("judge") || participant.ToLower().Contains("panel")))
                 {
-                    Driver.FindElement(ParticipantHearingListPage.ButtonNext).Click();
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
-                    Driver.FindElement(ParticipantHearingListPage.SwitchOnButton).Click();
-                    Driver.FindElement(ParticipantHearingListPage.WatchVideoButton).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ButtonNext, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.SwitchOnButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.WatchVideoButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                     // Assert video is playing
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                     if (SkipPracticeVideoHearingDemo)
                     {
                         string cameraUrl = Driver.Url.Replace("practice-video-hearing", "camera-working");
@@ -93,8 +93,8 @@ namespace UI.Steps
                     }
                     _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
                     _scenarioContext["Hearing"] = _hearing;
-                    Driver.FindElement(ParticipantHearingListPage.CameraWorkingNo)?.Click();
-                    Driver.FindElement(ParticipantHearingListPage.ContinueButton).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.CameraWorkingNo, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, ParticipantHearingListPage.ContinueButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
                 }
             }
         }

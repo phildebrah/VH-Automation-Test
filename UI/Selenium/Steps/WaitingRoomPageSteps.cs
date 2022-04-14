@@ -33,7 +33,7 @@ namespace UI.Steps
         {
             Driver = GetDriver(_hearing.Participant.Where(a => a.Role.Name.ToLower().Contains("judge")).FirstOrDefault().Id, _scenarioContext);
             ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton);
-            ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton, _scenarioContext).Click();
+            ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantWaitingRoomPage.StartVideoHearingButton).Click();
             ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.ConfirmStartButton);
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ConfirmStartButton, _scenarioContext).Click();
             _scenarioContext.UpdatePageName("Judge Waiting Room");

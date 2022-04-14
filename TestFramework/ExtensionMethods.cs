@@ -167,12 +167,17 @@ namespace TestFramework
                 // All we want here is a true or false where or not the element is visible, there's no need for wait.Until
                 // The implicit wait (0) makes sure that that the driver wastes no time, result (true/false) is instant
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
-                return (bool)driver.FindElement(by)?.Displayed;
+                if(driver.FindElement(by).Displayed && driver.FindElement(by).Enabled)
+                {
+                    return true;
+                }
             }
             catch
             {
                 return false;
             }
+
+            return false;
         }
 
         public static bool IsElementExists(IWebDriver driver, By by, ScenarioContext scenarioContext)
@@ -480,7 +485,7 @@ namespace TestFramework
                     }
                     if (driver.Url.Contains("/error"))
                     {
-                        error = driver.FindElement(By.TagName("app-eeror")).Text;
+                        error = driver.FindElement(By.TagName("app-error")).Text;
                         NUnit.Framework.Assert.Fail(error);
                     }
                 }
@@ -646,6 +651,11 @@ namespace TestFramework
             catch
             {
             }
+        }
+
+        public static void WaitFor(int timeInSec)
+        {
+            System.Threading.Thread.Sleep(timeInSec * 1000);
         }
     }
 }

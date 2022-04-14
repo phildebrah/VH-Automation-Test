@@ -96,6 +96,7 @@ namespace SeleniumSpecFlow
             _scenario = _feature.CreateNode<Scenario>(title);
             _scenario.AssignCategory(tags);
             scenarioContext.Add("ProcessIds", new List<int>());
+            BrowserName = TestConfigHelper.browser.ToString();
             IWebDriver Driver;
             if (RunOnSauceLabs(tags))
             {
@@ -162,7 +163,7 @@ namespace SeleniumSpecFlow
             var ScreenshotFilePath = Path.Combine(ProjectPath + ImagesPath, $"{imageFileName}.png");
             var mediaModel = MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotFilePath).Build();
 
-            if (scenarioContext.TestError != null && !(scenarioContext.TestError is AssertionException))
+            if (scenarioContext.TestError != null)
             {
                 var stepTitle = scenarioContext.StepContext.StepInfo.Text;
                 Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:'{stepTitle}'");
@@ -215,6 +216,8 @@ namespace SeleniumSpecFlow
                         _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message, mediaModel);
                         break;
                 }
+
+                Assert.Fail(scenarioContext.TestError.Message);
             }
 
             if (scenarioContext.ScenarioExecutionStatus == ScenarioExecutionStatus.StepDefinitionPending)
