@@ -28,7 +28,7 @@ Scenario: Check different individual participant status
 	And I book the hearing
     Then A hearing should be created
 	And I log off 
-	Then three participants log in to video web
+	And all participants log in to video web
 	And  participants have joined the hearing waiting room
 	Then the judge starts the hearing
 	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
