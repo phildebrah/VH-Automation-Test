@@ -11,6 +11,9 @@ using SeleniumExtras.WaitHelpers;
 using System.Linq;
 namespace UI.Steps
 {
+    ///<summary>
+    /// Steps class for Hearing Room page
+    ///</summary>
     public class HearingRoomSteps : ObjectFactory
     {
         private ScenarioContext _scenarioContext;

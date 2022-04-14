@@ -9,6 +9,9 @@ using System.Linq;
 using TechTalk.SpecFlow;
 namespace TestFramework
 {
+    ///<summary>
+    /// Class to extend IWebDriver,IWebElement for custom functionality
+    ///</summary>
     public static class ExtensionMethods
     {
         private static Logger Logger = LogManager.GetCurrentClassLogger();

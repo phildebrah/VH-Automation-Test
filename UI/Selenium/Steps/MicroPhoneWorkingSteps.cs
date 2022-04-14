@@ -13,6 +13,9 @@ using UI.Utilities;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Microphone Working page
+    ///</summary>
     public class MicroPhoneWorkingSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

@@ -15,6 +15,10 @@ using UI.Utilities;
 
 namespace SeleniumSpecFlow.Utilities
 {
+    /// <summary>
+    /// Class to initialze new Webdriver
+    /// Can create different types of browser drivers
+    /// </summary>
     public class DriverFactory
     {
         public IWebDriver WebDriver { get; set; }

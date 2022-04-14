@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace TestLibrary.Utilities
 {
+    ///<summary>
+    /// Class to work with application configuration
+    ///</summary>
     public class TestConfigHelper
     {
         public static BrowserType browser { get; private set; }

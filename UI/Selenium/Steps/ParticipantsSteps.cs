@@ -11,6 +11,9 @@ using OpenQA.Selenium;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for adding participants to Hearing
+    ///</summary>
     public class ParticipantsSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

@@ -5,6 +5,9 @@ using UI.Model;
 using UISelenium.Pages;
 namespace UI.Steps
 {
+    ///<summary>
+    /// Steps class for Hearing Other Information Page
+    ///</summary>
     public class OtherInformationSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

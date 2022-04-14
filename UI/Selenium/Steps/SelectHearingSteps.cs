@@ -10,6 +10,9 @@ using UI.Model;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Select Hearing page
+    ///</summary>
     public class SelectHearingSteps : ObjectFactory
     {
         private ScenarioContext _scenarioContext;

@@ -13,6 +13,9 @@ using OpenQA.Selenium;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for checking accessibility for Video Booking
+    ///</summary>
     public class AccessibilitySteps_VideoBooking : ObjectFactory
     {
         private ScenarioContext _scenarioContext;

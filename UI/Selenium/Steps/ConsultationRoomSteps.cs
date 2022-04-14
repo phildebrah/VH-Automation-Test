@@ -13,6 +13,9 @@ using FluentAssertions;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Consulatation Room page
+    ///</summary>
     public class ConsultationRoomSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

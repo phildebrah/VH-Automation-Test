@@ -11,6 +11,10 @@ using System;
 namespace SeleniumSpecFlow.Utilities
 {
     [Binding]
+    ///<summary>
+    /// Base class that all other Steps class inherit from
+    /// Holds Drivers Collection
+    ///</summary>
     public class ObjectFactory
     {
         public LoginPage LoginPage { get; set; }

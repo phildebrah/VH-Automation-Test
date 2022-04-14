@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace WebLibrary
 {
+    ///<summary>
+    /// Class to extend IWebElement
+    ///</summary>
     public static class Extensions
     {
         public static void EnterText(this IWebElement element, string text, string elementName)

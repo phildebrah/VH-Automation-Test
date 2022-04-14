@@ -13,6 +13,9 @@ using UI.Utilities;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Court Rules Page
+    ///</summary>
     public class CourtRulesSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

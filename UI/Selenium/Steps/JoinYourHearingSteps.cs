@@ -13,6 +13,9 @@ using UI.Utilities;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Join Your Hearing Page
+    ///</summary>
     public class JoinYourHearingSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

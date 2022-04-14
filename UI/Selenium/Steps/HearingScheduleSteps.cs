@@ -10,6 +10,9 @@ using System.Linq;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Hearing Schedule Page
+    ///</summary>
     public class HearingScheduleSteps :ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

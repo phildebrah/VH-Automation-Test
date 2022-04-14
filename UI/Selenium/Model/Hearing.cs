@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace UI.Model
 {
+    /// <summary>
+    /// Model class to capture a hearing created by tests
+    /// </summary>
     public class Hearing
     {
         public Case Case { get; set; } = new Case();

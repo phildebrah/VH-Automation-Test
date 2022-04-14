@@ -11,6 +11,9 @@ using System;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class logout/signout from the application
+    ///</summary>
     public class LogoffSteps: ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
