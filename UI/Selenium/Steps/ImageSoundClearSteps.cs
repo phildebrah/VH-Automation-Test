@@ -13,6 +13,9 @@ using UI.Utilities;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Image/Sound Clear page
+    ///</summary>
     public class ImageSoundClearSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

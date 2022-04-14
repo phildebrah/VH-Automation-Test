@@ -13,7 +13,10 @@ using OpenQA.Selenium.Interactions;
 using System.Diagnostics;
 namespace UI.Steps
 {
-     internal class BookingListSteps : ObjectFactory
+    ///<summary>
+    /// Steps class for Bookings List
+    ///</summary>
+    internal class BookingListSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
         public string username = "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net";

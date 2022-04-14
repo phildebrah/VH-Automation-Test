@@ -1,6 +1,6 @@
 ﻿using TechTalk.SpecFlow;
 namespace UI.Steps
-{
+{   
     class AdminWebLogin
     {
         private ScenarioContext _scenarioContext;

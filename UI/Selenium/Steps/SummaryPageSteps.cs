@@ -10,6 +10,9 @@ using FluentAssertions;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Booking summary page
+    ///</summary>
     public class SummaryPageSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

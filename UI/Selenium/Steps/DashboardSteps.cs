@@ -9,6 +9,9 @@ using UISelenium.Pages;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Dashboard page
+    ///</summary>
     public class DashboardSteps: ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;

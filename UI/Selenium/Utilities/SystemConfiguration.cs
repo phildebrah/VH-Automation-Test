@@ -1,5 +1,8 @@
 ﻿namespace TestLibrary.Utilities
 {
+    ///<summary>
+    /// Class representing application configuration
+    ///</summary>
     public class SystemConfiguration
     {
         public EnvironmentConfigSettings DevelopmentEnvironmentConfigSettings { get; set; }

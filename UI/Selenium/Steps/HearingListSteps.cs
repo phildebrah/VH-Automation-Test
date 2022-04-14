@@ -12,6 +12,9 @@ using FluentAssertions;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Hearing List page
+    ///</summary>
     public class HearingListSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

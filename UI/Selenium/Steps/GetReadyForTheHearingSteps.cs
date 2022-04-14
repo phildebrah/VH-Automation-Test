@@ -13,6 +13,9 @@ using UI.Utilities;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Get Ready For The Hearing page
+    ///</summary>
     public class GetReadyForTheHearingSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

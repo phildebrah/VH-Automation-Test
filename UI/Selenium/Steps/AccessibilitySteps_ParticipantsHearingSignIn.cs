@@ -10,6 +10,9 @@ using FluentAssertions;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for checking accessibility for Participants Hearing Sign In
+    ///</summary>
     public class AccessibilitySteps_ParticipantsHearingSignIn : ObjectFactory
     {
         private ScenarioContext _scenarioContext;

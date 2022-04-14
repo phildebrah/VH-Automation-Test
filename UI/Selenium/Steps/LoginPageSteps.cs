@@ -14,6 +14,9 @@ using TestFramework;
 namespace SeleniumSpecFlow.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Login page
+    ///</summary>
     public class LoginPageSteps : ObjectFactory
     {
         private ScenarioContext _scenarioContext;

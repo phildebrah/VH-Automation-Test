@@ -13,6 +13,9 @@ using UI.Utilities;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Sign into Hearing
+    ///</summary>
     public class SignInToHearingSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

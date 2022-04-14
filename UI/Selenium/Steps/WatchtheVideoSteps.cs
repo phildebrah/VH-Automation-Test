@@ -6,6 +6,9 @@ using UISelenium.Pages;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Watch The Video
+    ///</summary>
     public class WatchtheVideoSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;

@@ -8,6 +8,9 @@ using UISelenium.Pages;
 namespace UI.Steps
 {
     [Binding]
+    ///<summary>
+    /// Steps class for Hearing Details Page
+    ///</summary>
     public class CreateHearingDetails : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
