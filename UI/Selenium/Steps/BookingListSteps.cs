@@ -173,6 +173,7 @@ namespace UI.Steps
         [When(@"I search for case number")]
         public void WhenISearchForCaseNumber()
         {
+            _hearing = (Hearing)_scenarioContext["Hearing"];
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchPanelButton, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchCaseTextBox, _scenarioContext).SendKeys(_hearing.Case.CaseNumber);
             ExtensionMethods.FindElementWithWait(Driver, BookingListPage.SearchButton, _scenarioContext).Click();
