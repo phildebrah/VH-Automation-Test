@@ -39,6 +39,7 @@ namespace UI.Steps
             ExtensionMethods.WaitForElementNotVisible(Driver, HearingRoomPage.MicMutedIcon, int.Parse(Config.OneMinuteElementWait));
             foreach (var participant in _hearing.Participant)
             {
+                ExtensionMethods.WaitForElementVisible(Driver, ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}"));
                 ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}"), Config.DefaultElementWait).Displayed.Should().BeTrue();
             }
         }
