@@ -18,21 +18,17 @@ namespace SeleniumSpecFlow.Utilities
         private const string MongoURL = "localhost";
         private const int mongoPort = 27017;
         private static readonly string configFileName = $"{AppDomain.CurrentDomain.BaseDirectory}..\\..\\..\\Config\\extentReportConfig.xml";
-        private static readonly string reportDir = $"{AppDomain.CurrentDomain.BaseDirectory}..\\..\\..\\Report";
-       
+        private static readonly string reportDir = $"{AppDomain.CurrentDomain.BaseDirectory}..\\..\\..\\Report";       
         private static ExtentHtmlReporter htmlReporter;
         private static ExtentKlovReporter klov;
         public static AventStack.ExtentReports.ExtentReports report;
         public static ExtentTest feature;
         public static ExtentTest scenario;
         public static ExtentTest step;
-      
         
         public static void SetupExtentReports()
         {
-            
-        InitHtmlReporter(new ExtentHtmlReporter($"{reportDir}\\index.html"));
-           
+            InitHtmlReporter(new ExtentHtmlReporter($"{reportDir}\\index.html"));
             InitKlovReporter(new ExtentKlovReporter());
             InitExtentReport(new AventStack.ExtentReports.ExtentReports());
             CleanReportDir(new DirectoryInfo(reportDir));
@@ -63,7 +59,6 @@ namespace SeleniumSpecFlow.Utilities
             report.AttachReporter(htmlReporter);
             report.AttachReporter(klov);
             report.AddSystemInfo("OS", System.Environment.OSVersion.ToString());
-            //report.AddSystemInfo("Browser", $"{DriverProvider.GetDriver()?.Capabilities["browserName"]} {DriverProvider.GetDriver()?.Capabilities["browserVersion"]}");
             report.AnalysisStrategy = AnalysisStrategy.BDD;
         }
 

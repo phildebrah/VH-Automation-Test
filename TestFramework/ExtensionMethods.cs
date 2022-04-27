@@ -179,7 +179,6 @@ namespace TestFramework
             {
                 return false;
             }
-
             return false;
         }
 
@@ -229,7 +228,6 @@ namespace TestFramework
                     return el;
                 }
             }
-
             return el;
         }
 
@@ -243,7 +241,6 @@ namespace TestFramework
                 {
                     return element;
                 }
-
                 return null;
             }
             );
@@ -254,7 +251,6 @@ namespace TestFramework
             var element = FindElementWithWait(webdriver,selectFind, scenarioContext);
             var select = new SelectElement(element);
             var wait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(20));
-
             var pageName = scenarioContext.GetPageName();
             var userName = scenarioContext.GetUserName();
 
@@ -267,13 +263,11 @@ namespace TestFramework
                 Logger.Error(ex,$"Option '{option}' is not available in the drop down locator '{selectFind.Criteria}' on page:'{pageName}, logged in User: {userName}");
                 throw;
             }
-
             return select;
         }
         public static IWebElement MoveToElement(IWebDriver driver, By locator, ScenarioContext scenarioContext)
         {
             IWebElement el = null;
-
             var pageName = scenarioContext.GetPageName();
             var userName = scenarioContext.GetUserName();
 
@@ -385,7 +379,6 @@ namespace TestFramework
 
         public static void OpenNewPage(IWebDriver webdriver, String url)
         {
-           
             try
             {
                 ((IJavaScriptExecutor)webdriver).ExecuteScript("window.open();");
@@ -397,7 +390,6 @@ namespace TestFramework
                 Logger.Error(ex, $"Cannot Move to element By locator:");
                
             }
-
         }
        
         public static void CloseAndOpenBrowser(IWebDriver webDriver, String url)
@@ -524,10 +516,8 @@ namespace TestFramework
                 {
                     return null;
                 }
-
                 isVisible = IsElementVisible(driver, findBy, null);
             }
-
             if (isVisible)
             {
                 return driver.FindElement(findBy);
@@ -551,12 +541,10 @@ namespace TestFramework
                         isCleared=true;
                     }
                 }
-
                 catch
                 {
                     Logger.Error($"Exception occured while clearing text for element by Id {id}");
                 }
-
                 if (count > timeInSec && !isCleared)
                 {
                     Logger.Error($"Element by Id {id} text was expected to be deleted , but it was not");
@@ -582,12 +570,10 @@ namespace TestFramework
                         isCleared=true;
                     }
                 }
-
                 catch
                 {
                     Logger.Error($"Exception occured while clearing text for element {element}");
                 }
-
                 if (count > timeInSec && !isCleared)
                 {
                     Logger.Error($"Element {element} text was expected to be deleted , but it was not");

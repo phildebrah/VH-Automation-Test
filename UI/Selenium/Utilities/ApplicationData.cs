@@ -8,6 +8,5 @@ namespace UI.Utilities
 {
     public static class ApplicationData
     {
-        static string CommandCenterAlerts = "Failed self-test (Incomplete Test)";
     }
 }

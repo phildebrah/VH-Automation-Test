@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   OtherInformationPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class OtherInformationPage
     {
         public static By RecordAudioYes = By.Id("audio-choice-yes");

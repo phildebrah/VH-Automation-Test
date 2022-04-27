@@ -53,7 +53,6 @@ namespace UI.Steps
             {
                 WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
                 wait.Until(ExpectedConditions.ElementIsVisible(HearingDetailsPage.CaseNumber));
-               
                 return true;
             }
             catch

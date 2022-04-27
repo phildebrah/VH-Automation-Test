@@ -9,6 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Features\Web Features\CheckAlertsToCommandCentre - Copy.feature.cs" />
+		<Compile Remove="Utilities\ApplicationValidationData.cs" />
 		<Compile Remove="Utilities\Reporter.cs" />
 	</ItemGroup>
 

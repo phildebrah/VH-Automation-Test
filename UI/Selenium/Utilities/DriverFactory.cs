@@ -28,7 +28,6 @@ namespace SeleniumSpecFlow.Utilities
         {
             switch (browser)
             {
-
                 case BrowserType.Firefox:
                     new WebDriverManager.DriverManager().SetUpDriver(new FirefoxConfig());
                     FirefoxOptions firefoxoptions = new FirefoxOptions();
@@ -57,7 +56,6 @@ namespace SeleniumSpecFlow.Utilities
                     WebDriver.Manage().Window.Maximize();
                     Logger.Info(" Safari started in maximized mode");
                     break;
-
                 case BrowserType.Chrome:
                     for(int i = 1; i < 3; i++)
                     {
@@ -83,7 +81,6 @@ namespace SeleniumSpecFlow.Utilities
                             }
                         }
                     }
-
                     break;
                 default:
                     // code block 
@@ -118,14 +115,12 @@ namespace SeleniumSpecFlow.Utilities
                     options.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
                     options.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
                     options.AddAdditionalAppiumOption("name", sauceLabsOptions.Name);
-
                     foreach (var (key, value) in SauceOptions)
                     {
                         options.AddAdditionalCapability(key, value);
                     }
                     WebDriver = new RemoteWebDriver(remoteUrl, options.ToCapabilities());
                     break;
-
                 case "iOS":
                     AppiumOptions iosOptions = new AppiumOptions();
                     iosOptions.DeviceName = config.DeviceName;
@@ -135,14 +130,12 @@ namespace SeleniumSpecFlow.Utilities
                     iosOptions.AddAdditionalAppiumOption(MobileCapabilityType.Orientation, config.Orientation);
                     iosOptions.AddAdditionalAppiumOption("PlatformVersion", config.PlatformVersion);
                     iosOptions.AddAdditionalAppiumOption("name", sauceLabsOptions.Name);
-
                     foreach (var (key, value) in SauceOptions)
                     {
                         iosOptions.AddAdditionalCapability(key, value);
                     }
                     WebDriver = new RemoteWebDriver(remoteUrl, iosOptions.ToCapabilities());
                     break;
-
                 case "macOS 12":
                     DriverOptions driverOptions = null;
                     if (config.BrowserName.Equals("chrome"))
@@ -168,7 +161,6 @@ namespace SeleniumSpecFlow.Utilities
                     }
                     WebDriver = new RemoteWebDriver(remoteUrl, driverOptions);
                     break;
-            
             }                  
             return WebDriver;
         }

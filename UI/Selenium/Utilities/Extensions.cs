@@ -59,7 +59,6 @@ namespace WebLibrary
             SelectElement oSelect = new SelectElement(element);
             oSelect.SelectByValue(text);
             Console.WriteLine(text + " value selected on " + elementName);
-        }
-       
+        }       
     }
 }

@@ -4,6 +4,7 @@ using TestFramework;
 using UI.Model;
 using OpenQA.Selenium.Support.UI;
 using UISelenium.Pages;
+
 namespace UI.Steps
 {
     [Binding]
@@ -31,7 +32,6 @@ namespace UI.Steps
         private void SetVideoAccessPoints(Table table)
         {
             _hearing = _scenarioContext.Get<Hearing>("Hearing");
-
             foreach (var row in table.Rows)
             {
                 var videoAccessPoints = new VideoAccessPoints
@@ -54,10 +54,8 @@ namespace UI.Steps
                 if (!string.IsNullOrEmpty(accessPoints.Advocate))
                     new SelectElement(ExtensionMethods.FindElementWithWait(Driver, VideoAccessPointsPage.DefenceAdvocate(i), _scenarioContext)).SelectByText(accessPoints.Advocate);
                 i++;
-
                 ExtensionMethods.FindElementWithWait(Driver, VideoAccessPointsPage.AddAnotherBtn, _scenarioContext).Click();
             }
-
             ExtensionMethods.FindElementWithWait(Driver, VideoAccessPointsPage.NextButton, _scenarioContext).Click();
         }
     }

@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   VideoAccessPointsPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class VideoAccessPointsPage
     {
         public static By DisplayName(int number) => By.Id($"displayName{number}");

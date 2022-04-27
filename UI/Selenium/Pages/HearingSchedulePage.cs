@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   HearingSchedulePage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class HearingSchedulePage
     {
         public static By MultiDaysHearing = By.Id("multiDaysHearing");

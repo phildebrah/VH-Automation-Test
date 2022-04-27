@@ -1,5 +1,4 @@
-﻿
-using UISelenium.Pages;
+﻿using UISelenium.Pages;
 using TechTalk.SpecFlow;
 using TestLibrary.Utilities;
 using UI.Steps.CommonActions;
@@ -26,6 +25,7 @@ namespace SeleniumSpecFlow.Utilities
         public IWebDriver Driver { get; set; }
         public bool SkipPracticeVideoHearingDemo = true;
         ScenarioContext _scenarioContext;
+
         public ObjectFactory(ScenarioContext context)
         {
             CommonPageActions = new CommonPageActions((IWebDriver)context["driver"]);
@@ -33,6 +33,7 @@ namespace SeleniumSpecFlow.Utilities
             Driver = (IWebDriver)context["driver"];
             _scenarioContext = context;
         }
+
         public IWebDriver GetDriver(string participant, ScenarioContext _scenarioContext)
         {
             var driver = ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Where(a => a.Key.ToLower().Contains(participant.ToLower()))?.FirstOrDefault().Value;
@@ -47,7 +48,6 @@ namespace SeleniumSpecFlow.Utilities
                 ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Remove(key);
                 return null;
             }
-
             return driver;
         }
 

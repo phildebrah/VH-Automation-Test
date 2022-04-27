@@ -18,7 +18,6 @@ namespace UI.Steps
     {
         private readonly ScenarioContext _scenarioContext;
         private Hearing _hearing;
-        private static string loginUrl = "login.microsoftonline.com";
 
         public LogoffSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)

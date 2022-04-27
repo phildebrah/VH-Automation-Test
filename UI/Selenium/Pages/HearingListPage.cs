@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   HearingListPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class HearingListPage
     {
         public static By ConferenceList = By.ClassName("conference-list");

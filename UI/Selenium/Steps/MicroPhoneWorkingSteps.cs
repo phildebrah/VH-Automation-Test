@@ -25,6 +25,7 @@ namespace UI.Steps
         {
             _scenarioContext = scenarioContext;
         }
+
         [Then(@"Checking was your microphone working")]
         public void ThenCheckingWasYourMicrophoneWorking()
         {

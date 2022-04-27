@@ -153,7 +153,6 @@ namespace UI.Steps
                     actions.SendKeys(OpenQA.Selenium.Keys.End).Perform();
                     actions.SendKeys(OpenQA.Selenium.Keys.PageUp).Perform();
                 }
-
                 attempts++;
             }
         }

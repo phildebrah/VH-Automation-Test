@@ -21,14 +21,13 @@ namespace UI.Steps.CommonActions
         {
             Driver = _Driver;
         }
+		
         public bool NavigateToPage(string targetUrl, string redirectUrl = null)
         {
-            
             if (!Driver.Url.Contains(targetUrl))
             {
                 Driver.Navigate().GoToUrl(targetUrl);
             }
-
             if (!string.IsNullOrEmpty(redirectUrl))
             {
                 return Driver.Url.Contains(redirectUrl);

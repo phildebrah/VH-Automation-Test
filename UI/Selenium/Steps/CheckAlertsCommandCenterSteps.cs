@@ -46,13 +46,11 @@ namespace UI.Steps
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.UsernameTextfield));
             _scenarioContext.UpdatePageName("Video Web Login");
             Login(userName, Config.UserPassword);
-
         }
 
         public void Login(string username, string password)
         {
             ExtensionMethods.FindElementWithWait(Driver, LoginPage.UsernameTextfield, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).SendKeys(username);
-
             Driver.FindElement(LoginPage.Next).Click();
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(LoginPage.PasswordField));
@@ -70,7 +68,6 @@ namespace UI.Steps
             {
                 Driver = driver.Value;
                 string participant = driver.Key.Split('#').FirstOrDefault();
-
                 Driver = GetDriver(participant, _scenarioContext);
                 _scenarioContext["driver"] = Driver;
                 Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
@@ -153,7 +150,6 @@ namespace UI.Steps
             {
                 Driver = driver.Value;
                 string participant = driver.Key.Split('#').FirstOrDefault();
-
                 Driver = GetDriver(participant, _scenarioContext);
                 _scenarioContext["driver"] = Driver;
                 Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.DefaultElementWait);
@@ -218,7 +214,6 @@ namespace UI.Steps
                         ExtensionMethods.FindElementEnabledWithWait(Driver, ParticipantHearingListPage.ContinueButton, null).Click();
                         ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.CameraWorkingYes);
                     }
-
                     _hearing.HearingId = Driver.Url.Split('/').LastOrDefault();
                     _scenarioContext["Hearing"] = _hearing;
                     if (SkipPracticeVideoHearingDemo)
@@ -296,7 +291,6 @@ namespace UI.Steps
             {
                 string alertMsg = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.AlertMsg(i.ToString()), _scenarioContext).Text;
                 string firstLastName = ExtensionMethods.FindElementWithWait(Driver, SelectYourHearingListPage.FirstLastName(i.ToString()), _scenarioContext).Text;
-
                 Assert.AreEqual(alertMsg, MICROPHONE_ALERT);
                 Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.FirstName));
                 Assert.True(firstLastName.Contains(_hearing.Participant[i].Name.LastName));

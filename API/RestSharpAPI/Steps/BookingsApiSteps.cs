@@ -17,6 +17,9 @@ using System.Collections.Generic;
 namespace RestSharpApi.Steps
 {
     [Binding]
+	///<summary>
+	/// Class to interact with the BookingsApi
+	///</summary>
     public class BookingsApiSteps : RestSharpHooks
 
     {
@@ -30,7 +33,6 @@ namespace RestSharpApi.Steps
             throw new PendingStepException();
         }
 
-
         public BookingsApiSteps(ScenarioContext scenarioContext)
         {
             var _client = new HttpClient();
@@ -42,7 +44,6 @@ namespace RestSharpApi.Steps
             _scenarioContext = scenarioContext;
         }
 
-
         [When(@"I book a hearing")]
         public async Task WhenIBookAHearing()
         {
@@ -50,10 +51,10 @@ namespace RestSharpApi.Steps
             await BookAHearing();
             await ConfirmAHearing();
         }
+		
         public async Task BookAHearing()
         {
             _logger.Info("MK is Booking a hearing");
-
             BookNewHearingRequest _request = AddHearingData();
             HearingDetailsResponse _response = new HearingDetailsResponse();
             try
@@ -81,10 +82,8 @@ namespace RestSharpApi.Steps
             }
             var _hearing = _scenarioContext.Get<Hearing>(HearingScenarionKey);
             _hearing.hearingId = _response.Id;
-
             _logger.Info($"Hearing: Response id {_response.Id}, status is{_response.Status}");
             _logger.Info(_response.ToString());
-
             _logger.Info($"Booking ended");
         }
 
@@ -99,6 +98,8 @@ namespace RestSharpApi.Steps
                 Hearing_venue_name = "Birmingham Civil and Family Justice Centre",
                 ScheduledDuration = 60
             };
+			
+			//Add a case to the hearing
             Case _case = new Case
             {
                 Is_lead_case = true,
@@ -106,6 +107,8 @@ namespace RestSharpApi.Steps
                 Number = "AA/AAA111"
             };
             _hearing.addCase(_case);
+			
+			//Add a participant to the hearing
             Participant _participant = new Participant
             {
                 
@@ -117,8 +120,9 @@ namespace RestSharpApi.Steps
                 firstName = "auto_aw.",
                 displayName = "auto_aw_Judge01"
 
-            };
+            };			
             _hearing.addParticipant(_participant);
+			
             _scenarioContext.Add(HearingScenarionKey, _hearing);
             BookNewHearingRequest _request = new BookNewHearingRequest
             {
@@ -129,10 +133,10 @@ namespace RestSharpApi.Steps
                 Hearing_type_name = _hearing.HearingTypeName,
                 Scheduled_duration = _hearing.ScheduledDuration
             };
+			
             CaseRequest _request2 = new CaseRequest { Is_lead_case = _case.Is_lead_case, Name = _case.Name, Number = _case.Number};
             var cases = new List<CaseRequest> { _request2 };
             _request.Cases = cases;
-
             Bookings.ParticipantRequest _request3 = new Bookings.ParticipantRequest
             {
                 Username = _participant.userName,
@@ -168,13 +172,11 @@ namespace RestSharpApi.Steps
         {
             var _hearing = _scenarioContext.Get<Hearing>(HearingScenarionKey);
             var hearingId = _hearing.hearingId;
-            // Guid hearingId = Guid.NewGuid();  <-  Used to check - this returns a 404 exception when this is not a matching hearingId.
             UpdateBookingStatusRequest request = new UpdateBookingStatusRequest();
             request.Status = UpdateBookingStatus.Created;
             request.Updated_by = "automation_admin@hearings.reform.hmcts.net";
             await BookingApiService.UpdateBookingStatusAsync(hearingId, request);
         }
-
 
     [When(@"I get case Types")]
     public async Task WhenIGetCaseTypes()
@@ -248,19 +250,6 @@ namespace RestSharpApi.Steps
             _client2.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GetServiceToServiceToken());
             BookingsApi BookingApiService2 = new BookingsApi(_client2);
             BookingApiService2.BaseUrl = config.bookingsapi;
-            //HearingDetailsResponse h = new HearingDetailsResponse();
-            //try
-            //{
-            //    h = await BookingApiService.GetHearingDetailsByIdAsync(hearingId);
-            //}
-            //catch (ApiException d)
-            //{
-
-            //    throw;
-            //}
-            //_logger.Info($"Hearing {h.Id}, Created by {h.Created_by}, {h.ToString()}");
-
-            //var f = h.Participants;
             try
             {
             var f = await BookingApiService2.GetHearingDetailsByIdAsync(hearingId);
@@ -272,7 +261,6 @@ namespace RestSharpApi.Steps
             }
             catch (Exception)
             {
-
                 throw;
             }
             return;

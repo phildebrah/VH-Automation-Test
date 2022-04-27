@@ -45,19 +45,16 @@ namespace UI.Steps
             if (_hearing.OtherInformation.IsHearingRecorded)
             {
                 Driver.FindElement(OtherInformationPage.RecordAudioYes).Click();
-            }
-           
+            }           
             if (!_hearing.OtherInformation.IsHearingRecorded && Driver.FindElement(OtherInformationPage.RecordAudioNo).Enabled)
             {
                 var element = Driver.FindElement(OtherInformationPage.RecordAudioNo);
                 element.Click();
             }
-
             if (!string.IsNullOrEmpty(_hearing.OtherInformation.AnyOtherInfo))
             {
                 ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.OtherInfo, _scenarioContext).SendKeys(_hearing.OtherInformation.AnyOtherInfo);
             }
-
             ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.NextButton, _scenarioContext).Click();  
         }
     }

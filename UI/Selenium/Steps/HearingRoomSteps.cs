@@ -9,6 +9,7 @@ using TestFramework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System.Linq;
+
 namespace UI.Steps
 {
     ///<summary>
@@ -66,7 +67,6 @@ namespace UI.Steps
         {
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
-
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.MuteAndLock));
@@ -90,7 +90,6 @@ namespace UI.Steps
         {
             Driver = GetDriver("Judge", _scenarioContext);
             _scenarioContext["driver"] = Driver;
-
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(int.Parse(Config.OneMinuteElementWait)));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.CloseHearingButton));
             wait.Until(ExpectedConditions.ElementToBeClickable(HearingRoomPage.UnlockMute));
@@ -170,7 +169,6 @@ namespace UI.Steps
             }
             // Judge shares screen
             var judge = _hearing.Participant.Where(a => a.Id.ToLower().Contains("judge")).FirstOrDefault();
-
             Driver = GetDriver(judge.Id, _scenarioContext);
             _scenarioContext["driver"] = Driver;
             ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ShareScreenButton, _scenarioContext).Click();
@@ -251,7 +249,6 @@ namespace UI.Steps
                 ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatPanel, _scenarioContext).Click();
                 ExtensionMethods.WaitForElementVisible(Driver, HearingRoomPage.ChatInputBox, null);
             }
-
             ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatInputBox, _scenarioContext).SendKeys(messageToVHO);
             ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatSendMessageButton, _scenarioContext).Displayed.Should().BeTrue();
             ExtensionMethods.FindElementWithWait(Driver, HearingRoomPage.ChatSendMessageButton, _scenarioContext).Click();

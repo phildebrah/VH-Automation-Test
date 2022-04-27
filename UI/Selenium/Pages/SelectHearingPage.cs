@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   SelectHearingPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class SelectHearingPage
     {
         public static By Quicklinks => By.CssSelector("fa-icon");

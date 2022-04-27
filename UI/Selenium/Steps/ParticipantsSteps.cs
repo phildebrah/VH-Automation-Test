@@ -32,7 +32,6 @@ namespace UI.Steps
             EnterParticipants();
         }
 
-
         private void SetHearingParticipants(Table table)
         {
             if (_scenarioContext.ContainsKey("Hearing"))
@@ -44,7 +43,6 @@ namespace UI.Steps
                 _hearing = new Hearing();
                 _scenarioContext.Add("Hearing", _hearing);
             }
- 
             foreach (var row in table.Rows)
             {
                 var participant = new Participant
@@ -64,10 +62,8 @@ namespace UI.Steps
                         LastName = $"AutoLast{Util.RandomAlphabet(4)}"
                     }
                 };
-
                 _hearing.Participant.Add(participant);
             }
-
             _scenarioContext["Hearing"] = _hearing;
         }
 
@@ -84,7 +80,6 @@ namespace UI.Steps
                     new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PartyDropdown, _scenarioContext)).SelectByText(participant.Party.Name);
                     _scenarioContext.UpdateElementName("RoleDropdown");
                     _scenarioContext.UpdateActionName("SendKeys");
-
                     ExtensionMethods.GetSelectElementWithText(Driver, ParticipantsPage.RoleDropdown, "Please select", _scenarioContext);
                     new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.RoleDropdown, _scenarioContext)).SelectByText(participant.Role.Name);
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PhoneTextfield, _scenarioContext);
@@ -97,20 +92,16 @@ namespace UI.Steps
                     new SelectElement(Driver.FindElement(ParticipantsPage.TitleDropdown)).SelectByText("Mr");
                     ExtensionMethods.SendKeys(Driver, Keys.Tab);
                     ExtensionMethods.ClickAll(Driver, ParticipantsPage.EmailList);
-
                     Driver.FindElement(ParticipantsPage.PhoneTextfield).ClearText();
                     Driver.FindElement(ParticipantsPage.PhoneTextfield).SendKeys("07021234567");
                     _scenarioContext.UpdateElementName("PhoneTextfield");
                     _scenarioContext.UpdateActionName("SendKeys");
-                    
-
                     if (participant.Role.Name.Equals("Interpreter"))
                     {
                         IWebElement el = Driver.FindElement(ParticipantsPage.InterpreterFor);
                         SelectElement element = new SelectElement(el);
                         element.SelectByIndex(1);
                     }
-                    
                     if (ExtensionMethods.IsElementVisible(Driver, ParticipantsPage.RepresentingTextfield,_scenarioContext))
                     {
                         Driver.ClearTextByJS(ParticipantsPage.RepOrganisationTextfieldId);
@@ -122,7 +113,6 @@ namespace UI.Steps
                         _scenarioContext.UpdateElementName("RepOrganisationTextfield");
                         _scenarioContext.UpdateActionName("SendKeys");
                     }
-
                     if (ExtensionMethods.IsElementEnabled(Driver, ParticipantsPage.FirstNameTextfield))
                     {
                         _scenarioContext.UpdateElementName("FirstNameTextfield");
@@ -133,7 +123,6 @@ namespace UI.Steps
                     {
                         participant.Name.FirstName = ExtensionMethods.GetValue(Driver, ParticipantsPage.FirstNameTextfield, _scenarioContext);
                     }
-
                     if (ExtensionMethods.IsElementEnabled(Driver, ParticipantsPage.LastNameTextfield))
                     {
                         _scenarioContext.UpdateElementName("LastNameTextfield");
@@ -154,14 +143,11 @@ namespace UI.Steps
                     System.Threading.Thread.Sleep(500); // THIS IS ABSOLUTELY REQUIRED - tests user gets signed out if you remove this line
                     ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.AddParticipantLink, _scenarioContext).Click();
                     ExtensionMethods.WaitForElementNotVisible(Driver, ParticipantsPage.AddParticipantLink);
-                    
                 }
             }
-
             _scenarioContext.UpdateElementName("ParticipantsPage.NextButton");
             _scenarioContext.UpdateActionName("Click");
             ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.NextButton, _scenarioContext).Click();
-            
         }
     }
 }

@@ -35,7 +35,6 @@ namespace UI.Steps
                 ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
                 ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.Hearingidtoclipboard, _scenarioContext).Click();
                 _hearingList.HearingListID = new TextCopy.Clipboard().GetText();
-                
             }
         }
 
@@ -62,8 +61,6 @@ namespace UI.Steps
         public void ThenIShouldAbleToOpenQuicklinkOnNewBrowser()
         {
             Driver.Close();
-            Driver.Quit();
-            Driver.Dispose();
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
             _scenarioContext["driver"] = Driver;
             Driver.Navigate().GoToUrl(_hearingList.HearingListURL);
@@ -84,7 +81,6 @@ namespace UI.Steps
         public void ThenPhoneDetailsShouldBeCopied()
         {
             Assert.IsTrue(_hearingList.HearingListPhone.Contains("448000488500"), "Phone verified");
-            
         }       
     }
 }

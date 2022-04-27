@@ -18,12 +18,16 @@ using Utilities;
 
 namespace RestSharpApi.Hooks
 {
+	///<summary>
+	/// A binding class to support running Specflow features within an Nunit test framework
+	/// This framework incorporates logging and reporting
+	/// As the API calls are to an Azure web service, this framework supports Azure authentication
+	///<Summary>
     [Binding]
     public  class RestSharpHooks 
     {
         public static RestClient _restClient;
         public static string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        //public static string PathReport = ProjectPath + "\\TestResults\\Report\\ExtentReport.html";
         private static ExtentReports _extent;
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
@@ -58,7 +62,6 @@ namespace RestSharpApi.Hooks
         {
             var featureTitle = featureContext.FeatureInfo.Title;
             _feature = _extent.CreateTest<Feature>(featureTitle);
-
             _logger.Info($"Starting feature '{featureTitle}'");
         }
 

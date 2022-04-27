@@ -8,6 +8,7 @@ using TestFramework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System.Linq;
+
 namespace UI.Steps
 {
     [Binding]
@@ -21,6 +22,7 @@ namespace UI.Steps
         HearingListSteps hearingListSteps;
         HearingRoomSteps hearingRoomSteps;
         LogoffSteps logoffSteps;
+
         public WaitingRoomPageSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {

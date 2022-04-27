@@ -21,13 +21,14 @@ using UI.Model;
 
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 [assembly: LevelOfParallelism(3)]
+
 namespace SeleniumSpecFlow
 {
     [Binding]
     ///<summary>
     /// Class to define the code to execute at certian events during test execution
     /// Saves images after each step
-    /// Closes any orphaned brwoser instances at the end of a Scenario and final Test Run
+    /// Closes any orphaned browser instances at the end of a Scenario and final Test Run
     ///</summary>
     public class Hooks 
     {
@@ -45,22 +46,19 @@ namespace SeleniumSpecFlow
         private static string scenarioTitle;
         private static DateTime TestStartTime;
         private static string BrowserName;
+		
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
             try
             {
                 config = TestConfigHelper.GetApplicationConfiguration();
-
                 Logger.Info("Automation Test Execution Commenced");
-                
                 var logFilePath = Util.GetLogFileName("logfile");
                 var logFileName = Path.GetFileNameWithoutExtension(logFilePath);
                 var folderName = logFileName.Replace(":",".");
-
                 ImagesPath=Path.Combine(config.ImageLocation, folderName);
                 Directory.CreateDirectory(ProjectPath + ImagesPath);
-
                 PathReport= Path.Combine(ProjectPath+config.ReportLocation, folderName, "ExtentReport.html");
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
@@ -78,9 +76,7 @@ namespace SeleniumSpecFlow
         {
             featureTitle = featureContext.FeatureInfo.Title;
             _feature = _extent.CreateTest<Feature>(featureTitle);
-
             Logger.Info($"Starting feature '{featureTitle}'");
-
             featureContext.Add("AccessibilityBaseUrl", "");
         }
 
@@ -117,20 +113,17 @@ namespace SeleniumSpecFlow
             scenarioContext.Add("driver", Driver);
             scenarioContext.Add("config", config);
             scenarioContext.Add("feature", featureTitle);
-            
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
             scenarioContext.Add("drivers", new Dictionary<string, IWebDriver>());
             scenarioContext.Add("AccessibilityBaseUrl", featureContext["AccessibilityBaseUrl"]);
         }
 
-
         [BeforeScenario("api")]
         public void BeforeScenarioApi(ScenarioContext scenarioContext)
         {
             scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
-
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
@@ -140,7 +133,6 @@ namespace SeleniumSpecFlow
         {
             scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
-
             _scenario = _feature.CreateNode<Scenario>(scenarioContext.ScenarioInfo.Title);
             _scenario.AssignCategory(scenarioContext.ScenarioInfo.Tags);
         }
@@ -173,40 +165,33 @@ namespace SeleniumSpecFlow
                 var stepTitle = scenarioContext.StepContext.StepInfo.Text;
                 Logger.Error(scenarioContext.TestError, $"Exception occured while executing step:'{stepTitle}'");
                 var infoTextBuilder = new StringBuilder();
-
                 var actionName = scenarioContext.GetActionName();
                 if (!string.IsNullOrWhiteSpace(actionName))
                 {
                     infoTextBuilder.Append($"Action '{actionName}'");
                 }
-
                 var elementName = scenarioContext.GetElementName();
                 if (!string.IsNullOrWhiteSpace(elementName))
                 {
                     infoTextBuilder.Append($",erroed on Element '{elementName}'");
                 }
-
                 var pageName = scenarioContext.GetPageName();
                 if (!string.IsNullOrWhiteSpace(pageName))
                 {
                     infoTextBuilder.Append($",on Page '{pageName}'");
                 }
-
                 var userName = scenarioContext.GetUserName();
                 if (!string.IsNullOrWhiteSpace(userName))
                 {
                     infoTextBuilder.Append($",for User '{userName}");
                 }
-
                 var infoText = infoTextBuilder.ToString();
                 if (!string.IsNullOrEmpty(infoText))
                 {
                     Logger.Info(infoText);
                 }
-
                 driver.TakeScreenshot().SaveAsFile(ScreenshotFilePath, ScreenshotImageFormat.Png);
                 Logger.Info($"Screenshot has been saved to {ScreenshotFilePath}");
-
                 switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
                 {
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
@@ -221,10 +206,8 @@ namespace SeleniumSpecFlow
                         _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message, mediaModel);
                         break;
                 }
-
                 Assert.Fail(scenarioContext.TestError.Message);
             }
-
             if (scenarioContext.ScenarioExecutionStatus == ScenarioExecutionStatus.StepDefinitionPending)
             {
                 switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
@@ -242,7 +225,6 @@ namespace SeleniumSpecFlow
                         break;
                 }
             }
-
             if (scenarioContext.TestError == null)
             {
                 driver = (IWebDriver)scenarioContext["driver"];
@@ -254,22 +236,18 @@ namespace SeleniumSpecFlow
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
                         _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty, mediaModel);
                         break;
-
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
                         _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty, mediaModel);
                         break;
-
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
                         _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty, mediaModel);
                         break;
                 }
             }
-
             if (scenarioContext.StepContext.StepInfo.Text.Equals("I log off"))
             {
                 driver?.Close();
                 driver?.Quit();
-                driver?.Dispose();
                 scenarioContext.Remove("driver");
             }
         }
@@ -284,17 +262,14 @@ namespace SeleniumSpecFlow
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
                         _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
                         break;
-
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
                         _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
                         break;
-
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
                         _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
                         break;
                 }
             }
-
             if (scenarioContext.ScenarioExecutionStatus == ScenarioExecutionStatus.StepDefinitionPending)
             {
                 switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
@@ -302,17 +277,14 @@ namespace SeleniumSpecFlow
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
                         _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
                         break;
-
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
                         _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
                         break;
-
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
                         _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
                         break;
                 }
             }
-
             if (scenarioContext.TestError == null)
             {
                 switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
@@ -320,18 +292,15 @@ namespace SeleniumSpecFlow
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
                         _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
                         break;
-
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
                         _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
                         break;
-
                     case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
                         _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
                         break;
                 }
             }
         }
-
 
         [AfterScenario("web")]
         public void AfterScenarioWeb(ScenarioContext scenarioContext,FeatureContext featureContext)
@@ -418,7 +387,6 @@ namespace SeleniumSpecFlow
                         BrowserName = $@"{((WebDriver)driver.Value).Capabilities["browserName"]}";
                         driver.Value?.Close();
                         driver.Value?.Quit();
-                        driver.Value?.Dispose();
                         Logger.Info($"Driver has been closed");
                     }
                     context.Remove("drivers");
@@ -427,7 +395,6 @@ namespace SeleniumSpecFlow
                         var driver = (IWebDriver)context["driver"];
                         driver?.Close();
                         driver.Quit();
-                        driver.Dispose();
                         Logger.Info($"Driver has been closed");
                         context.Remove("driver");
                     }

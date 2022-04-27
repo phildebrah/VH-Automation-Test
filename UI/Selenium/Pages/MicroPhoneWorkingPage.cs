@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   MicroPhoneWorkingPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class MicroPhoneWorkingPage
     {
         public static By MicrophoneYesRadioBUtton => By.CssSelector("label.govuk-label.govuk-radios__label");
