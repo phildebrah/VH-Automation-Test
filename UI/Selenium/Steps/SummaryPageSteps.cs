@@ -42,7 +42,6 @@ namespace UI.Steps
             _scenarioContext.UpdatePageName("Hearing booking confirmation");
             var successTitle = ExtensionMethods.FindElementWithWait(Driver, SummaryPage.SuccessTitle, _scenarioContext);
             successTitle.Text.Should().Contain("Your hearing booking was successful");
-
             ExtensionMethods.FindElementWithWait(Driver, BookingConfirmationPage.ViewBookingLink, _scenarioContext).Click();
             ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext);
             ExtensionMethods.FindElementWithWait(Driver, BookingDetailsPage.ConfirmBookingButton, _scenarioContext).Click();

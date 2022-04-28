@@ -9,6 +9,7 @@ using UI.Model;
 using UISelenium.Pages;
 using System.Linq;
 using System.Collections.Generic;
+
 namespace UI.Steps
 {
     [Binding]
@@ -17,8 +18,7 @@ namespace UI.Steps
     ///</summary>
     public class ParticipantHearingListSteps: ObjectFactory
     {
-        private readonly ScenarioContext _scenarioContext;
-        
+        private readonly ScenarioContext _scenarioContext;        
         public ParticipantHearingListSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
@@ -30,14 +30,12 @@ namespace UI.Steps
         {
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementIsVisible(ParticipantHearingListPage.CheckEquipment));
-
             var element = Driver.FindElement(ParticipantHearingListPage.CheckEquipment);
             element.Click();
         }
 
         public void SignIntoHearing()
         {
-
         }
     }
 }

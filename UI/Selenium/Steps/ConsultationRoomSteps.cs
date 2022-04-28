@@ -49,7 +49,6 @@ namespace UI.Steps
             var participant = _hearing.Participant.FirstOrDefault(p => !p.Id.ToLower().Contains("judge"));
             var participantKey = $"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}";
             Driver = GetDriver(participantKey, _scenarioContext);
-
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.AcceptConsultationButton));
             var element = ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.AcceptConsultationButton, _scenarioContext);
@@ -117,7 +116,6 @@ namespace UI.Steps
                     {
                         Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails(participant.Name.FirstName)).Displayed.Should().BeTrue();
                         ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
-
                         var isBtnVisible = ExtensionMethods.IsElementVisible(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
                         isBtnVisible.Should().BeTrue("Panel member didn't leave consultation room");
                     }
@@ -134,21 +132,17 @@ namespace UI.Steps
         public void ThenClickOnTheLeaveButtonToLeaveTheRoom(string role)
         {
             var participant = _hearing.Participant.SingleOrDefault(p => p.Role.Name.ToLower().Contains(role.ToLower()));
-
             var participantKey = $"{participant.Id}#{participant.Party.Name}-{participant.Role.Name}";
             Driver = GetDriver(participantKey, _scenarioContext);
             var script = "document.getElementById('leaveButton-landscape').click();";
             var scriptExecutor = Driver as IJavaScriptExecutor;
             scriptExecutor.ExecuteScript(script);
             ExtensionMethods.FindElementWithWait(Driver, ConsultationRoomPage.ConfirmLeaveButton, _scenarioContext).Click();
-
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.ParticipantDetails(_hearing.Case.CaseNumber), _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Displayed.Should().BeTrue();
             Driver.FindElement(ParticipantWaitingRoomPage.ParticipantDetails($"{participant.Name.FirstName} {participant.Name.LastName}")).Displayed.Should().BeTrue();
-
             if (participant.Role.Name.ToLower().Contains("panel member") || participant.Role.Name.ToLower().Contains("judge"))
             {
                 ExtensionMethods.FindElementWithWait(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
-
                 var isBtnVisible = ExtensionMethods.IsElementVisible(Driver, JudgeWaitingRoomPage.EnterPrivateConsultationButton, _scenarioContext);
                 isBtnVisible.Should().BeTrue($"{role} didn't leave consultation room");
             }
@@ -172,7 +166,6 @@ namespace UI.Steps
             isBtnVisible.Should().BeTrue("Judge didn't leave consultation room");
         }
 
-
         [When(@"'([^']*)' start a private meeting and selects '([^']*)'")]
         public void WhenStartAPrivateMeetingAndSelects(string participant1, string participant2)
         {
@@ -181,11 +174,9 @@ namespace UI.Steps
             Driver = GetDriver(firstParticipantKey, _scenarioContext);
             var secondParticipant = _hearing.Participant.SingleOrDefault(p => p.Role.Name.ToLower().Contains(participant2.ToLower())); ;
             var secondParticipantKey = $"{secondParticipant.Id}#{secondParticipant.Party.Name}-{secondParticipant.Role.Name}";
-
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.StartPrivateMeetingButton));
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.StartPrivateMeetingButton, _scenarioContext, TimeSpan.FromSeconds(Config.DefaultElementWait)).Click();
-
             Driver.SwitchTo().ActiveElement();
             var modelDialog = Driver.FindElement(ParticipantWaitingRoomPage.PrivateMeetingModal);
             modelDialog.RetryCheckboxClick(ParticipantWaitingRoomPage.JointPrivateMeetingCheckbox(secondParticipant.Name.FirstName));
@@ -193,7 +184,6 @@ namespace UI.Steps
             Driver = GetDriver(secondParticipantKey, _scenarioContext);
             wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.DefaultElementWait));
             wait.Until(ExpectedConditions.ElementToBeClickable(ParticipantWaitingRoomPage.AcceptConsultationButton));
-
             ExtensionMethods.FindElementWithWait(Driver, ParticipantWaitingRoomPage.AcceptConsultationButton, _scenarioContext).Click();
         }
 

@@ -2,6 +2,7 @@
 using TechTalk.SpecFlow;
 using TestFramework;
 using UISelenium.Pages;
+
 namespace UI.Steps
 {
     [Binding]
@@ -11,7 +12,6 @@ namespace UI.Steps
     public class TestingEquipmentSteps : ObjectFactory
     {
         ScenarioContext _scenarioContext;
-
         TestingEquipmentSteps(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
@@ -22,7 +22,6 @@ namespace UI.Steps
         public void ThenIConfirmEquipmentIsWorking()
         {
             ExtensionMethods.FindElementWithWait(Driver, TestingEquipmentPage.ContinueBtn, _scenarioContext).Click();
-                       
         }      
     }
 }

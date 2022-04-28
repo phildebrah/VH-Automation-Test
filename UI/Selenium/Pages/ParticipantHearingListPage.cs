@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   ParticipantHearingListPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class ParticipantHearingListPage
     {
         public static By CheckEquipment = By.Id("check-equipment-btn");

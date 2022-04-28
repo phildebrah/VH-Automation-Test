@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   HearingDetailsPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     internal class HearingDetailsPage
     {
         public static By CaseNumber = By.Id("caseNumber");

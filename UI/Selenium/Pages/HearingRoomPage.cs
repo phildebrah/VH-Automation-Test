@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   HearingRoomPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class HearingRoomPage
     {
         public static By LabelStatusAvailable = By.XPath("//label[contains(@class, 'label-status--available')]");

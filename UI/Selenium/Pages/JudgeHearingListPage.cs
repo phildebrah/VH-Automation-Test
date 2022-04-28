@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   JudgeHearingListPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public  class JudgeHearingListPage
     {
         public static By HealingListRow => By.XPath("//tr[@class='govuk-table__row']");

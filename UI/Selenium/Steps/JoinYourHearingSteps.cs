@@ -35,8 +35,7 @@ namespace UI.Steps
             }
             if(ExtensionMethods.IsElementExists(Driver, JoinYourHearingPage.QuickLinkParticipant, _scenarioContext))
             {
-                ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.QuickLinkParticipant, _scenarioContext).Click();
-      
+                ExtensionMethods.FindElementWithWait(Driver, JoinYourHearingPage.QuickLinkParticipant, _scenarioContext).Click();      
             }
             if (ExtensionMethods.IsElementExists(Driver, JoinYourHearingPage.ContinueButton, _scenarioContext))
             {

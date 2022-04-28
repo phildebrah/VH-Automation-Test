@@ -25,7 +25,6 @@ namespace UI.Utilities
                     ["Hearing Type"] = "Enforcement Hearing"
                 };
                 table.AddRow(data);
-
                 return table;
             }
 
@@ -38,7 +37,6 @@ namespace UI.Utilities
                     ["Duration Minute"] = "30"
                 };
                 table.AddRow(data);
-
                 return table;
             }
 
@@ -50,7 +48,6 @@ namespace UI.Utilities
                     ["Judge or Courtroom Account"] = "auto_aw.judge_02@hearings.reform.hmcts.net"
                 };
                 table.AddRow(data);
-
                 return table;
             }
 
@@ -64,7 +61,6 @@ namespace UI.Utilities
                     ["Id"] = "auto_vw.individual_05@hearings.reform.hmcts.net",
                 };
                 table.AddRow(data);
-
                 return table;
             }
 
@@ -77,7 +73,6 @@ namespace UI.Utilities
                     ["Advocate"] = ""
                 };
                 table.AddRow(data);
-
                 return table;
             }
 
@@ -90,7 +85,6 @@ namespace UI.Utilities
                     ["Other information"] = "accessiblility test"
                 };
                 table.AddRow(data);
-
                 return table;
             }
         }

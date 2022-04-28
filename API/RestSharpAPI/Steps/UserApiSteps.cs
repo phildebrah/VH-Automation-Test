@@ -21,7 +21,6 @@ namespace RestSharpApi.Steps
     {
         private static UserApi UserApiService;
 
-
         UserApiSteps()
         {
             var _client = new HttpClient();

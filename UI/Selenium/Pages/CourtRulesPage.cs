@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
-    public class CourtRulesPage
+	///<summary>
+	///   CourtRulesPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
+     public class CourtRulesPage
     {
        public static By CourtRulesContinueBtn => By.Id("nextButton");
     }

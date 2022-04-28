@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   ParticipantsPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class ParticipantsPage
     {
         public static By PartyDropdown = By.Id("party");

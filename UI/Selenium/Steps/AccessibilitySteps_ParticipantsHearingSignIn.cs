@@ -7,6 +7,7 @@ using TestFramework;
 using UISelenium.Pages;
 using OpenQA.Selenium;
 using FluentAssertions;
+
 namespace UI.Steps
 {
     [Binding]
@@ -25,6 +26,7 @@ namespace UI.Steps
         string _pageName;
         Hearing _hearing;
         LogoffSteps logoffSteps;
+
         public AccessibilitySteps_ParticipantsHearingSignIn(ScenarioContext scenarioContext)
            : base(scenarioContext)
         {
@@ -46,8 +48,7 @@ namespace UI.Steps
             {
                 bookingListSteps.GivenIHaveABookedHearingInNextMinutes(3);
                 _hearing = (Hearing)_scenarioContext["Hearing"];
-            }
-            
+            }            
             loginSteps.LoginUrl = Config.VideoUrl;
         }
 
@@ -76,14 +77,12 @@ namespace UI.Steps
                     ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
                     _scenarioContext["AccessibilityBaseUrl"] = Driver.Url;
                 }
-
                 if(Driver.Url != (string)_scenarioContext["AccessibilityBaseUrl"])
                 {
                     Driver.Navigate().GoToUrl((string)_scenarioContext["AccessibilityBaseUrl"]);
                     ExtensionMethods.WaitForElementVisible(Driver, ParticipantHearingListPage.ButtonNext);
                     ExtensionMethods.AcceptAlert(Driver);
                 }
-                
                 Driver.Navigate().GoToUrl(Driver.Url.Replace("introduction", pageName));
                 ExtensionMethods.AcceptAlert(Driver);
                 System.Threading.Thread.Sleep(1000); // AXE FAILS IF SLEEP IS REMOVED coz ANALYSIS MAY HAPEN BEFORE PAGE'S FULLY LOADED

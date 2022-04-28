@@ -9,6 +9,7 @@ using TestFramework;
 using UI.Model;
 using UISelenium.Pages;
 using FluentAssertions;
+
 namespace UI.Steps
 {
     [Binding]

@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   LoginPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class LoginPage
     {
         public static By UsernameTextfield = By.Id("i0116");

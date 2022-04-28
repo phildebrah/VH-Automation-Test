@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   SummaryPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class SummaryPage
     {
         public static By BookButton = By.Id("bookButton");

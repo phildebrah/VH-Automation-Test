@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	/// Common Header elements
+	///</summary>
     public class Header
     {
         public static By SignOut = By.Id("logout-link");

@@ -10,6 +10,7 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using UI.Utilities;
 using OpenQA.Selenium;
+
 namespace UI.Steps
 {
     [Binding]
@@ -31,6 +32,7 @@ namespace UI.Steps
         SummaryPageSteps summaryPageSteps;
         private AxeBuilder axeResult;
         public string PageName;
+
         public AccessibilitySteps_VideoBooking(ScenarioContext scenarioContext)
             : base(scenarioContext)
         {
@@ -66,7 +68,6 @@ namespace UI.Steps
                     dashboardSteps.GivenISelectBookAHearing();
                     AxeAnalyze(pageName);
                     break;
-
                 case "Hearing Schedule":
                     ProceedToPage("Hearing Details");
                     var table = StepsHelper.Set.HearingDetailsData();
@@ -74,7 +75,6 @@ namespace UI.Steps
                     ExtensionMethods.FindElementWithWait(Driver, HearingSchedulePage.HearingDate, _scenarioContext);
                     AxeAnalyze(pageName);
                     break;
-
                 case "AssignJudge":
                     ProceedToPage("Hearing Schedule");
                     hearingScheduleSteps = new HearingScheduleSteps(_scenarioContext);
@@ -83,7 +83,6 @@ namespace UI.Steps
                     ExtensionMethods.FindElementWithWait(Driver, HearingAssignJudgePage.JudgeEmail, _scenarioContext);
                     AxeAnalyze(pageName);
                     break;
-
                 case "Participants":
                     ProceedToPage("AssignJudge");
                     hearingAssignJudgeSteps = new HearingAssignJudgeSteps(_scenarioContext);
@@ -92,7 +91,6 @@ namespace UI.Steps
                     new SelectElement(ExtensionMethods.FindElementWithWait(Driver, ParticipantsPage.PartyDropdown, _scenarioContext));
                     AxeAnalyze(pageName);
                     break;
-
                 case "Video Access Points":
                     ProceedToPage("Participants");
                     table = StepsHelper.Set.ParticipantsData();
@@ -107,7 +105,6 @@ namespace UI.Steps
                     ExtensionMethods.FindElementWithWait(Driver, OtherInformationPage.OtherInfo, _scenarioContext);
                     AxeAnalyze(pageName);
                     break;
-
                 case "Summary":
                     ProceedToPage("Other Information");
                     table = StepsHelper.Set.SetOtherInfoData();

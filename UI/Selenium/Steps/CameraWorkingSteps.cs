@@ -29,11 +29,9 @@ namespace UI.Steps
         [Then(@"Checking was your camera working")]
         public void ThenCheckingWasYourCameraWorking()
         {
-
             if(ExtensionMethods.WaitForPageLoad(Driver, CameraWorkingPage.CameraYesRadioButton, _scenarioContext))
             {
                 ExtensionMethods.FindElementWithWait(Driver, CameraWorkingPage.CameraYesRadioButton, _scenarioContext).Click();
-
                 ExtensionMethods.FindElementWithWait(Driver, CameraWorkingPage.Continue, _scenarioContext).Click();
             }
         }

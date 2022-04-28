@@ -2,6 +2,11 @@
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   HearingAssignJudgePage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class HearingAssignJudgePage
     {
         public static By JudgeEmail = By.Id("judge-email");

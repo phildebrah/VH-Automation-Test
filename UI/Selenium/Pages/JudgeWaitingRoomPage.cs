@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   JudgeWaitingRoomPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class JudgeWaitingRoomPage
     {
         public static readonly By ReturnToHearingRoomLink = By.XPath("//a[contains(text(),'Return to video hearing list')]");

@@ -30,7 +30,6 @@ namespace SeleniumSpecFlow.Steps
             LoginUrl = Config.AdminUrl;
         }
 
-
         [Given(@"I log in video url as ""([^""]*)""")]
         public void GivenILogInVideoUrlAs(string userName)
         {
@@ -42,7 +41,6 @@ namespace SeleniumSpecFlow.Steps
         {
             var result = CommonPageActions.NavigateToPage(LoginUrl, "login.microsoftonline.com");
         }
-
 
         [Given(@"I log in as ""([^""]*)""")]
         public void GivenILogInAs(string userName)
@@ -76,7 +74,7 @@ namespace SeleniumSpecFlow.Steps
         public void ThenAllParticipantsLogInToVideoWeb()
         {
             _hearing = (Hearing)_scenarioContext["Hearing"];
-            Driver?.Dispose();
+            Driver?.Quit();
             foreach (var participant in _hearing.Participant)
             {
                 Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);

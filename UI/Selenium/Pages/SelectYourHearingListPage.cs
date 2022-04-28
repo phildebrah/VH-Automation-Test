@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   SelectYourHearingListPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class SelectYourHearingListPage
     {
         public static By HearingList => By.CssSelector("input[aria-autocomplete='list']");

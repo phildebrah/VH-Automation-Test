@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   GetAudioFilePage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class GetAudioFilePage
     {
         public static By HearingAudioFileRadio => By.Id("search-choice-vhfile");

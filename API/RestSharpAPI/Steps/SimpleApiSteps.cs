@@ -7,6 +7,9 @@ using TechTalk.SpecFlow;
 namespace RestSharpApi.Steps
 {
     [Binding]
+	///<Summary>
+	/// Common Code
+	///</summary>
     public sealed class SimpleApiSteps
     {
         private RestClient _client;

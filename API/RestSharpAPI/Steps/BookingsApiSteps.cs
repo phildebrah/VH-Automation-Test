@@ -17,19 +17,21 @@ using System.Collections.Generic;
 namespace RestSharpApi.Steps
 {
     [Binding]
+	///<summary>
+	/// Class to interact with the BookingsApi
+	///</summary>
     public class BookingsApiSteps : RestSharpHooks
 
     {
         private static BookingsApi BookingApiService;
         protected static ScenarioContext _scenarioContext;
-        private static string HearingScenarionKey = "Hearing";
+        private static readonly string HearingScenarionKey = "Hearing";
 
         [When(@"I check BookingsApi health")]
-        public void WhenICheckBookingsApiHealth()
+        public static void WhenICheckBookingsApiHealth()
         {
             throw new PendingStepException();
         }
-
 
         public BookingsApiSteps(ScenarioContext scenarioContext)
         {
@@ -42,18 +44,17 @@ namespace RestSharpApi.Steps
             _scenarioContext = scenarioContext;
         }
 
-
         [When(@"I book a hearing")]
-        public async Task WhenIBookAHearing()
+        public static async Task WhenIBookAHearing()
         {
 
             await BookAHearing();
             await ConfirmAHearing();
         }
-        public async Task BookAHearing()
+		
+        public static async Task BookAHearing()
         {
             _logger.Info("MK is Booking a hearing");
-
             BookNewHearingRequest _request = AddHearingData();
             HearingDetailsResponse _response = new HearingDetailsResponse();
             try
@@ -80,11 +81,9 @@ namespace RestSharpApi.Steps
                 throw;
             }
             var _hearing = _scenarioContext.Get<Hearing>(HearingScenarionKey);
-            _hearing.hearingId = _response.Id;
-
+            _hearing.HearingId = _response.Id;
             _logger.Info($"Hearing: Response id {_response.Id}, status is{_response.Status}");
             _logger.Info(_response.ToString());
-
             _logger.Info($"Booking ended");
         }
 
@@ -99,26 +98,31 @@ namespace RestSharpApi.Steps
                 Hearing_venue_name = "Birmingham Civil and Family Justice Centre",
                 ScheduledDuration = 60
             };
+			
+			//Add a case to the hearing
             Case _case = new Case
             {
                 Is_lead_case = true,
                 Name = "Case aaa",
                 Number = "AA/AAA111"
             };
-            _hearing.addCase(_case);
+            _hearing.AddCase(_case);
+			
+			//Add a participant to the hearing
             Participant _participant = new Participant
             {
                 
-                userName = "auto_aw_Judge01@hearings.reform.hmcts.net",
-                caseRoleName = "Judge",
-                hearingRoleName = "Judge",
-                contactEmail = "auto_aw_Judge01@hearings.reform.hmcts.net",
-                lastName = "Judge_01",
-                firstName = "auto_aw.",
-                displayName = "auto_aw_Judge01"
+                UserName = "auto_aw_Judge01@hearings.reform.hmcts.net",
+                CaseRoleName = "Judge",
+                HearingRoleName = "Judge",
+                ContactEmail = "auto_aw_Judge01@hearings.reform.hmcts.net",
+                LastName = "Judge_01",
+                FirstName = "auto_aw.",
+                DisplayName = "auto_aw_Judge01"
 
-            };
-            _hearing.addParticipant(_participant);
+            };			
+            _hearing.AddParticipant(_participant);
+			
             _scenarioContext.Add(HearingScenarionKey, _hearing);
             BookNewHearingRequest _request = new BookNewHearingRequest
             {
@@ -129,26 +133,26 @@ namespace RestSharpApi.Steps
                 Hearing_type_name = _hearing.HearingTypeName,
                 Scheduled_duration = _hearing.ScheduledDuration
             };
+			
             CaseRequest _request2 = new CaseRequest { Is_lead_case = _case.Is_lead_case, Name = _case.Name, Number = _case.Number};
             var cases = new List<CaseRequest> { _request2 };
             _request.Cases = cases;
-
             Bookings.ParticipantRequest _request3 = new Bookings.ParticipantRequest
             {
-                Username = _participant.userName,
-                Case_role_name = _participant.caseRoleName,
-                Hearing_role_name = _participant.hearingRoleName,
-                Contact_email = _participant.contactEmail,
-                Last_name = _participant.lastName,
-                First_name = _participant.firstName,
-                Display_name = _participant.displayName
+                Username = _participant.UserName,
+                Case_role_name = _participant.CaseRoleName,
+                Hearing_role_name = _participant.HearingRoleName,
+                Contact_email = _participant.ContactEmail,
+                Last_name = _participant.LastName,
+                First_name = _participant.FirstName,
+                Display_name = _participant.DisplayName
             };
             var participantList = new List<Bookings.ParticipantRequest> { _request3 };
             _request.Participants = participantList;
             return _request;
         }
 
-        protected string GetServiceToServiceToken()
+        protected static string GetServiceToServiceToken()
         {
             AuthenticationResult result;
             var credential = new ClientCredential(config.clientid, config._clientSecret);
@@ -164,20 +168,18 @@ namespace RestSharpApi.Steps
             return result.AccessToken;
         }
 
-        public async Task ConfirmAHearing()
+        public static async Task ConfirmAHearing()
         {
             var _hearing = _scenarioContext.Get<Hearing>(HearingScenarionKey);
-            var hearingId = _hearing.hearingId;
-            // Guid hearingId = Guid.NewGuid();  <-  Used to check - this returns a 404 exception when this is not a matching hearingId.
+            var hearingId = _hearing.HearingId;
             UpdateBookingStatusRequest request = new UpdateBookingStatusRequest();
             request.Status = UpdateBookingStatus.Created;
             request.Updated_by = "automation_admin@hearings.reform.hmcts.net";
             await BookingApiService.UpdateBookingStatusAsync(hearingId, request);
         }
 
-
     [When(@"I get case Types")]
-    public async Task WhenIGetCaseTypes()
+    public static async Task WhenIGetCaseTypes()
     {
         _logger.Info("Looking for Case Types");
             _logger.Info("making request");
@@ -190,7 +192,7 @@ namespace RestSharpApi.Steps
     }
 
         [When(@"I get venues")]
-        public async Task WhenIGetVenues()
+        public static async Task WhenIGetVenues()
         {
             _logger.Info("Looking for Venues");
             var venues = await BookingApiService.GetHearingVenuesAsync(System.Threading.CancellationToken.None);
@@ -200,7 +202,7 @@ namespace RestSharpApi.Steps
         }
 
         [When(@"I ask for judges with the name ""([^""]*)""")]
-        public async Task WhenIAskForJudgesWithTheName(string judgename)
+        public static async Task WhenIAskForJudgesWithTheName(string judgename)
         {
             _logger.Info($"Looking for Judges starting with {judgename}");
             SearchTermRequest searchTermRequest = new SearchTermRequest();
@@ -212,10 +214,9 @@ namespace RestSharpApi.Steps
         }
 
         [When(@"I get anonymous data")]
-        public async Task WhenIGetAnonymousData()
+        public static async Task WhenIGetAnonymousData()
         {
             _logger.Info("Looking for Anonymous data");
-            StringBuilder sb = new StringBuilder();
             AnonymisationDataResponse bigList;
             try
             {
@@ -234,11 +235,11 @@ namespace RestSharpApi.Steps
             foreach (var big in bigList.Hearing_ids)
             {
                 _logger.Info($"found hearing {big}");
-                await getHearings(big);
+                await GetHearings(big);
             }
         }
 
-        public async Task getHearings(Guid hearingId)
+        public static async Task GetHearings(Guid hearingId)
         {
             _logger.Info($"Looking for Hearing data for Hearing {hearingId.ToString()}");
             StringBuilder sb2 = new StringBuilder();
@@ -248,19 +249,6 @@ namespace RestSharpApi.Steps
             _client2.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GetServiceToServiceToken());
             BookingsApi BookingApiService2 = new BookingsApi(_client2);
             BookingApiService2.BaseUrl = config.bookingsapi;
-            //HearingDetailsResponse h = new HearingDetailsResponse();
-            //try
-            //{
-            //    h = await BookingApiService.GetHearingDetailsByIdAsync(hearingId);
-            //}
-            //catch (ApiException d)
-            //{
-
-            //    throw;
-            //}
-            //_logger.Info($"Hearing {h.Id}, Created by {h.Created_by}, {h.ToString()}");
-
-            //var f = h.Participants;
             try
             {
             var f = await BookingApiService2.GetHearingDetailsByIdAsync(hearingId);
@@ -272,7 +260,6 @@ namespace RestSharpApi.Steps
             }
             catch (Exception)
             {
-
                 throw;
             }
             return;

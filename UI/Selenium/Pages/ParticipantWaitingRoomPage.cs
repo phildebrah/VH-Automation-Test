@@ -1,6 +1,11 @@
 ﻿using OpenQA.Selenium;
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   ParticipantWaitingRoomPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class ParticipantWaitingRoomPage
     {
         public static By StartVideoHearingButton => By.XPath("//button[contains(text(),'Start video hearing')]");
@@ -22,9 +27,5 @@ namespace UISelenium.Pages
         public static By UnAvailableStatus => By.XPath("//label[contains(@class,'label-status--unavailable')]");
         public static By DisconnectedStatus => By.XPath("//label[contains(@class,'label-status--disconnected')]");
         public static By Returntovideohearinglist => By.Id("back-link");
-
-
-
-
     }
 }

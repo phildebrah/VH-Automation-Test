@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   DashboardPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class DashboardPage
     {
         public static By BookHearingButton = By.Id("bookHearingBtn");

@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {
+	///<summary>
+	///   CameraWorkingPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class CameraWorkingPage
     {
         public static By CameraYesRadioButton => By.CssSelector("label.govuk-label.govuk-radios__label");

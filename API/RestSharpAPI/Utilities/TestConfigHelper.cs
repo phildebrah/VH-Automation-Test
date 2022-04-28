@@ -29,7 +29,6 @@ namespace Utilities
             var iTestConfigurationRoot = GetIConfigurationBase();
             Logger.Info("Reading Appsetitngs Json File");
             iTestConfigurationRoot.GetSection("SystemConfiguration").Bind(systemConfiguration);
-
             if (environment != null)
             {
                 if (environment.ToLower() == "Development".ToLower())

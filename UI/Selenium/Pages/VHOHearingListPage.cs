@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace UISelenium.Pages
 {   
+	///<summary>
+	///   VHOHearingListPage
+	///   Page element definitions
+	///   Do not add logic here
+	///</summary>
     public class VHOHearingListPage
     {
         public static By HealingListRow => By.XPath("//tr[@class='govuk-table__row']");
         public static By ParticipantName => By.XPath("//*[contains(@Id,'participant-contact-details-link')]");  
-        //public static By ParticipantStatus(string hearingId) => By.XPath($"//*[@Id='participant-status-{hearingId}')]");
         public static By ParticipantStatusInHearing => By.XPath("//p[contains(@Id,'participant-status-')][contains(text(),'In hearing')]");
         public static By ParticipantStatusJoining => By.XPath($"//p[contains(@Id,'participant-status-')][contains(text(),'Joining')]");
         public static By ParticipantStatusConnected=> By.XPath($"//p[contains(@Id,'participant-status-')][contains(text(),'Connected')]");
