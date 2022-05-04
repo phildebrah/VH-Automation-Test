@@ -425,7 +425,6 @@ namespace TestFramework
             bool isVisible = true;
             timeInSec = timeInSec == null ? 20 : timeInSec.Value;
             int count = 1;
-            string error = string.Empty;
             while (isVisible)
             {
                 try
@@ -442,7 +441,7 @@ namespace TestFramework
                     }
                     if (driver.Url.Contains("/error"))
                     {
-                        error = driver.FindElement(By.TagName("app-eeror")).Text;
+                        string error = driver.FindElement(By.TagName("app-eeror")).Text;
                         NUnit.Framework.Assert.Fail(error);
                     }
                 }

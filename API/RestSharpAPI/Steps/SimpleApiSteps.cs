@@ -26,7 +26,6 @@ namespace RestSharpApi.Steps
         public void ThenTheUserShouldReceiveAStatusCodeOfOK()
         {
             IRestResponse response = _client.Execute(_request);
-            var content = response.Content;
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
     }

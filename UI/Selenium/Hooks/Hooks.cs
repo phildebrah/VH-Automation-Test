@@ -34,7 +34,7 @@ namespace SeleniumSpecFlow
     {
         public IConfiguration Configuration { get; }
         public static EnvironmentConfigSettings config;
-        private static string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        private static readonly string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
         public static string PathReport ;
         private static string ImagesPath;
         private static ExtentTest _feature;
