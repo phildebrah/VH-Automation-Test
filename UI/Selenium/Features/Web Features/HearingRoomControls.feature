@@ -1,5 +1,6 @@
 ﻿@HearingRoomControls
 @web
+@DeviceTest
 
 Feature: Hearing room controls
 	Mute & unmute, raise a hand & lower hand, switch camera off

@@ -1,4 +1,5 @@
 ﻿@web
+@DeviceTest
 Feature: WaitingRoom
 
 Check all waiting room statuses are correct

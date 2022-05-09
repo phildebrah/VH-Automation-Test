@@ -1,5 +1,6 @@
 ﻿@ConsultationRoom
 @web
+@DeviceTest
 
 Feature: Consultation room 
     Participants can join the consultation room

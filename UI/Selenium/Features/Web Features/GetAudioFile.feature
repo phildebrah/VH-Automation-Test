@@ -1,4 +1,5 @@
 ﻿@web
+@DeviceTest
 
 Feature: GetAudioFile
 

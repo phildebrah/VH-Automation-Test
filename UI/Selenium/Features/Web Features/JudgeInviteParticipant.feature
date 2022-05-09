@@ -1,4 +1,5 @@
 ﻿@web
+@DeviceTest
 
 Feature: Judge Invites Participants
 	Judge invites the participants to meeting

@@ -1,5 +1,5 @@
 ﻿@web
-
+@DeviceTest
 Feature:Check alerts are sent correctly to command centre
 	
 Scenario: Alert Failed self test - No to Camera

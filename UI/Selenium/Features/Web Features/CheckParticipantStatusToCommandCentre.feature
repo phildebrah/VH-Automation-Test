@@ -1,4 +1,5 @@
 ﻿@web
+@DeviceTest
 
 Feature: Check participant status in command centre
 	

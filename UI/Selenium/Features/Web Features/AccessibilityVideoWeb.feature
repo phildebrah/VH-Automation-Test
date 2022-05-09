@@ -1,6 +1,8 @@
 ﻿@web
 @Smoketest
 @Accessibility
+@DeviceTest
+@EndtoEndTest
 Feature: AccessibilityVideoWeb
 	In order to ensure video web is accessible to all users
 	As a service
