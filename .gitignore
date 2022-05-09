@@ -344,3 +344,5 @@ healthchecksdb
 
 #Local passwords file
 *passwords.json
+/azure-pipelines.nightly.yml
+/azure-pipelines.release.yml

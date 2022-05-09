@@ -1,4 +1,5 @@
 ﻿@web
+@DeviceTest
 Feature: BookingList
 
 This test runs an a basic e2e test for book a hearing
