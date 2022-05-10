@@ -437,7 +437,7 @@ stages:
           # - name: UsingEjud
             # value: $(UsingEjud)
 
-          Quick Links Configuration
+          # Quick Links Configuration
           # - name: QuickLinks:Issuer
             # value: $(video_api_url)
           # - name: QuickLinks:RsaPublicKey
