@@ -443,7 +443,9 @@ resources:
 
 steps:
 - script: dotnet build 
-  displayName: 'dotnet build' 
+  displayName: 'dotnet build'
+- script: find RestSharpApi.dll
+- script: find UISelenium.dll
 - script: dotnet test RestSharpApi.dll UISelenium.dll
   displayName: 'dotnet test RestSharpApi.dll UISelenium.dll'
 - publish: $(System.DefaultWorkingDirectory)
