@@ -40,8 +40,8 @@ parameters:
 variables:
   - group: vh-domains-and-urls
   - group: vh-apps-settings-generic
-  - group: VH-Automation-Test
-  - group: vh test users
+ # - group: VH-Automation-Test
+#  - group: vh test users
   - group: QuickLinks_Common
   - group: Saucelabs
   - ${{ if ne(variables['Build.Reason'], 'ResourceTrigger') }}:
@@ -442,6 +442,12 @@ resources:
 #            # value: $(ValidAudience)
 
 steps:
+   
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+- script: dotnet test RestSharpApi.dll UISelenium.dll
+  displayName: 'dotnet test RestSharpApi.dll UISelenium.dll'
 - publish: $(System.DefaultWorkingDirectory)
   artifact: Output
+
 
