@@ -68,14 +68,14 @@ resources:
       name: hmcts/azure-devops-templates
       ref: refs/heads/master
       endpoint: hmcts
-  pipelines:
-    - pipeline: CI
-      source: hmcts.VH-Automation-Test
-      trigger:
-        branches:
-          - master
-          - hotfix/*
-          - release/*
+  #pipelines:
+  #  - pipeline: CI
+  #    source: hmcts.VH-Automation-Test
+  #    trigger:
+  #      branches:
+  #        - master
+  #        - hotfix/*
+  #        - release/*
 
 #stages:
 #  - template: templates/vh-release.yml@templates
@@ -442,12 +442,9 @@ resources:
 #            # value: $(ValidAudience)
 
 steps:
-   
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 - script: dotnet test RestSharpApi.dll UISelenium.dll
   displayName: 'dotnet test RestSharpApi.dll UISelenium.dll'
 - publish: $(System.DefaultWorkingDirectory)
   artifact: Output
-
-
