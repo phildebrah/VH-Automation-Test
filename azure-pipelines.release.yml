@@ -442,8 +442,8 @@ resources:
 #            # value: $(ValidAudience)
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- script: dotnet build 
+  displayName: 'dotnet build' 
 - script: dotnet test RestSharpApi.dll UISelenium.dll
   displayName: 'dotnet test RestSharpApi.dll UISelenium.dll'
 - publish: $(System.DefaultWorkingDirectory)
