@@ -59,7 +59,7 @@ trigger: none
 pr: none
 
 pool:
-  name: 'vh-self-hosted'
+  name: 'vh-devops-agentself-hosted-pl'
 
 resources:
   repositories:
