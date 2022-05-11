@@ -8,6 +8,7 @@ trigger:
 
 pool:
   name: 'vh-self-hosted'
+  demands: 'vh-devops-agent-self-hosted-pl'
 
 variables:
   buildConfiguration: 'Release'
