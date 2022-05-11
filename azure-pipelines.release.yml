@@ -61,10 +61,6 @@ pr: none
 pool:
   name: 'vh-self-hosted'
 
-steps:
-- publish: $(System.DefaultWorkingDirectory)
-  artifact: Output
-
 resources:
   repositories:
     - repository: templates
@@ -444,3 +440,8 @@ stages:
             # value: $(RsaPublicKey)
           # - name: QuickLinks:ValidAudience
             # value: $(ValidAudience)
+
+steps:
+- publish: $(System.DefaultWorkingDirectory)
+  artifact: Output
+
