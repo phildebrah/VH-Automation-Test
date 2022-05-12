@@ -442,9 +442,24 @@ resources:
 #            # value: $(ValidAudience)
 
 steps:
-- script: dotnet build 
-  displayName: 'dotnet build' 
-- script: dotnet test RestSharpApi.dll UISelenium.dll
-  displayName: 'dotnet test RestSharpApi.dll UISelenium.dll'
-- publish: $(System.DefaultWorkingDirectory)
-  artifact: Output
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+
+#- script: dotnet build 
+#  displayName: 'dotnet build'
+#- script: find RestSharpApi.dll
+#- script: find UISelenium.dll
+#- script: dotnet test RestSharpApi.dll UISelenium.dll
+#  displayName: 'dotnet test RestSharpApi.dll UISelenium.dll'
+#- publish: $(System.DefaultWorkingDirectory)
+#  artifact: Output
