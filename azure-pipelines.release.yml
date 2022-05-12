@@ -453,7 +453,8 @@ steps:
     command: test
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
-
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
 
 #- script: dotnet build 
 #  displayName: 'dotnet build'
