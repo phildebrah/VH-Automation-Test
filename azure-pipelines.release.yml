@@ -447,7 +447,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration debug'
 - task: DotNetCoreCLI@2
   inputs:
     command: test
