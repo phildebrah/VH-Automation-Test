@@ -455,6 +455,14 @@ steps:
     testRunTitle: 'Testing'
 - task: PublishTestResults@2
   condition: succeededOrFailed()
+- task: PublishBuildArtifacts@1
+  inputs:
+  targetPath: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
+  artifactName: UIResults
+- task: PublishBuildArtifacts@1
+  inputs:
+  targetPath: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
+  artifactName: ApIResults
 
 #- script: dotnet build 
 #  displayName: 'dotnet build'
