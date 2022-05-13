@@ -457,12 +457,12 @@ steps:
   condition: succeededOrFailed()
 - task: PublishBuildArtifacts@1
   inputs:
-    targetPath: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
+    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
     artifactName: UIResults
   condition: succeededOrFailed()
 - task: PublishBuildArtifacts@1
   inputs:
-    targetPath: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
+    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
     artifactName: ApIResults
   condition: succeededOrFailed()
 
