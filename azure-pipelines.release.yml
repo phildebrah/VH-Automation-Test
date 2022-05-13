@@ -449,6 +449,7 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration Debug'
 - task: DotNetCoreCLI@2
+  displayName: Test UI and API
   inputs:
     command: 'test'
     projects: '**/*.csproj'
