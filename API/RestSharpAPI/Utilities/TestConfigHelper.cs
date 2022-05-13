@@ -50,7 +50,7 @@ namespace Utilities
         public static void LaunchSettingsFixture()
         {
             var cs = AppDomain.CurrentDomain.BaseDirectory.ToString();
-            using (var file = File.OpenText(@"Properties\\launchSettings.json"))
+            using (var file = File.OpenText(@"Properties/launchSettings.json"))
             {
                 var reader = new JsonTextReader(file);
                 var jObject = JObject.Load(reader);
