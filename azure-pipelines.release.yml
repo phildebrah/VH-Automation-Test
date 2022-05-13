@@ -459,10 +459,12 @@ steps:
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
     artifactName: UIResults
+  condition: succeededOrFailed()
 - task: PublishBuildArtifacts@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
     artifactName: ApIResults
+  condition: succeededOrFailed()
 
 #- script: dotnet build 
 #  displayName: 'dotnet build'
