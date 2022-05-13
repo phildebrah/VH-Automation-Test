@@ -447,12 +447,12 @@ steps:
   inputs:
     command: build
     projects: '**/*.csproj'
-    arguments: '--configuration debug'
+    arguments: '--configuration Debug'
 - task: DotNetCoreCLI@2
   inputs:
-    command: test
+    command: 'test'
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    testRunTitle: 'Testing'
 - task: PublishTestResults@2
   condition: succeededOrFailed()
 
