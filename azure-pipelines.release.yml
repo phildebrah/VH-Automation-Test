@@ -452,20 +452,26 @@ steps:
   displayName: Test UI and API
   inputs:
     command: 'test'
-    projects: '**/*.csproj'
+    projects: '**/SwaggerJsonApi.csproj'
+    testRunTitle: 'Testing'
+- task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
+  inputs:
+    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
+    artifactName: ApIResults
+- task: DotNetCoreCLI@2
+  displayName: Test UI and API
+  inputs:
+    command: 'test'
+    projects: '**/UI.csproj'
     testRunTitle: 'Testing'
 - task: PublishTestResults@2
   condition: succeededOrFailed()
 - task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
   inputs:
     PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
     artifactName: UIResults
-  condition: succeededOrFailed()
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
-    artifactName: ApIResults
-  condition: succeededOrFailed()
 
 #- script: dotnet build 
 #  displayName: 'dotnet build'
