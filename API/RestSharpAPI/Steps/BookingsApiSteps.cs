@@ -155,7 +155,7 @@ namespace RestSharpApi.Steps
         protected static string GetServiceToServiceToken()
         {
             AuthenticationResult result;
-            _logger.Info($"Config ", config.clientid, config._clientSecret);
+            _logger.Info($"config.clientid {config.clientid} config._clientSecret {config._clientSecret}");
             var credential = new ClientCredential(config.clientid, config._clientSecret);
             var authContext = new AuthenticationContext($"{config._authority}{config._tenetid}");
             try

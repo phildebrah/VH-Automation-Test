@@ -65,7 +65,7 @@ namespace RestSharpApi.Hooks
             _logger.Info($"Starting feature '{featureTitle}'");
         }
 
-        [BeforeScenario("api")]
+        [BeforeScenario]
         public void BeforeScenario(ScenarioContext scenarioContext)
         {
             var scenarioTitle = scenarioContext.ScenarioInfo.Title;
