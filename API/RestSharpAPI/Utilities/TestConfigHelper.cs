@@ -11,8 +11,13 @@ namespace Utilities
     public class TestConfigHelper
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static IConfigurationRoot _configRoot;
 
-        public static IConfigurationRoot GetIConfigurationBase()
+        public TestConfigHelper()
+        {
+            _configRoot = BuildConfig("CA353381-2F0D-47D7-A97B-79A30AFF8B86", "18c466fd-9265-425f-964e-5989181743a7");
+        }
+            public static IConfigurationRoot GetIConfigurationBase()
         {
             return new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: true)
@@ -38,6 +43,7 @@ namespace Utilities
 
         public static EnvironmentConfigSettings GetApplicationConfiguration()
         {
+         //   _configRoot = BuildConfig("CA353381-2F0D-47D7-A97B-79A30AFF8B86", "18c466fd-9265-425f-964e-5989181743a7");
             EnvironmentConfigSettings configSettings=null;
             LaunchSettingsFixture();
             var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
@@ -66,7 +72,9 @@ namespace Utilities
             configSettings.clientid = azureAdConfiguration.ClientId;
             configSettings._clientSecret = azureAdConfiguration.ClientSecret;
             configSettings._tenetid = azureAdConfiguration.TenantId;
+            //var a = Options.Create(_configRoot.GetSection("VhServices").Get<VHServices>());
             VHServices vHServices = iTestConfigurationRoot.GetSection("VhServices").Get<VHServices>();
+            Logger.Info($"Vhservices: BookingsApiResourceId = {vHServices.BookingsApiResourceId}, BookingsApiUrl = {vHServices.BookingsApiUrl}, UserApiResourceId = {vHServices.UserApiResourceId}, UserApiUrl = {vHServices.UserApiUrl}, VideoApiResourceId = {vHServices.VideoApiResourceId}, {vHServices.VideoApiUrl}, VideoWebUrl = {vHServices.VideoWebUrl}, VideoWebResourceId = {vHServices.VideoWebResourceId}");
             configSettings.bookingsapi = vHServices.BookingsApiUrl;
             configSettings.bookingsapiResourceId = vHServices.BookingsApiResourceId;
             configSettings.userapiResourceId = vHServices.UserApiResourceId;

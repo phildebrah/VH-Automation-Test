@@ -456,6 +456,7 @@ steps:
     testRunTitle: 'Testing'
 - task: PublishBuildArtifacts@1
   condition: succeededOrFailed()
+  displayName: Test API Results
   inputs:
     PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
     artifactName: ApIResults
@@ -468,6 +469,7 @@ steps:
     testRunTitle: 'Testing'
 - task: PublishBuildArtifacts@1
   condition: succeededOrFailed()
+  displayName: Test UI Results
   inputs:
     PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
     artifactName: UIResults
@@ -478,6 +480,7 @@ steps:
 # Publish Test Results
 # Publish test results to Azure Pipelines
 - task: PublishTestResults@2
+  displayName: Nunitt logs
   condition: succeededOrFailed()
   inputs:
     testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
