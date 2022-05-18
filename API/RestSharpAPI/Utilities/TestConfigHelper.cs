@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -20,13 +21,29 @@ namespace Utilities
             .Build();
         }
 
+        public static IConfigurationRoot BuildConfig(string userSecretsId, string testSecretsId)
+        {
+            var testConfigBuilder = new ConfigurationBuilder()
+                .AddUserSecrets(testSecretsId)
+                .Build();
+
+            return new ConfigurationBuilder()
+                .AddJsonFile($"appsettings.json")
+                .AddJsonFile($"appsettings.Development.json", optional: true)
+                .AddJsonFile($"appsettings.Production.json", optional: true)
+                .AddUserSecrets(userSecretsId)
+                .AddConfiguration(testConfigBuilder)
+                .Build();
+        }
+
         public static EnvironmentConfigSettings GetApplicationConfiguration()
         {
             EnvironmentConfigSettings configSettings=null;
             LaunchSettingsFixture();
             var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
             var systemConfiguration = new SystemConfiguration();
-            var iTestConfigurationRoot = GetIConfigurationBase();
+            var iTestConfigurationRoot = BuildConfig("CA353381-2F0D-47D7-A97B-79A30AFF8B86", "18c466fd-9265-425f-964e-5989181743a7");
+            //var iTestConfigurationRoot = GetIConfigurationBase();
             Logger.Info("Reading Appsetitngs Json File");
             iTestConfigurationRoot.GetSection("SystemConfiguration").Bind(systemConfiguration);
             if (environment != null)
