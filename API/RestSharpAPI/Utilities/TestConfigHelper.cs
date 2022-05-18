@@ -68,6 +68,9 @@ namespace Utilities
                     configSettings=systemConfiguration.ProductionEnvironmentConfigSettings;
                 }
             }
+            Logger.Info($"iTestConfigurationRoot = {iTestConfigurationRoot.ToString()}");
+            Logger.Info($"iTestConfigurationRootGetSection('AzureAd') = {iTestConfigurationRoot.GetSection("AzureAd").ToString()}");
+            Logger.Info($"iTestConfigurationRootGetSection('AzureAd') = {iTestConfigurationRoot.GetSection("AzureAd").Get<AzureAdConfiguration>()}");
             AzureAdConfiguration azureAdConfiguration = iTestConfigurationRoot.GetSection("AzureAd").Get<AzureAdConfiguration>();
             configSettings.clientid = azureAdConfiguration.ClientId;
             configSettings._clientSecret = azureAdConfiguration.ClientSecret;
