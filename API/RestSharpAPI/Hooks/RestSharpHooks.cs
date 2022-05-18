@@ -14,6 +14,10 @@ using System.Text;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 
+using TestFramework;
+
+using TestLibrary.Utilities;
+
 using Utilities;
 
 namespace RestSharpApi.Hooks
@@ -28,6 +32,7 @@ namespace RestSharpApi.Hooks
     {
         public static RestClient _restClient;
         public static string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        public static string PathReport;
         private static ExtentReports _extent;
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
@@ -45,7 +50,12 @@ namespace RestSharpApi.Hooks
             try
             {
                 config = TestConfigHelper.GetApplicationConfiguration();
-                string PathReport = Directory.CreateDirectory(ProjectPath + Path.Combine("\\TestResults\\Report")).FullName;
+
+                _logger.Info("Automation Test Execution Commenced");
+                var logFilePath = Util.GetLogFileName("logfile");
+                var logFileName = Path.GetFileNameWithoutExtension(logFilePath);
+                var folderName = logFileName.Replace(":", ".");
+                PathReport = Path.Combine(ProjectPath + config.ReportLocation, folderName, "ExtentReport.html");
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
                 _extent.AttachReporter(reporter);
