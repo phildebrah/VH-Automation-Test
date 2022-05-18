@@ -26,6 +26,7 @@ namespace Utilities
             var testConfigBuilder = new ConfigurationBuilder()
                 .AddUserSecrets(testSecretsId)
                 .Build();
+            Logger.Info($"test config {testConfigBuilder.AsEnumerable().ToArray().ToString()}");
 
             return new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json")
