@@ -26,7 +26,6 @@ namespace Utilities
             var testConfigBuilder = new ConfigurationBuilder()
                 .AddUserSecrets(testSecretsId)
                 .Build();
-            Logger.Info($"test config {testConfigBuilder.AsEnumerable().ToArray().ToString()}");
 
             return new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json")
@@ -44,6 +43,7 @@ namespace Utilities
             var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
             var systemConfiguration = new SystemConfiguration();
             var iTestConfigurationRoot = BuildConfig("CA353381-2F0D-47D7-A97B-79A30AFF8B86", "18c466fd-9265-425f-964e-5989181743a7");
+            Logger.Info($"test config {iTestConfigurationRoot.GetDebugView}");
             //var iTestConfigurationRoot = GetIConfigurationBase();
             Logger.Info("Reading Appsetitngs Json File");
             iTestConfigurationRoot.GetSection("SystemConfiguration").Bind(systemConfiguration);
