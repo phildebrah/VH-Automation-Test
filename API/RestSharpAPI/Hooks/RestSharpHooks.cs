@@ -30,19 +30,16 @@ namespace RestSharpApi.Hooks
     [Binding]
     public  class RestSharpHooks 
     {
+        public IConfiguration Configuration { get; }
+        public static EnvironmentConfigSettings config;
         public static RestClient _restClient;
         public static string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
         public static string PathReport;
-        private static ExtentReports _extent;
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
+        private static ExtentReports _extent;
         public static Logger _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-        public static EnvironmentConfigSettings config;
-        public IConfiguration Configuration { get; }
 
-        public RestSharpHooks()
-        {
-        }
 
         [BeforeTestRun]
         public static void BeforeTestRun()

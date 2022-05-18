@@ -62,6 +62,19 @@ namespace Utilities
                     configSettings=systemConfiguration.ProductionEnvironmentConfigSettings;
                 }
             }
+            AzureAdConfiguration azureAdConfiguration = iTestConfigurationRoot.GetSection("AzureAd").Get<AzureAdConfiguration>();
+            configSettings.clientid = azureAdConfiguration.ClientId;
+            configSettings._clientSecret = azureAdConfiguration.ClientSecret;
+            configSettings._tenetid = azureAdConfiguration.TenantId;
+            VHServices vHServices = iTestConfigurationRoot.GetSection("VhServices").Get<VHServices>();
+            configSettings.bookingsapi = vHServices.BookingsApiUrl;
+            configSettings.bookingsapiResourceId = vHServices.BookingsApiResourceId;
+            configSettings.userapiResourceId = vHServices.UserApiResourceId;
+            configSettings.usersapi = vHServices.UserApiUrl;
+            configSettings.videoapi = vHServices.VideoApiUrl;
+            configSettings.videoapiResourceId = vHServices.VideoApiResourceId;
+            //       var featureToggle = new FeatureToggles(_configRoot.GetSection("FeatureToggle"));
+            //context.WebConfig.BookingConfirmToggle = featureToggle.BookAndConfirmToggle();
             return configSettings;
         }
 
