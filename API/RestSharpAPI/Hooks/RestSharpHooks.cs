@@ -31,7 +31,6 @@ namespace RestSharpApi.Hooks
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
         private static ExtentReports _extent;
-        //public static Logger _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         public static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
 

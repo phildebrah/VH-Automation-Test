@@ -12,14 +12,8 @@ namespace Utilities
 {
     public class TestConfigHelper
     {
-        //private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static NLog.Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-        private static IConfigurationRoot _configRoot;
 
-        public TestConfigHelper()
-        {
-            _configRoot = BuildConfig("CA353381-2F0D-47D7-A97B-79A30AFF8B86", "18c466fd-9265-425f-964e-5989181743a7");
-        }
             public static IConfigurationRoot GetIConfigurationBase()
         {
             return new ConfigurationBuilder()
