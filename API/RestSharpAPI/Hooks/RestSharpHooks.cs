@@ -1,23 +1,16 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Web;
-using NUnit.Framework;
 using RestSharp;
 using System;
 using System.IO;
-using System.Text;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
-
 using TestFramework;
-
 using TestLibrary.Utilities;
-
 using Utilities;
 
 namespace RestSharpApi.Hooks
@@ -38,7 +31,8 @@ namespace RestSharpApi.Hooks
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
         private static ExtentReports _extent;
-        public static Logger _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+        //public static Logger _logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+        public static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
 
         [BeforeTestRun]
@@ -56,7 +50,6 @@ namespace RestSharpApi.Hooks
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
                 _extent.AttachReporter(reporter);
-                _logger.Info("Automation Test Execution Commenced");
             }
             catch (Exception ex)
             {

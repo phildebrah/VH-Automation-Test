@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
+using NLog.Web;
 using System;
 using System.IO;
 using System.Linq;
@@ -10,7 +12,8 @@ namespace Utilities
 {
     public class TestConfigHelper
     {
-        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static NLog.Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         private static IConfigurationRoot _configRoot;
 
         public TestConfigHelper()
