@@ -48,7 +48,7 @@ namespace Utilities
             var iTestConfigurationRoot = BuildConfig("CA353381-2F0D-47D7-A97B-79A30AFF8B86", "18c466fd-9265-425f-964e-5989181743a7");
             Logger.Info($"test config {iTestConfigurationRoot.GetDebugView}");
             //var iTestConfigurationRoot = GetIConfigurationBase();
-            Logger.Info("Reading Appsetitngs Json File");
+            Logger.Info("Reading Appsettings Json File");
             iTestConfigurationRoot.GetSection("SystemConfiguration").Bind(systemConfiguration);
             if (environment != null)
             {

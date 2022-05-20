@@ -2,7 +2,7 @@
 
 namespace Utilities
 {
-    public class EnvironmentConfigSettings:SystemConfigSettings
+    public class EnvironmentConfigSettings
     {
         public string Environment { get; set; }
         public string _authority { get; set; }
@@ -16,10 +16,6 @@ namespace Utilities
         public string bookingsapiResourceId { get; set; }
         public string userapiResourceId { get; set; }
         public string videoapiResourceId { get; set; }
-    }
-
-    public class SystemConfigSettings
-    {
         public string ReportLocation { get; set; }
         public string ImageLocation { get; set; }
         public int PipelineElementWait { get; set; }

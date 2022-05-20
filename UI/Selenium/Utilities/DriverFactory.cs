@@ -117,7 +117,7 @@ namespace SeleniumSpecFlow.Utilities
                     options.AddAdditionalAppiumOption("name", sauceLabsOptions.Name);
                     foreach (var (key, value) in SauceOptions)
                     {
-                        options.AddAdditionalCapability(key, value);
+                        options.AddAdditionalAppiumOption(key, value);
                     }
                     WebDriver = new RemoteWebDriver(remoteUrl, options.ToCapabilities());
                     break;
@@ -132,7 +132,7 @@ namespace SeleniumSpecFlow.Utilities
                     iosOptions.AddAdditionalAppiumOption("name", sauceLabsOptions.Name);
                     foreach (var (key, value) in SauceOptions)
                     {
-                        iosOptions.AddAdditionalCapability(key, value);
+                        iosOptions.AddAdditionalAppiumOption(key, value);
                     }
                     WebDriver = new RemoteWebDriver(remoteUrl, iosOptions.ToCapabilities());
                     break;

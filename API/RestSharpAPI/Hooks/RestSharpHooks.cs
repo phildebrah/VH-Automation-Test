@@ -42,10 +42,12 @@ namespace RestSharpApi.Hooks
                 config = TestConfigHelper.GetApplicationConfiguration();
 
                 _logger.Info("Automation Test Execution Commenced");
+                _logger.Info($"Extent reports settings basepath: {Directory.GetCurrentDirectory}, projectpath: {ProjectPath}");
                 var logFilePath = Util.GetLogFileName("logfile");
                 var logFileName = Path.GetFileNameWithoutExtension(logFilePath);
                 var folderName = logFileName.Replace(":", ".");
                 PathReport = Path.Combine(ProjectPath + config.ReportLocation, folderName, "ExtentReport.html");
+                _logger.Info($"Extent Reports path: {PathReport}");
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
                 _extent.AttachReporter(reporter);
