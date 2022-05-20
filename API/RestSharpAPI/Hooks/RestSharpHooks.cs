@@ -4,9 +4,11 @@ using AventStack.ExtentReports.Reporter;
 using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Web;
+using NUnit.Framework;
 using RestSharp;
 using System;
 using System.IO;
+using System.Text;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using TestFramework;
@@ -86,6 +88,84 @@ namespace RestSharpApi.Hooks
         {
             var stepTitle = ScenarioStepContext.Current.StepInfo.Text;
             _logger.Info($"ending step '{stepTitle}'");
+            if (scenarioContext.TestError != null)
+            {
+                _logger.Error(scenarioContext.TestError, $"Exception occured while executing step:'{stepTitle}'");
+                var infoTextBuilder = new StringBuilder();
+                var actionName = scenarioContext.GetActionName();
+                if (!string.IsNullOrWhiteSpace(actionName))
+                {
+                    infoTextBuilder.Append($"Action '{actionName}'");
+                }
+                var elementName = scenarioContext.GetElementName();
+                if (!string.IsNullOrWhiteSpace(elementName))
+                {
+                    infoTextBuilder.Append($",erroed on Element '{elementName}'");
+                }
+                var pageName = scenarioContext.GetPageName();
+                if (!string.IsNullOrWhiteSpace(pageName))
+                {
+                    infoTextBuilder.Append($",on Page '{pageName}'");
+                }
+                var userName = scenarioContext.GetUserName();
+                if (!string.IsNullOrWhiteSpace(userName))
+                {
+                    infoTextBuilder.Append($",for User '{userName}");
+                }
+                var infoText = infoTextBuilder.ToString();
+                if (!string.IsNullOrEmpty(infoText))
+                {
+                    _logger.Info(infoText);
+                }
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
+                {
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
+                        break;
+
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
+                        break;
+
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Fail(scenarioContext.TestError.Message);
+                        break;
+                }
+                Assert.Fail(scenarioContext.TestError.Message);
+            }
+            if (scenarioContext.ScenarioExecutionStatus == ScenarioExecutionStatus.StepDefinitionPending)
+            {
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
+                {
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
+                        break;
+
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
+                        break;
+
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Skip("Step Definition Pending");
+                        break;
+                }
+            }
+            if (scenarioContext.TestError == null)
+            {
+                //For Extent report
+                switch (scenarioContext.StepContext.StepInfo.StepDefinitionType)
+                {
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.Given:
+                        _scenario.CreateNode<Given>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
+                        break;
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.When:
+                        _scenario.CreateNode<When>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
+                        break;
+                    case TechTalk.SpecFlow.Bindings.StepDefinitionType.Then:
+                        _scenario.CreateNode<Then>(scenarioContext.StepContext.StepInfo.Text).Pass(string.Empty);
+                        break;
+                }
+            }
         }
 
         [AfterScenario]
@@ -93,6 +173,9 @@ namespace RestSharpApi.Hooks
         {
             var scenarioTitle = scenarioContext.ScenarioInfo.Title;
             _logger.Info($"Ending scenario '{scenarioTitle}'");
+            _extent.Flush();
+            _logger.Info("Flush Extent Report Instance");
+
         }
 
         [AfterFeature]
