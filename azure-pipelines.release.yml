@@ -363,8 +363,8 @@ resources:
 #            secret: true
 #          - name: VhServices:VideoWebApiUrl
 #            value: $(video_web_url)
-    - name: VhServices:VideoWebUrl
-      value: $(video_web_url)
+        - name: VhServices:VideoWebUrl
+          value: $(video_web_url)
 #          # - name: VhServices:EnableAndroidSupport
 #            # value: $(EnableAndroidSupport)
 #          # - name: VhServices:EnableIOSMobileSupport
