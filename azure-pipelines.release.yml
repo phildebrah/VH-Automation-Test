@@ -294,24 +294,24 @@ resources:
 #          - name: VhServices:UserApiResourceId
 #            value: vh-user-api-identifieruris
 #            secret: true
-    - name: VhServices:UserApiUrl
-      value: $(user_api_url)
-      secret: true
-    - name: VhServices:BookingsApiUrl
-      value: $(bookings_api_url)
-      secret: true
-    - name: VhServices:UserApiUrl
-      value: $(user_api_url)
-      secret: true
-    - name: VhServices:NotificationApiUrl
-      value: $(notification_api_url)
+        - name: VhServices:UserApiUrl
+          value: $(user_api_url)
+          secret: true
+        - name: VhServices:BookingsApiUrl
+          value: $(bookings_api_url)
+          secret: true
+        - name: VhServices:UserApiUrl
+          value: $(user_api_url)
+          secret: true
+        - name: VhServices:NotificationApiUrl
+          value: $(notification_api_url)
 #          - name: VhServices:VideoApiResourceId
 #            value: vh-video-api-identifieruris
 #            secret: true
-    - name: VhServices:VideoApiUrl
-      value: $(video_api_url)
-    - name: VhServices:AdminWebUrl
-      value: $(admin_web_url_staging)
+        - name: VhServices:VideoApiUrl
+          value: $(video_api_url)
+        - name: VhServices:AdminWebUrl
+          value: $(admin_web_url_staging)
 #          # - name: VhServices:EmailReformDomain
 #            # value: $(EmailReformDomain)
 #          # - name: VhServices:InternalEventSecret
