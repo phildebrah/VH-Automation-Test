@@ -1,15 +1,16 @@
 ﻿using OpenQA.Selenium;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UISelenium.Pages
+namespace UI.Pages.PageElements
 {
-	///<summary>
-	/// Common Header elements
-	///</summary>
+    ///<summary>
+    /// Common Header elements
+    ///</summary>
     public class Header
     {
         public static By SignOut = By.Id("logout-link");

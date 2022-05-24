@@ -6,7 +6,7 @@ Feature: Consultation room
     Participants can join the consultation room
 
 Scenario: Judge invites the participant to join the consultation room
-    Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
+    Given I log in as "auto_aw.videohearingsofficer_14@hearings.reform.hmcts.net"
     And I select book a hearing
     And I want to create a hearing with case details 
     | Case Number | Case Name              | Case Type | Hearing Type        |
@@ -39,7 +39,7 @@ Scenario: Judge invites the participant to join the consultation room
     And everyone signs out
 
 Scenario: Closed hearings - can join consultation room after hearing is closed
-    Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
+    Given I log in as "auto_aw.videohearingsofficer_15@hearings.reform.hmcts.net"
     And I select book a hearing
     And I want to create a hearing with case details 
     | Case Number | Case Name              | Case Type | Hearing Type        |
@@ -74,7 +74,7 @@ Scenario: Closed hearings - can join consultation room after hearing is closed
     And everyone signs out
 
 Scenario: Participants start and leave Private Consultatin room
-    Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
+    Given I log in as "auto_aw.videohearingsofficer_16@hearings.reform.hmcts.net"
     And I select book a hearing
     And I want to create a hearing with case details 
     | Case Number | Case Name              | Case Type | Hearing Type        |
@@ -107,7 +107,7 @@ Scenario: Participants start and leave Private Consultatin room
     And everyone signs out	
 
 Scenario: JOH can start and leave Consultation room
-    Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
+    Given I log in as "auto_aw.videohearingsofficer_17@hearings.reform.hmcts.net"
     And I select book a hearing
     And I want to create a hearing with case details 
     | Case Number | Case Name              | Case Type | Hearing Type        |
@@ -139,7 +139,7 @@ Scenario: JOH can start and leave Consultation room
     And everyone signs out
 
 Scenario: Consultation room VHO can start and close consultaion
-Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+Given I log in as "auto_aw.videohearingsofficer_18@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -164,7 +164,7 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And I log off
 	And all participants log in to video web
 	And all participants have joined the hearing waiting room with SkipToWaitingRoom
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_19@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	And starts a consultation with a judge
@@ -174,7 +174,7 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	Then check the judge returns to the waiting room
 
 Scenario: Consultation room Check Instant Messages are sent correctly
-Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+Given I log in as "auto_aw.videohearingsofficer_20@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -202,7 +202,7 @@ Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	And all participants have joined the hearing waiting room with SkipToWaitingRoom
     And the judge starts the hearing
     And the judge checks that all participants have joined the hearing room
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_21@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
     And selects the messages tab

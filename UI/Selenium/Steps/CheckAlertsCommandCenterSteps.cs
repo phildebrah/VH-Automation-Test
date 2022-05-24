@@ -1,18 +1,17 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumSpecFlow.Utilities;
 using System;
 using System.Linq;
 using System.Threading;
 using TechTalk.SpecFlow;
 using TestFramework;
-using UISelenium.Pages;
 using UI.Model;
 using System.Collections.Generic;
 using FluentAssertions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using TestLibrary.Utilities;
+using UI.Pages;
+using UI.Utilities;
 
 namespace UI.Steps
 {

@@ -1,17 +1,18 @@
 ﻿using OpenQA.Selenium;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UISelenium.Pages
+namespace UI.Pages
 {
-	///<summary>
-	///   ParticipantHearingListPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   ParticipantHearingListPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class ParticipantHearingListPage
     {
         public static By CheckEquipment = By.Id("check-equipment-btn");

@@ -1,28 +1,35 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
+
 using Microsoft.Extensions.Configuration;
+
 using NLog;
 using NLog.Web;
+
 using NUnit.Framework;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
-using SeleniumSpecFlow.Utilities;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using TechTalk.SpecFlow;
+
 using TestFramework;
-using TestLibrary.Utilities;
+
 using UI.Model;
+using UI.Utilities;
 
 [assembly: Parallelizable(ParallelScope.Fixtures)]
-[assembly: LevelOfParallelism(3)]
+[assembly: LevelOfParallelism(1)]
 
-namespace SeleniumSpecFlow
+namespace UI.Hooks
 {
     [Binding]
     ///<summary>
@@ -30,23 +37,23 @@ namespace SeleniumSpecFlow
     /// Saves images after each step
     /// Closes any orphaned browser instances at the end of a Scenario and final Test Run
     ///</summary>
-    public class Hooks 
+    public class Hooks
     {
         public IConfiguration Configuration { get; }
         public static EnvironmentConfigSettings config;
         private static readonly string ProjectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        public static string PathReport ;
+        public static string PathReport;
         private static string ImagesPath;
         private static ExtentTest _feature;
         private static ExtentTest _scenario;
         private static ExtentReports _extent;
         private static Logger Logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         private static string featureTitle;
-        private static int ImageNumber=0;
+        private static int ImageNumber = 0;
         private static string scenarioTitle;
         private static DateTime TestStartTime;
         private static string BrowserName;
-		
+
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
@@ -56,14 +63,14 @@ namespace SeleniumSpecFlow
                 Logger.Info("Automation Test Execution Commenced");
                 var logFilePath = Util.GetLogFileName("logfile");
                 var logFileName = Path.GetFileNameWithoutExtension(logFilePath);
-                var folderName = logFileName.Replace(":",".");
-                ImagesPath=Path.Combine(config.ImageLocation, folderName);
+                var folderName = logFileName.Replace(":", ".");
+                ImagesPath = Path.Combine(config.ImageLocation, folderName);
                 Directory.CreateDirectory(ProjectPath + ImagesPath);
-                PathReport= Path.Combine(ProjectPath+config.ReportLocation, folderName, "ExtentReport.html");
+                PathReport = Path.Combine(ProjectPath + config.ReportLocation, folderName, "ExtentReport.html");
                 var reporter = new ExtentHtmlReporter(PathReport);
                 _extent = new ExtentReports();
                 _extent.AttachReporter(reporter);
-                TestStartTime =DateTime.Now;
+                TestStartTime = DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -85,14 +92,14 @@ namespace SeleniumSpecFlow
         {
             scenarioTitle = scenarioContext.ScenarioInfo.Title;
             Logger.Info($"Starting scenario '{scenarioTitle}'");
-            ImageNumber=0;
+            ImageNumber = 0;
         }
-        
+
         [BeforeScenario("web")]
-        public void BeforeScenarioWeb(ScenarioContext scenarioContext,FeatureContext featureContext)
+        public void BeforeScenarioWeb(ScenarioContext scenarioContext, FeatureContext featureContext)
         {
             var title = scenarioContext.ScenarioInfo.Title;
-            var tags= scenarioContext.ScenarioInfo.Tags;
+            var tags = scenarioContext.ScenarioInfo.Tags;
             scenarioTitle = scenarioContext.ScenarioInfo.Title;
             _scenario = _feature.CreateNode<Scenario>(title);
             _scenario.AssignCategory(tags);
@@ -102,12 +109,12 @@ namespace SeleniumSpecFlow
             if (RunOnSauceLabs(tags))
             {
                 SauceLabsOptions sauceOptions = new SauceLabsOptions();
-                sauceOptions.Name=title;
-                Driver= new DriverFactory().InitializeSauceDriver(sauceOptions,config.SauceLabsConfiguration);
+                sauceOptions.Name = title;
+                Driver = new DriverFactory().InitializeSauceDriver(sauceOptions, config.SauceLabsConfiguration);
             }
             else
             {
-                Driver= new DriverFactory().InitializeDriver(TestConfigHelper.browser);
+                Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
                 ((List<int>)scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
             }
             scenarioContext.Add("driver", Driver);
@@ -303,7 +310,7 @@ namespace SeleniumSpecFlow
         }
 
         [AfterScenario("web")]
-        public void AfterScenarioWeb(ScenarioContext scenarioContext,FeatureContext featureContext)
+        public void AfterScenarioWeb(ScenarioContext scenarioContext, FeatureContext featureContext)
         {
             featureContext["AccessibilityBaseUrl"] = scenarioContext["AccessibilityBaseUrl"];
             StopAllDrivers(scenarioContext);
@@ -373,7 +380,7 @@ namespace SeleniumSpecFlow
             }
         }
 
-        private static void StopAllDrivers(Object obj)
+        private static void StopAllDrivers(object obj)
         {
             try
             {

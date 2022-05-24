@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using OpenQA.Selenium;
-namespace UISelenium.Pages
+
+namespace UI.Pages
 {
-	///<summary>
-	///   HearingListPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   HearingListPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class HearingListPage
     {
         public static By ConferenceList = By.ClassName("conference-list");

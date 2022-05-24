@@ -1,11 +1,12 @@
 ﻿using OpenQA.Selenium;
-namespace UISelenium.Pages
+
+namespace UI.Pages
 {
-	///<summary>
-	///   BookingDetailsPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   BookingDetailsPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class BookingDetailsPage
     {
         public static By ConfirmBookingButton => By.Id("confirm-button");

@@ -1,17 +1,18 @@
 ﻿using OpenQA.Selenium;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UISelenium.Pages
+namespace UI.Pages
 {
-	///<summary>
-	///   GetAudioFilePage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   GetAudioFilePage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class GetAudioFilePage
     {
         public static By HearingAudioFileRadio => By.Id("search-choice-vhfile");

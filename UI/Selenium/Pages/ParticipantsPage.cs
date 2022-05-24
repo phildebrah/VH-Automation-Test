@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using OpenQA.Selenium;
-namespace UISelenium.Pages
+
+namespace UI.Pages
 {
-	///<summary>
-	///   ParticipantsPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   ParticipantsPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class ParticipantsPage
     {
         public static By PartyDropdown = By.Id("party");
@@ -29,7 +31,7 @@ namespace UISelenium.Pages
         public static By AddParticipantLink = By.Id("addParticipantBtn");
         public static By UpdateParticipantLink = By.Id("updateParticipantBtn");
         public static By ClearDetailsLink = By.PartialLinkText("Clear details");
-        public static By NextButton = By.Id(("nextButton"));
+        public static By NextButton = By.Id("nextButton");
         public static By CancelButton = By.Id("cancelBtn");
         public static By ExistingEmailLinks = By.XPath("//li[@class='vk-showlist-m30']/a");
         public static By ParticipantsList = By.XPath("//*[contains(@class, 'vhtable-header')]");

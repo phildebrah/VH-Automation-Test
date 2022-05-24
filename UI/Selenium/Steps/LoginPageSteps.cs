@@ -1,17 +1,17 @@
 ﻿using TechTalk.SpecFlow;
-using SeleniumSpecFlow.Utilities;
-using UISelenium.Pages;
 using FluentAssertions;
 using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.Support.UI;
 using System;
 using UI.Model;
-using TestLibrary.Utilities;
 using System.Collections.Generic;
 using OpenQA.Selenium;
 using System.Linq;
 using TestFramework;
-namespace SeleniumSpecFlow.Steps
+using UI.Utilities;
+using UI.Pages;
+
+namespace UI.Steps
 {
     [Binding]
     ///<summary>
@@ -51,7 +51,7 @@ namespace SeleniumSpecFlow.Steps
         private void LoginByUrl(string userName, string url)
         {
             _scenarioContext.UpdatePageName("Login");
-            var result= CommonPageActions.NavigateToPage(url, "login.microsoftonline.com");
+            var result = CommonPageActions.NavigateToPage(url, "login.microsoftonline.com");
             Login(userName, Config.UserPassword);
             _scenarioContext.UpdateUserName(userName);
             _scenarioContext.UpdatePageName("Dashboard");
@@ -70,6 +70,7 @@ namespace SeleniumSpecFlow.Steps
             ExtensionMethods.CheckForUnExpectedErrors(Driver);
         }
 
+        [Given(@"all participants log in to video web")]
         [Then(@"all participants log in to video web")]
         public void ThenAllParticipantsLogInToVideoWeb()
         {
@@ -90,7 +91,7 @@ namespace SeleniumSpecFlow.Steps
             _scenarioContext.UpdatePageName("Your Video Hearings");
         }
 
-        [Given(@"I open a new browser and log into admin web as ""([^""]*)""")] 
+        [Given(@"I open a new browser and log into admin web as ""([^""]*)""")]
         public void GivenIOpenANewBrowserAndLogInAs(string email)
         {
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
@@ -107,7 +108,7 @@ namespace SeleniumSpecFlow.Steps
         public void WhenVideoHearingOfficerLogsIntoVideoWebAs(string email)
         {
             Driver = new DriverFactory().InitializeDriver(TestConfigHelper.browser);
-            _scenarioContext["driver"]=Driver;
+            _scenarioContext["driver"] = Driver;
             ((List<int>)_scenarioContext["ProcessIds"]).Add(DriverFactory.ProcessId);
             ((Dictionary<string, IWebDriver>)_scenarioContext["drivers"]).Add(email, Driver);
             Driver = GetDriver(email, _scenarioContext);

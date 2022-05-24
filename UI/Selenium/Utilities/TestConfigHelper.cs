@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SeleniumSpecFlow.Utilities;
+
 using System;
 using System.IO;
 using System.Linq;
 
-namespace TestLibrary.Utilities
+namespace UI.Utilities
 {
     ///<summary>
     /// Class to work with application configuration
@@ -20,7 +21,7 @@ namespace TestLibrary.Utilities
         {
             return new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile("passwords.json",optional:true)
+            .AddJsonFile("passwords.json", optional: true)
             .AddEnvironmentVariables()
             .Build();
         }
@@ -42,7 +43,7 @@ namespace TestLibrary.Utilities
 
         public static EnvironmentConfigSettings GetApplicationConfiguration()
         {
-            EnvironmentConfigSettings configSettings=null;
+            EnvironmentConfigSettings configSettings = null;
             LaunchSettingsFixture();
             var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
             browser = (BrowserType)Enum.Parse(typeof(BrowserType), Environment.GetEnvironmentVariable("BROWSER"));
@@ -55,20 +56,20 @@ namespace TestLibrary.Utilities
             {
                 if (environment.ToLower() == "Development".ToLower())
                 {
-                    configSettings=systemConfiguration.DevelopmentEnvironmentConfigSettings;
+                    configSettings = systemConfiguration.DevelopmentEnvironmentConfigSettings;
                 }
                 else if (environment.ToLower() == "Acceptance".ToLower())
                 {
-                    configSettings=systemConfiguration.AcceptanceEnvironmentConfigSettings;
+                    configSettings = systemConfiguration.AcceptanceEnvironmentConfigSettings;
                 }
                 else if (environment.ToLower() == "Production".ToLower())
                 {
-                    configSettings=systemConfiguration.ProductionEnvironmentConfigSettings;
+                    configSettings = systemConfiguration.ProductionEnvironmentConfigSettings;
                 }
                 //set the correct ElementWait based on execution environment
                 if (configSettings.RunOnSaucelabs)
                 {
-                    configSettings.DefaultElementWait=configSettings.SaucelabsElementWait;
+                    configSettings.DefaultElementWait = configSettings.SaucelabsElementWait;
                 }
             }
             return configSettings;

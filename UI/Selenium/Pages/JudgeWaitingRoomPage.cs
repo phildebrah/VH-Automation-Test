@@ -1,17 +1,18 @@
 ﻿using OpenQA.Selenium;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UISelenium.Pages
+namespace UI.Pages
 {
-	///<summary>
-	///   JudgeWaitingRoomPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   JudgeWaitingRoomPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class JudgeWaitingRoomPage
     {
         public static readonly By ReturnToHearingRoomLink = By.XPath("//a[contains(text(),'Return to video hearing list')]");

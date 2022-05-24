@@ -67,6 +67,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\API\RestSharpAPI\SwaggerJsonApi.csproj" />
 		<ProjectReference Include="..\..\TestFramework\TestFramework.csproj" />
 	</ItemGroup>
 

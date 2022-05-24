@@ -46,7 +46,7 @@ Scenario: VHO Bookings Search by Date
 	And the VHO is on the Booking Details page
 
 Scenario: VHO Bookings Search by Case Type
-	Given I log in as "auto_aw.videohearingsofficer_11@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
 	When I navigate to booking list page
 	And the VHO search for the booking by case type 'Family, Family Law Act, Divorce'
 	Then VHO selects any booking

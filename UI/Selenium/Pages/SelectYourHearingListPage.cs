@@ -1,17 +1,18 @@
 ﻿using OpenQA.Selenium;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UISelenium.Pages
+namespace UI.Pages
 {
-	///<summary>
-	///   SelectYourHearingListPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   SelectYourHearingListPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class SelectYourHearingListPage
     {
         public static By HearingList => By.CssSelector("input[aria-autocomplete='list']");

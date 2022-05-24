@@ -1,20 +1,19 @@
-﻿
-using SeleniumSpecFlow.Utilities;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 using UI.Model;
-using UISelenium.Pages;
 using FluentAssertions;
 using TestFramework;
 using OpenQA.Selenium;
 using System;
+using UI.Utilities;
+using UI.Pages.PageElements;
 
-namespace UI.Steps
+namespace UI.Steps.CommonActions
 {
     [Binding]
     ///<summary>
     /// Steps class logout/signout from the application
     ///</summary>
-    public class LogoffSteps: ObjectFactory
+    public class LogoffSteps : ObjectFactory
     {
         private readonly ScenarioContext _scenarioContext;
         private Hearing _hearing;
@@ -27,7 +26,7 @@ namespace UI.Steps
 
         [Then(@"I log off")]
         public void ThenILogOff()
-            {
+        {
             _scenarioContext.UpdatePageName("logout");
             Driver = (IWebDriver)_scenarioContext["driver"];
             if (ExtensionMethods.IsElementVisible(Driver, Header.LinkSignOut, null))
@@ -54,8 +53,8 @@ namespace UI.Steps
                         Driver.FindElement(Header.SignOut).Click();
                     }
                 }
-                catch 
-                { 
+                catch
+                {
                 }
             }
         }

@@ -1,7 +1,10 @@
-﻿using SeleniumSpecFlow.Utilities;
+﻿
 using TechTalk.SpecFlow;
+
 using TestFramework;
-using UISelenium.Pages;
+
+using UI.Pages;
+using UI.Utilities;
 
 namespace UI.Steps
 {

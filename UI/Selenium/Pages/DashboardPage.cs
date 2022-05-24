@@ -1,17 +1,18 @@
 ﻿using OpenQA.Selenium;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UISelenium.Pages
+namespace UI.Pages
 {
-	///<summary>
-	///   DashboardPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   DashboardPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class DashboardPage
     {
         public static By BookHearingButton = By.Id("bookHearingBtn");
@@ -24,6 +25,6 @@ namespace UISelenium.Pages
         public static By CaseNumber = By.Id("caseNumber");
         public static By UserName = By.Id("userName");
         public static By ContactEmail = By.Id("contactEmail");
-        
+
     }
 }

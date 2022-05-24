@@ -1,9 +1,10 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+
 using System;
 using System.Threading;
 
-namespace WebLibrary
+namespace UI.Utilities
 {
     ///<summary>
     /// Class to extend IWebElement
@@ -59,6 +60,6 @@ namespace WebLibrary
             SelectElement oSelect = new SelectElement(element);
             oSelect.SelectByValue(text);
             Console.WriteLine(text + " value selected on " + elementName);
-        }       
+        }
     }
 }

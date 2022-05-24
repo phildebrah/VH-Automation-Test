@@ -1,13 +1,14 @@
-﻿using SeleniumSpecFlow.Utilities;
-using System;
+﻿using System;
 using TechTalk.SpecFlow;
 using UI.Model;
-using UISelenium.Pages;
 using FluentAssertions;
 using TestFramework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System.Linq;
+using UI.Steps.CommonActions;
+using UI.Pages;
+using UI.Utilities;
 
 namespace UI.Steps
 {
@@ -108,6 +109,7 @@ namespace UI.Steps
             }
         }
 
+        [Given(@"the judge signs into the hearing")]
         [Then(@"the judge signs into the hearing")]
         public void ThenTheJudgeSignsIntoTheHearing()
         {

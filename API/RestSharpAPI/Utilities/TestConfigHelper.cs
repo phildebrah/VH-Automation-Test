@@ -81,6 +81,8 @@ namespace Utilities
             configSettings.usersapi = vHServices.UserApiUrl;
             configSettings.videoapi = vHServices.VideoApiUrl;
             configSettings.videoapiResourceId = vHServices.VideoApiResourceId;
+            TestConfig testConfig = iTestConfigurationRoot.GetSection("Testing").Get<TestConfig>();
+            configSettings.UserPassword = testConfig.TestUserPassword;
             //       var featureToggle = new FeatureToggles(_configRoot.GetSection("FeatureToggle"));
             //context.WebConfig.BookingConfirmToggle = featureToggle.BookAndConfirmToggle();
             return configSettings;

@@ -4,7 +4,7 @@ Feature:Check alerts are sent correctly to command centre
 	
 Scenario: Alert Failed self test - No to Camera
 
-	Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_02@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -29,7 +29,7 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Camera) participant F & L name
@@ -37,7 +37,7 @@ Scenario: Alert Failed self test - No to Camera
 	And everyone signs out
 
 	Scenario: Alert Failed self test - No to Microphone
-	Given I log in as "auto_aw.videohearingsofficer_03@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -62,7 +62,7 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test microphone
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_05@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Microphone) participant F & L name
@@ -95,7 +95,7 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test video
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_06@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (No to Video) participant F & L name
@@ -128,7 +128,7 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test Incomplete
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (incomplete) participant F & L name
@@ -136,7 +136,7 @@ Scenario: Alert Failed self test - No to Camera
 	And everyone signs out
 
 	Scenario: Alert Failed self test - Disconnected
-	Given I log in as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_08@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -161,7 +161,7 @@ Scenario: Alert Failed self test - No to Camera
 	And I log off 
 	Then all participants log in to video web
 	And participant has joined and progressed to waiting room without completing self test disconnected
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_01@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_09@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	Then the the Video Hearings Officer see the alert Failed self-test (disconnected) participant F & L name

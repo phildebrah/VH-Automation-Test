@@ -1,17 +1,18 @@
 ﻿using NLog;
 using NLog.Layouts;
 using NLog.Targets;
+
 using System;
 using System.Linq;
 
-namespace TestLibrary.Utilities
+namespace UI.Utilities
 {
     ///<summary>
     /// Class with general utilities function to generate random data
     ///</summary>
     public class Util
     {
-      
+
         public static string RandomString(int stringLenth = 10)
         {
             Random rnd = new Random();

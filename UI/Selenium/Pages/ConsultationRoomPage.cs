@@ -1,11 +1,12 @@
 ﻿using OpenQA.Selenium;
-namespace UISelenium.Pages
+
+namespace UI.Pages
 {
-	///<summary>
-	///   ConsultationRoomPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   ConsultationRoomPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class ConsultationRoomPage
     {
         public static By InviteParticipant(string name) => By.XPath($"//div[@class='participant-endpoint-row' and contains(.,'{name}')]//app-invite-participant");

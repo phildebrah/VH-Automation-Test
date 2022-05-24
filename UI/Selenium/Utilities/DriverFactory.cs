@@ -8,12 +8,10 @@ using WebDriverManager.DriverConfigs.Impl;
 using System.Collections.Generic;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Appium;
-using TestLibrary.Utilities;
 using OpenQA.Selenium.Appium.Enums;
 using UI.Model;
-using UI.Utilities;
 
-namespace SeleniumSpecFlow.Utilities
+namespace UI.Utilities
 {
     /// <summary>
     /// Class to initialze new Webdriver
@@ -57,7 +55,7 @@ namespace SeleniumSpecFlow.Utilities
                     Logger.Info(" Safari started in maximized mode");
                     break;
                 case BrowserType.Chrome:
-                    for(int i = 1; i < 3; i++)
+                    for (int i = 1; i < 3; i++)
                     {
                         try
                         {
@@ -161,7 +159,7 @@ namespace SeleniumSpecFlow.Utilities
                     }
                     WebDriver = new RemoteWebDriver(remoteUrl, driverOptions);
                     break;
-            }                  
+            }
             return WebDriver;
         }
     }

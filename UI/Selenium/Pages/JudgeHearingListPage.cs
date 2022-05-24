@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using OpenQA.Selenium;
-namespace UISelenium.Pages
+
+namespace UI.Pages
 {
-	///<summary>
-	///   JudgeHearingListPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
-    public  class JudgeHearingListPage
+    ///<summary>
+    ///   JudgeHearingListPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
+    public class JudgeHearingListPage
     {
         public static By HealingListRow => By.XPath("//tr[@class='govuk-table__row']");
         public static By SelectButton(string caseId) => By.XPath($"//tr[contains(.,'{caseId}')]//button");

@@ -1,11 +1,12 @@
 ﻿using OpenQA.Selenium;
-namespace UISelenium.Pages
+
+namespace UI.Pages
 {
-	///<summary>
-	///   ParticipantWaitingRoomPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   ParticipantWaitingRoomPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class ParticipantWaitingRoomPage
     {
         public static By StartVideoHearingButton => By.XPath("//button[contains(text(),'Start video hearing')]");
@@ -15,7 +16,7 @@ namespace UISelenium.Pages
         public static By HearingClosedTitle => By.XPath("//h1[contains(text(),'This hearing has finished. You may now sign out')]");
         public static By ParticipantDetails(string name) => By.XPath($"//*[contains(text(),'{name}')]");
         public static By JointPrivateMeetingCheckbox(string name) => By.XPath($"//div[contains(.,'{name}')]//input");
-        public static By PrivateMeetingModal=>By.XPath("//div[@class='modal-content']");
+        public static By PrivateMeetingModal => By.XPath("//div[@class='modal-content']");
         public static By ChooseCameraAndMicButton => By.Id("changeCameraButton");
         public static By ContinueJoiningPrivateMeetingButton => By.Id("continue-btn");
         public static By StartPrivateMeetingButton => By.Id("openStartPCButton");

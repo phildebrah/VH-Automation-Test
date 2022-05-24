@@ -1,17 +1,18 @@
 ﻿using OpenQA.Selenium;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UISelenium.Pages
+namespace UI.Pages
 {
-	///<summary>
-	///   ImageSoundClearPage
-	///   Page element definitions
-	///   Do not add logic here
-	///</summary>
+    ///<summary>
+    ///   ImageSoundClearPage
+    ///   Page element definitions
+    ///   Do not add logic here
+    ///</summary>
     public class ImageSoundClearPage
     {
         public static By VideoYesRadioButton => By.CssSelector("label.govuk-label.govuk-radios__label");

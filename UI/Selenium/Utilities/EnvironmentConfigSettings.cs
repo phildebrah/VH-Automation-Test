@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace TestLibrary.Utilities
+namespace UI.Utilities
 {
     ///<summary>
     /// Class to hold Environment related settings 
     ///</summary>
-    public class EnvironmentConfigSettings:SystemConfigSettings
+    public class EnvironmentConfigSettings : SystemConfigSettings
     {
         public string Environment { get; set; }
         public string ConnectionString { get; set; }

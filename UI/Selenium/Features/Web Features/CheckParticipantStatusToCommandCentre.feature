@@ -4,7 +4,7 @@
 Feature: Check participant status in command centre
 	
 Scenario: Check different individual participant status
-	Given I log in as "auto_aw.videohearingsofficer_04@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_10@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -32,14 +32,14 @@ Scenario: Check different individual participant status
 	And all participants log in to video web
 	And  participants have joined the hearing waiting room
 	Then the judge starts the hearing
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_11@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	Then the Video Hearings Officer should able to see the status 
 	And everyone signs out
 
 Scenario: Check panel member and participant status
-	Given I log in as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
+	Given I log in as "auto_aw.videohearingsofficer_13@hearings.reform.hmcts.net"
 	And I select book a hearing
 	And I want to create a hearing with case details 
 	| Case Number | Case Name              | Case Type | Hearing Type        |
@@ -66,7 +66,7 @@ Scenario: Check panel member and participant status
 	And all participants log in to video web
 	And participants have joined the hearing waiting room without Judge
     When the panel member selects Enter consultation room
-	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_07@hearings.reform.hmcts.net"
+	When Video Hearing Officer logs into video web as "auto_aw.videohearingsofficer_12@hearings.reform.hmcts.net"
 	And selects hearing venue in the venue list
 	And selects current hearing
 	Then the Video Hearings Officer should able to view the status

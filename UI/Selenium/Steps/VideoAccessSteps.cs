@@ -1,9 +1,9 @@
-﻿using SeleniumSpecFlow.Utilities;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 using TestFramework;
 using UI.Model;
 using OpenQA.Selenium.Support.UI;
-using UISelenium.Pages;
+using UI.Utilities;
+using UI.Pages;
 
 namespace UI.Steps
 {

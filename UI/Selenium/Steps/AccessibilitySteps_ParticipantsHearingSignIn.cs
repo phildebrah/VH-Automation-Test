@@ -1,12 +1,12 @@
-﻿using SeleniumSpecFlow.Utilities;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 using UI.Model;
-using SeleniumSpecFlow.Steps;
 using Selenium.Axe;
 using TestFramework;
-using UISelenium.Pages;
 using OpenQA.Selenium;
 using FluentAssertions;
+using UI.Steps.CommonActions;
+using UI.Utilities;
+using UI.Pages;
 
 namespace UI.Steps
 {
