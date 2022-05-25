@@ -491,23 +491,22 @@ steps:
 #    command: 'test'
 #    projects: '**/UI.csproj'
 #    testRunTitle: 'Testing'
-- task: PublishBuildArtifacts@1
-  condition: succeededOrFailed()
-  displayName: Test UI Results
-  inputs:
-    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
-    artifactName: UIResults
-##- task: PublishTestResults@2
-##  condition: succeededOrFailed()
-
-
-## Publish Test Results
-## Publish test results to Azure Pipelines
-#- task: PublishTestResults@2
-#  displayName: Nunitt logs
+#- task: PublishBuildArtifacts@1
 #  condition: succeededOrFailed()
+#  displayName: Test UI Results
 #  inputs:
-#    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+#    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
+#    artifactName: UIResults
+- task: publishtestresults@2
+  condition: succeededorfailed()
+
+
+# Publish test results to Azure Pipelines
+- task: PublishTestResults@2
+  displayName: Nunit logs
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: 'NUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
     #testResultsFiles: '**/TEST-*.xml' 
     #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
     #mergeTestResults: true # Optional
