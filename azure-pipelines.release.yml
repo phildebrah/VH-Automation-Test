@@ -464,8 +464,7 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 - task: PublishTestResults@2
   condition: succeededOrFailed()
-  artifactName: Results
-
+  
 #steps:
 #- task: DotNetCoreCLI@2
 #  displayName: Build
