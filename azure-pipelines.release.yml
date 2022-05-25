@@ -478,12 +478,12 @@ steps:
 #    command: 'test'
 #    projects: '**/SwaggerJsonApi.csproj'
 #    testRunTitle: 'Testing'
-- task: PublishBuildArtifacts@1
-  condition: succeededOrFailed()
-  displayName: Test API Results
-  inputs:
-    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
-    artifactName: ApIResults
+#- task: PublishBuildArtifacts@1
+#  condition: succeededOrFailed()
+#  displayName: Test API Results
+#  inputs:
+#    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
+#    artifactName: ApIResults
 #- task: DotNetCoreCLI@2
 #  condition: succeededOrFailed()
 #  displayName: Test UI 
