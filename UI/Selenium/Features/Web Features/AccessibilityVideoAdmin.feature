@@ -9,14 +9,14 @@ Feature: Accessibility
 	I want to check each page for potential accessibility issues
 
 
-Scenario: Dashboard page accessibility
-	Given I'm on the "Dashboard" page
-	Then the page should be accessible
-
-#Scenario: Hearing Details page accessibility
-#	Given I'm on the "Hearing Details" page
+#Scenario: Dashboard page accessibility
+#	Given I'm on the "Dashboard" page
 #	Then the page should be accessible
 #
+Scenario: Hearing Details page accessibility
+	Given I'm on the "Hearing Details" page
+	Then the page should be accessible
+
 #Scenario: Hearing Schedule page accessibility
 #	Given I'm on the "Hearing Schedule" page
 #	Then the page should be accessible
