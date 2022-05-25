@@ -456,43 +456,59 @@ steps:
   inputs:
     command: build
     projects: '**/*.csproj'
-    arguments: '--configuration Debug'
+    arguments: '--configuration $(buildConfiguration)'
 - task: DotNetCoreCLI@2
-  displayName: Test API
   inputs:
-    command: 'test'
-    projects: '**/SwaggerJsonApi.csproj'
-    testRunTitle: 'Testing'
+    command: test
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  artifactName: Results
+
+#steps:
+#- task: DotNetCoreCLI@2
+#  displayName: Build
+#  inputs:
+#    command: build
+#    projects: '**/*.csproj'
+#    arguments: '--configuration Debug'
+#- task: DotNetCoreCLI@2
+#  displayName: Test API
+#  inputs:
+#    command: 'test'
+#    projects: '**/SwaggerJsonApi.csproj'
+#    testRunTitle: 'Testing'
 - task: PublishBuildArtifacts@1
   condition: succeededOrFailed()
   displayName: Test API Results
   inputs:
     PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
     artifactName: ApIResults
-- task: DotNetCoreCLI@2
-  condition: succeededOrFailed()
-  displayName: Test UI 
-  inputs:
-    command: 'test'
-    projects: '**/UI.csproj'
-    testRunTitle: 'Testing'
+#- task: DotNetCoreCLI@2
+#  condition: succeededOrFailed()
+#  displayName: Test UI 
+#  inputs:
+#    command: 'test'
+#    projects: '**/UI.csproj'
+#    testRunTitle: 'Testing'
 - task: PublishBuildArtifacts@1
   condition: succeededOrFailed()
   displayName: Test UI Results
   inputs:
     PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
     artifactName: UIResults
+##- task: PublishTestResults@2
+##  condition: succeededOrFailed()
+
+
+## Publish Test Results
+## Publish test results to Azure Pipelines
 #- task: PublishTestResults@2
+#  displayName: Nunitt logs
 #  condition: succeededOrFailed()
-
-
-# Publish Test Results
-# Publish test results to Azure Pipelines
-- task: PublishTestResults@2
-  displayName: Nunitt logs
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+#  inputs:
+#    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
     #testResultsFiles: '**/TEST-*.xml' 
     #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
     #mergeTestResults: true # Optional
