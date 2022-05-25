@@ -469,7 +469,7 @@ steps:
   inputs:
     PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
     artifactName: ApIResults
--# task: DotNetCoreCLI@2
+#- task: DotNetCoreCLI@2
  # condition: succeededOrFailed()
  # displayName: Test UI 
  # inputs:
