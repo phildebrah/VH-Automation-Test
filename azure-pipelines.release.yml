@@ -447,14 +447,28 @@ steps:
   inputs:
     command: build
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration debug'
 - task: DotNetCoreCLI@2
+  displayName: Test
   inputs:
     command: test
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration debug'
 - task: PublishTestResults@2
   condition: succeededOrFailed()
+
+- task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
+  displayName: Test API Results
+  inputs:
+    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
+    artifactName: ApIResults
+- task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
+  displayName: Test UI Results
+  inputs:
+    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
+    artifactName: UIResults
 
 #- script: dotnet build 
 #  displayName: 'dotnet build'

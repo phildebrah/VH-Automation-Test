@@ -64,6 +64,7 @@ namespace RestSharpApi.Hooks
         public static void BeforeFeature(FeatureContext featureContext, ISpecFlowOutputHelper outputHelper)
         {
             var featureTitle = featureContext.FeatureInfo.Title;
+            _logger.Info($"Feature title is '{featureTitle}'");
             _feature = _extent.CreateTest<Feature>(featureTitle);
             _logger.Info($"Starting feature '{featureTitle}'");
         }
