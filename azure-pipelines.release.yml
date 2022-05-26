@@ -463,12 +463,12 @@ steps:
   inputs:
     PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
     artifactName: ApIResults
-- task: PublishBuildArtifacts@1
-  condition: succeededOrFailed()
-  displayName: Test UI Results
-  inputs:
-    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
-    artifactName: UIResults
+#- task: PublishBuildArtifacts@1
+#  condition: succeededOrFailed()
+#  displayName: Test UI Results
+#  inputs:
+#    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
+#    artifactName: UIResults
 
 #- script: dotnet build 
 #  displayName: 'dotnet build'
