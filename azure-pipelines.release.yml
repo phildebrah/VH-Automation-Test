@@ -58,12 +58,12 @@ variables:
   - name: AzureAd:VhVideoApiResourceId
     value: VH-Automation-Test-identifieruris
   # SauceLabs
-  - name: Saucelabs:Username
-    value: $(Saucelabs:Username)
-  - name: Saucelabs:AccessKey
-    value: $(Saucelabs:AccessKey)
-  - name: Saucelabs:RealDeviceApiKey
-    value: $(RealDeviceApiKey)
+  #- name: Saucelabs:Username
+  #  value: $(Saucelabs:Username)
+  #- name: Saucelabs:AccessKey
+  #  value: $(Saucelabs:AccessKey)
+  #- name: Saucelabs:RealDeviceApiKey
+  #  value: $(RealDeviceApiKey)
   # Testing
   - name: Testing:TestClientId
     value: vh-admin-web-appid
