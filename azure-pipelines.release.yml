@@ -452,7 +452,7 @@ steps:
   displayName: Test
   inputs:
     command: test
-    projects: '**/*.csproj'
+    projects: '**/SwaggerJsonApi.csproj'
     arguments: '--configuration debug'
 - task: PublishTestResults@2
   condition: succeededOrFailed()
