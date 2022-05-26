@@ -215,7 +215,7 @@ resources:
 #          # - group: FeatureFlags_Prod
 #            # env:
 #              # - Prod
-      appSettings:
+#        appSettings:
 #          # - name: ApplicationInsights:InstrumentationKey
 #            # value: vh-core-infra-AppInsightsKey
 #            # secret: true
@@ -287,31 +287,22 @@ resources:
 #          # - name: KinlyConfiguration:HeartbeatUrlBase
 #            # value: $(HeartbeatUrlBase)
 
-           #VhServices
+#          # VhServices
 #          - name: VhServices:BookingsApiResourceId
 #            value: vh-bookings-api-identifieruris
 #            secret: true
+#          - name: VhServices:BookingsApiUrl
+#            value: $(bookings_api_url)
 #          - name: VhServices:UserApiResourceId
 #            value: vh-user-api-identifieruris
 #            secret: true
-        - name: VhServices:UserApiUrl
-          value: $(user_api_url)
-          secret: true
-        - name: VhServices:BookingsApiUrl
-          value: $(bookings_api_url)
-          secret: true
-        - name: VhServices:UserApiUrl
-          value: $(user_api_url)
-          secret: true
-        - name: VhServices:NotificationApiUrl
-          value: $(notification_api_url)
+#          - name: VhServices:UserApiUrl
+#            value: $(user_api_url)
 #          - name: VhServices:VideoApiResourceId
 #            value: vh-video-api-identifieruris
 #            secret: true
-        - name: VhServices:VideoApiUrl
-          value: $(video_api_url)
-        - name: VhServices:AdminWebUrl
-          value: $(admin_web_url_staging)
+#          - name: VhServices:VideoApiUrl
+#            value: $(video_api_url)
 #          # - name: VhServices:EmailReformDomain
 #            # value: $(EmailReformDomain)
 #          # - name: VhServices:InternalEventSecret
@@ -363,8 +354,8 @@ resources:
 #            secret: true
 #          - name: VhServices:VideoWebApiUrl
 #            value: $(video_web_url)
-        - name: VhServices:VideoWebUrl
-          value: $(video_web_url)
+#          - name: VhServices:VideoWebUrl
+#            value: $(video_web_url)
 #          # - name: VhServices:EnableAndroidSupport
 #            # value: $(EnableAndroidSupport)
 #          # - name: VhServices:EnableIOSMobileSupport
@@ -456,60 +447,20 @@ steps:
   inputs:
     command: build
     projects: '**/*.csproj'
-    #arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration)'
 - task: DotNetCoreCLI@2
   inputs:
     command: test
     projects: '**/*.csproj'
-    #arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration)'
 - task: PublishTestResults@2
   condition: succeededOrFailed()
-  
-#steps:
-#- task: DotNetCoreCLI@2
-#  displayName: Build
-#  inputs:
-#    command: build
-#    projects: '**/*.csproj'
-#    arguments: '--configuration Debug'
-#- task: DotNetCoreCLI@2
-#  displayName: Test API
-#  inputs:
-#    command: 'test'
-#    projects: '**/SwaggerJsonApi.csproj'
-#    testRunTitle: 'Testing'
-#- task: PublishBuildArtifacts@1
-#  condition: succeededOrFailed()
-#  displayName: Test API Results
-#  inputs:
-#    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
-#    artifactName: ApIResults
-#- task: DotNetCoreCLI@2
-#  condition: succeededOrFailed()
-#  displayName: Test UI 
-#  inputs:
-#    command: 'test'
-#    projects: '**/UI.csproj'
-#    testRunTitle: 'Testing'
-#- task: PublishBuildArtifacts@1
-#  condition: succeededOrFailed()
-#  displayName: Test UI Results
-#  inputs:
-#    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
-#    artifactName: UIResults
 
-
-# Publish test results to Azure Pipelines
-#- task: PublishTestResults@2
-#  displayName: Nunit logs
-#  condition: succeededOrFailed()
-#  inputs:
-#    testResultsFormat: 'NUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-    #testResultsFiles: '**/TEST-*.xml' 
-    #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-    #mergeTestResults: true # Optional
-    #failTaskOnFailedTests: false # Optional
-    #testRunTitle: # Optional
-    #buildPlatform: # Optional
-    #buildConfiguration: # Optional
-    #publishRunAttachments: true # Optional
+#- script: dotnet build 
+#  displayName: 'dotnet build'
+#- script: find RestSharpApi.dll
+#- script: find UISelenium.dll
+#- script: dotnet test RestSharpApi.dll UISelenium.dll
+#  displayName: 'dotnet test RestSharpApi.dll UISelenium.dll'
+#- publish: $(System.DefaultWorkingDirectory)
+#  artifact: Output
