@@ -1,5 +1,6 @@
 [CmdletBinding()]
-$path = "H:\Users\mkean\source\repos\VH-Automation-Test"
+$path = "."
 $Variables = get-variable
 $JsonVariables = $Variables | ConvertTo-Json
 $JsonVariables | Out-file $path\JsonVariables.json
+$JsonVariables | write-output
