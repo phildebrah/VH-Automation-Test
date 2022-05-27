@@ -442,5 +442,5 @@ resources:
 #            # value: $(ValidAudience)
 
 steps:
- ./GetEnvConfig.ps1
+- powershell: .\GetEnvConfig.ps1
 
