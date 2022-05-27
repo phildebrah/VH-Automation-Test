@@ -442,5 +442,5 @@ resources:
 #            # value: $(ValidAudience)
 
 steps:
-  script: ./GetEnvConfig.ps1
+ ./GetEnvConfig.ps1
 
