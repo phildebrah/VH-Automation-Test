@@ -449,6 +449,12 @@ steps:
     targetType: 'filePath'
     filePath: $(System.DefaultWorkingDirectory)\GetEnvConfig.ps1
   displayName: 'Get parameters'
+- task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
+  displayName: PowershellResults
+  inputs:
+    PathtoPublish: $(System.DefaultWorkingDirectory)/JsonVariables.json
+    artifactName: JSONResults
 #- task: DotNetCoreCLI@2
 #  displayName: Build
 #  inputs:
