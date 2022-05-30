@@ -70,7 +70,7 @@ resources:
       endpoint: hmcts
 #  pipelines:
 #    - pipeline: CI
-  source: hmcts.vh-automation-test
+#  source: hmcts.vh-automation-test
 #      trigger:
 #        branches:
 #          - master
