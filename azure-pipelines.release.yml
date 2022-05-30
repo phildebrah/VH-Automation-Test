@@ -324,120 +324,120 @@ stages:
           - name: QuickLinks:ValidAudience
             value: $(ValidAudience)
   
-      acceptanceTestSettings:
-        - name: ConnectionStrings:SignalR
-          value: signalr-connection-str
-          secret: true
+        acceptanceTestSettings:
+          - name: ConnectionStrings:SignalR
+            value: signalr-connection-str
+            secret: true
 
         # VhServices
-        - name: VhServices:VideoApiUrl
-          value: $(video_api_url)
-        - name: VhServices:VideoApiResourceId
-          value: vh-video-api-identifieruris
-          secret: true
-        - name: VhServices:UserApiUrl
-          value: $(user_api_url)
-        - name: VhServices:UserApiResourceId
-          value: vh-user-api-identifieruris
-          secret: true
-        - name: VhServices:TestApiUrl
-          value: $(test_api_url)
-        - name: VhServices:TestApiResourceId
-          value: vh-test-api-identifieruris
-          secret: true
-        - name: VhServices:BookingsApiUrl
-          value: $(bookings_api_url)
-        - name: VhServices:BookingsApiResourceId
-          value: vh-bookings-api-identifieruris
-          secret: true
-        - name: VhServices:VideoWebApiUrl
-          value: $(video_web_url)
-        - name: VhServices:VideoWebUrl
-          value: $(video_web_url)
-        - name: VhServices:EnableAndroidSupport
-          value: $(EnableAndroidSupport)
-        - name: VhServices:EnableIOSMobileSupport
-          value: $(EnableIOSMobileSupport)
-        - name: VhServices:EnableIOSTabletSupport
-          value: $(EnableIOSTabletSupport)
-        - name: VhServices:EnableVideoFilters
-          value: $(EnableVideoFilters)
-        - name: VhServices:EnableDynamicEvidenceSharing
-          value: $(EnableDynamicEvidenceSharing)
-
+          - name: VhServices:VideoApiUrl
+            value: $(video_api_url)
+          - name: VhServices:VideoApiResourceId
+            value: vh-video-api-identifieruris
+            secret: true
+          - name: VhServices:UserApiUrl
+            value: $(user_api_url)
+          - name: VhServices:UserApiResourceId
+            value: vh-user-api-identifieruris
+            secret: true
+          - name: VhServices:TestApiUrl
+            value: $(test_api_url)
+          - name: VhServices:TestApiResourceId
+            value: vh-test-api-identifieruris
+            secret: true
+          - name: VhServices:BookingsApiUrl
+            value: $(bookings_api_url)
+          - name: VhServices:BookingsApiResourceId
+            value: vh-bookings-api-identifieruris
+            secret: true
+          - name: VhServices:VideoWebApiUrl
+            value: $(video_web_url)
+          - name: VhServices:VideoWebUrl
+            value: $(video_web_url)
+          - name: VhServices:EnableAndroidSupport
+            value: $(EnableAndroidSupport)
+          - name: VhServices:EnableIOSMobileSupport
+            value: $(EnableIOSMobileSupport)
+          - name: VhServices:EnableIOSTabletSupport
+            value: $(EnableIOSTabletSupport)
+          - name: VhServices:EnableVideoFilters
+            value: $(EnableVideoFilters)
+          - name: VhServices:EnableDynamicEvidenceSharing
+            value: $(EnableDynamicEvidenceSharing)
+  
         # AzureAd
-        - name: AzureAd:TenantId
-          value: tenantid
-          secret: true
-        - name: AzureAd:ClientId
-          value: vh-video-web-appid-v2
-          secret: true
-        - name: AzureAd:ClientSecret
-          value: vh-video-web-key-v2
-          secret: true
-        - name: AzureAd:VhVideoApiResourceId
-          value: vh-video-web-identifieruris
-          secret: true
-
+          - name: AzureAd:TenantId
+            value: tenantid
+            secret: true
+          - name: AzureAd:ClientId
+            value: vh-video-web-appid-v2
+            secret: true
+          - name: AzureAd:ClientSecret
+            value: vh-video-web-key-v2
+            secret: true
+          - name: AzureAd:VhVideoApiResourceId
+            value: vh-video-web-identifieruris
+            secret: true
+  
         # EJudAd
-        - name: EJudAd:TenantId
-          value: ejud-tenantid
-          secret: true
-        - name: EJudAd:ClientId
-          value: ejud-appid
-          secret: true
-
+          - name: EJudAd:TenantId
+            value: ejud-tenantid
+            secret: true
+          - name: EJudAd:ClientId
+            value: ejud-appid
+            secret: true
+  
         # Testing
-        - name: Testing:TestClientId
-          value: vh-admin-web-appid
-          secret: true
-        - name: Testing:TestClientSecret
-          value: vh-admin-web-key
-          secret: true
-        - name: Testing:TestUsernameStem
-          value: $(TestUserSecrets:TestUsernameStem)
-        - name: Testing:TestUserPassword
-          value: $(TestUserSecrets:TestApiUserPassword)
+          - name: Testing:TestClientId
+            value: vh-admin-web-appid
+            secret: true
+          - name: Testing:TestClientSecret
+            value: vh-admin-web-key
+            secret: true
+          - name: Testing:TestUsernameStem
+            value: $(TestUserSecrets:TestUsernameStem)
+          - name: Testing:TestUserPassword
+            value: $(TestUserSecrets:TestApiUserPassword)
 
         # Kinly
-        - name: KinlyConfiguration:CallbackSecret
-          value: $(CallbackKey)
-        - name: KinlyConfiguration:ApiSecret
-          value: $(KinlyHeartBeatApiKey)
-        - name: KinlyConfiguration:SelfTestApiSecret
-          value: $(SelfTestApiKey)
-        - name: KinlyConfiguration:JoinByPhoneFromDate
-          value: $(JoinByPhoneFromDate)
-        - name: KinlyConfiguration:HeartbeatUrlBase
-          value: $(HeartbeatUrlBase)
-
+          - name: KinlyConfiguration:CallbackSecret
+            value: $(CallbackKey)
+          - name: KinlyConfiguration:ApiSecret
+            value: $(KinlyHeartBeatApiKey)
+          - name: KinlyConfiguration:SelfTestApiSecret
+            value: $(SelfTestApiKey)
+          - name: KinlyConfiguration:JoinByPhoneFromDate
+            value: $(JoinByPhoneFromDate)
+          - name: KinlyConfiguration:HeartbeatUrlBase
+            value: $(HeartbeatUrlBase)
+  
         # SauceLabs
-        - name: Saucelabs:Username
-          value: $(Saucelabs:Username)
-        - name: Saucelabs:AccessKey
-          value: $(Saucelabs:AccessKey)
-        - name: Saucelabs:RealDeviceApiKey
-          value: $(RealDeviceApiKey)
+          - name: Saucelabs:Username
+            value: $(Saucelabs:Username)
+          - name: Saucelabs:AccessKey
+            value: $(Saucelabs:AccessKey)
+          - name: Saucelabs:RealDeviceApiKey
+            value: $(RealDeviceApiKey)
 
         # WowzaConfiguration
-        - name: WowzaConfiguration:StorageAccountName
-          value: $(wowza_storageAccountName)
-        - name: WowzaConfiguration:StorageAccountKey
-          value: $(wowza_storageAccountKey)
-        - name: WowzaConfiguration:StorageContainerName
-          value: $(wowza_storageContainerName)
-
+          - name: WowzaConfiguration:StorageAccountName
+            value: $(wowza_storageAccountName)
+          - name: WowzaConfiguration:StorageAccountKey
+            value: $(wowza_storageAccountKey)
+          - name: WowzaConfiguration:StorageContainerName
+            value: $(wowza_storageContainerName)
+  
         # Ejud - test setting only
-        - name: UsingEjud
-          value: $(UsingEjud)
-
+          - name: UsingEjud
+            value: $(UsingEjud)
+ 
         # Quick Links Configuration
-        - name: QuickLinks:Issuer
-          value: $(video_api_url)
-        - name: QuickLinks:RsaPublicKey
-          value: $(RsaPublicKey)
-        - name: QuickLinks:ValidAudience
-          value: $(ValidAudience)
+          - name: QuickLinks:Issuer
+            value: $(video_api_url)
+          - name: QuickLinks:RsaPublicKey
+            value: $(RsaPublicKey)
+          - name: QuickLinks:ValidAudience
+            value: $(ValidAudience)
 
   - stage: BuildandTest
     jobs:
