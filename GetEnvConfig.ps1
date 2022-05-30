@@ -9,6 +9,6 @@ write-output ""
 $path = "."
 #$Variable1 = $env:ClientId
 $Variable1 = Get-ChildItem
-$JsonVariables = $Variable1 | ConvertTo-Json
+$JsonVariables = $Variable1 | ConvertTo-Json -Depth 3
 $JsonVariables | Out-file $path\JsonVariables.json
 $JsonVariables | write-output

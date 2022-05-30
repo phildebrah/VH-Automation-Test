@@ -69,6 +69,41 @@ variables:
   - name: AzureAd:TenantId
     value: tenantid
     #secret: true
+          # VhServices
+  - name: VhServices:VideoApiUrl
+    value: $(video_api_url)
+  - name: VhServices:VideoApiResourceId
+    value: vh-video-api-identifieruris
+         #  secret: true
+  - name: VhServices:UserApiUrl
+    value: $(user_api_url)
+  - name: VhServices:UserApiResourceId
+    value: vh-user-api-identifieruris
+          #  secret: true
+  - name: VhServices:TestApiUrl
+    value: $(test_api_url)
+  - name: VhServices:TestApiResourceId
+    value: vh-test-api-identifieruris
+            # secret: true
+          #- name: VhServices:BookingsApiUrl
+          #  value: $(bookings_api_url)
+          #- name: VhServices:BookingsApiResourceId
+          #  value: vh-bookings-api-identifieruris
+          #  secret: true
+          #- name: VhServices:VideoWebApiUrl
+          #  value: $(video_web_url)
+          #- name: VhServices:VideoWebUrl
+          #  value: $(video_web_url)
+          # - name: VhServices:EnableAndroidSupport
+            # value: $(EnableAndroidSupport)
+          # - name: VhServices:EnableIOSMobileSupport
+            # value: $(EnableIOSMobileSupport)
+          # - name: VhServices:EnableIOSTabletSupport
+            # value: $(EnableIOSTabletSupport)
+          # - name: VhServices:EnableVideoFilters
+            # value: $(EnableVideoFilters)
+          # - name: VhServices:EnableDynamicEvidenceSharing
+            # value: $(EnableDynamicEvidenceSharing)
 
 trigger: none
 pr: none
@@ -323,30 +358,30 @@ resources:
 #            # secret: true
 
           # VhServices
-          - name: VhServices:VideoApiUrl
-            value: $(video_api_url)
-          - name: VhServices:VideoApiResourceId
-            value: vh-video-api-identifieruris
-            secret: true
-          - name: VhServices:UserApiUrl
-            value: $(user_api_url)
-          - name: VhServices:UserApiResourceId
-            value: vh-user-api-identifieruris
-            secret: true
+          #- name: VhServices:VideoApiUrl
+          #  value: $(video_api_url)
+          #- name: VhServices:VideoApiResourceId
+          #  value: vh-video-api-identifieruris
+          #  secret: true
+          #- name: VhServices:UserApiUrl
+          #  value: $(user_api_url)
+          #- name: VhServices:UserApiResourceId
+          #  value: vh-user-api-identifieruris
+          #  secret: true
           # - name: VhServices:TestApiUrl
             # value: $(test_api_url)
           # - name: VhServices:TestApiResourceId
             # value: vh-test-api-identifieruris
             # secret: true
-          - name: VhServices:BookingsApiUrl
-            value: $(bookings_api_url)
-          - name: VhServices:BookingsApiResourceId
-            value: vh-bookings-api-identifieruris
-            secret: true
-          - name: VhServices:VideoWebApiUrl
-            value: $(video_web_url)
-          - name: VhServices:VideoWebUrl
-            value: $(video_web_url)
+          #- name: VhServices:BookingsApiUrl
+          #  value: $(bookings_api_url)
+          #- name: VhServices:BookingsApiResourceId
+          #  value: vh-bookings-api-identifieruris
+          #  secret: true
+          #- name: VhServices:VideoWebApiUrl
+          #  value: $(video_web_url)
+          #- name: VhServices:VideoWebUrl
+          #  value: $(video_web_url)
           # - name: VhServices:EnableAndroidSupport
             # value: $(EnableAndroidSupport)
           # - name: VhServices:EnableIOSMobileSupport
