@@ -70,7 +70,7 @@ resources:
       endpoint: hmcts
   pipelines:
     - pipeline: CI
-      source: hmcts.vh-video-web
+      source: hmcts.vh-automation-test
       trigger:
         branches:
           - master
@@ -324,7 +324,7 @@ stages:
         - name: QuickLinks:ValidAudience
           value: $(ValidAudience)
 
-    acceptanceTestSettings:
+      acceptanceTestSettings:
         - name: ConnectionStrings:SignalR
           value: signalr-connection-str
           secret: true
