@@ -27,7 +27,7 @@ parameters:
   - name: runACTests
     displayName: Run Smoke Checks
     type: boolean
-    default: true
+    default: false
 
   - name: prodEnvs
     displayName: Environments Using Prod Subscription
