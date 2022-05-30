@@ -1,3 +1,4 @@
+Import-Module Microsoft.PowerShell.Utility
 $path = "."
 $Variables = get-variable
 $JsonVariables = $Variables | ConvertTo-Json
