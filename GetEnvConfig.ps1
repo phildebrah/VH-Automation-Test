@@ -1,4 +1,3 @@
-Import-Module Az
 $path = "."
 $Variables = get-variable
 $JsonVariables = $Variables | ConvertTo-Json
