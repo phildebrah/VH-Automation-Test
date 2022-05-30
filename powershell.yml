@@ -54,6 +54,21 @@ variables:
         : - group: vh-prod
       - ? ${{ if not(or(startswith(variables['Build.SourceBranch'], 'refs/heads/release/'), startswith(variables['Build.SourceBranch'], 'refs/heads/hotfix/'))) }}
         : - group: vh-preview
+  - name: AzureAd:ClientId
+    value: VH-Automation-Test-appid-v2
+    secret: true
+  - name: AzureAd:ClientSecret
+    value: VH-Automation-Test-key-v2
+    secret: true
+          # - name: AzureAd:PostLogoutRedirectUri
+            # slot:
+              # deployment:
+                # value: $(video_web_url)logout
+              # active:
+                # value: $(video_web_url)logout
+  - name: AzureAd:TenantId
+    value: tenantid
+    secret: true
 
 trigger: none
 pr: none
@@ -223,31 +238,7 @@ resources:
 #            # value: signalr-connection-str
 #            # secret: true
 
-#          # AzureAd
-#          - name: AzureAd:ClientId
-#            value: VH-Automation-Test-appid-v2
-#            secret: true
-#          - name: AzureAd:ClientSecret
-#            value: VH-Automation-Test-key-v2
-#            secret: true
-#          # - name: AzureAd:PostLogoutRedirectUri
-#            # slot:
-#              # deployment:
-#                # value: $(video_web_url)logout
-#              # active:
-#                # value: $(video_web_url)logout
-#          - name: AzureAd:RedirectUri
-#            slot:
-#              deployment:
-#                value: $(video_web_url)home
-#              active:
-#                value: $(video_web_url)home
-#          - name: AzureAd:TenantId
-#            value: tenantid
-#            secret: true
-#          - name: AzureAd:VhVideoWebResourceId
-#            value: VH-Automation-Test-identifieruris
-#            secret: true
+# AzureAd
 
 #          # EJudAd
 #          # - name: EJudAd:ClientId
