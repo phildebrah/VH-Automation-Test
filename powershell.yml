@@ -56,10 +56,10 @@ variables:
         : - group: vh-preview
   - name: AzureAd:ClientId
     value: VH-Automation-Test-appid-v2
-    secret: true
+    #secret: true
   - name: AzureAd:ClientSecret
     value: VH-Automation-Test-key-v2
-    secret: true
+    #secret: true
           # - name: AzureAd:PostLogoutRedirectUri
             # slot:
               # deployment:
@@ -68,7 +68,7 @@ variables:
                 # value: $(video_web_url)logout
   - name: AzureAd:TenantId
     value: tenantid
-    secret: true
+    #secret: true
 
 trigger: none
 pr: none
