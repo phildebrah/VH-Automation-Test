@@ -75,7 +75,7 @@ resources:
           - release/*
 
 stages:
-  steps:
+  stage:
     parameters:
       ${{ if ne(variables['Build.Reason'], 'ResourceTrigger') }}:
         environments:
