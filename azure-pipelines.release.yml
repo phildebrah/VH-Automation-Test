@@ -84,8 +84,8 @@ stages:
         environments:
         - ${{ parameters.environment }}
         deploymentBranch: ${{ parameters.deploymentBranch }}
-      ${{ if eq(variables['Build.Reason'], 'ResourceTrigger') }}:
-        deploymentBranch: resources.pipeline.CI.sourceBranch
+#      ${{ if eq(variables['Build.Reason'], 'ResourceTrigger') }}:
+#        deploymentBranch: resources.pipeline.CI.sourceBranch
       releaseParameters:
         runZapTests: ${{ parameters.RunZap }}
         subscription: $(env_Subscription)
