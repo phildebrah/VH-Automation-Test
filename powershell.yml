@@ -40,8 +40,8 @@ parameters:
 variables:
   - group: vh-domains-and-urls
   - group: vh-apps-settings-generic
- # - group: VH-Automation-Test
-#  - group: vh test users
+  - group: VH-Automation-Test
+  - group: vh test users
   - group: QuickLinks_Common
   - group: Saucelabs
   - ${{ if ne(variables['Build.Reason'], 'ResourceTrigger') }}:
@@ -125,7 +125,7 @@ resources:
 #          # - name: vh-test-api-$(environment)
 #            # resourceGroup: vh-test-api-$(environment)
 #            # healthEndpoint: $(test_api_url)health/health
-#        variables:
+      variables:
 #          # - group: vh-wowza-dev
 #            # env:
 #              # - Preview
@@ -322,41 +322,41 @@ resources:
 #            # value: signalr-connection-str
 #            # secret: true
 
-#          # VhServices
-#          - name: VhServices:VideoApiUrl
-#            value: $(video_api_url)
-#          - name: VhServices:VideoApiResourceId
-#            value: vh-video-api-identifieruris
-#            secret: true
-#          - name: VhServices:UserApiUrl
-#            value: $(user_api_url)
-#          - name: VhServices:UserApiResourceId
-#            value: vh-user-api-identifieruris
-#            secret: true
-#          # - name: VhServices:TestApiUrl
-#            # value: $(test_api_url)
-#          # - name: VhServices:TestApiResourceId
-#            # value: vh-test-api-identifieruris
-#            # secret: true
-#          - name: VhServices:BookingsApiUrl
-#            value: $(bookings_api_url)
-#          - name: VhServices:BookingsApiResourceId
-#            value: vh-bookings-api-identifieruris
-#            secret: true
-#          - name: VhServices:VideoWebApiUrl
-#            value: $(video_web_url)
-#          - name: VhServices:VideoWebUrl
-#            value: $(video_web_url)
-#          # - name: VhServices:EnableAndroidSupport
-#            # value: $(EnableAndroidSupport)
-#          # - name: VhServices:EnableIOSMobileSupport
-#            # value: $(EnableIOSMobileSupport)
-#          # - name: VhServices:EnableIOSTabletSupport
-#            # value: $(EnableIOSTabletSupport)
-#          # - name: VhServices:EnableVideoFilters
-#            # value: $(EnableVideoFilters)
-#          # - name: VhServices:EnableDynamicEvidenceSharing
-#            # value: $(EnableDynamicEvidenceSharing)
+          # VhServices
+          - name: VhServices:VideoApiUrl
+            value: $(video_api_url)
+          - name: VhServices:VideoApiResourceId
+            value: vh-video-api-identifieruris
+            secret: true
+          - name: VhServices:UserApiUrl
+            value: $(user_api_url)
+          - name: VhServices:UserApiResourceId
+            value: vh-user-api-identifieruris
+            secret: true
+          # - name: VhServices:TestApiUrl
+            # value: $(test_api_url)
+          # - name: VhServices:TestApiResourceId
+            # value: vh-test-api-identifieruris
+            # secret: true
+          - name: VhServices:BookingsApiUrl
+            value: $(bookings_api_url)
+          - name: VhServices:BookingsApiResourceId
+            value: vh-bookings-api-identifieruris
+            secret: true
+          - name: VhServices:VideoWebApiUrl
+            value: $(video_web_url)
+          - name: VhServices:VideoWebUrl
+            value: $(video_web_url)
+          # - name: VhServices:EnableAndroidSupport
+            # value: $(EnableAndroidSupport)
+          # - name: VhServices:EnableIOSMobileSupport
+            # value: $(EnableIOSMobileSupport)
+          # - name: VhServices:EnableIOSTabletSupport
+            # value: $(EnableIOSTabletSupport)
+          # - name: VhServices:EnableVideoFilters
+            # value: $(EnableVideoFilters)
+          # - name: VhServices:EnableDynamicEvidenceSharing
+            # value: $(EnableDynamicEvidenceSharing)
 
 #          # AzureAd
 #          - name: AzureAd:TenantId
@@ -404,13 +404,13 @@ resources:
 #          # - name: KinlyConfiguration:HeartbeatUrlBase
 #            # value: $(HeartbeatUrlBase)
 
-#          # SauceLabs
-#          - name: Saucelabs:Username
-#            value: $(Saucelabs:Username)
-#          - name: Saucelabs:AccessKey
-#            value: $(Saucelabs:AccessKey)
-#          - name: Saucelabs:RealDeviceApiKey
-#            value: $(RealDeviceApiKey)
+          # SauceLabs
+          - name: Saucelabs:Username
+            value: $(Saucelabs:Username)
+          - name: Saucelabs:AccessKey
+            value: $(Saucelabs:AccessKey)
+          - name: Saucelabs:RealDeviceApiKey
+            value: $(RealDeviceApiKey)
 
 #          # WowzaConfiguration
 #          # - name: WowzaConfiguration:StorageAccountName
