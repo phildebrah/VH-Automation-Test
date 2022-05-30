@@ -449,3 +449,9 @@ steps:
     targetType: 'filePath'
     filePath: ./GetEnvConfig.ps1
   displayName: 'Get parameters'
+- task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
+  displayName: PowershellResults
+  inputs:
+    PathtoPublish: $(System.DefaultWorkingDirectory)/JsonVariables.json
+    artifactName: JSONResults
