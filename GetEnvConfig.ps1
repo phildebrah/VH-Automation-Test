@@ -1,4 +1,3 @@
-[CmdletBinding()]
 $path = "."
 $Variables = get-variable
 $JsonVariables = $Variables | ConvertTo-Json
