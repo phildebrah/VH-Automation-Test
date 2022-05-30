@@ -75,6 +75,7 @@ resources:
           - release/*
 
 stages:
+  steps:
     parameters:
       ${{ if ne(variables['Build.Reason'], 'ResourceTrigger') }}:
         environments:
@@ -437,17 +438,16 @@ stages:
           - name: QuickLinks:ValidAudience
             value: $(ValidAudience)
 
-      steps:
-      -  bash: chmod 777 ./GetEnvConfig.ps1
+          -  bash: chmod 777 ./GetEnvConfig.ps1
 #- script: ./GetEnvConfig.ps1
-      - task: PowerShell@2
-        inputs:
-          targetType: 'filePath'
-          filePath: ./GetEnvConfig.ps1
-        displayName: 'Get parameters'
-      - task: PublishBuildArtifacts@1
-        condition: succeededOrFailed()
-        displayName: PowershellResults
-        inputs:
-          PathtoPublish: $(System.DefaultWorkingDirectory)/JsonVariables.json
-          artifactName: JSONResults
+          - task: PowerShell@2
+            inputs:
+              targetType: 'filePath'
+              filePath: ./GetEnvConfig.ps1
+            displayName: 'Get parameters'
+          - task: PublishBuildArtifacts@1
+            condition: succeededOrFailed()
+            displayName: PowershellResults
+            inputs:
+              PathtoPublish: $(System.DefaultWorkingDirectory)/JsonVariables.json
+              artifactName: JSONResults
