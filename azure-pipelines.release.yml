@@ -453,4 +453,3 @@ stages:
        inputs:
          PathtoPublish: $(System.DefaultWorkingDirectory)/JsonVariables.json
          artifactName: JSONResults
-r
