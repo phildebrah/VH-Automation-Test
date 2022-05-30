@@ -455,4 +455,4 @@ stages:
         displayName: PowershellResults
         inputs:
           PathtoPublish: $(System.DefaultWorkingDirectory)/JsonVariables.json
-        artifactName: JSONResults
+          artifactName: JSONResults
