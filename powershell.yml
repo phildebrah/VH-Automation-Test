@@ -442,6 +442,6 @@ resources:
 #            # value: $(ValidAudience)
 
 steps:
-- sh chmod 777 ./GetEnvConfig.ps1
+-  bash: chmod 777 ./GetEnvConfig.ps1
 -  script: ./GetEnvConfig.ps1
 
