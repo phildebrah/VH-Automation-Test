@@ -440,7 +440,9 @@ stages:
           value: $(ValidAudience)
 
   - stage: BuildandTest
-    steps:
+    jobs:
+    - job: All
+      steps:
       - bash: chmod 777 ./GetEnvConfig.ps1
 #- script: ./GetEnvConfig.ps1
       - task: PowerShell@2
