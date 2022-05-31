@@ -5,7 +5,7 @@ Get-ChildItem  | write-output
 write-output ""
 write-output "[System.Environment]"
 $JsonVariables = [System.Environment]::GetEnvironmentVariables() | ConvertTo-Json
-$JsonVariables write-output
+$JsonVariables | write-output
 #write-output ""
 #$path = "."
 #$Variable1 = $env:ClientId
