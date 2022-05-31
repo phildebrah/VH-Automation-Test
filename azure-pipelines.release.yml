@@ -456,3 +456,17 @@ stages:
         inputs:
           PathtoPublish: $(System.DefaultWorkingDirectory)/JsonVariables.json
           artifactName: JSONResults
+      - task: DotNetCoreCLI@2
+        displayName: Build
+        inputs:
+        command: build
+        projects: '**/ConsoleApp1.csproj'
+        arguments: '--configuration debug'
+      - task: DotNetCoreCLI@2
+        displayName: Run
+        inputs:
+        command: run
+        projects: '**/ConsoleApp1.csproj'
+        arguments: '--configuration debug'
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
