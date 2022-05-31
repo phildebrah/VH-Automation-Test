@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 
 // See https://aka.ms/new-console-template for more information
-string environment = Environment.GetEnvironmentVariable("environment", EnvironmentVariableTarget.Process);
+//gstring environment = Environment.GetEnvironmentVariable("environment", EnvironmentVariableTarget.Process);
 var a = Environment.CommandLine;
 var b = Environment.GetEnvironmentVariables();
 //var c = Environment.GetFolderPath();
