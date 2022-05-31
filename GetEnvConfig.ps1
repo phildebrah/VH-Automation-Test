@@ -4,7 +4,7 @@ cd Env:
 Get-ChildItem  | write-output
 write-output ""
 write-output "[System.Environment]"
-$JsonVariables = [System.Environment]::GetEnvironmentVariables() | ConvertTo-Json
+$JsonVariables = [System.Environment]::GetEnvironmentVariables()
 $JsonVariables | write-output
 #write-output ""
 #$path = "."
