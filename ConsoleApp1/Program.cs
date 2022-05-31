@@ -3,7 +3,7 @@
 // See https://aka.ms/new-console-template for more information
 //gstring environment = Environment.GetEnvironmentVariable("environment", EnvironmentVariableTarget.Process);
 var a = Environment.CommandLine;
-var b = Environment.GetEnvironmentVariables();
+//var b = Environment.GetEnvironmentVariables();
 //var c = Environment.GetFolderPath();
 var d = Environment.ProcessId;
 var e = Environment.CurrentDirectory;
