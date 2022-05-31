@@ -488,9 +488,9 @@ steps:
     projects: '**/ConsoleApp1.csproj'
     arguments: '--configuration debug'
 - task: DotNetCoreCLI@2
-  displayName: Test
+  displayName: Run
   inputs:
-    command: test
+    command: run
     projects: '**/ConsoleApp1.csproj'
     arguments: '--configuration debug'
 - task: PublishTestResults@2
