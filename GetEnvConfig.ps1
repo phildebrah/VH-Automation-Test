@@ -1,13 +1,13 @@
-write-output "Env"
-write-output ""
+#write-output "Env"
+#write-output ""
+$path = Get-Location
 cd Env:
-Get-ChildItem  | write-output
+#Get-ChildItem  | write-output
 write-output ""
 write-output "[System.Environment]"
-$JsonVariables = [System.Environment]::GetEnvironmentVariables()
+$JsonVariables = [System.Environment]::GetEnvironmentVariables() | ConvertTo-json
 $JsonVariables | write-output
 #write-output ""
-#$path = "."
 #$Variable1 = $env:ClientId
 #$Variable1 = Get-ChildItem
 #$JsonVariables = $Variable1 | ConvertTo-Json

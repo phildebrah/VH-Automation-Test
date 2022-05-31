@@ -10,7 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.feature.cs
-
+JsonVariables.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
