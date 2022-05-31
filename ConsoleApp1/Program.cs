@@ -8,6 +8,6 @@ var b = Environment.GetEnvironmentVariables();
 var d = Environment.ProcessId;
 var e = Environment.CurrentDirectory;
 var f = Environment.UserDomainName;
-Console.WriteLine($"environment = {environment}");
+//Console.WriteLine($"environment = {environment}");
 foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
     Console.WriteLine("  {0} = {1}", de.Key, de.Value);
