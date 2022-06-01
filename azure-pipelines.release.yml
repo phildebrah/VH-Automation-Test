@@ -44,51 +44,51 @@ variables:
         : - group: vh-prod
       - ? ${{ if not(or(startswith(variables['Build.SourceBranch'], 'refs/heads/release/'), startswith(variables['Build.SourceBranch'], 'refs/heads/hotfix/'))) }}
         : - group: vh-preview
-  - group: vh-video-web-nonprod
-    env:
-      - Preview
-      - Dev
-      - Demo
-      - AAT
-      - Sandbox
-      - Test1
-      - Test2
+#  - group: vh-video-web-nonprod
+#    env:
+#      - Preview
+#      - Dev
+#      - Demo
+#      - AAT
+#      - Sandbox
+#      - Test1
+#      - Test2
   - name: buildConfiguration
     value: Release
     
-  - group: vh-video-web-preprod
-    env:
-      - Preprod
-  - group: vh-video-web-prod
-    env:
-      - Prod
+#  - group: vh-video-web-preprod
+#    env:
+#      - Preprod
+#  - group: vh-video-web-prod
+#    env:
+#      - Prod
   # Feature Toggle
   - name: FeatureToggle:SDK-Key
     value: vh-admin-web-Feature-Toggle
-    secret: true
+#    secret: true
 
   # AzureAd
   - name: AzureAd:ClientId
     value: vh-admin-web-appid-v2
-    secret: true
+#    secret: true
   - name: AzureAd:ClientSecret
     value: vh-admin-web-key-v2
-    secret: true
-  - name: AzureAd:PostLogoutRedirectUri
-    slot:
-      deployment:
-        value: $(admin_web_url_staging)logout
-      active:
-        value: $(admin_web_url)logout
-  - name: AzureAd:RedirectUri
-    slot:
-      deployment:
-        value: $(admin_web_url_staging)home
-      active:
-        value: $(admin_web_url)home
+#    secret: true
+#  - name: AzureAd:PostLogoutRedirectUri
+#    slot:
+#      deployment:
+#        value: $(admin_web_url_staging)logout
+#      active:
+#        value: $(admin_web_url)logout
+#  - name: AzureAd:RedirectUri
+#    slot:
+#      deployment:
+#        value: $(admin_web_url_staging)home
+#      active:
+#        value: $(admin_web_url)home
   - name: AzureAd:TenantId
     value: tenantid
-    secret: true
+#    secret: true
               
   # Testing
   - name: TestUserSecrets:TestUsernameStem
@@ -97,22 +97,22 @@ variables:
   # VhServices
   - name: VhServices:BookingsApiResourceId
     value: vh-bookings-api-identifieruris
-    secret: true
+#    secret: true
   - name: VhServices:BookingsApiUrl
     value: $(bookings_api_url)
   - name: VhServices:UserApiResourceId
     value: vh-user-api-identifieruris
-    secret: true
+#    secret: true
   - name: VhServices:UserApiUrl
     value: $(user_api_url)
   - name: VhServices:VideoApiResourceId
     value: vh-video-api-identifieruris
-    secret: true
+#    secret: true
   - name: VhServices:VideoApiUrl
     value: $(video_api_url)
   - name: VhServices:NotificationApiResourceId
     value: vh-notification-api-identifieruris
-    secret: true
+#    secret: true
   - name: VhServices:NotificationApiUrl
     value: $(notification_api_url)
   - name: VhServices:ValidateEmail
@@ -121,7 +121,7 @@ variables:
     value: $(video_web_url)
   - name: VhServices:LaunchDarklyClientId
     value: vh-launchdarkly-client-id
-    secret: true
+#    secret: true
   # SauceLabs
   - name: Saucelabs:Username
     value: $(Saucelabs:Username)
@@ -133,46 +133,43 @@ variables:
   - name: UsingEjud
     value: $(UsingEjud)
 
-    acceptanceTestSettings:
-      # VhServices
-      - name: VhServices:AdminWebUrl
-        value: $(admin_web_url_staging)
-      - name: VhServices:AdminWebResourceId
-        value: vh-admin-web-identifieruris
-        secret: true
-      - name: VhServices:VideoApiUrl
-        value: $(video_api_url)
-      - name: VhServices:VideoApiResourceId
-        value: vh-video-api-identifieruris
-        secret: true
-      - name: VhServices:UserApiUrl
-        value: $(user_api_url)
-      - name: VhServices:UserApiResourceId
-        value: vh-user-api-identifieruris
-        secret: true
-      - name: VhServices:TestApiUrl
-        value: $(test_api_url)
-      - name: VhServices:TestApiResourceId
-        value: vh-test-api-identifieruris
-        secret: true  
-      - name: VhServices:BookingsApiUrl
-        value: $(bookings_api_url)
-      - name: VhServices:BookingsApiResourceId
-        value: vh-bookings-api-identifieruris
-        secret: true
-      - name: VhServices:NotificationApiResourceId
-        value: vh-notification-api-identifieruris
-        secret: true
-      - name: VhServices:LaunchDarklyClientId
-        value: vh-launchdarkly-client-id
-        secret: true
-      - name: VhServices:NotificationApiUrl
-        value: $(notification_api_url)
+  - name: VhServices:AdminWebUrl
+    value: $(admin_web_url_staging)
+  - name: VhServices:AdminWebResourceId
+    value: vh-admin-web-identifieruris
+ #   secret: true
+  - name: VhServices:VideoApiUrl
+    value: $(video_api_url)
+  - name: VhServices:VideoApiResourceId
+    value: vh-video-api-identifieruris
+  #  secret: true
+  - name: VhServices:UserApiUrl
+    value: $(user_api_url)
+  - name: VhServices:UserApiResourceId
+    value: vh-user-api-identifieruris
+#        secret: true
+  - name: VhServices:TestApiUrl
+    value: $(test_api_url)
+  - name: VhServices:TestApiResourceId
+    value: vh-test-api-identifieruris
+#    secret: true  
+  - name: VhServices:BookingsApiUrl
+    value: $(bookings_api_url)
+  - name: VhServices:BookingsApiResourceId
+    value: vh-bookings-api-identifieruris
+#    secret: true
+  - name: VhServices:NotificationApiResourceId
+    value: vh-notification-api-identifieruris
+#    secret: true
+  - name: VhServices:LaunchDarklyClientId
+    value: vh-launchdarkly-client-id
+#    secret: true
+  - name: VhServices:NotificationApiUrl
+    value: $(notification_api_url)
 
 trigger: none
 pr: none
 resources:
-  repositories:
   pipelines:
     - pipeline: Release
       source: hmcts.vh-automation-test
