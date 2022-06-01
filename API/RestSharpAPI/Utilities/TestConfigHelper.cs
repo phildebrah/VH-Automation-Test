@@ -14,9 +14,11 @@ namespace Utilities
         public static IConfigurationRoot GetIConfigurationBase()
         {
             return new ConfigurationBuilder()
+               .AddEnvironmentVariables()
             .AddJsonFile("appsettings.json", optional: true)
             .AddJsonFile("passwords.json",optional:true)
             .AddEnvironmentVariables()
+            .AddUserSecrets("7c8eafa9-e05a-410b-aec2-ce368a920a7f")
             .Build();
         }
 

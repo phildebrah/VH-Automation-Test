@@ -20,7 +20,7 @@ using TestLibrary.Utilities;
 using UI.Model;
 
 [assembly: Parallelizable(ParallelScope.Fixtures)]
-[assembly: LevelOfParallelism(3)]
+[assembly: LevelOfParallelism(1)]
 
 namespace SeleniumSpecFlow
 {

@@ -30,6 +30,8 @@ parameters:
 variables:
   - name: System.Debug
     value: true
+  - name: buildConfiguration
+    value: Debug
 
   - group: vh-domains-and-urls
   - group: vh-apps-settings-generic
@@ -56,8 +58,6 @@ variables:
 #      - Sandbox
 #      - Test1
 #      - Test2
-  - name: buildConfiguration
-    value: Debug
     
 #  - group: vh-video-web-preprod
 #    env:
