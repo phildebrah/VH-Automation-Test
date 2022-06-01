@@ -28,6 +28,9 @@ parameters:
 
 # Set variables once
 variables:
+  - name: System.Debug
+    value: true
+
   - group: vh-domains-and-urls
   - group: vh-apps-settings-generic
   - group: vh-video-web
@@ -54,7 +57,7 @@ variables:
 #      - Test1
 #      - Test2
   - name: buildConfiguration
-    value: Release
+    value: Debug
     
 #  - group: vh-video-web-preprod
 #    env:
@@ -197,3 +200,15 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 - task: PublishTestResults@2
   condition: succeededOrFailed()
+- task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
+  displayName: Test API Results
+  inputs:
+    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
+    artifactName: ApIResults
+- task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
+  displayName: Test UI Results
+  inputs:
+    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
+    artifactName: UIResults
