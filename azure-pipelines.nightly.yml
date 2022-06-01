@@ -114,6 +114,7 @@ variables:
       - group: vh-prod
   - ${{ if not(containsValue(parameters.prodEnvs, parameters.environment)) }}:
       - group: vh-preview
+  - buildConfiguration: 'Release'
 
 trigger: none
 pr: none
@@ -128,8 +129,6 @@ schedules:
 pool:
   name: 'vh-self-hosted'
 
-variables:
-  buildConfiguration: 'Release'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
