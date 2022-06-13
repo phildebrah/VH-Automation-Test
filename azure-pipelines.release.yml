@@ -41,7 +41,7 @@
 
   - name: testSettings
     type: object
-  default:
+    default:
   # VhServices
   - name: VhServices:AdminWebUrl
     value: $(admin_web_url_staging)
