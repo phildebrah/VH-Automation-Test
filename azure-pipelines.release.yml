@@ -140,7 +140,7 @@ parameters:
 #  - name: UsingEjud
 #    value: $(UsingEjud)
 
-- name: appSettings
+  - name: appSettings
   # type: object
   # default:
   # - name: ApplicationInsights:InstrumentationKey
