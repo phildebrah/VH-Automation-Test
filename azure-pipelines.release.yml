@@ -1,130 +1,125 @@
 parameters:
-  - name: deploymentBranch
-    displayName: Branch to Deploy
-    type: string
-    default: refs/heads/master
+# #- name: PackageApp
+# #  displayName: Package App
+# #  type: boolean
+# #  default: true
 
-  - name: environment
-    displayName: Environment
-    type: string
-    default: AAT
-    values:
-      - Preview
-      - Dev
-      - AAT
-      - Sandbox
-      - Test1
-      - Test2
-      - Demo
-      - Preprod
-      - Prod
+ - name: PackageUI
+   displayName: Package UI Tests
+   type: boolean
+   default: true
 
-  - name: prodEnvs
-    displayName: Environments Using Prod Subscription
-    type: object
-    default:
-      - Prod
-      - Preprod
+# - name: RunUnitTests
+#   displayName: Run Unit Tests
+#   type: boolean
+#   default: true
 
-# Set variables once
-variables:
-  - name: System.Debug
-    value: true
-  - name: buildConfiguration
-    value: Debug
+# - name: RunIntegTests
+#   displayName: Run Integration Tests
+#   type: boolean
+#   default: true
 
-  - group: vh-domains-and-urls
-  - group: vh-apps-settings-generic
-  - group: vh-video-web
-  - group: vh test users
-  - group: QuickLinks_Common
-  - group: Saucelabs
-  - ${{ if ne(variables['Build.Reason'], 'ResourceTrigger') }}:
-      - ${{ if containsValue(parameters.prodEnvs, parameters.environment) }}:
-          - group: vh-prod
-      - ? ${{ if not(containsValue(parameters.prodEnvs, parameters.environment)) }}
-        : - group: vh-preview
-  - ${{ if eq(variables['Build.Reason'], 'ResourceTrigger') }}:
-      - ? ${{ if or(startswith(variables['Build.SourceBranch'], 'refs/heads/release/'), startswith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')) }}
-        : - group: vh-prod
-      - ? ${{ if not(or(startswith(variables['Build.SourceBranch'], 'refs/heads/release/'), startswith(variables['Build.SourceBranch'], 'refs/heads/hotfix/'))) }}
-        : - group: vh-preview
-#  - group: vh-video-web-nonprod
-#    env:
-#      - Preview
-#      - Dev
-#      - Demo
-#      - AAT
-#      - Sandbox
-#      - Test1
-#      - Test2
-    
-#  - group: vh-video-web-preprod
-#    env:
-#      - Preprod
-#  - group: vh-video-web-prod
-#    env:
-#      - Prod
+# - name: RunSonarCloudTests
+#   displayName: Run Sonar Cloud Analysis
+#   type: boolean
+#   default: true
+
+# - name: RunMutationTests
+#   displayName: Run Mutation Tests
+#   type: boolean
+#   default: true
+
+# - name: RunACTests
+#   displayName: Run Acceptance Tests
+#   type: boolean
+#   default: true
+
+# - name: RunNodeTests
+#   displayName: Run Node Tests
+#   type: boolean
+#   default: true
+
+
+- name: testSettings
+  type: object
+  default:
+  # VhServices
+  - name: VhServices:AdminWebUrl
+    value: $(admin_web_url_staging)
+  - name: VhServices:AdminWebResourceId
+    value: vh-admin-web-identifieruris
+    secret: true
+  - name: VhServices:VideoApiUrl
+    value: $(video_api_url)
+  - name: VhServices:VideoApiResourceId
+    value: vh-video-api-identifieruris
+    secret: true
+  - name: VhServices:UserApiUrl
+    value: $(user_api_url)
+  - name: VhServices:UserApiResourceId
+    value: vh-user-api-identifieruris
+    secret: true
+  - name: VhServices:NotificationApiUrl
+    value: $(notification_api_url)
+  - name: VhServices:NotificationApiResourceId
+    value: vh-notification-api-identifieruris
+    secret: true
+  - name: VhServices:TestApiUrl
+    value: $(test_api_url)
+  - name: VhServices:TestApiResourceId
+    value: vh-test-api-identifieruris
+    secret: true    
+  - name: VhServices:BookingsApiUrl
+    value: $(bookings_api_url)
+  - name: VhServices:BookingsApiResourceId
+    value: vh-bookings-api-identifieruris
+    secret: true
+  - name: VhServices:LaunchDarklyClientId
+    value: vh-launchdarkly-client-id
+    secret: true
+  - name: VhServices:VideoWebUrl
+    value: $(video_web_url)
+
   # Feature Toggle
-  - name: FeatureToggle:SDK-Key
-    value: vh-admin-web-Feature-Toggle
+#  - name: FeatureToggle:SDK-Key
+#    value: vh-admin-web-Feature-Toggle
 #    secret: true
 
+  # GOV Notify Configuration
+#  - name: NotifyConfiguration:ApiKey
+#    value: $(notify-api-key)
+    
   # AzureAd
-  - name: AzureAd:ClientId
-    value: vh-admin-web-appid-v2
-#    secret: true
-  - name: AzureAd:ClientSecret
-    value: vh-admin-web-key-v2
-#    secret: true
-#  - name: AzureAd:PostLogoutRedirectUri
-#    slot:
-#      deployment:
-#        value: $(admin_web_url_staging)logout
-#      active:
-#        value: $(admin_web_url)logout
-#  - name: AzureAd:RedirectUri
-#    slot:
-#      deployment:
-#        value: $(admin_web_url_staging)home
-#      active:
-#        value: $(admin_web_url)home
   - name: AzureAd:TenantId
     value: tenantid
-#    secret: true
-              
+    secret: true
+  - name: AzureAd:ClientId
+    value: vh-video-web-appid-v2
+    secret: true
+  - name: AzureAd:ClientSecret
+    value: vh-video-web-key-v2
+    secret: true
+  - name: AzureAd:PostLogoutRedirectUri
+    slot: true
+  - name: AzureAd:RedirectUri
+    slot: true
+  - name: AzureAd:TemporaryPassword
+    value: $(TemporaryPassword)
+
   # Testing
   - name: TestUserSecrets:TestUsernameStem
     value: $(TestUserSecrets:TestUsernameStem)
+  - name: TestUserSecrets:TestUserPassword
+    value: $(TestUserSecrets:TestApiUserPassword)
 
-  # VhServices
-  - name: VhServices:BookingsApiResourceId
-    value: vh-bookings-api-identifieruris
-#    secret: true
-  - name: VhServices:BookingsApiUrl
-    value: $(bookings_api_url)
-  - name: VhServices:UserApiResourceId
-    value: vh-user-api-identifieruris
-#    secret: true
-  - name: VhServices:UserApiUrl
-    value: $(user_api_url)
-  - name: VhServices:VideoApiResourceId
-    value: vh-video-api-identifieruris
-#    secret: true
-  - name: VhServices:VideoApiUrl
-    value: $(video_api_url)
-  - name: VhServices:NotificationApiResourceId
-    value: vh-notification-api-identifieruris
-#    secret: true
-  - name: VhServices:NotificationApiUrl
-    value: $(notification_api_url)
-  - name: VhServices:ValidateEmail
-    value: $(reformemail)
-  - name: VhServices:VideoWebUrl
-    value: $(video_web_url)
-  - name: VhServices:LaunchDarklyClientId
-    value: vh-launchdarkly-client-id
-#    secret: true
+    # Kinly
+#  - name: KinlyConfiguration:ConferencePhoneNumber
+#    value: $(ConferencePhoneNumber)
+#  - name: KinlyConfiguration:ConferencePhoneNumberWelsh
+#    value: $(ConferencePhoneNumberWelsh)
+#  - name: KinlyConfiguration:JoinByPhoneFromDate
+#    value: $(JoinByPhoneFromDate)
+    
   # SauceLabs
   - name: Saucelabs:Username
     value: $(Saucelabs:Username)
@@ -132,83 +127,219 @@ variables:
     value: $(Saucelabs:AccessKey)
   - name: Saucelabs:RealDeviceApiKey
     value: $(RealDeviceApiKey)
+
+  # WowzaConfiguration
+#  - name: WowzaConfiguration:StorageAccountName
+#    value: $(wowza_storageAccountName)
+#  - name: WowzaConfiguration:StorageAccountKey
+#    value: $(wowza_storageAccountKey)
+#  - name: WowzaConfiguration:StorageContainerName
+#    value: $(wowza_storageContainerName)
+    
   # Ejud - test setting only
-  - name: UsingEjud
-    value: $(UsingEjud)
+#  - name: UsingEjud
+#    value: $(UsingEjud)
 
-  - name: VhServices:AdminWebUrl
-    value: $(admin_web_url_staging)
-  - name: VhServices:AdminWebResourceId
-    value: vh-admin-web-identifieruris
- #   secret: true
-  - name: VhServices:VideoApiUrl
-    value: $(video_api_url)
-  - name: VhServices:VideoApiResourceId
-    value: vh-video-api-identifieruris
-  #  secret: true
-  - name: VhServices:UserApiUrl
-    value: $(user_api_url)
-  - name: VhServices:UserApiResourceId
-    value: vh-user-api-identifieruris
-#        secret: true
-  - name: VhServices:TestApiUrl
-    value: $(test_api_url)
-  - name: VhServices:TestApiResourceId
-    value: vh-test-api-identifieruris
-#    secret: true  
-  - name: VhServices:BookingsApiUrl
-    value: $(bookings_api_url)
-  - name: VhServices:BookingsApiResourceId
-    value: vh-bookings-api-identifieruris
+- name: appSettings
+  # type: object
+  # default:
+  # - name: ApplicationInsights:InstrumentationKey
+  #   value: vh-core-infra-AppInsightsKey
+  #   secret: true
+  # - name: AppInsightsKey
+  #   value: vh-core-infra-AppInsightsKey
+  #   secret: true
+  # - name: IsLive
+  #   value: $(IsLive)
+
+  # # AzureAd
+  # - name: AzureAd:ClientId
+  #   value: vh-admin-web-appid-v2
+  #   secret: true
+  # - name: AzureAd:ClientSecret
+  #   value: vh-admin-web-key-v2
+  #   secret: true
+  # - name: AzureAd:PostLogoutRedirectUri
+  #   slot:
+  #     deployment:
+  #       value: $(admin_web_url_staging)logout
+  #     active:
+  #       value: $(admin_web_url)logout
+  # - name: AzureAd:RedirectUri
+  #   slot:
+  #     deployment:
+  #       value: $(admin_web_url_staging)home
+  #     active:
+  #       value: $(admin_web_url)home
+  # - name: AzureAd:TenantId
+  #   value: tenantid
+  #   secret: true
+    
+  # # Testing
+  # - name: TestUserSecrets:TestUsernameStem
+  #   value: $(TestUserSecrets:TestUsernameStem)
+
+  # # VhServices
+  # - name: VhServices:BookingsApiResourceId
+  #   value: vh-bookings-api-identifieruris
+  #   secret: true
+  # - name: VhServices:BookingsApiUrl
+  #   value: $(bookings_api_url)
+  # - name: VhServices:UserApiResourceId
+  #   value: vh-user-api-identifieruris
+  #   secret: true
+  # - name: VhServices:UserApiUrl
+  #   value: $(user_api_url)
+  # - name: VhServices:VideoApiResourceId
+  #   value: vh-video-api-identifieruris
+  #   secret: true
+  # - name: VhServices:VideoApiUrl
+  #   value: $(video_api_url)
+  # - name: VhServices:NotificationApiUrl
+  #   value: $(notification_api_url)
+  # - name: VhServices:NotificationApiResourceId
+  #   value: vh-notification-api-identifieruris
+  #   secret: true
+  # - name: VhServices:LaunchDarklyClientId
+  #   value: vh-launchdarkly-client-id
+  #   secret: true    
+  # - name: VhServices:VideoWebUrl
+  #   value: $(video_web_url)
+
+# Feature Toggle
+#  - name: FeatureToggle:SDK-Key
+#    value: vh-admin-web-Feature-Toggle
 #    secret: true
-  - name: VhServices:NotificationApiResourceId
-    value: vh-notification-api-identifieruris
-#    secret: true
-  - name: VhServices:LaunchDarklyClientId
-    value: vh-launchdarkly-client-id
-#    secret: true
-  - name: VhServices:NotificationApiUrl
-    value: $(notification_api_url)
 
-trigger: none
-pr: none
+  # GOV Notify Configuration
+#  - name: NotifyConfiguration:ApiKey
+#    value: $(notify-api-key)
+    
+  # Kinly
+#  - name: KinlyConfiguration:ConferencePhoneNumber
+#    value: $(ConferencePhoneNumber)
+#  - name: KinlyConfiguration:ConferencePhoneNumberWelsh
+#    value: $(ConferencePhoneNumberWelsh)
+#  - name: KinlyConfiguration:JoinByPhoneFromDate
+#    value: $(JoinByPhoneFromDate)
+    
+variables:
+  - group: vh-domains-and-urls
+  - group: vh-apps-settings-generic
+  - group: vh-admin-web
+  - group: vh-preview
+  - group: vh test users
+  - group: Saucelabs
+  - group: vh-wowza-dev
+#  - group: KinlyConfiguration_Test
+#  - group: govuk-notify-preview
 
-#resources:
-#  pipelines:
-#    - pipeline: Release
-#      source: hmcts.vh-automation-test
-#      trigger:
-#        branches:
-#          - master
-#          - hotfix/*
-#          - release/*
-        
-pool:
-  name: 'vh-self-hosted'
+trigger:
+  branches:
+    include:
+    - master
+    - release/*
+    - hotfix/*
+pr:
+  branches:
+    include:
+    - master
 
-steps:
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: build
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: test
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-- task: PublishBuildArtifacts@1
-  condition: succeededOrFailed()
-  displayName: Test API Results
-  inputs:
-    PathtoPublish: $(System.DefaultWorkingDirectory)/API/RestSharpAPI/TestResults
-    artifactName: ApIResults
-- task: PublishBuildArtifacts@1
-  condition: succeededOrFailed()
-  displayName: Test UI Results
-  inputs:
-    PathtoPublish: $(System.DefaultWorkingDirectory)/UI/Selenium/TestResults
-    artifactName: UIResults
+#schedules:
+#- cron: "0 0 5,15,25 * *"
+#  displayName: Fortnightly ci build
+#  always: true
+#  branches:
+#    include:
+#    - master
+  
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: hmcts/azure-devops-templates
+      ref: refs/heads/master
+      endpoint: hmcts
+  containers:
+  - container: dotnetsdk
+    image: sspublicsbox.azurecr.io/vh/dotnet-angular:3.1.102
+    endpoint: sspublicsbox
+  - container: dotnetsdk-cipipeline
+    image: sspublicsbox.azurecr.io/vh/dotnet-angular-cipipeline:3.1.102
+    endpoint: sspublicsbox
+  - container: node
+    image: node:lts-alpine
+
+extends:
+  template: stages\dotnet-package.yml@templates
+  parameters:
+#    useNugetConfig: false
+#    nugetConfigPath: AdminWebsite
+#    coreProjectPath: AdminWebsite/AdminWebsite
+#    nodeProjectPath: AdminWebsite/AdminWebsite/ClientApp
+#    PackageApp: ${{ parameters.PackageApp }}
+     PackageUITests: ${{ parameters.PackageUI }}
+    # Test: ${{ or(parameters.RunUnitTests, parameters.RunIntegTests, parameters.RunMutationTests) }}
+    # testParameters:
+    #   useNugetConfig: false
+    #   nugetConfigPath: AdminWebsite
+    #   coreProjectPath: AdminWebsite/AdminWebsite
+    #   nodeProjectPath: AdminWebsite/AdminWebsite/ClientApp
+    #   RunNode: true
+    #   unitTestProjectPath: AdminWebsite/AdminWebsite.UnitTests
+    #   integTestProjectPath: AdminWebsite/AdminWebsite.IntegrationTests
+    #   secrets_KeyVault: $(pr_Secret_KeyVault)
+    #   secrets_Subscription: $(pr_Secret_Subscription)
+    #   RunUnitTests: ${{ parameters.RunUnitTests }}
+    #   RunIntegrationTests: ${{ parameters.RunIntegTests }}
+    #   RunSonarCloud: ${{ parameters.RunSonarCloudTests }}
+    #   RunStryker: ${{ parameters.RunMutationTests }}
+    #   IntegrationTestSettings:
+    #     - ${{ each setting in parameters.testSettings }}:
+    #       - name: ${{ setting.name }}
+    #         value: ${{ setting.value }}
+    #         secret: ${{ setting.secret }}
+    #   coverletCoverageExclusions:
+    #     - "**/Testing.Common/**"
+    #     - "AdminWebsite/Views/*"
+    #     - "AdminWebsite/Pages/*"
+    #     - "AdminWebsite.UserAPI.Client/*"
+    #     - "AdminWebsite.AcceptanceTests/*"
+    #   sonarCloud_ExtraProperties: |
+    #     sonar.exclusions=**/node_modules/**, **/*.spec.ts, *.spec.ts, **/ClientApp/src/*, **/ClientApp/coverage/**/*, **/Startup.cs, **/Program.cs, **/ConfigureServicesExtensions.cs, **/Swagger/*.cs
+    #     sonar.javascript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/AdminWebsite/AdminWebsite/ClientApp/coverage/lcov.info
+    #     sonar.typescript.exclusions=**/node_modules/**, **/typings.d.ts, **/main.ts, **/environments/environment*.ts, **/*routing.module.ts, **/api-client.ts
+    #     sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
+    #     sonar.coverage.exclusions= **/AdminWebsite/Models/**, **/AdminWebsite.Testing.Common/**, AdminWebsite/Views/*, AdminWebsite/Pages/*, AdminWebsite.UserAPI.Client/*, AdminWebsite.AcceptanceTests/*
+    End2EndTest: ${{ parameters.PackageUI }}
+    releaseParameters:
+      environment: Preview
+      subscription: $(pr_Subscription)
+      secrets_KeyVault: $(pr_Secret_KeyVault)
+      secrets_Subscription: $(pr_Secret_Subscription)
+      devOpsResource: vh_admin_web
+      appName: vh-admin-web-$(environment)
+      resourceGroup: vh-admin-web-$(environment)
+      appSettings: ${{ parameters.appSettings }}
+      testCaseFilter: TestCategory=Smoketest
+      dependentApps:
+        - name: vh-user-api-$(environment)
+          resourceGroup: vh-user-api-$(environment)
+          healthEndpoint: $(user_api_url)healthcheck/health
+        - name: vh-bookings-api-$(environment)
+          resourceGroup: vh-bookings-api-$(environment)
+          healthEndpoint: $(bookings_api_url)healthcheck/health
+        - name: vh-video-api-$(environment)
+          resourceGroup: vh-video-api-$(environment)
+          healthEndpoint: $(video_api_url)healthcheck/health
+        - name: vh-notification-api-$(environment)
+          resourceGroup: vh-notification-api-$(environment)
+          healthEndpoint: $(notification_api_url)healthcheck/health
+        - name: vh-test-api-$(environment)
+          resourceGroup: vh-test-api-$(environment)
+          healthEndpoint: $(test_api_url)health/health
+      acceptanceTestSettings:
+        - name: WebsiteUrl
+          value: $(admin_web_url_staging)
+        - ${{ each setting in parameters.testSettings }}:
+          - ${{ insert }}: ${{ setting }}
