@@ -40,77 +40,75 @@ parameters:
 #   default: true
 
 
-  - name: testSettings
-  type: object
-  default:
-  # VhServices
-  - name: VhServices:AdminWebUrl
-    value: $(admin_web_url_staging)
+  End2EndTestSettings:
+    # VhServices
+   - name: VhServices:AdminWebUrl
+      value: $(admin_web_url_staging)
   - name: VhServices:AdminWebResourceId
-    value: vh-admin-web-identifieruris
+      value: vh-admin-web-identifieruris
     secret: true
   - name: VhServices:VideoApiUrl
-    value: $(video_api_url)
+      value: $(video_api_url)
   - name: VhServices:VideoApiResourceId
-    value: vh-video-api-identifieruris
+      value: vh-video-api-identifieruris
     secret: true
   - name: VhServices:UserApiUrl
-    value: $(user_api_url)
+      value: $(user_api_url)
   - name: VhServices:UserApiResourceId
-    value: vh-user-api-identifieruris
+      value: vh-user-api-identifieruris
     secret: true
   - name: VhServices:NotificationApiUrl
-    value: $(notification_api_url)
+      value: $(notification_api_url)
   - name: VhServices:NotificationApiResourceId
-    value: vh-notification-api-identifieruris
+      value: vh-notification-api-identifieruris
     secret: true
   - name: VhServices:TestApiUrl
-    value: $(test_api_url)
+      value: $(test_api_url)
   - name: VhServices:TestApiResourceId
-    value: vh-test-api-identifieruris
+      value: vh-test-api-identifieruris
     secret: true    
   - name: VhServices:BookingsApiUrl
-    value: $(bookings_api_url)
+      value: $(bookings_api_url)
   - name: VhServices:BookingsApiResourceId
-    value: vh-bookings-api-identifieruris
+      value: vh-bookings-api-identifieruris
     secret: true
   - name: VhServices:LaunchDarklyClientId
-    value: vh-launchdarkly-client-id
+      value: vh-launchdarkly-client-id
     secret: true
   - name: VhServices:VideoWebUrl
     value: $(video_web_url)
 
-  # Feature Toggle
+#   # Feature Toggle
 #  - name: FeatureToggle:SDK-Key
 #    value: vh-admin-web-Feature-Toggle
 #    secret: true
 
-  # GOV Notify Configuration
-#  - name: NotifyConfiguration:ApiKey
-#    value: $(notify-api-key)
-    
-  # AzureAd
-  - name: AzureAd:TenantId
-    value: tenantid
-    secret: true
-  - name: AzureAd:ClientId
-    value: vh-video-web-appid-v2
-    secret: true
-  - name: AzureAd:ClientSecret
-    value: vh-video-web-key-v2
-    secret: true
-  - name: AzureAd:PostLogoutRedirectUri
-    slot: true
-  - name: AzureAd:RedirectUri
-    slot: true
-  - name: AzureAd:TemporaryPassword
-    value: $(TemporaryPassword)
+#   # GOV Notify Configuration
+#   - name: NotifyConfiguration:ApiKey
+#     value: $(notify-api-key)
 
-  # Testing
-  - name: TestUserSecrets:TestUsernameStem
-    value: $(TestUserSecrets:TestUsernameStem)
-  - name: TestUserSecrets:TestUserPassword
-    value: $(TestUserSecrets:TestApiUserPassword)
+  # # AzureAd
+  # - name: AzureAd:TenantId
+  #   value: tenantid
+  #   secret: true
+  # - name: AzureAd:ClientId
+  #   value: vh-video-web-appid-v2
+  #   secret: true
+  # - name: AzureAd:ClientSecret
+  #   value: vh-video-web-key-v2
+  #   secret: true
+  # - name: AzureAd:PostLogoutRedirectUri
+  #   slot: true
+  # - name: AzureAd:RedirectUri
+  #   slot: true
+  # - name: AzureAd:TemporaryPassword
+  #   value: $(TemporaryPassword)
+
+  # # Testing
+  # - name: TestUserSecrets:TestUsernameStem
+  #   value: $(TestUserSecrets:TestUsernameStem)
+  # - name: TestUserSecrets:TestUserPassword
+  #   value: $(TestUserSecrets:TestApiUserPassword)
 
     # Kinly
 #  - name: KinlyConfiguration:ConferencePhoneNumber
@@ -120,13 +118,13 @@ parameters:
 #  - name: KinlyConfiguration:JoinByPhoneFromDate
 #    value: $(JoinByPhoneFromDate)
     
-  # SauceLabs
-  - name: Saucelabs:Username
-    value: $(Saucelabs:Username)
-  - name: Saucelabs:AccessKey
-    value: $(Saucelabs:AccessKey)
-  - name: Saucelabs:RealDeviceApiKey
-    value: $(RealDeviceApiKey)
+  # # SauceLabs
+  # - name: Saucelabs:Username
+  #   value: $(Saucelabs:Username)
+  # - name: Saucelabs:AccessKey
+  #   value: $(Saucelabs:AccessKey)
+  # - name: Saucelabs:RealDeviceApiKey
+  #   value: $(RealDeviceApiKey)
 
   # WowzaConfiguration
 #  - name: WowzaConfiguration:StorageAccountName
@@ -140,7 +138,7 @@ parameters:
 #  - name: UsingEjud
 #    value: $(UsingEjud)
 
-  - name: appSettings
+# - name: appSettings
   # type: object
   # default:
   # - name: ApplicationInsights:InstrumentationKey
@@ -222,15 +220,15 @@ parameters:
 #    value: $(ConferencePhoneNumberWelsh)
 #  - name: KinlyConfiguration:JoinByPhoneFromDate
 #    value: $(JoinByPhoneFromDate)
-    
-variables:
-  - group: vh-domains-and-urls
-  - group: vh-apps-settings-generic
-  - group: vh-admin-web
-  - group: vh-preview
-  - group: vh test users
-  - group: Saucelabs
-  - group: vh-wowza-dev
+
+# variables:
+#   - group: vh-domains-and-urls
+#   - group: vh-apps-settings-generic
+#   - group: vh-admin-web
+#   - group: vh-preview
+#   - group: vh test users
+#   - group: Saucelabs
+#   - group: vh-wowza-dev
 #  - group: KinlyConfiguration_Test
 #  - group: govuk-notify-preview
 
@@ -311,8 +309,8 @@ extends:
     #     sonar.typescript.exclusions=**/node_modules/**, **/typings.d.ts, **/main.ts, **/environments/environment*.ts, **/*routing.module.ts, **/api-client.ts
     #     sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
     #     sonar.coverage.exclusions= **/AdminWebsite/Models/**, **/AdminWebsite.Testing.Common/**, AdminWebsite/Views/*, AdminWebsite/Pages/*, AdminWebsite.UserAPI.Client/*, AdminWebsite.AcceptanceTests/*
-    End2EndTest: ${{ parameters.PackageUI }}
-    releaseParameters:
+     End2EndTest: ${{ parameters.PackageUI }}
+     releaseParameters:
       environment: Preview
       subscription: $(pr_Subscription)
       secrets_KeyVault: $(pr_Secret_KeyVault)
