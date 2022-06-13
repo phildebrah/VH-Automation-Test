@@ -40,7 +40,7 @@ parameters:
 #   default: true
 
 
-- name: testSettings
+  - name: testSettings
   type: object
   default:
   # VhServices
