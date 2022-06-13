@@ -44,40 +44,40 @@
     default:
   # VhServices
   - name: VhServices:AdminWebUrl
-    value: $(admin_web_url_staging)
+     value: $(admin_web_url_staging)
   - name: VhServices:AdminWebResourceId
-    value: vh-admin-web-identifieruris
+     value: vh-admin-web-identifieruris
     secret: true
   - name: VhServices:VideoApiUrl
-    value: $(video_api_url)
+     value: $(video_api_url)
   - name: VhServices:VideoApiResourceId
-    value: vh-video-api-identifieruris
+     value: vh-video-api-identifieruris
     secret: true
   - name: VhServices:UserApiUrl
-    value: $(user_api_url)
+     value: $(user_api_url)
   - name: VhServices:UserApiResourceId
-    value: vh-user-api-identifieruris
+     value: vh-user-api-identifieruris
     secret: true
   - name: VhServices:NotificationApiUrl
-    value: $(notification_api_url)
+     value: $(notification_api_url)
   - name: VhServices:NotificationApiResourceId
-    value: vh-notification-api-identifieruris
+     value: vh-notification-api-identifieruris
     secret: true
   - name: VhServices:TestApiUrl
-    value: $(test_api_url)
+     value: $(test_api_url)
   - name: VhServices:TestApiResourceId
-    value: vh-test-api-identifieruris
+     value: vh-test-api-identifieruris
     secret: true    
   - name: VhServices:BookingsApiUrl
-    value: $(bookings_api_url)
+     value: $(bookings_api_url)
   - name: VhServices:BookingsApiResourceId
-    value: vh-bookings-api-identifieruris
+     value: vh-bookings-api-identifieruris
     secret: true
   - name: VhServices:LaunchDarklyClientId
-    value: vh-launchdarkly-client-id
+     value: vh-launchdarkly-client-id
     secret: true
   - name: VhServices:VideoWebUrl
-    value: $(video_web_url)
+     value: $(video_web_url)
 
   # Feature Toggle
 #  - name: FeatureToggle:SDK-Key
