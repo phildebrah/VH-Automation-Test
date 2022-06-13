@@ -44,7 +44,7 @@
     default:
   # VhServices
   - name: VhServices:AdminWebUrl
-     value: $(admin_web_url_staging)
+     value: $(admin_web_url)
   - name: VhServices:AdminWebResourceId
      value: vh-admin-web-identifieruris
     secret: true
