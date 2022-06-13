@@ -9,15 +9,15 @@ parameters:
     type: string
     default: Sandbox
     values:
-      - Preview
-      - Dev
+      #- Preview
+      #- Dev
       - AAT
-      - Sandbox
-      - Test1
-      - Test2
-      - Demo
-      - Preprod
-      - Prod
+      #- Sandbox
+      #- Test1
+      #- Test2
+      #- Demo
+      #- Preprod
+      #- Prod
 
   # - name: RunZap
     # displayName: Execute ZAP Tests
