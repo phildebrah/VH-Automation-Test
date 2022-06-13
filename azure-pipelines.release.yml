@@ -39,9 +39,9 @@
 #   type: boolean
 #   default: true
 
- - name: testSettings
-   type: object
-  default:
+  - name: testSettings
+    type: object
+   default:
   # VhServices
   - name: VhServices:AdminWebUrl
     value: $(admin_web_url_staging)
