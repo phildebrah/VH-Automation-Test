@@ -12,6 +12,10 @@ trigger:
 
 pool:
   name: 'vh-self-hosted'
+  demands:
+  - msbuild
+  - visualstudio
+
 
 variables:
   solution: '**/*.sln'
