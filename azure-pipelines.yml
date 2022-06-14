@@ -44,3 +44,5 @@ steps:
     searchFolder: '$(System.DefaultWorkingDirectory)'
     testFiltercriteria: 'EndtoEndTest'
     runTestsInIsolation: false
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
