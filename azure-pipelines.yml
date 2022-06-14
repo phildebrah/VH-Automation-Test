@@ -42,7 +42,6 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    testFiltercriteria: 'EndtoEndTest'
     runTestsInIsolation: false
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
