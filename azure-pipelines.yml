@@ -33,7 +33,7 @@ stages:
 
 - stage: Automation_Test
   pool:
-    name: windows-latest
+    vmImage: windows-latest
   displayName: Automation Test
   jobs:
   - job: Automation_Test
