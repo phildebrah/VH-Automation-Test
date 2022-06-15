@@ -56,16 +56,25 @@ stages:
       
       - powershell: | 
           Get-ChildItem "$(Pipeline.Workspace)/AutomationTests" -Recurse
-      - task: VSTest@2
-        displayName: Run Tests
+      
+      - task: DotNetCoreCLI@2
         inputs:
-          testSelector: 'testAssemblies'
-          testAssemblyVer2: |
-            **\*test*.dll
-            !**\*TestAdapter.dll
-            !**\obj\**
-          searchFolder: '$(Pipeline.Workspace)/AutomationTests/UI'
-          resultsFolder: '$(Agent.TempDirectory)/TestResultsUI'
+          command: test
+          projects: "**/bin/UISelenium.dll"
+          publishTestResults: true
+          workingDirectory: $(Pipeline.Workspace)
+
+      
+      # - task: VSTest@2
+      #   displayName: Run Tests
+      #   inputs:
+      #     testSelector: 'testAssemblies'
+      #     testAssemblyVer2: |
+      #       **\*test*.dll
+      #       !**\*TestAdapter.dll
+      #       !**\obj\**
+      #     searchFolder: '$(Pipeline.Workspace)/AutomationTests/UI'
+      #     resultsFolder: '$(Agent.TempDirectory)/TestResultsUI'
 
       - task: PublishTestResults@2
         inputs:
