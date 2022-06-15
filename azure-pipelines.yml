@@ -32,6 +32,8 @@ stages:
         artifactName: $(artifactName)
 
 - stage: Automation_Test
+  pool:
+    name: windows-latest
   displayName: Automation Test
   jobs:
   - job: Automation_Test
