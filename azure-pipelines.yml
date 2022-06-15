@@ -19,6 +19,11 @@ stages:
   - job: CI_Build
     displayName: CI Build
     steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '6.0.x'
+
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: 'dotnet build $(buildConfiguration)'
     - task: CopyFiles@2
@@ -39,6 +44,10 @@ stages:
   - job: Automation_Test
     displayName: Automation Test
     steps:
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '6.0.x'
       - task: DownloadPipelineArtifact@2
         displayName: Download Pipeline Artifacts
         inputs:
@@ -61,4 +70,4 @@ stages:
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: 'VSTest'
-          testResultsFiles: '$(Agent.TempDirectory)/*.xml'
+          testResultsFiles: '$(Agent.TempDirectory)/TestResultsUI/*.*'
