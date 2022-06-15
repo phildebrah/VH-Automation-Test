@@ -16,15 +16,27 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(Build.SourcesDirectory)'
-    contents: '**/$(BuildConfiguration)/**/?(*.exe|*.dll|*.pdb)'
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: drop
+stages:
+- stage: Build
+  displayName: CI Build
+  jobs:
+  - job: CI_Build
+    displayName: CI Build
+    steps:
+    - script: dotnet build --configuration $(buildConfiguration)
+      displayName: 'dotnet build $(buildConfiguration)'
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: '**/$(BuildConfiguration)/**/?(*.exe|*.dll|*.pdb)'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: drop
+
+- stage: Automation_Test
+  displayName: Automation Test
+  jobs:
+  - job: Automation_Test
+    displayName: Automation Test
