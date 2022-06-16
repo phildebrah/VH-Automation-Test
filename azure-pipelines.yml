@@ -64,6 +64,7 @@ stages:
           command: test
           publishTestResults: true
           workingDirectory: $(Pipeline.Workspace)/AutomationTests
+          projects: '$(Pipeline.Workspace)/AutomationTests/*.dll'
 
       
       # - task: VSTest@2
