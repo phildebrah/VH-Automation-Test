@@ -4,6 +4,7 @@ trigger:
     - master
     - release/*
     - hotfix/*
+    - FinalPipeline
 
 pool:
   name: 'vh-self-hosted'
@@ -62,7 +63,7 @@ stages:
         inputs:
           command: test
           publishTestResults: true
-          workingDirectory: $(Pipeline.Workspace)/AutomationTests/Selenium
+          workingDirectory: $(Pipeline.Workspace)/AutomationTests
 
       
       # - task: VSTest@2
