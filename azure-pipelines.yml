@@ -24,16 +24,17 @@ stages:
         packageType: 'sdk'
         version: '6.0.x'
 
-    - script: dotnet build --configuration $(buildConfiguration)
-      displayName: 'dotnet build $(buildConfiguration)'
-    - task: CopyFiles@2
+    - task: DotNetCoreCLI@2
+      displayName: donet Publish
       inputs:
-        sourceFolder: '$(Build.SourcesDirectory)'
-        contents: '**/$(BuildConfiguration)/**/?(*.exe|*.dll|*.pdb)'
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
+        command: publish
+        publishWebProjects: false
+        arguments: --configuration Release --output $(build.ArtifactStagingDirectory)/AutomationTests
+        zipAfterPublish: false
+
     - task: PublishBuildArtifacts@1
       inputs:
-        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        pathToPublish: '$(Build.ArtifactStagingDirectory)/AutomationTests'
         artifactName: $(artifactName)
 
 - stage: Automation_Test
@@ -60,9 +61,8 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: test
-          projects: "**/bin/UISelenium.dll"
           publishTestResults: true
-          workingDirectory: $(Pipeline.Workspace)
+          workingDirectory: $(Pipeline.Workspace)/AutomationTests/Selenium
 
       
       # - task: VSTest@2
@@ -76,7 +76,7 @@ stages:
       #     searchFolder: '$(Pipeline.Workspace)/AutomationTests/UI'
       #     resultsFolder: '$(Agent.TempDirectory)/TestResultsUI'
 
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFormat: 'VSTest'
-          testResultsFiles: '$(Agent.TempDirectory)/TestResultsUI/*.*'
+      # - task: PublishTestResults@2
+      #   inputs:
+      #     testResultsFormat: 'VSTest'
+      #     testResultsFiles: '$(Agent.TempDirectory)/TestResultsUI/*.*'
