@@ -1,0 +1,21 @@
+
+trigger: master
+pr: master
+
+pool:
+  name: 'vh-self-hosted'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
