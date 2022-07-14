@@ -6,7 +6,7 @@ pr:
 - master
 
 pool:
-  name: 'vh-self-hosted'
+  name: 'windows-latest'
 
 stages:
 - stage: Automation_Tests
