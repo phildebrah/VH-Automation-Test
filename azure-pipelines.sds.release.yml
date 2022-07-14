@@ -1,21 +1,38 @@
 
-trigger: master
-pr: master
+trigger: 
+- master
+
+pr:
+- master
 
 pool:
   name: 'vh-self-hosted'
+  
+variables:
+- group: vh-automation-test
 
-steps:
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: build
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: test
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
+stages:
+- stage: Automation_Tests
+  jobs:
+  - job: Automation_Tests
+    steps:
+    - bash: |
+       echo "$(app_settings)" > "$(System.DefaultWorkingDirectory)/API/RestShareAPI/appSettings.json"
+       echo "$(app_settings)" > "$(System.DefaultWorkingDirectory)/UI/Selenium/appSettings.json"
+      displayName: Transform App Settings
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: build
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: test
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+
