@@ -17,11 +17,14 @@ stages:
   - job: Automation_Tests
     steps:
     - bash: |
-       echo "$(app_settings)" > "$(System.DefaultWorkingDirectory)/API/RestSharpAPI/appSettings.json"
+       echo $APP_SETTINGS > "$(System.DefaultWorkingDirectory)/API/RestSharpAPI/appSettings.json"
        cat "$(System.DefaultWorkingDirectory)/API/RestSharpAPI/appSettings.json"
-       echo "$(app_settings)" > "$(System.DefaultWorkingDirectory)/UI/Selenium/appSettings.json"
+       echo $APP_SETTINGS > "$(System.DefaultWorkingDirectory)/UI/Selenium/appSettings.json"
        cat "$(System.DefaultWorkingDirectory)/UI/Selenium/appSettings.json"
       displayName: Transform App Settings
+      env:
+        APP_SETTINGS: $(app_settings)
+
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
