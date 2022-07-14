@@ -7,7 +7,7 @@ pr:
 
 pool:
   name: 'vh-self-hosted'
-  
+
 variables:
 - group: vh-automation-test
 
@@ -17,8 +17,10 @@ stages:
   - job: Automation_Tests
     steps:
     - bash: |
-       echo "$(app_settings)" > "$(System.DefaultWorkingDirectory)/API/RestShareAPI/appSettings.json"
+       echo "$(app_settings)" > "$(System.DefaultWorkingDirectory)/API/RestSharpAPI/appSettings.json"
+       cat "$(System.DefaultWorkingDirectory)/API/RestSharpAPI/appSettings.json"
        echo "$(app_settings)" > "$(System.DefaultWorkingDirectory)/UI/Selenium/appSettings.json"
+       cat "$(System.DefaultWorkingDirectory)/UI/Selenium/appSettings.json"
       displayName: Transform App Settings
     - task: DotNetCoreCLI@2
       displayName: Build
