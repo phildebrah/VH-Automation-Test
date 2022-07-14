@@ -1,50 +1,58 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-trigger:
+trigger: 
+- master
+
+pr:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  name: 'vh-self-hosted'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+- group: vh-automation-test
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+- stage: Automation_Tests
+  jobs:
+  - job: Automation_Tests
+    steps:
+    - bash: |
+       echo $APP_SETTINGS > "$(System.DefaultWorkingDirectory)/API/RestSharpAPI/appSettings.json"
+       cat "$(System.DefaultWorkingDirectory)/API/RestSharpAPI/appSettings.json"
+       echo $APP_SETTINGS > "$(System.DefaultWorkingDirectory)/UI/Selenium/appSettings.json"
+       cat "$(System.DefaultWorkingDirectory)/UI/Selenium/appSettings.json"
+      displayName: Transform App Settings
+      env:
+        APP_SETTINGS: $(app_settings)
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+- stage: Build
+  displayName: CI Build
+  jobs:
+  - job: CI_Build
+    displayName: CI Build
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '6.0.x'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+- stage:
+  displayName: Test
+  jobs:
+  - job: Run_Test
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+       command: 'run'
+       projects: '**/*.csproj'
+       arguments: '--configuration $(buildConfiguration)'
 
-- task: VSTest@2
-  displayName: "End2EndTests"
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    runTestsInIsolation: true
-    codeCoverageEnabled: true
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/TEST-*.xml'
-    failTaskOnFailedTests: true
-  condition: succeededOrFailed()
+- stage:
+  displayName: PublishTests
+  jobs:
+  - job: Publish_Tests
+    steps:
+    - task: PublishTestResults@2
+      inputs:
+       testResultsFormat: 'VSTest'
+       testResultsFiles: '**/TEST-*.xml'
