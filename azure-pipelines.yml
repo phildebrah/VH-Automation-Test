@@ -6,7 +6,10 @@ pr:
 - master
 
 pool:
-  name: windows-latest
+  name: 'vh-self-hosted'
+
+variables:
+- group: vh-automation-test
 
 stages:
 - stage: Automation_Tests
@@ -22,34 +25,19 @@ stages:
       env:
         APP_SETTINGS: $(app_settings)
 
-- stage: Build
-  displayName: CI Build
-  jobs:
-  - job: CI_Build
-    displayName: CI Build
-    steps:
-    - task: UseDotNet@2
+    - task: DotNetCoreCLI@2
+      displayName: Build
       inputs:
-        packageType: 'sdk'
-        version: '6.0.x'
+        command: build
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
 
-- stage:
-  displayName: Test
-  jobs:
-  - job: Run_Test
-    steps:
     - task: DotNetCoreCLI@2
       inputs:
-       command: 'run'
-       projects: '**/*.csproj'
-       arguments: '--configuration $(buildConfiguration)'
+        command: test
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
 
-- stage:
-  displayName: PublishTests
-  jobs:
-  - job: Publish_Tests
-    steps:
     - task: PublishTestResults@2
-      inputs:
-       testResultsFormat: 'VSTest'
-       testResultsFiles: '**/TEST-*.xml'
+      condition: succeededOrFailed()
+
