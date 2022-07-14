@@ -8,9 +8,6 @@ pr:
 pool:
   name: 'vh-self-hosted'
 
-variables:
-- group: vh-automation-test
-
 stages:
 - stage: Automation_Tests
   jobs:
