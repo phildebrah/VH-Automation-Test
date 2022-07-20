@@ -20,6 +20,9 @@
     <SpecFlowObsoleteCodeBehindFiles Remove="Drivers\**" />
     <SpecFlowObsoleteCodeBehindFiles Remove="SwaggerDefinitions\**" />
     <SpecFlowObsoleteCodeBehindFiles Remove="TestResults\Logs\**" />
+    <None Update="passwords.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
