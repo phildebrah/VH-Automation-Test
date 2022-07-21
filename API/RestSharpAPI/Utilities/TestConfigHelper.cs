@@ -49,6 +49,7 @@ namespace Utilities
 
         public static void LaunchSettingsFixture()
         {
+            var cs = AppDomain.CurrentDomain.BaseDirectory.ToString();
             var separator = Path.DirectorySeparatorChar;
             using (var file = File.OpenText($@"Properties{separator}launchSettings.json"))
             {
