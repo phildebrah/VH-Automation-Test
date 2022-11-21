@@ -203,7 +203,7 @@ namespace UI.Steps
         [Then(@"video participant link should be copied")]
         public void ThenVideoParticipantLinkShouldBeCopied()
         {
-            Assert.IsTrue(_hearing.BookingList.VideoParticipantLink.Contains(".hearings.reform.hmcts.net"), "Video link verification failed :" + _hearing.BookingList.VideoParticipantLink);
+            Assert.IsTrue(_hearing.BookingList.VideoParticipantLink.Contains(".hmcts.net/quickjoin/"), "Video link verification failed :" + _hearing.BookingList.VideoParticipantLink);
         }
 
         [When(@"the VHO cancels the hearing for the reason '(.*)'")]
