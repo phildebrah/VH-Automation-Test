@@ -51,6 +51,10 @@ stages:
           fileType: json
           targetFiles: appsettings.json
 
+      - pwsh: |
+          Get-Content "$(projectPath)/appsettings.json"
+        displayName: Print App Settings
+
       - task: DotNetCoreCLI@2
         displayName:  Run UI Tests
         inputs:
