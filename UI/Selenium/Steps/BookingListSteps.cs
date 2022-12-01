@@ -189,7 +189,7 @@ namespace UI.Steps
         [Then(@"telephone participant link should be copied")]
         public void ThenTelephoneParticipantLinkShouldBeCopied()
         {
-            Assert.IsTrue(_hearing.BookingList.TelephoneParticipantLink.Contains("+448000488500"), "Phone verified");
+            Assert.IsTrue(_hearing.BookingList.TelephoneParticipantLink.Contains("+442033183535"), "Phone verified");
         }
 
         [When(@"I copy video participant link")]
