@@ -53,7 +53,7 @@ namespace UI.Steps
             Driver.FindElement(HearingDetailsPage.NextButton).Click();
         }
 
-        public Hearing CreateHearingModel(Table table, int min = 3)
+        public Hearing CreateHearingModel(Table table, int min = 10)
         {
             var tableRow = table.Rows[0];
             var date = DateTime.Now.AddMinutes(min);
