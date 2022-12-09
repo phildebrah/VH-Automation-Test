@@ -189,7 +189,7 @@ namespace UI.Steps
         [Then(@"telephone participant link should be copied")]
         public void ThenTelephoneParticipantLinkShouldBeCopied()
         {
-            Assert.IsTrue(_hearing.BookingList.TelephoneParticipantLink.Contains("+448000488500"), "Phone verified");
+            Assert.IsTrue(_hearing.BookingList.TelephoneParticipantLink.Contains(Config.UKConferencePhoneNumber), "Phone verified");
         }
 
         [When(@"I copy video participant link")]
@@ -203,7 +203,7 @@ namespace UI.Steps
         [Then(@"video participant link should be copied")]
         public void ThenVideoParticipantLinkShouldBeCopied()
         {
-            Assert.IsTrue(_hearing.BookingList.VideoParticipantLink.Contains(".hearings.reform.hmcts.net"), "Video link verification failed :" + _hearing.BookingList.VideoParticipantLink);
+            Assert.IsTrue(_hearing.BookingList.VideoParticipantLink.Contains(Config.VideoUrl+"/quickjoin/"), "Video link verification failed :" + _hearing.BookingList.VideoParticipantLink);
         }
 
         [When(@"the VHO cancels the hearing for the reason '(.*)'")]

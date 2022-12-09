@@ -52,8 +52,7 @@ namespace UI.Steps
             {
                 ExtensionMethods.MoveToElement(Driver, SelectHearingPage.Quicklinks, _scenarioContext);
                 ExtensionMethods.FindElementWithWait(Driver, SelectHearingPage.QuicklinkCopy, _scenarioContext).Click();
-                var url = new TextCopy.Clipboard().GetText();
-                _hearingList.HearingListURL = url;
+                _hearingList.HearingListURL = new TextCopy.Clipboard().GetText();
             }
         }
 
@@ -80,7 +79,7 @@ namespace UI.Steps
         [Then(@"phone details should be copied")]
         public void ThenPhoneDetailsShouldBeCopied()
         {
-            Assert.IsTrue(_hearingList.HearingListPhone.Contains("448000488500"), "Phone verified");
+            Assert.IsTrue(_hearingList.HearingListPhone.Contains(Config.UKConferencePhoneNumber), "Phone verified");
         }       
     }
 }

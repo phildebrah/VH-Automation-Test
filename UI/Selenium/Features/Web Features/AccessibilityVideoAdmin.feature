@@ -53,6 +53,7 @@ Scenario: Booking List page accessibility
 	Given I'm on the "Booking List" page
 	Then the page should be accessible  
 
+@ignore
 Scenario: Questionnaire page accessibility
 	Given I'm on the "Questionnaire" page
 	Then the page should be accessible  

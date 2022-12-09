@@ -18,6 +18,7 @@ namespace TestLibrary.Utilities
         public string VideoUrl { get; set; }
         public string AdminUrl { get; set; }
         public string ServiceUrl { get; set; }
+        public string UKConferencePhoneNumber { get; set; }
     }
 
     public class SystemConfigSettings
