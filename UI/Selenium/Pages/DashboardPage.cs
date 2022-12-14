@@ -24,6 +24,7 @@ namespace UISelenium.Pages
         public static By CaseNumber = By.Id("caseNumber");
         public static By UserName = By.Id("userName");
         public static By ContactEmail = By.Id("contactEmail");
-        
+        public static By ManageWorkAllocation = By.Id("manageWorkAllocationBtn");
+        public static By EditAvailability = By.Id("edit-availability");
     }
 }
