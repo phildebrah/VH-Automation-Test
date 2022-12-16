@@ -10,6 +10,7 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using UI.Utilities;
 using OpenQA.Selenium;
+using System.Linq;
 
 namespace UI.Steps
 {
@@ -172,7 +173,7 @@ namespace UI.Steps
             if(pageToAnalyse == PageName)
             {
                 axeResult = new AxeBuilder((IWebDriver)_scenarioContext["driver"]);
-                axeResult.Analyze().Violations.Should().BeEmpty();
+                axeResult.Analyze().Violations.Where(e => e.Impact != "minor").Should().BeEmpty();
             }
         }
     }
