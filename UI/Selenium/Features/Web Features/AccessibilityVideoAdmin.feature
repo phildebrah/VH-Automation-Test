@@ -73,3 +73,7 @@ Scenario: Delete-participant page accessibility
 Scenario: Edit-participant-name page accessibility
 	Given I'm on the "Edit-Participant-Name" page
 	Then the page should be accessible
+
+Scenario: WorkAllocation page accessibility
+	Given I'm on the "Work-Allocation" page
+	Then the page should be accessible

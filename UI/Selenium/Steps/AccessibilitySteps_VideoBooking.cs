@@ -10,6 +10,7 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using UI.Utilities;
 using OpenQA.Selenium;
+using System.Linq;
 
 namespace UI.Steps
 {
@@ -154,6 +155,11 @@ namespace UI.Steps
                     ExtensionMethods.FindElementWithWait(Driver, DashboardPage.ContactEmail, _scenarioContext);
                     AxeAnalyze(pageName);
                     break;
+                case "Work-Allocation":
+                    ExtensionMethods.FindElementWithWait(Driver, DashboardPage.ManageWorkAllocation, _scenarioContext).Click();
+                    ExtensionMethods.FindElementWithWait(Driver, WorkAllocation.EditAvailability, _scenarioContext);
+                    AxeAnalyze(pageName);
+                    break;
             }
         }
 
@@ -167,7 +173,7 @@ namespace UI.Steps
             if(pageToAnalyse == PageName)
             {
                 axeResult = new AxeBuilder((IWebDriver)_scenarioContext["driver"]);
-                axeResult.Analyze().Violations.Should().BeEmpty();
+                axeResult.Analyze().Violations.Where(e => e.Impact != "minor").Should().BeEmpty();
             }
         }
     }

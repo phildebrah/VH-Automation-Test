@@ -7,6 +7,7 @@ using TestFramework;
 using UISelenium.Pages;
 using OpenQA.Selenium;
 using FluentAssertions;
+using System.Linq;
 
 namespace UI.Steps
 {
@@ -66,7 +67,7 @@ namespace UI.Steps
             {
                 Driver.Navigate().GoToUrl(loginSteps.LoginUrl + "/participant/hearing-list");
                 axeResult = new AxeBuilder((IWebDriver)_scenarioContext["driver"]);
-                axeResult.Analyze().Violations.Should().BeEmpty();
+                axeResult.Analyze().Violations.Where(e => e.Impact != "minor").Should().BeEmpty();
             }
             else
             {
@@ -87,7 +88,7 @@ namespace UI.Steps
                 ExtensionMethods.AcceptAlert(Driver);
                 System.Threading.Thread.Sleep(1000); // AXE FAILS IF SLEEP IS REMOVED coz ANALYSIS MAY HAPEN BEFORE PAGE'S FULLY LOADED
                 axeResult = new AxeBuilder((IWebDriver)_scenarioContext["driver"]);
-                axeResult.Analyze().Violations.Should().BeEmpty();
+                axeResult.Analyze().Violations.Where(e => e.Impact != "minor").Should().BeEmpty();
             }
         }
 
