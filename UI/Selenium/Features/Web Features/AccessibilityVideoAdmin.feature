@@ -12,6 +12,7 @@ Feature: Accessibility
 Scenario: Dashboard page accessibility
 	Given I'm on the "Dashboard" page
 	Then the page should be accessible
+	Given an individual on the "[^"]*" page
 
 Scenario: Hearing Details page accessibility
 	Given I'm on the "Hearing Details" page
